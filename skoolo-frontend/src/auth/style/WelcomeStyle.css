@@ -1,0 +1,41 @@
+/* WelcomeStyle.css */
+.github-bg {
+  background-color: #0d1117 !important;
+  color: #f0f6fc;
+}
+
+.card-gh {
+  background-color: #161b22 !important;
+  border: 1px solid #30363d !important;
+  color: #f0f6fc !important;
+}
+
+.input-gh {
+  background-color: #21262d !important;
+  color: #f0f6fc !important;
+  border: 1px solid #30363d !important;
+}
+
+.label-gh {
+  color: #c9d1d9;
+}
+
+.button-gh {
+  background-color: #238636 !important;
+  border: 1px solid #2ea043 !important;
+  color: #f0f6fc !important;
+}
+
+.button-gh:hover {
+  background-color: #2ea043 !important;
+}
+
+.button-outline-gh {
+  background-color: transparent !important;
+  border: 1px solid #30363d !important;
+  color: #f0f6fc !important;
+}
+
+.button-outline-gh:hover {
+  background-color: #30363d !important;
+}

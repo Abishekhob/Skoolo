@@ -1,0 +1,487 @@
+/* General Styling */
+.mainContent {
+  background-color: #1e1e3b; /* Deep blue background for content area */
+  color: #e0e0e0;
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  padding-left: 20px; /* Adjust padding for sidebar */
+  padding-right: 20px;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  margin: 20px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); /* Deep shadow */
+  backdrop-filter: blur(15px) saturate(180%); /* Glassmorphism effect */
+  -webkit-backdrop-filter: blur(15px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.18); /* Subtle border */
+  flex-grow: 1;
+  overflow-y: auto; /* Enable scrolling for content */
+  height: calc(100vh - 40px); /* Adjust height to fit container with margin */
+}
+
+/* Custom Scrollbar Styles */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #2a2a4a;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #00bcd4; /* Accent color */
+  border-radius: 10px;
+  border: 2px solid #2a2a4a;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #007bff;
+}
+
+html {
+  scrollbar-color: #00bcd4 #2a2a4a;
+  scrollbar-width: thin;
+}
+
+/* Header and View Toggle */
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  flex-wrap: wrap; /* Allow wrapping on small screens */
+  gap: 1rem; /* Space between title and toggle */
+}
+
+.pageTitle {
+  color: #b3e5fc;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
+}
+
+.viewToggle {
+  display: flex;
+  gap: 15px; /* Space between toggle buttons */
+}
+
+.toggleButton {
+  background-color: transparent;
+  border: none;
+  color: #b3e5fc;
+  font-size: 1.1rem;
+  font-weight: 500;
+  padding: 8px 15px;
+  border-radius: 8px;
+  transition: all 0.3s ease-in-out;
+  display: flex;
+  align-items: center;
+}
+
+.toggleButton:hover {
+  color: #fff;
+  background-color: rgba(0, 188, 212, 0.1);
+}
+
+.toggleButton.activeToggle {
+  background: linear-gradient(45deg, #00bcd4, #007bff); /* Active gradient */
+  color: #fff;
+  box-shadow: 0 4px 15px rgba(0, 188, 212, 0.4);
+  font-weight: 600;
+}
+
+.toggleButton .svg-inline--fa {
+  font-size: 1.3em;
+  margin-right: 8px;
+}
+
+
+/* Loading and Error States */
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute; /* Position over the content area */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(30, 30, 59, 0.9); /* Dark overlay */
+  border-radius: 12px; /* Match parent border radius */
+  z-index: 10;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.loadingSpinner {
+  width: 4rem;
+  height: 4rem;
+  color: #00bcd4 !important;
+}
+
+.loadingText {
+  margin-top: 1.5rem;
+  font-size: 1.2rem;
+  color: #b3e5fc;
+}
+
+.errorAlert {
+  background-color: rgba(220, 53, 69, 0.2);
+  border-color: #dc3545;
+  color: #fff;
+  border-radius: 10px;
+  font-size: 1.05rem;
+  padding: 1.2rem 1.5rem;
+  margin-bottom: 2.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.infoAlert {
+  background-color: rgba(0, 188, 212, 0.15);
+  border-color: #00bcd4;
+  color: #b3e5fc;
+  border-radius: 10px;
+  font-size: 1.05rem;
+  padding: 1.2rem 1.5rem;
+  margin-top: 2rem;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* Table View Specific Styles */
+.tableWrapper {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+}
+
+.timetableTable {
+  min-width: 900px; /* Ensure table remains wide for content */
+  margin-bottom: 0;
+}
+
+.tableHead {
+  background-color: #2a2a4a;
+  color: #00bcd4;
+  position: sticky; /* Sticky header */
+  top: 0;
+  z-index: 1; /* Ensure header stays above scrolling content */
+}
+
+.tableHead th {
+  padding: 1rem 1.2rem;
+  font-weight: 600;
+  border-bottom: none;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.dayColHeader {
+    width: 120px; /* Fixed width for day column header */
+}
+
+.periodColHeader {
+    min-width: 150px; /* Ensure enough space for period cells */
+}
+
+.timetableTable tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.timetableTable tbody tr:hover {
+  background-color: rgba(0, 188, 212, 0.08) !important;
+}
+
+.timetableTable td {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.8rem 1rem;
+  vertical-align: middle;
+  cursor: pointer; /* Indicate tooltip */
+  color: #ddd;
+}
+
+.dayCell {
+  font-weight: 700;
+  color: #b3e5fc;
+  background-color: #25254a; /* Slightly different background for day column */
+}
+
+.currentDayRow {
+  background-color: rgba(0, 188, 212, 0.15) !important; /* Highlight current day */
+  color: #fff;
+  font-weight: 600;
+}
+
+.currentDayRow .dayCell {
+  background-color: rgba(0, 188, 212, 0.3) !important;
+  color: #fff;
+}
+
+.cellEntry {
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+.cellEntry:last-child {
+  margin-bottom: 0;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.classSection {
+  font-weight: 600;
+  color: #fff;
+  font-size: 0.95rem;
+}
+
+.subjectName {
+  font-size: 0.85rem;
+  color: #b3e5fc;
+  opacity: 0.9;
+}
+
+.emptyCell {
+  color: #777;
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+/* Custom Tooltip */
+.customTooltip {
+  --bs-tooltip-bg: #2a2a4a; /* Dark background */
+  --bs-tooltip-color: #fff; /* White text */
+  --bs-tooltip-opacity: 0.95;
+  border: 1px solid rgba(0, 188, 212, 0.3); /* Accent border */
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+}
+
+.customTooltip .tooltip-inner {
+  padding: 10px 15px;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.tooltipPre {
+  white-space: pre-wrap; /* Ensure newlines are respected */
+  font-family: 'Inter', sans-serif; /* Use consistent font */
+  margin: 0;
+}
+
+
+/* Card View Specific Styles */
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive grid */
+  gap: 25px;
+  margin-top: 2rem;
+}
+
+.dayCard {
+  background-color: #2a2a4a;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 15px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  overflow: hidden; /* Ensure rounded corners clip content */
+}
+
+.currentDayCard {
+  border-color: #00bcd4;
+  box-shadow: 0 6px 25px rgba(0, 188, 212, 0.5); /* Stronger glow for current day */
+  background: linear-gradient(145deg, #2a2a4a, #202040); /* Subtle gradient for current day */
+}
+
+.cardHeader {
+  background-color: #35355a; /* Darker header for cards */
+  color: #00bcd4;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 1.25rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.cardBody {
+  padding: 1.5rem;
+}
+
+.periodBlock {
+  background-color: #1e1e3b; /* Inner block for each period */
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.2); /* Inset shadow for depth */
+}
+
+.periodBlock:last-child {
+  margin-bottom: 0;
+}
+
+.periodTitle {
+  color: #b3e5fc;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
+}
+
+.cardEntry p {
+  margin-bottom: 0.4rem;
+  font-size: 0.9rem;
+  color: #ddd;
+  display: flex;
+  align-items: center;
+}
+
+.cardEntry p .svg-inline--fa {
+  margin-right: 8px;
+  color: #00bcd4;
+  font-size: 1em;
+}
+
+.cardClassSection {
+  font-weight: 600;
+  color: #fff;
+}
+
+.cardSubjectName {
+  font-style: italic;
+  color: #b3e5fc;
+}
+
+.cardTime {
+  font-size: 0.85rem;
+  color: #aaa;
+}
+
+.emptyCardEntry {
+  color: #777;
+  font-style: italic;
+  text-align: center;
+  padding: 0.5rem 0;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 991.98px) {
+  .mainContent {
+    margin: 15px;
+    padding: 1.8rem;
+  }
+  .headerContainer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .pageTitle {
+    font-size: 1.7rem;
+  }
+  .viewToggle {
+    width: 100%;
+    justify-content: center;
+  }
+  .toggleButton {
+    flex: 1 1 auto; /* Distribute buttons evenly */
+    text-align: center;
+    justify-content: center;
+    font-size: 1rem;
+  }
+  .tableWrapper {
+    overflow-x: auto; /* Ensure horizontal scroll for smaller screens */
+  }
+  .timetableTable {
+    min-width: 800px; /* Maintain a reasonable minimum width */
+  }
+}
+
+@media (max-width: 767.98px) {
+  .mainContent {
+    margin: 10px;
+    padding: 1.5rem;
+    height: auto; /* Allow content to dictate height */
+  }
+  .headerContainer {
+    margin-bottom: 1.5rem;
+  }
+  .pageTitle {
+    font-size: 1.5rem;
+    text-align: center;
+    width: 100%;
+  }
+  .viewToggle {
+    flex-direction: column; /* Stack toggle buttons vertically */
+    gap: 10px;
+  }
+  .toggleButton {
+    font-size: 0.95rem;
+    padding: 6px 10px;
+  }
+  .tableWrapper {
+    /* min-width will handle horizontal scroll for the table */
+  }
+  .timetableTable thead th, .timetableTable tbody td {
+    font-size: 0.85rem;
+    padding: 0.7rem 0.8rem;
+  }
+
+  .cardsGrid {
+    grid-template-columns: 1fr; /* Single column on very small screens */
+  }
+  .dayCard {
+    margin-bottom: 15px;
+  }
+  .cardHeader {
+    font-size: 1.1rem;
+    padding: 0.8rem 1rem;
+  }
+  .cardBody {
+    padding: 1rem;
+  }
+  .periodBlock {
+    padding: 0.8rem;
+    margin-bottom: 0.8rem;
+  }
+  .periodTitle {
+    font-size: 1rem;
+  }
+  .cardEntry p {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .mainContent {
+    margin: 5px;
+    padding: 1rem;
+  }
+  .pageTitle {
+    font-size: 1.2rem;
+  }
+  .viewToggle {
+    gap: 8px;
+  }
+  .toggleButton {
+    font-size: 0.9rem;
+    padding: 5px 8px;
+  }
+  .timetableTable {
+    min-width: 600px; /* Smallest comfortable width for table */
+  }
+  .timetableTable thead th, .timetableTable tbody td {
+    font-size: 0.8rem;
+    padding: 0.6rem 0.7rem;
+  }
+}

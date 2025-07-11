@@ -1,0 +1,406 @@
+/* General Layout */
+.mainContainer {
+  background-color: #1a1a2e; /* Deep space blue background */
+  color: #e0e0e0;
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  padding: 0;
+  overflow-x: hidden; /* Prevent horizontal scroll on main container */
+}
+
+/* Custom Scrollbar Styles for consistent look */
+/* For Webkit browsers (Chrome, Safari) */
+::-webkit-scrollbar {
+  width: 8px; /* For vertical scrollbars */
+  height: 8px; /* For horizontal scrollbars */
+}
+
+::-webkit-scrollbar-track {
+  background: #2a2a4a; /* Darker track */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #00bcd4; /* Accent color thumb */
+  border-radius: 10px;
+  border: 2px solid #2a2a4a; /* Border to match track color */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #007bff; /* Darker accent on hover */
+}
+
+/* For Firefox (requires a different approach) */
+/* This won't directly style the thumb/track but sets overall scrollbar color */
+html {
+  scrollbar-color: #00bcd4 #2a2a4a; /* thumb color track color */
+  scrollbar-width: thin; /* auto | thin | none */
+}
+
+
+/* Class List Sidebar */
+.classListSidebar {
+  background-color: #1a1a2e; /* Slightly darker than content to create depth */
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  min-width: 250px;
+  max-width: 300px; /* Allow a bit more width on larger screens */
+  height: 100vh;
+  overflow-y: auto;
+  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
+  z-index: 2; /* Ensure it stays above main content on overlap */
+}
+
+.sidebarHeading {
+  color: #00bcd4; /* Accent color */
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid rgba(0, 188, 212, 0.3); /* Underline effect */
+  text-align: center;
+}
+
+.classListSidebar .list-group-flush {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.classListItem {
+  background-color: transparent;
+  color: #b3e5fc; /* Lighter blue for class names */
+  border: none;
+  border-radius: 10px; /* Soft rounded corners */
+  margin-bottom: 0.75rem;
+  padding: 0.8rem 1.2rem;
+  transition: all 0.25s ease-in-out;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 500;
+}
+
+.classListItem:hover {
+  background-color: rgba(0, 188, 212, 0.15); /* Subtle hover background */
+  color: #fff;
+  transform: translateX(5px); /* Gentle slide on hover */
+}
+
+.classListItem.activeClass {
+  background: linear-gradient(90deg, #00bcd4, #007bff); /* Vibrant gradient for active */
+  color: #fff;
+  box-shadow: 0 4px 15px rgba(0, 188, 212, 0.4); /* Glow effect */
+  font-weight: 700;
+  transform: scale(1.02); /* Slightly scale up active item */
+}
+
+.classListItem.activeClass:hover {
+    transform: scale(1.02); /* Prevent extra transform on hover for active */
+    box-shadow: 0 6px 20px rgba(0, 188, 212, 0.6);
+}
+
+.classNameText {
+  flex-grow: 1;
+}
+
+.classTeacherBadge {
+  background-color: #ffc107 !important; /* Warning yellow */
+  color: #333 !important; /* Dark text for contrast */
+  font-weight: bold;
+  padding: 0.4em 0.8em;
+  border-radius: 50px; /* Pill shape */
+  font-size: 0.75em;
+  margin-left: 10px;
+}
+
+/* Content Area */
+.contentArea {
+  background-color: #1e1e3b; /* Main content panel background */
+  border-radius: 12px;
+  margin: 20px; /* Spacing from parent container */
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); /* Deep shadow */
+  backdrop-filter: blur(15px) saturate(180%); /* Glassmorphism effect */
+  -webkit-backdrop-filter: blur(15px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.18); /* Subtle border */
+  flex-grow: 1; /* Allow content to fill available space */
+  overflow-y: auto; /* Enable scrolling for content */
+  height: calc(100vh - 40px); /* Adjust height to fit container with margin */
+  position: relative; /* For loading overlay positioning */
+}
+
+.contentHeading {
+  color: #b3e5fc; /* Lighter blue for main heading */
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2.5rem;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Subtle divider */
+}
+
+/* Loading State */
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute; /* Position over the content area */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(30, 30, 59, 0.9); /* Dark overlay */
+  border-radius: 12px; /* Match parent border radius */
+  z-index: 10;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.loadingSpinner {
+  width: 4rem;
+  height: 4rem;
+  color: #00bcd4 !important; /* Cyan spinner */
+}
+
+.loadingText {
+  margin-top: 1.5rem;
+  font-size: 1.2rem;
+  color: #b3e5fc;
+}
+
+/* Error Alert */
+.errorAlert {
+  background-color: rgba(220, 53, 69, 0.2); /* Red tint */
+  border-color: #dc3545;
+  color: #fff;
+  border-radius: 10px;
+  font-size: 1.05rem;
+  padding: 1.2rem 1.5rem;
+  margin-bottom: 2.5rem;
+  display: flex;
+  align-items: center;
+}
+
+/* Class Summary Card */
+.summaryCard {
+  background: linear-gradient(135deg, rgba(0, 188, 212, 0.2), rgba(0, 123, 255, 0.2)); /* Gradient glass effect */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 15px; /* More rounded corners */
+  margin-bottom: 2.5rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3); /* Deeper shadow */
+  backdrop-filter: blur(10px) saturate(150%);
+  -webkit-backdrop-filter: blur(10px) saturate(150%);
+  color: #fff;
+}
+
+.summaryItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-basis: 45%; /* Two items per row on larger screens */
+  min-width: 200px; /* Ensure readability */
+  padding: 0.5rem 0;
+}
+
+.summaryIcon {
+  font-size: 1.8rem;
+  color: #00bcd4; /* Accent color for icons */
+}
+
+.summaryText p {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.summaryText h5 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 0;
+  color: #b3e5fc; /* Lighter blue for key numbers/names */
+}
+
+/* Student Count Text */
+.studentsCount {
+  color: #00bcd4; /* Accent color */
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  font-size: 1.05rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Student Table */
+.tableWrapper {
+  overflow-x: auto; /* Enable horizontal scrolling for the table */
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle table border */
+  box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+}
+
+.studentTable {
+  min-width: 900px; /* Ensure table remains wide for all columns */
+  margin-bottom: 0; /* Remove default table margin */
+}
+
+.tableHead {
+  background-color: #2a2a4a; /* Darker header background */
+  color: #00bcd4;
+  position: sticky; /* Sticky header */
+  top: 0;
+  z-index: 1; /* Ensure header stays above scrolling content */
+}
+
+.tableHead th {
+  padding: 1rem 1.2rem;
+  font-weight: 600;
+  border-bottom: none;
+  white-space: nowrap; /* Prevent text wrapping in headers */
+}
+
+.studentTable tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.studentTable tbody tr:hover {
+  background-color: rgba(0, 188, 212, 0.08) !important; /* Subtle highlight on row hover */
+}
+
+.studentTable td {
+  border-top: 1px solid rgba(255, 255, 255, 0.08); /* Lighter border for rows */
+  padding: 0.9rem 1.2rem;
+  vertical-align: middle;
+  white-space: nowrap; /* Prevent text wrapping in cells */
+  color: #ddd;
+}
+
+.studentNameCol {
+  font-weight: 600;
+  color: #b3e5fc; /* Highlight student names */
+}
+
+.addressCol {
+  max-width: 250px; /* Limit address column width */
+  white-space: normal; /* Allow address to wrap */
+}
+
+
+/* Empty/Initial States */
+.noStudentsAlert, .initialPrompt {
+  background-color: rgba(0, 188, 212, 0.15);
+  border-color: #00bcd4;
+  color: #b3e5fc;
+  border-radius: 10px;
+  font-size: 1.05rem;
+  padding: 1.2rem 1.5rem;
+  margin-top: 2rem;
+  text-align: center;
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 991.98px) { /* Adjust for medium screens */
+  .classListSidebar {
+    min-width: 220px;
+    max-width: 220px;
+    padding-top: 1.5rem;
+  }
+  .contentArea {
+    margin: 15px;
+    padding: 1.8rem;
+  }
+  .contentHeading {
+    font-size: 1.7rem;
+    margin-bottom: 2rem;
+  }
+  .summaryCard .card-body {
+    justify-content: flex-start;
+    gap: 1.5rem;
+  }
+  .summaryItem {
+    flex-basis: 100%; /* Stack summary items vertically on smaller medium screens */
+  }
+  .tableWrapper {
+    /* min-width will handle responsiveness for horizontal scroll */
+  }
+}
+
+@media (max-width: 767.98px) { /* Adjust for small screens (mobile) */
+  .mainContainer .row.flex-nowrap {
+    flex-direction: column; /* Stack sidebar and content vertically */
+  }
+  .classListSidebar {
+    min-width: 100%;
+    max-width: 100%;
+    height: auto; /* Auto height for vertical flow */
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Bottom border */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Shadow on bottom */
+    padding-bottom: 1rem;
+  }
+  .sidebarHeading {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+  .classListSidebar .list-group-flush {
+    display: flex; /* Make class items horizontal */
+    flex-wrap: wrap;
+    justify-content: center; /* Center class items */
+    gap: 0.5rem; /* Spacing between class buttons */
+  }
+  .classListItem {
+    flex: 1 1 auto; /* Allow items to grow/shrink, distribute horizontally */
+    max-width: 180px; /* Limit width of each class button */
+    text-align: center;
+    padding: 0.6rem 0.8rem;
+    margin-bottom: 0; /* Remove vertical margin */
+  }
+  .classListItem:hover {
+    transform: none; /* Remove horizontal slide on small screens */
+  }
+  .classListItem.activeClass {
+    transform: none; /* No scale on small screens */
+  }
+  .classTeacherBadge {
+    margin-left: 5px;
+  }
+  .contentArea {
+    margin: 10px;
+    padding: 1.5rem;
+    height: auto; /* Auto height to allow full content display */
+  }
+  .contentHeading {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    justify-content: center; /* Center heading on small screens */
+  }
+  .summaryItem {
+    flex-basis: 100%; /* Full width for each summary item */
+    justify-content: center; /* Center content within item */
+  }
+  .tableWrapper {
+    overflow-x: auto; /* Crucial for table on small screens */
+  }
+  .studentTable {
+    width: 100%; /* Adjust to fill wrapper */
+  }
+  .studentTable thead th, .studentTable tbody td {
+    font-size: 0.85rem; /* Smaller font for table content */
+    padding: 0.7rem 0.8rem;
+  }
+}
+
+@media (max-width: 575.98px) { /* Extra small screens */
+  .classListItem {
+    max-width: 150px; /* Even smaller class buttons */
+  }
+  .contentHeading {
+    font-size: 1.3rem;
+  }
+  .summaryIcon {
+    font-size: 1.5rem;
+  }
+  .summaryText h5 {
+    font-size: 1.05rem;
+  }
+}

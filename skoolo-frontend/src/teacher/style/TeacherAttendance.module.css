@@ -1,0 +1,497 @@
+/* General Layout & Background */
+.attendanceContainer {
+  background-color: #1a1a2e; /* Deep dark background */
+  color: #e0e0e0;
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  padding: 0; /* Remove default padding for full-bleed layout */
+}
+
+.contentCol {
+  background-color: #1e1e3b; /* Slightly lighter dark shade */
+  border-radius: 12px;
+  margin: 20px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  backdrop-filter: blur(15px) saturate(180%); /* Glassmorphism effect */
+  -webkit-backdrop-filter: blur(15px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.18); /* Subtle border */
+  padding: 2.5rem;
+  overflow-y: auto; /* Enable scrolling for content if it overflows */
+}
+
+/* Heading */
+.heading {
+  color: #00bcd4; /* Vibrant cyan */
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 2.8rem; /* Increased margin */
+  font-size: 1.8rem;
+  font-weight: 700;
+  text-shadow: 0 0 10px rgba(0, 188, 212, 0.3); /* Subtle text shadow */
+}
+
+/* Controls Card - New element for date & class selection */
+.controlsCard {
+  background-color: rgba(255, 255, 255, 0.08); /* More transparent for glass effect */
+  border-radius: 15px; /* Softer corners */
+  backdrop-filter: blur(12px) saturate(150%);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.25); /* More prominent border for glass */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4); /* Deeper shadow */
+  padding: 1.5rem;
+  margin-bottom: 3.5rem; /* Increased margin for separation */
+}
+
+/* Form Section (Date & Class Selectors) */
+.formGroup {
+  flex-grow: 1;
+  min-width: 250px; /* Increased min-width for better date picker display */
+}
+
+.formLabel {
+  color: #b3e5fc;
+  font-weight: 600; /* Slightly bolder */
+  margin-bottom: 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1rem;
+}
+
+/* Form Controls (Inputs, Selects, Datepicker) */
+.formControl {
+  background-color: #2a2a4a !important; /* Darker input background */
+  color: #e0e0e0 !important;
+  border: 1px solid #00bcd4 !important;
+  border-radius: 10px !important; /* Softer rounded corners */
+  padding: 0.7rem 1rem !important; /* More padding */
+  width: 100% !important;
+  transition: all 0.3s ease-in-out;
+  font-size: 0.95rem;
+}
+
+.formControl:focus {
+  box-shadow: 0 0 0 0.25rem rgba(0, 188, 212, 0.35) !important; /* More vibrant focus shadow */
+  border-color: #00bcd4 !important;
+  background-color: #333355 !important;
+}
+
+/* Custom select arrow for dark theme */
+.formControl.customSelect {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='%23b3e5fc' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.85rem center; /* Adjusted position */
+  background-size: 18px 14px; /* Slightly larger arrow */
+}
+
+
+/* Buttons */
+.loadButton {
+  background: linear-gradient(45deg, #00bcd4, #007bff); /* Cyan to blue gradient */
+  border: none;
+  border-radius: 10px; /* Softer corners */
+  padding: 12px 30px;
+  font-weight: bold;
+  box-shadow: 0 5px 20px rgba(0, 188, 212, 0.4);
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); /* Smoother transition */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1rem;
+}
+
+.loadButton:hover {
+  transform: translateY(-3px) scale(1.02); /* More pronounced hover effect */
+  box-shadow: 0 8px 25px rgba(0, 188, 212, 0.6);
+}
+
+.loadButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.submitButton {
+  background: linear-gradient(45deg, #28a745, #218838); /* Green gradient */
+  border: none;
+  border-radius: 10px;
+  padding: 15px 35px; /* Larger padding for impact */
+  font-weight: bold;
+  font-size: 1.2rem; /* Larger font size */
+  box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  justify-content: center;
+}
+
+.submitButton:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 10px 30px rgba(40, 167, 69, 0.6);
+}
+
+.submitButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+
+/* Spinner Overlay */
+.loadingOverlay {
+  position: absolute; /* Position over content */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(30, 30, 59, 0.85); /* Semi-transparent overlay */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 10; /* Ensure it's above other content */
+  border-radius: 12px; /* Match contentCol border-radius */
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+.loadingText {
+  margin-top: 1.5rem;
+  color: #e0e0e0;
+  font-size: 1.1rem;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+
+/* Alerts */
+.customAlert {
+  border-radius: 10px; /* Softer corners */
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 1.2rem 1.8rem; /* More generous padding */
+  margin-bottom: 2.8rem;
+  font-weight: 500;
+  font-size: 1.05rem;
+  border-width: 2px; /* Thicker border */
+}
+
+.infoAlert {
+  background-color: rgba(0, 188, 212, 0.25); /* Slightly less opaque */
+  border-color: #00bcd4;
+  color: #e0e0e0;
+}
+
+.warningAlert {
+  background-color: rgba(255, 193, 7, 0.25);
+  border-color: #ffc107;
+  color: #e0e0e0;
+}
+
+/* Table Styling */
+.attendanceTable {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.15); /* More visible border */
+  margin-top: 3rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3); /* Add shadow to table */
+}
+
+.attendanceTable thead {
+  background-color: #2a2a4a;
+  color: #00bcd4;
+}
+
+.attendanceTable th {
+  border-bottom: none;
+  padding: 1.2rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.attendanceTable td {
+  border-top: 1px solid rgba(255, 255, 255, 0.1); /* Slightly stronger separator */
+  padding: 1.1rem;
+  vertical-align: middle;
+}
+
+.tableRow {
+    transition: background-color 0.2s ease; /* Smooth hover */
+}
+
+.tableRow:hover {
+    background-color: rgba(0, 188, 212, 0.08) !important; /* Subtle highlight on hover */
+}
+
+.studentName {
+  font-weight: bold;
+  color: #b3e5fc;
+  font-size: 1rem;
+}
+
+/* Radio Buttons */
+.formCheckInline {
+  margin-right: 1.8rem; /* More spacing */
+}
+
+/* Custom radio button styles */
+.formCheckInline .form-check-input {
+  --bs-form-check-input-bg: #2a2a4a;
+  --bs-form-check-input-border: 2px solid #00bcd4; /* Thicker border */
+  --bs-form-check-input-checked-border-color: #00bcd4;
+  --bs-form-check-input-checked-bg-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2' fill='%23fff'/%3e%3c/svg%3e");
+  transition: all 0.2s ease;
+  cursor: pointer;
+  width: 1.15em; /* Slightly larger radio button */
+  height: 1.15em;
+  flex-shrink: 0;
+  margin-top: 0.1em;
+}
+
+.formCheckInline .form-check-input:checked {
+  background-color: #00bcd4;
+}
+
+.formCheckInline .form-check-input:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    background-color: #3a3a5a !important; /* Darker disabled state */
+    border-color: rgba(0, 188, 212, 0.4) !important;
+}
+
+.formCheckInline .form-check-label {
+  color: #e0e0e0;
+  font-weight: 400;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.formCheckInline .form-check-input:disabled + .form-check-label {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+
+/* Student Cards (Mobile View) */
+.studentCard {
+  background-color: rgba(255, 255, 255, 0.08); /* More transparent for glass effect */
+  backdrop-filter: blur(8px) saturate(150%);
+  -webkit-backdrop-filter: blur(8px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 15px; /* Softer corners */
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3); /* Deeper shadow */
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.studentCard:hover {
+  transform: translateY(-4px); /* More pronounced lift */
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+}
+
+.cardTitle {
+  color: #00bcd4;
+  margin-bottom: 1.2rem;
+  font-size: 1.25rem; /* Slightly larger title */
+  font-weight: 600;
+}
+
+.statusBadges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem; /* Spacing between badges */
+}
+
+.statusBadge {
+    flex: 1 1 auto; /* Allow badges to grow and shrink */
+    min-width: 80px; /* Minimum width for badges */
+    padding: 0.6rem 0.8rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border: 1px solid rgba(0, 188, 212, 0.4); /* Default border color */
+    color: #b3e5fc; /* Default text color */
+    background-color: rgba(0, 188, 212, 0.05); /* Default background */
+    transition: all 0.2s ease;
+}
+
+.statusBadge:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0, 188, 212, 0.2);
+}
+
+.statusBadge.present {
+    background-color: #28a745;
+    border-color: #28a745;
+    color: #fff;
+    box-shadow: 0 2px 5px rgba(40, 167, 69, 0.3);
+}
+
+.statusBadge.absent {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: #fff;
+    box-shadow: 0 2px 5px rgba(220, 53, 69, 0.3);
+}
+
+.statusBadge.late {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: #1a1a2e; /* Dark text for contrast */
+    box-shadow: 0 2px 5px rgba(255, 193, 7, 0.3);
+}
+
+.statusBadge.leave {
+    background-color: #6f42c1;
+    border-color: #6f42c1;
+    color: #fff;
+    box-shadow: 0 2px 5px rgba(111, 66, 193, 0.3);
+}
+
+.statusBadge:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+    filter: grayscale(50%); /* Make disabled badges look muted */
+}
+
+/* Status Icons within badges */
+.statusBadge svg {
+    margin-right: 4px;
+}
+
+.iconPresent { color: #fff; } /* Icon color for respective badge states */
+.iconAbsent { color: #fff; }
+.iconLate { color: #1a1a2e; }
+.iconLeave { color: #fff; }
+
+
+/* Datepicker Overrides */
+.react-datepicker-wrapper {
+  width: 100%;
+}
+
+.darkThemeDatepicker { /* Renamed for consistency with className */
+  background-color: #2a2a4a !important;
+  border: 1px solid #00bcd4 !important;
+  border-radius: 10px !important;
+  box-shadow: 0 5px 20px rgba(0, 188, 212, 0.25) !important;
+  font-family: 'Inter', sans-serif !important;
+  padding: 0.5rem; /* Added padding to the calendar itself */
+}
+.darkThemeDatepicker .react-datepicker__header {
+  background-color: #00bcd4 !important;
+  border-bottom: none !important;
+  border-radius: 8px 8px 0 0 !important;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+.darkThemeDatepicker .react-datepicker__current-month,
+.darkThemeDatepicker .react-datepicker__day-name,
+.darkThemeDatepicker .react-datepicker__navigation--previous,
+.darkThemeDatepicker .react-datepicker__navigation--next {
+  color: #fff !important;
+  font-weight: 600;
+}
+.darkThemeDatepicker .react-datepicker__day {
+  color: #e0e0e0 !important;
+  padding: 0.6rem; /* Increased padding */
+  border-radius: 6px; /* Softer day squares */
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.darkThemeDatepicker .react-datepicker__day--selected,
+.darkThemeDatepicker .react-datepicker__day--keyboard-selected {
+  background-color: #007bff !important; /* Blue for selected date */
+  color: #fff !important;
+  border-radius: 6px !important;
+}
+.darkThemeDatepicker .react-datepicker__day:hover {
+  background-color: rgba(0, 188, 212, 0.35) !important; /* More noticeable hover */
+}
+.darkThemeDatepicker .react-datepicker__day--outside-month {
+  color: #6c757d !important;
+}
+.darkThemeDatepicker .react-datepicker__navigation-icon::before {
+  border-color: #fff !important;
+}
+.darkThemeDatepicker .react-datepicker__navigation:hover *::before {
+  border-color: #fff !important;
+}
+.darkThemeDatepicker .react-datepicker__day--disabled {
+    color: #4a4a6a !important; /* Disabled dates appear muted */
+    cursor: not-allowed;
+}
+
+/* Media Queries for Responsiveness */
+@media (min-width: 768px) {
+  .controlsCard .card-body {
+    flex-direction: row; /* Horizontal layout on larger screens */
+    align-items: flex-end;
+  }
+  .loadButton {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .contentCol {
+    margin: 15px;
+    padding: 1.8rem;
+  }
+  .heading {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  .formGroup {
+    min-width: unset; /* Remove min-width on small screens */
+    width: 100%; /* Full width */
+  }
+  .formLabel {
+    font-size: 0.95rem;
+  }
+  .formControl {
+    padding: 0.6rem 0.8rem !important;
+    font-size: 0.9rem;
+  }
+  .loadButton, .submitButton {
+    width: 100%;
+    margin-top: 1rem;
+    font-size: 1rem;
+    padding: 10px 20px;
+  }
+  .submitButton {
+    font-size: 1.05rem;
+    padding: 12px 25px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .contentCol {
+    margin: 10px;
+    padding: 1.5rem;
+  }
+  .heading {
+    font-size: 1.3rem;
+  }
+  .controlsCard {
+    padding: 1rem;
+    margin-bottom: 2.5rem;
+  }
+  .customAlert {
+    font-size: 0.9rem;
+    padding: 0.8rem 1rem;
+  }
+}

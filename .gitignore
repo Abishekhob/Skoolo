@@ -1,0 +1,17 @@
+# Java (backend)
+Skoolo-backend/target/
+*.class
+*.jar
+*.war
+*.log
+
+# Node (frontend)
+skoolo-frontend/node_modules/
+skoolo-frontend/dist/
+*.lock
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

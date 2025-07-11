@@ -1,0 +1,64 @@
+/* Student Table Enhancements */
+.student-table {
+    border: 1px solid #343a40 !important; /* Darker border for the table itself */
+    border-collapse: separate; /* Allows border-radius on cells if applied later */
+    border-spacing: 0; /* Remove space between borders */
+  }
+  
+  .student-table thead th {
+    vertical-align: middle;
+    border-bottom: 2px solid #6c757d !important; /* Stronger line under header */
+    border-right: 1px solid #343a40 !important; /* Cell borders */
+    padding: 0.75rem; /* Standard padding */
+  }
+  
+  .student-table thead th:last-child {
+    border-right: none !important; /* No right border on last header */
+  }
+  
+  .student-table tbody tr td {
+    vertical-align: middle;
+    border-right: 1px solid #343a40 !important; /* Cell borders */
+    border-top: 1px solid #343a40 !important; /* Top border for rows */
+    padding: 0.5rem 0.75rem; /* Adjusted padding for data cells */
+  }
+  
+  .student-table tbody tr td:last-child {
+    border-right: none !important; /* No right border on last cell */
+  }
+  
+  .student-table.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(255, 255, 255, 0.05); /* Slightly lighter odd rows */
+  }
+  
+  .student-table.table-hover tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Lighter hover effect */
+  }
+  
+  /* Form controls within table (edit mode) */
+  .student-table .form-control.bg-secondary,
+  .student-table .form-select.bg-secondary {
+    background-color: #495057 !important; /* Ensure secondary background */
+    color: #fff !important; /* White text */
+    border: 1px solid #6c757d !important; /* Subtle border for inputs */
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  }
+  
+  .student-table .form-control.bg-secondary:focus,
+  .student-table .form-select.bg-secondary:focus {
+    border-color: #0d6efd !important; /* Primary color focus */
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
+  }
+  
+  /* Custom button sizes for actions in table */
+  .student-table .action-btn {
+    padding: 0.25rem 0.6rem; /* Smaller padding for action buttons */
+    font-size: 0.8rem; /* Smaller font size */
+    white-space: nowrap; /* Prevent buttons from wrapping */
+    min-width: 60px; /* Ensure a minimum width for consistency */
+  }
+  
+  /* Ensure text-nowrap on the actions column if it's not already */
+  .student-table td.text-nowrap {
+    white-space: nowrap;
+  }

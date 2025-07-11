@@ -1,0 +1,303 @@
+/* Container for the entire timetable section */
+.timetable-section {
+  padding: 1.5rem; /* Consistent padding with other sections */
+  border-radius: 15px; /* Consistent border-radius with other cards */
+  background-color: #22223b; /* Match data-section-card background */
+  box-shadow: none; /* Explicitly remove shadow */
+}
+
+.timetable-section .timetable-header {
+  border-bottom: 1px solid #444466 !important; /* Subtle separator line */
+  padding-bottom: 0.8rem !important; /* Space below header */
+}
+
+.timetable-section h4 {
+  color: #f0f0f0; /* Ensure header title is visible */
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+/* Edit Timetable Button */
+.edit-timetable-btn {
+  background-color: #00aaff; /* Primary theme color */
+  border-color: #00aaff;
+  color: #fff;
+  padding: 0.6rem 1.25rem;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.edit-timetable-btn:hover {
+  background-color: #0088cc; /* Darker blue on hover */
+  border-color: #0088cc;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 170, 255, 0.4); /* Add back a subtle shadow on hover */
+}
+
+.edit-timetable-btn:active,
+.edit-timetable-btn:focus {
+    background-color: #0077b3 !important;
+    border-color: #0077b3 !important;
+    box-shadow: 0 0 0 0.25rem rgba(0, 170, 255, 0.4) !important;
+}
+
+/* Save and Cancel Buttons */
+.save-btn {
+  background-color: #00aaff; /* Primary theme color for Save */
+  border-color: #00aaff;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.save-btn:hover {
+  background-color: #0088cc;
+  border-color: #0088cc;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 170, 255, 0.4);
+}
+
+.save-btn:active,
+.save-btn:focus {
+    background-color: #0077b3 !important;
+    border-color: #0077b3 !important;
+    box-shadow: 0 0 0 0.25rem rgba(0, 170, 255, 0.4) !important;
+}
+
+.cancel-btn {
+  background-color: #6c757d; /* Standard secondary gray */
+  border-color: #6c757d;
+  color: #fff;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.cancel-btn:hover {
+  background-color: #5a6268;
+  border-color: #5a6268;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(108, 117, 125, 0.4);
+}
+
+.cancel-btn:active,
+.cancel-btn:focus {
+    background-color: #545b62 !important;
+    border-color: #545b62 !important;
+    box-shadow: 0 0 0 0.25rem rgba(108, 117, 125, 0.4) !important;
+}
+
+/* Timetable Table Styles */
+.timetable-table {
+  background-color: #1a1a2e; /* Darker background for table */
+  border-radius: 12px; /* Slightly rounded corners for the table */
+  overflow: hidden; /* Ensures rounded corners are visible */
+  border: 1px solid #33334d; /* Subtle border for the entire table */
+}
+
+.timetable-table thead th {
+  background-color: #2c2c4d; /* Darker header background */
+  color: #f0f0f0;
+  font-weight: 600;
+  border-color: #3b3b5c; /* Darker border for headers */
+  padding: 0.8rem 0.5rem;
+  vertical-align: middle;
+}
+
+.timetable-table tbody td {
+  background-color: #1a1a2e; /* Row background */
+  color: #e0e0e0;
+  border-color: #3b3b5c; /* Darker border for cells */
+  vertical-align: middle;
+  padding: 0.6rem 0.5rem;
+  font-size: 0.9rem;
+}
+
+.timetable-table.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #22223b; /* Slightly different stripe color */
+}
+
+.timetable-table.table-hover tbody tr:hover {
+  background-color: #2c2c4d; /* Hover effect for rows */
+}
+
+.timetable-table .day-col,
+.timetable-table .period-col,
+.timetable-table .time-range-col {
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.timetable-table .time-range-col small {
+  color: #a0a0a0; /* Muted time range text */
+}
+
+.timetable-table .day-name {
+  text-transform: capitalize; /* Capitalize day names for display */
+  font-size: 1rem;
+  padding-left: 1.5rem;
+  width: 120px; /* Fixed width for day column */
+}
+
+.timetable-table .timetable-cell {
+  min-width: 120px; /* Ensure cells have minimum width */
+  text-align: center;
+}
+
+/* Input fields inside timetable cells when editing */
+.timetable-input {
+  background-color: #2c2c4d; /* Dark input background */
+  border: 1px solid #444466;
+  color: #f0f0f0;
+  border-radius: 6px;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.85rem;
+}
+
+.timetable-input::placeholder {
+  color: #a0a0a0;
+}
+
+.timetable-input:focus {
+  border-color: #00aaff;
+  box-shadow: 0 0 0 0.15rem rgba(0, 170, 255, 0.25);
+  background-color: #35355e;
+}
+
+/* Content display within cells */
+.timetable-display-content .subject-name {
+  color: #f0f0f0;
+  font-size: 0.95rem;
+}
+
+.timetable-display-content .teacher-name {
+  color: #b0b0c0; /* Slightly lighter muted color for teacher */
+  font-size: 0.8rem;
+  margin-top: 0.2rem;
+}
+
+.text-muted-dark {
+  color: #a0a0a0 !important; /* Specific muted color for "No Subject" */
+}
+
+.text-info-custom {
+    color: #8be9fd !important; /* Light blue for teacher names */
+}
+
+/* Clickable Cell for onCellClick prop */
+.clickable-cell {
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  padding: 0.5rem; /* Padding for the clickable div */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 70px; /* Ensure a minimum height for clickable area */
+  border-radius: 8px; /* Rounded border for clickable area */
+}
+
+.clickable-cell:hover {
+  background-color: #3b3b5c !important; /* Darker blue on hover */
+  transform: scale(1.02); /* Slight scale effect */
+}
+
+/* Empty State Styles */
+.timetable-empty-state-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px; /* Ensure sufficient height for empty state */
+    padding: 2rem;
+}
+
+.timetable-empty-state-card {
+  background-color: #2c2c4d; /* Consistent card background */
+  color: #e0e0e0;
+  border: none;
+  border-radius: 15px;
+  padding: 3rem 2rem;
+  max-width: 650px; /* Wider for the note */
+  width: 100%;
+  box-shadow: none; /* No shadow */
+  text-align: center;
+}
+
+.timetable-empty-state-card h4 {
+  color: #f0f0f0;
+  font-size: 1.6rem;
+}
+
+.timetable-empty-state-card .text-muted {
+  color: #a0a0a0 !important;
+}
+
+.timetable-upload-area {
+  background-color: #3b3b5c;
+  border: 2px dashed #6a6a99;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #f0f0f0;
+}
+
+.timetable-upload-area.drag-over {
+  background-color: #4f4f7a;
+  border-color: #8c8cd9;
+  box-shadow: 0 0 15px rgba(140, 140, 217, 0.5); /* Subtle glow on drag over */
+}
+
+.timetable-note-box {
+  background-color: #1a1a2e; /* Darker background for the note */
+  border: 1px solid #00aaff; /* Primary color border for emphasis */
+  color: #e0e0e0;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.timetable-note-box .text-muted-custom {
+  color: #a0a0a0 !important; /* Ensure muted text is readable */
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+  .timetable-table .day-name {
+    width: 90px; /* Adjust day column width */
+    padding-left: 0.5rem;
+  }
+  .timetable-table .timetable-cell {
+    min-width: 100px; /* Smaller min-width for cells */
+  }
+  .timetable-input {
+    font-size: 0.75rem; /* Smaller font for inputs */
+    padding: 0.3rem 0.5rem;
+  }
+  .timetable-display-content .subject-name {
+    font-size: 0.85rem;
+  }
+  .timetable-display-content .teacher-name {
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .timetable-section {
+    padding: 1rem;
+  }
+  .timetable-section h4 {
+    font-size: 1.5rem;
+  }
+  .edit-timetable-btn, .save-btn, .cancel-btn,
+  .timetable-empty-state-card .btn {
+    width: 100%; /* Full width buttons on very small screens */
+    margin-bottom: 0.5rem; /* Add spacing between stacked buttons */
+  }
+  .save-btn.me-2 {
+    margin-right: 0 !important; /* Remove margin if stacked */
+  }
+}

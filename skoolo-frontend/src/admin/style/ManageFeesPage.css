@@ -1,0 +1,43 @@
+.main-fee-container {
+    background-color: #121212; /* Darker than Bootstrap's bg-dark (#212529) */
+  }
+  
+  .form-control,
+  .form-select {
+    background-color: #1e1e1e !important;
+    color: #fff !important;
+    border-color: #444 !important;
+  }
+  
+  .table-dark th,
+  .table-dark td {
+    background-color: #1a1a1a !important;
+    color: #fff;
+  }
+  /* Make placeholder text visible on dark backgrounds */
+::placeholder {
+    color: #aaa !important; /* or any lighter shade */
+    opacity: 1;
+  }
+  
+  /* For WebKit browsers (Chrome, Safari) */
+  input::-webkit-input-placeholder {
+    color: #aaa !important;
+  }
+  
+  /* For Firefox */
+  input:-moz-placeholder {
+    color: #aaa !important;
+    opacity: 1;
+  }
+  
+  input::-moz-placeholder {
+    color: #aaa !important;
+    opacity: 1;
+  }
+  
+  /* For IE */
+  input:-ms-input-placeholder {
+    color: #aaa !important;
+  }
+  
