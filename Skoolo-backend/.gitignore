@@ -1,0 +1,28 @@
+# --- Java / Spring Boot ---
+target/
+*.class
+*.jar
+*.war
+*.log
+*.iml
+
+# --- VSCode / IntelliJ ---
+.idea/
+.vscode/
+*.iws
+*.ipr
+
+# --- OS Files ---
+.DS_Store
+Thumbs.db
+
+# --- Node / React ---
+node_modules/
+build/
+.env
+dist/
+*.lock
+
+# --- Logs ---
+logs/
+*.log
