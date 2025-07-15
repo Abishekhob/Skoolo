@@ -16,6 +16,8 @@ import TeacherTimetable from './teacher/TeacherTimetable';
 import TeacherStudents from './teacher/TeacherStudents';
 import TeacherAttendance from './teacher/TeacherAttendance';
 import TeacherAssignments from './teacher/TeacherAssignments';
+import MessagesPage from './teacher/MessagesPage';
+import TeacherProfile from './teacher/TeacherProfile';
 
 // In src/index.js or src/App.js
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -49,7 +51,10 @@ const App = () => {
         <Route path="/teacher/attendance" element={<TeacherAttendance />} />
         <Route path="/teacher/assignments" element={<TeacherAssignments />} />
         <Route path="/teacher/grades" element={<TeacherGrades />} />
-       
+        <Route path="/teacher/messages" element={<MessagesPage />} />
+        <Route path="/teacher/profile" element={<TeacherProfile />} />
+
+
       </Routes>
 
     

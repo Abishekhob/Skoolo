@@ -1,0 +1,306 @@
+/* TeacherProfile.module.css */
+
+.profileLayout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0d1117, #161b22);
+  font-family: 'Inter', sans-serif;
+  color: #f0f0f0;
+}
+
+@media (min-width: 768px) {
+  .profileLayout {
+    flex-direction: row;
+  }
+}
+
+.profileContent {
+  flex-grow: 1;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.mainHeading {
+  font-size: 2.2rem;
+  color: #58a6ff;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid #30363d;
+  padding-bottom: 0.8rem;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.headingIcon {
+  margin-right: 0.8rem;
+  color: #58a6ff;
+  font-size: 2.5rem;
+}
+
+.profileCard {
+  background: rgba(32, 35, 41, 0.9);
+  border-radius: 18px;
+  padding: 2.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  animation: slideInUp 0.6s ease-out;
+}
+
+@media (min-width: 768px) {
+  .profileCard {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+
+.profilePicSection {
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profilePic {
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid #30363d;
+  box-shadow: 0 5px 15px rgba(255, 255, 255, 0.05);
+  transition: transform 0.3s ease;
+}
+
+.profilePic:hover {
+  transform: scale(1.05);
+}
+
+.fileUploadLabel {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 1rem;
+  padding: 0.6rem 1.2rem;
+  background-color: #238636;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.fileUploadLabel:hover {
+  background-color: #2ea043;
+  transform: translateY(-2px);
+}
+
+.uploadIcon {
+  margin-right: 0.5rem;
+}
+
+.fileInput {
+  display: none;
+}
+
+.profileDetails {
+  flex-grow: 1;
+  width: 100%;
+}
+
+.viewMode p {
+  font-size: 1.1rem;
+  margin-bottom: 0.8rem;
+  color: #c9d1d9;
+  display: flex;
+  align-items: center;
+}
+
+.detailIcon {
+  margin-right: 0.8rem;
+  color: #8b949e;
+}
+
+.section {
+  background: rgba(32, 35, 41, 0.85);
+  border-radius: 15px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  animation: slideInUp 0.7s ease-out forwards;
+  opacity: 0;
+}
+
+.section:nth-of-type(2) { animation-delay: 0.1s; }
+.section:nth-of-type(3) { animation-delay: 0.2s; }
+
+.sectionHeading {
+  font-size: 1.8rem;
+  color: #58a6ff;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px dashed #444c56;
+  padding-bottom: 0.5rem;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.list li {
+  background-color: rgba(240, 248, 255, 0.05);
+  padding: 0.8rem 1.2rem;
+  margin-bottom: 0.6rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.02);
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  color: #dcdcdc;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.list li:hover {
+  transform: translateX(5px);
+  background-color: rgba(240, 248, 255, 0.08);
+}
+
+.editForm {
+  display: grid;
+  gap: 1.2rem;
+  margin-top: 1.5rem;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.inputGroup label {
+  font-size: 0.9rem;
+  color: #8b949e;
+  margin-bottom: 0.4rem;
+  font-weight: 500;
+}
+
+.formControl {
+  width: 100%;
+  padding: 0.9rem 1.2rem;
+  border: 1px solid #30363d;
+  border-radius: 10px;
+  font-size: 1rem;
+  background-color: #0d1117;
+  color: #f0f0f0;
+}
+
+.formControl:focus {
+  outline: none;
+  border-color: #58a6ff;
+  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.2);
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 0.8rem 1.8rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.btn svg {
+  margin-right: 0.7rem;
+}
+
+.btnEdit {
+  background-color: #58a6ff;
+  color: #0d1117;
+}
+
+.btnEdit:hover {
+  background-color: #1f6feb;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(88, 166, 255, 0.3);
+}
+
+.btnSave {
+  background-color: #2ea043;
+  color: white;
+}
+
+.btnSave:hover {
+  background-color: #238636;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(46, 160, 67, 0.3);
+}
+
+.btnCancel {
+  background-color: #6e7681;
+  color: white;
+}
+
+.btnCancel:hover {
+  background-color: #484f58;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(255, 255, 255, 0.05);
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  font-size: 1.2rem;
+  color: #8b949e;
+}
+
+.spinner {
+  border: 4px solid rgba(255, 255, 255, 0.1);
+  border-left-color: #58a6ff;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
