@@ -2,7 +2,6 @@ package com.example.Skoolo.service;
 
 import com.example.Skoolo.dto.TeacherDTO;
 import com.example.Skoolo.dto.TeacherRequest;
-import com.example.Skoolo.dto.TimetableEntryDto;
 import com.example.Skoolo.model.*;
 import com.example.Skoolo.model.enums.Role;
 import com.example.Skoolo.repo.*;
@@ -174,7 +173,7 @@ public class TeacherService {
         dto.setFirstName(teacher.getFirstName());
         dto.setLastName(teacher.getLastName());
         dto.setContactNumber(teacher.getContactNumber());
-        dto.setRole(teacher.getRole());
+
 
         // Get email from the linked user
         dto.setEmail(teacher.getUser() != null ? teacher.getUser().getEmail() : null);

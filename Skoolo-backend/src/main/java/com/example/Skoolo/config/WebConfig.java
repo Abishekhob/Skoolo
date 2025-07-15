@@ -5,12 +5,14 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class StaticResourceConfig implements WebMvcConfigurer {
+public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry
-                .addResourceHandler("/uploads/**")
+        // This serves URLs like /uploads/filename.jpg
+        // from the "uploads" folder relative to your backend working directory
+        registry.addResourceHandler("/uploads/**")
                 .addResourceLocations("file:uploads/");
     }
 }
+

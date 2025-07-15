@@ -1,13 +1,16 @@
 package com.example.Skoolo.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-
 import java.time.LocalDateTime;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "messages")
-@Data
 public class Message {
 
     @Id
@@ -21,13 +24,13 @@ public class Message {
     private User sender;
 
     @ManyToOne
-    @JoinColumn(name = "receiver_id")
     private User receiver;
 
-
     private String content;
-    private String fileUrl;
+    private String type;
     private LocalDateTime timestamp;
-    private boolean isRead;
-    private String type; // text, file, etc.
+
+    private String attachment;
+
+    private boolean read = false;
 }

@@ -14,5 +14,7 @@ public interface TeacherSubjectAssignmentRepository extends JpaRepository<Teache
     Optional<Object> findByTeacherIdAndSubjectIdAndClassEntityIdAndSectionId(Long teacherId, Long subjectId, Long classId, Long sectionId);
 
     List<TeacherSubjectAssignment> findByTeacher_Id(Long teacherId);
+
+    List<TeacherSubjectAssignment> findByTeacherId(Long teacherId);
 }
 

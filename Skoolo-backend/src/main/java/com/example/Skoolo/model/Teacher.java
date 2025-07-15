@@ -30,8 +30,6 @@ public class Teacher {
     private String lastName;
     private String contactNumber;
 
-    private String role; // class_teacher, subject_teacher, counselor, admin
-
     @JsonIgnore
     @ManyToMany
     @JoinTable(
@@ -55,6 +53,8 @@ public class Teacher {
     @OneToMany(mappedBy = "classTeacher")
     private List<Section> classTeacherSections;
 
+
+    private String profilePicUrl; // New field
 
     public String getFullName() {
         return firstName + " " + lastName;

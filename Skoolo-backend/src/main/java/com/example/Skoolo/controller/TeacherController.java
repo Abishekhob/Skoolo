@@ -5,7 +5,6 @@ import com.example.Skoolo.dto.TimetableEntryDto;
 import com.example.Skoolo.model.Section;
 import com.example.Skoolo.model.Teacher;
 import com.example.Skoolo.model.TeacherSubjectAssignment;
-import com.example.Skoolo.model.User;
 import com.example.Skoolo.repo.SectionRepository;
 import com.example.Skoolo.repo.TeacherRepository;
 import com.example.Skoolo.repo.TeacherSubjectAssignmentRepository;
@@ -126,18 +125,32 @@ public class TeacherController {
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping("/{teacherId}/user")
-    public ResponseEntity<User> getUserForTeacher(@PathVariable Long teacherId) {
-        Teacher teacher = teacherRepository.findById(teacherId)
-                .orElseThrow(() -> new RuntimeException("Teacher not found with id: " + teacherId));
-
-        User user = teacher.getUser(); // assuming there's a `getUser()` method
-        if (user == null) {
-            throw new RuntimeException("No user linked to teacher ID: " + teacherId);
-        }
-
-        return ResponseEntity.ok(user);
+    @GetMapping("/{teacherId}")
+    public ResponseEntity<?> getTeacherById(@PathVariable Long teacherId) {
+        return teacherRepository.findById(teacherId)
+                .map(teacher -> {
+                    // return minimal info, including userId
+                    return ResponseEntity.ok(new TeacherUserIdDTO(teacher.getId(), teacher.getUser().getId()));
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
 
+    // DTO class to return minimal data
+    static class TeacherUserIdDTO {
+        private Long teacherId;
+        private Long userId;
 
+        public TeacherUserIdDTO(Long teacherId, Long userId) {
+            this.teacherId = teacherId;
+            this.userId = userId;
+        }
+
+        public Long getTeacherId() {
+            return teacherId;
+        }
+
+        public Long getUserId() {
+            return userId;
+        }
+    }
 }

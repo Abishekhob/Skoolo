@@ -1,32 +1,29 @@
 package com.example.Skoolo.model;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime; // Import LocalDateTime
-import java.util.Set;
-import lombok.Data; // Ensure Lombok is correctly imported and configured
+import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Data // This Lombok annotation generates getters, setters, equals, hashCode, and toString
+@Table(name = "conversations")
 public class Conversation {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
-    private String name; // optional for groups, now also for 1-on-1 display
+    @ManyToOne
+    private User user1;
 
-    @Column(nullable = false) // isGroup should not be null
-    private Boolean isGroup = false; // Default to false (not a group)
+    @ManyToOne
+    private User user2;
 
-    private LocalDateTime createdAt; // ADD THIS LINE
+    private LocalDateTime createdAt = LocalDateTime.now();
 
-    @ManyToMany
-    @JoinTable(
-            name = "conversation_participants",
-            joinColumns = @JoinColumn(name = "conversation_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
-    private Set<User> participants;
-
-    // You can add a constructor or @Builder for convenience if needed,
-    // but @Data handles basic getter/setter generation.
+    // Optional: type like PARENT_TEACHER or TEACHER_TEACHER
 }
+

@@ -1,19 +1,20 @@
 package com.example.Skoolo.controller;
 
 import com.example.Skoolo.dto.PasswordDTO;
-import com.example.Skoolo.model.Parent;
 import com.example.Skoolo.model.PasswordResetToken;
 import com.example.Skoolo.model.User;
 import com.example.Skoolo.repo.ParentRepository;
 import com.example.Skoolo.repo.PasswordResetTokenRepository;
 import com.example.Skoolo.repo.UserRepository;
+import com.example.Skoolo.service.ConversationService;
 import java.time.LocalDateTime;
-import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @RequestMapping("/api/user/")
 @Controller
@@ -27,6 +28,8 @@ public class UserController {
     private UserRepository userRepository;
     @Autowired
     private ParentRepository parentRepository;
+    @Autowired
+    private ConversationService conversationService;
 
     @PostMapping("/set-password")
     public ResponseEntity<String> setPassword(@RequestBody PasswordDTO dto) {
@@ -48,21 +51,6 @@ public class UserController {
     }
 
 
-    @GetMapping("/chat-contacts")
-    public ResponseEntity<List<User>> getChatContacts(@RequestParam Long teacherId) {
-        List<Parent> parents = parentRepository.findParentsByTeacherId(teacherId);
-        List<User> parentUsers = parents.stream()
-                .map(Parent::getUser)
-                .filter(Objects::nonNull)
-                .toList();
 
-        List<User> otherTeachers = userRepository.findOtherTeachers(teacherId);
-
-        Set<User> combined = new HashSet<>();
-        combined.addAll(parentUsers);
-        combined.addAll(otherTeachers);
-
-        return ResponseEntity.ok(new ArrayList<>(combined));
-    }
 
 }

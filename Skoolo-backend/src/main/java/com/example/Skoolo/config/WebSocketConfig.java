@@ -1,4 +1,5 @@
 package com.example.Skoolo.config;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.*;
@@ -8,15 +9,16 @@ import org.springframework.web.socket.config.annotation.*;
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
-    public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws-chat") // endpoint must match frontend URL
-                .setAllowedOrigins("http://localhost:5173") // allow your React origin
-                .withSockJS(); // enable SockJS fallback endpoints like /ws-chat/info
+    public void configureMessageBroker(MessageBrokerRegistry config) {
+        // Client subscribes to these prefixes for receiving messages
+        config.enableSimpleBroker("/topic");
+        // Client sends messages to these prefixes
+        config.setApplicationDestinationPrefixes("/app");
     }
 
     @Override
-    public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/topic");
-        config.setApplicationDestinationPrefixes("/app");
+    public void registerStompEndpoints(StompEndpointRegistry registry) {
+        // Endpoint for WebSocket connection with SockJS fallback
+        registry.addEndpoint("/ws-chat").setAllowedOriginPatterns("*").withSockJS();
     }
 }

@@ -20,4 +20,5 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
 
     Optional<Teacher> findById(Long id);
 
+    Teacher findByUserId(Long id);
 }

@@ -28,6 +28,5 @@ public interface ParentRepository extends JpaRepository<Parent, Long> {
     List<Parent> findParentsByTeacherId(@Param("teacherId") Long teacherId);
 
 
-
-
+    Parent findByUserId(Long id);
 }
