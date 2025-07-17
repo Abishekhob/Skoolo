@@ -3,6 +3,7 @@ package com.example.Skoolo.service;
 import com.example.Skoolo.dto.AuthRequest;
 import com.example.Skoolo.dto.AuthResponse;
 import com.example.Skoolo.dto.RegisterRequest;
+import com.example.Skoolo.model.Parent;
 import com.example.Skoolo.model.User;
 import com.example.Skoolo.repo.ParentRepository;
 import com.example.Skoolo.repo.TeacherRepository;
@@ -38,14 +39,26 @@ public class AuthService {
 
         userRepository.save(user);
 
-        String token = jwtUtils.generateToken(new CustomUserDetails(user));
         AuthResponse response = new AuthResponse();
+        String token = jwtUtils.generateToken(new CustomUserDetails(user));
         response.setToken(token);
         response.setRole(user.getRole().name());
+
+        if (user.getRole().name().equals("PARENT")) {
+            Parent parent = new Parent();
+            parent.setUser(user);
+            parent.setFirstName(user.getFirstName());
+            parent.setLastName(user.getLastName());
+            parent.setContactNumber(""); // set default or from request if you add it
+            parent.setAddress("");       // set default or from request if you add it
+            parentRepository.save(parent);
+
+            response.setParentId(parent.getId()); // ✅ Now it will return the ID to frontend
+        }
+
         return response;
-
-
     }
+
 
     public AuthResponse login(AuthRequest request) {
         authenticationManager.authenticate(

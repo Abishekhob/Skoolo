@@ -43,7 +43,7 @@ public class MessageService {
     }
 
     // ✅ Send message method with full logic
-      public Message sendMessage(Long conversationId, Long senderId, Long receiverId, String content, String type, MultipartFile file) {
+    public Message sendMessage(Long conversationId, Long senderId, Long receiverId, String content, String type, MultipartFile file) {
         Conversation conversation = conversationRepository.findById(conversationId)
                 .orElseThrow(() -> new RuntimeException("Conversation not found"));
 
@@ -53,6 +53,20 @@ public class MessageService {
         User receiver = userRepository.findById(receiverId)
                 .orElseThrow(() -> new RuntimeException("Receiver not found"));
 
+        System.out.println("conversationId: " + conversationId);
+        System.out.println("senderId: " + senderId);
+        System.out.println("receiverId: " + receiverId);
+        System.out.println("conversation.user1: " + conversation.getUser1().getId());
+        System.out.println("conversation.user2: " + conversation.getUser2().getId());
+
+        if (!(
+                (conversation.getUser1().getId().equals(senderId) && conversation.getUser2().getId().equals(receiverId)) ||
+                        (conversation.getUser1().getId().equals(receiverId) && conversation.getUser2().getId().equals(senderId))
+        )) {
+            System.out.println("❌ Users not part of this conversation");
+            throw new RuntimeException("Users not part of this conversation");
+        }
+
         Message message = new Message();
         message.setConversation(conversation);
         message.setSender(sender);
@@ -61,30 +75,28 @@ public class MessageService {
         message.setType(type);
         message.setTimestamp(LocalDateTime.now());
 
-          if (file != null && !file.isEmpty()) {
-              try {
-                  String uploadsDir = "uploads/";
-                  Path uploadsPath = Paths.get(uploadsDir);
+        if (file != null && !file.isEmpty()) {
+            try {
+                String uploadsDir = "uploads/";
+                Path uploadsPath = Paths.get(uploadsDir);
 
-                  if (!Files.exists(uploadsPath)) {
-                      Files.createDirectories(uploadsPath);
-                  }
+                if (!Files.exists(uploadsPath)) {
+                    Files.createDirectories(uploadsPath);
+                }
 
-                  // ✅ Sanitize filename (remove spaces and special characters)
-                  String originalName = file.getOriginalFilename().replaceAll("\\s+", "_").replaceAll("[^a-zA-Z0-9._-]", "");
-                  String filename = System.currentTimeMillis() + "_" + originalName;
+                String originalName = file.getOriginalFilename().replaceAll("\\s+", "_").replaceAll("[^a-zA-Z0-9._-]", "");
+                String filename = System.currentTimeMillis() + "_" + originalName;
 
-                  Path filePath = uploadsPath.resolve(filename);
+                Path filePath = uploadsPath.resolve(filename);
 
-                  Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+                Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-                  message.setAttachment(filename);
-              } catch (IOException e) {
-                  throw new RuntimeException("Failed to save file", e);
-              }
-          }
+                message.setAttachment(filename);
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to save file", e);
+            }
+        }
 
-          // Save message entity
         return messageRepository.save(message);
     }
 

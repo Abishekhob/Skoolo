@@ -149,20 +149,25 @@ public class ConversationService {
             return false;
         }
 
-        List<Long> teacherClassIds = teacher.getClasses().stream().map(ClassEntity::getId).toList();
+        // 🔄 Use SECTION instead of just class
+        List<TeacherSubjectAssignment> assignments = assignmentRepository.findByTeacher(teacher);
+        Set<Long> teacherSectionIds = assignments.stream()
+                .map(a -> a.getSection().getId())
+                .collect(Collectors.toSet());
 
-        System.out.println("teacherCanChatWithParent: Teacher classes: " + teacherClassIds);
+        System.out.println("teacherCanChatWithParent: Teacher teaches sections: " + teacherSectionIds);
 
         for (Student child : parent.getChildren()) {
-            Long childClassId = child.getCurrentClass() != null ? child.getCurrentClass().getId() : null;
-            System.out.println("Checking child " + child.getId() + " current class: " + childClassId);
-            if (childClassId != null && teacherClassIds.contains(childClassId)) {
-                System.out.println("Parent's child is in teacher's class.");
+            Long childSectionId = child.getCurrentSection() != null ? child.getCurrentSection().getId() : null;
+            System.out.println("Checking child " + child.getId() + " current section: " + childSectionId);
+            if (childSectionId != null && teacherSectionIds.contains(childSectionId)) {
+                System.out.println("✅ Parent's child is in teacher's section.");
                 return true;
             }
         }
         return false;
     }
+
 
     private boolean teachersShareClass(User teacherUser1, User teacherUser2) {
         Teacher t1 = teacherRepository.findByUserId(teacherUser1.getId());
@@ -194,46 +199,58 @@ public class ConversationService {
         User currentUser = userRepository.findById(currentUserId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        List<User> allUsers = userRepository.findAll();
         List<ChatUserDTO> allowed = new ArrayList<>();
 
+        // 1. Add default eligible users (via permission checks)
+        List<User> allUsers = userRepository.findAll();
         for (User u : allUsers) {
             if (u.getId().equals(currentUserId)) continue;
 
-            boolean canChat = canUsersChat(currentUser, u);
-            if (canChat) {
+            if (canUsersChat(currentUser, u)) {
                 allowed.add(new ChatUserDTO(
                         u.getId(),
                         u.getFirstName(),
                         u.getLastName(),
                         u.getRole(),
-                        false,
-                        getProfilePicUrlForUser(u)  // 👈 Add profile pic
+                        isClassTeacher(u),
+                        getProfilePicUrlForUser(u)
                 ));
-
             }
         }
 
+        // 2. Add parents of students in teacher's class/section
         if (currentUser.getRole() == Role.TEACHER) {
-            Teacher currentTeacher = teacherRepository.findByUserId(currentUserId);
-            if (currentTeacher != null) {
-                List<Teacher> classTeachers = findClassTeachersForTeacher(currentTeacher);
+            Teacher teacher = teacherRepository.findByUserId(currentUserId);
+            if (teacher != null) {
+                List<TeacherSubjectAssignment> assignments = assignmentRepository.findByTeacher(teacher);
 
-                for (Teacher classTeacher : classTeachers) {
-                    User classTeacherUser = classTeacher.getUser();
+                Set<Long> sectionIds = assignments.stream()
+                        .map(a -> a.getSection().getId())
+                        .collect(Collectors.toSet());
 
-                    boolean alreadyInList = allowed.stream()
-                            .anyMatch(dto -> dto.getId().equals(classTeacherUser.getId()));
+                if (!sectionIds.isEmpty()) {
+                    // Find students in those sections
+                    List<Student> students = studentRepository.findByCurrentSectionIdIn(sectionIds);
 
-                    if (!alreadyInList) {
-                        allowed.add(new ChatUserDTO(
-                                classTeacherUser.getId(),
-                                classTeacherUser.getFirstName(),
-                                classTeacherUser.getLastName(),
-                                classTeacherUser.getRole(),
-                                true ,// ✅ This user is a class teacher
-                                getProfilePicUrlForUser(classTeacherUser)
-                        ));
+                    for (Student student : students) {
+                        Parent parent = student.getParent();
+                        if (parent == null || parent.getUser() == null) continue;
+
+                        User parentUser = parent.getUser();
+
+                        boolean alreadyExists = allowed.stream()
+                                .anyMatch(dto -> dto.getId().equals(parentUser.getId()));
+
+                        if (!alreadyExists) {
+                            allowed.add(new ChatUserDTO(
+                                    parentUser.getId(),
+                                    parentUser.getFirstName(),
+                                    parentUser.getLastName(),
+                                    parentUser.getRole(),
+                                    false,
+                                    getProfilePicUrlForUser(parentUser)
+                            ));
+                        }
                     }
                 }
             }
@@ -241,6 +258,7 @@ public class ConversationService {
 
         return allowed;
     }
+
 
     private boolean isClassTeacher(User user) {
         if (user.getRole() != Role.TEACHER) return false;

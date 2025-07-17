@@ -1,6 +1,5 @@
 package com.example.Skoolo.service;
 
-import com.example.Skoolo.dto.ParentDTO;
 import com.example.Skoolo.model.Parent;
 import com.example.Skoolo.model.PasswordResetToken;
 import com.example.Skoolo.model.Student;
@@ -11,19 +10,6 @@ import com.example.Skoolo.repo.PasswordResetTokenRepository;
 import com.example.Skoolo.repo.StudentRepository;
 import com.example.Skoolo.repo.UserRepository;
 import com.opencsv.CSVReader;
-import lombok.RequiredArgsConstructor;
-import org.apache.poi.ss.usermodel.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.multipart.MultipartFile;
-
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -31,6 +17,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import lombok.RequiredArgsConstructor;
+import org.apache.poi.ss.usermodel.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
@@ -173,8 +164,10 @@ public class ParentService {
     }
 
 
-
-
-
-
+    public List<Student> getChildrenOfParent(Long parentId) {
+        Parent parent = parentRepository.findById(parentId).orElseThrow(
+                () -> new RuntimeException("Parent not found with ID: " + parentId)
+        );
+        return parent.getChildren();
+    }
 }

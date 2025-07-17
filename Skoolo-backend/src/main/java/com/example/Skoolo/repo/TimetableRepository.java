@@ -1,5 +1,7 @@
 package com.example.Skoolo.repo;
 
+import com.example.Skoolo.model.ClassEntity;
+import com.example.Skoolo.model.Section;
 import com.example.Skoolo.model.Timetable;
 import java.util.List;
 import java.util.Optional;
@@ -25,4 +27,6 @@ public interface TimetableRepository extends JpaRepository<Timetable, Long> {
     List<Timetable> findByTeacherId(Long teacherId);
 
     Optional<Timetable> findByDayOfWeekAndPeriodAndClassEntity_IdAndSection_Id(String dayOfWeek, String period, Long classId, Long sectionId);
+
+    List<Timetable> findByClassEntityAndSection(ClassEntity classEntity, Section section);
 }
