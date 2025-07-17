@@ -10,7 +10,8 @@ import { FaEnvelopeOpenText } from 'react-icons/fa'; // Import from 'react-icons
 
 import './style/ChatWindow.css'; // Import our custom CSS
 
-const ChatWindow = ({ conversationId, userId }) => {
+const ChatWindow = ({ conversationId, userId, otherUser }) => {
+
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
@@ -109,17 +110,23 @@ const [lightboxImageUrl, setLightboxImageUrl] = useState(null);
     if (!input.trim() && !file) return;
 
     // Determine receiverId for the new message
-    let receiverId = null;
-    if (messages.length > 0) {
-      const lastMessage = messages[messages.length - 1];
-      // The receiver is the user who is NOT the current sender
-      receiverId = lastMessage.sender.id === userId
-        ? lastMessage.receiver.id
-        : lastMessage.sender.id;
-    }
-    // Fallback: If no previous messages, you might need to get receiverId from conversationId context
-    // This part assumes conversationId implies the other participant, or your backend handles it.
-    // For a 1-to-1 chat, the backend can usually infer the receiver.
+let receiverId = null;
+if (messages.length > 0) {
+  const lastMessage = messages[messages.length - 1];
+  // The receiver is the user who is NOT the current sender
+  receiverId = lastMessage.sender.id === userId
+    ? lastMessage.receiver.id
+    : lastMessage.sender.id;
+} else if (otherUser?.id) {
+  // If no messages, use the passed otherUser prop
+  receiverId = otherUser.id;
+}
+
+if (!receiverId) {
+  console.error("Cannot determine receiverId to send message.");
+  return; // stop sending if no receiver found
+}
+
 
     const message = {
       conversationId,
@@ -140,6 +147,11 @@ const [lightboxImageUrl, setLightboxImageUrl] = useState(null);
     if (file) {
       formData.append('file', file);
     }
+
+    console.log("Sending message with:");
+console.log("conversationId:", conversationId);
+console.log("senderId:", userId);
+console.log("receiverId:", receiverId);
 
     try {
       // Send message via API (WS will push it to all subscribers)

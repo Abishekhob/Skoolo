@@ -125,7 +125,7 @@ const TeacherTimetable = () => {
                     <tr>
                       <th className={styles.dayColHeader}>Day</th>
                       {periods.map(period => (
-                        <th key={period} className={styles.periodColHeader}>{period} Period</th>
+                        <th key={period} className={styles.periodColHeader}>Period {period}</th>
                       ))}
                     </tr>
                   </thead>

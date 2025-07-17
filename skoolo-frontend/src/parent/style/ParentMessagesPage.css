@@ -1,0 +1,583 @@
+/* Overall Layout with CSS Grid */
+.app-container {
+    display: grid;
+    grid-template-columns: var(--sidebar-width, 250px) 1fr; /* Default for larger screens */
+    height: 100vh; /* Full viewport height */
+    overflow: hidden; /* Prevent body scroll, content areas will scroll */
+    background: linear-gradient(135deg, #1a2a3a, #0a1a2a); /* Deep, sophisticated background */
+    color: #e0e0e0; /* Light text for dark background */
+}
+
+/* Sidebar Styling */
+.main-sidebar {
+    grid-column: 1; /* Place in the first column */
+    background-color: #0d1721; /* Darker shade for the sidebar */
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
+    padding: 20px 0; /* Padding around the ParentSidebar content */
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; /* Allow sidebar content to scroll if needed */
+}
+
+/* Main Content Area Styling */
+.main-content-area {
+    grid-column: 2; /* Place in the second column */
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Ensure it takes full height */
+    overflow: hidden; /* Manage internal scrolling */
+    position: relative; /* For absolute positioning of mobile toggle */
+    background: #111b27; /* Slightly lighter than app-container for contrast */
+}
+
+/* Row within main-content-area to manage conversations and chat window */
+.main-content-area .row {
+    flex-grow: 1; /* Make the row take available height */
+    overflow: hidden; /* Prevent row overflow */
+}
+
+/* Loading Overlay */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(17, 27, 39, 0.95); /* Darker, slightly transparent overlay */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1050; /* Above everything */
+    color: #fff;
+    font-size: 1.2rem;
+}
+
+.loading-text {
+    margin-top: 15px;
+    font-weight: 500;
+}
+
+.spinner-border {
+    color: #007bff !important; /* Bootstrap primary blue */
+}
+
+/* No User ID State */
+.no-user-id {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-size: 1.5rem;
+    color: #e74c3c; /* Red color for error state */
+    background: linear-gradient(135deg, #1a2a3a, #0a1a2a);
+}
+
+/* Conversations Sidebar */
+.conversations-sidebar {
+    background-color: #1a2a3a; /* Darker background for conversation list */
+    border-right: 1px solid rgba(255, 255, 255, 0.08); /* Subtle separator */
+    padding: 20px;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
+    overflow-y: auto; /* Enable scrolling for conversation list */
+}
+
+.sidebar-header {
+    margin-bottom: 25px !important;
+}
+
+.sidebar-header h5 {
+    font-weight: 600;
+    color: #e0e0e0;
+}
+
+.start-chat-button {
+    background-color: #007bff; /* Bootstrap primary */
+    border-color: #007bff;
+    font-weight: 500;
+    padding: 8px 15px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.start-chat-button:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+/* Conversation List */
+.conversation-list {
+    background-color: transparent;
+    border: none;
+    flex-grow: 1;
+}
+
+.conversation-item {
+    background-color: rgba(255, 255, 255, 0.05); /* Slightly visible background */
+    border: none;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    padding: 15px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    color: #e0e0e0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: relative; /* For info icon positioning */
+}
+
+.conversation-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.conversation-item.selected {
+    background-color: #007bff; /* Highlight selected item */
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
+    transform: translateY(0); /* Reset transform if already active */
+}
+
+.conversation-item.selected .text-muted,
+.conversation-item.selected .info-icon-btn {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.user-name {
+    font-weight: 600;
+    font-size: 1.1em;
+    display: flex;
+    align-items: center;
+}
+
+.last-message-preview {
+    font-size: 0.85em;
+    color: #a0a0a0;
+}
+
+.crown-icon {
+    color: #ffc107; /* Gold color for crown */
+    font-size: 0.9em;
+    margin-left: 5px;
+}
+
+.info-icon-btn {
+    color: #a0a0a0; /* Subtle color for info icon */
+    background: none;
+    border: none;
+    padding: 0;
+    margin-left: auto; /* Push to the right */
+    opacity: 0; /* Hidden by default */
+    transition: opacity 0.2s ease;
+}
+
+.conversation-item:hover .info-icon-btn {
+    opacity: 1; /* Show on hover */
+}
+
+.conversation-item.selected .info-icon-btn {
+    opacity: 1; /* Always show for selected */
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* User Avatar Placeholders */
+.user-avatar-placeholder {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: #0056b3; /* A pleasant blue for avatars */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    flex-shrink: 0; /* Prevent shrinking */
+    overflow: hidden; /* Hide overflow for images */
+    border: 2px solid rgba(255, 255, 255, 0.2); /* Subtle border */
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.user-avatar-placeholder:hover {
+    transform: scale(1.05);
+}
+
+.user-avatar-placeholder.smaller-avatar {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+}
+
+.profile-pic-avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensure image covers the area */
+}
+
+
+/* Empty State for Conversations */
+.empty-state {
+    text-align: center;
+    color: #a0a0a0;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%; /* Take full height of its container */
+}
+
+.empty-state svg {
+    color: rgba(255, 255, 255, 0.2); /* Very light, subtle icon */
+}
+
+/* Chat Area */
+.chat-area {
+    background-color: #111b27; /* Dark background for chat window */
+    padding: 0;
+    position: relative; /* For placeholder positioning */
+    display: flex;
+    flex-direction: column; /* Ensure content stacks vertically */
+    height: 100%; /* Take full height of its column */
+}
+
+.chat-header {
+    background-color: #1a2a3a;
+    color: #e0e0e0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    z-index: 10; /* Ensure it stays above chat content */
+}
+
+.chat-header h5 {
+    font-weight: 600;
+    margin-bottom: 0;
+}
+
+.back-to-conversations {
+    color: #007bff !important;
+    background: none;
+    border: none;
+    padding: 0;
+    margin-right: 15px;
+    transition: color 0.2s ease;
+}
+
+.back-to-conversations:hover {
+    color: #0056b3 !important;
+}
+
+/* Chat Placeholder */
+.chat-placeholder {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: #a0a0a0;
+    text-align: center;
+    background: #111b27; /* Match chat area background */
+}
+
+.chat-placeholder h4 {
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.chat-placeholder p {
+    font-size: 0.95em;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.chat-placeholder svg {
+    color: rgba(255, 255, 255, 0.1);
+}
+
+/* Offcanvas (New Chat and Mobile Sidebar) */
+.dark-offcanvas .offcanvas-header,
+.mobile-sidebar-offcanvas .offcanvas-header {
+    background-color: #1a2a3a;
+    color: #e0e0e0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.dark-offcanvas .offcanvas-title,
+.mobile-sidebar-offcanvas .offcanvas-title {
+    font-weight: 600;
+}
+
+.dark-offcanvas .offcanvas-header .btn-close,
+.mobile-sidebar-offcanvas .offcanvas-header .btn-close {
+    filter: invert(1); /* Make close button white */
+}
+
+.dark-offcanvas .offcanvas-body,
+.mobile-sidebar-offcanvas .offcanvas-body {
+    background-color: #0d1721; /* Match sidebar background */
+    color: #e0e0e0;
+    padding: 20px;
+}
+
+.available-user-item {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: none;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    padding: 12px;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    color: #e0e0e0;
+}
+
+.available-user-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateX(3px);
+}
+
+.new-chat-user-name {
+    font-weight: 500;
+}
+
+/* Custom Scrollbar for better aesthetics */
+.custom-scroll::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.custom-scroll::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    border: 2px solid transparent; /* Gives a 'floating' thumb effect */
+    background-clip: content-box;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Profile Modal */
+.profile-modal .modal-content {
+    background: linear-gradient(145deg, #1a2a3a, #0a1a2a); /* Gradient background */
+    color: #e0e0e0;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    overflow: hidden; /* Ensures rounded corners */
+}
+
+.profile-modal-header {
+    background-color: #0d1721;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 20px;
+}
+
+.profile-modal-title {
+    color: #e0e0e0;
+    font-weight: 600;
+}
+
+.profile-modal-header .btn-close {
+    filter: invert(1);
+    color: #e0e0e0; /* Explicitly set color for btn-close icon */
+}
+
+.profile-modal-body {
+    padding: 30px;
+    max-height: 70vh; /* Limit height and enable internal scrolling */
+    overflow-y: auto;
+}
+
+.profile-image-container {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto 25px auto; /* Centered and spaced */
+    border: 4px solid #007bff; /* Primary color ring */
+    box-shadow: 0 0 15px rgba(0, 123, 255, 0.5); /* Glowing effect */
+}
+
+.profile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.info-section {
+    margin-bottom: 25px;
+    padding: 15px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.2); /* Inner shadow */
+}
+
+.info-section p, .info-section ul {
+    margin-bottom: 8px;
+    font-size: 1em;
+}
+
+.info-section p:last-child {
+    margin-bottom: 0;
+}
+
+.info-section strong {
+    color: #007bff; /* Highlight labels */
+    margin-right: 5px;
+}
+
+.sub-info-section {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px dashed rgba(255, 255, 255, 0.1); /* Subtle separator */
+}
+
+.info-list {
+    list-style: none; /* Remove default bullet points */
+    padding-left: 0;
+    margin-top: 10px;
+}
+
+.info-list li {
+    padding: 5px 0;
+    border-bottom: 1px dotted rgba(255, 255, 255, 0.05); /* Dotted separator */
+    font-size: 0.95em;
+}
+
+.info-list li:last-child {
+    border-bottom: none;
+}
+
+.class-assignments-list {
+    list-style-type: disc; /* Use disc bullets for assignments */
+    padding-left: 20px;
+}
+
+/* Mobile Specific Styles */
+@media (max-width: 767.98px) {
+    .app-container {
+        grid-template-columns: 1fr; /* Single column layout for mobile */
+        grid-template-rows: auto 1fr; /* Header then main content */
+    }
+
+    .main-sidebar {
+        display: none !important; /* Hide the fixed sidebar on mobile */
+    }
+
+    .main-content-area {
+        grid-column: 1;
+        grid-row: 1 / span 2; /* Takes full width and height */
+    }
+
+    .mobile-sidebar-toggle-btn {
+        position: absolute; /* Position relative to .main-content-area */
+        top: 15px;
+        left: 15px;
+        z-index: 100; /* Ensure it's above other content */
+        background-color: rgba(0, 123, 255, 0.8); /* Slightly transparent */
+        border-color: rgba(0, 123, 255, 0.8);
+        padding: 10px 15px;
+        border-radius: 8px;
+        font-weight: 500;
+    }
+
+    .mobile-sidebar-toggle-btn:hover {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    .conversations-sidebar.d-none {
+        display: none !important;
+    }
+
+    .chat-area.d-none {
+        display: none !important;
+    }
+    
+    /* When only chat area is visible on mobile */
+    .chat-area {
+        width: 100%;
+    }
+
+    .conversations-sidebar {
+        width: 100%;
+        border-right: none;
+    }
+
+    .chat-header .back-to-conversations {
+        display: block !important; /* Show back button on mobile chat view */
+    }
+
+    .profile-modal-body {
+        padding: 20px;
+    }
+}
+
+
+/* Tablet/Small Laptop Specific Styles */
+@media (min-width: 768px) and (max-width: 1199.98px) {
+    .app-container {
+        grid-template-columns: 220px 1fr; /* Slightly narrower sidebar */
+        --sidebar-width: 220px;
+    }
+
+    .conversations-sidebar {
+        padding: 15px;
+    }
+
+    .sidebar-header {
+        margin-bottom: 20px !important;
+    }
+
+    .conversation-item {
+        padding: 12px;
+    }
+
+    .user-avatar-placeholder {
+        width: 44px;
+        height: 44px;
+        font-size: 1rem;
+    }
+
+    .user-avatar-placeholder.smaller-avatar {
+        width: 36px;
+        height: 36px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Large Laptop/Desktop Specific Styles */
+@media (min-width: 1200px) {
+    .app-container {
+        grid-template-columns: 280px 1fr; /* Wider sidebar */
+        --sidebar-width: 280px;
+    }
+
+    .conversations-sidebar {
+        padding: 25px;
+    }
+
+    .sidebar-header {
+        margin-bottom: 30px !important;
+    }
+
+    .conversation-item {
+        padding: 18px;
+    }
+
+    .user-avatar-placeholder {
+        width: 52px;
+        height: 52px;
+        font-size: 1.2rem;
+    }
+}

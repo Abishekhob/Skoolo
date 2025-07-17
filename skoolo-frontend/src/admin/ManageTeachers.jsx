@@ -117,17 +117,25 @@ const [uploadFileData, setUploadFileData] = useState(null);
       section: selectedSection,
     }).then(() => alert("Assigned as class teacher!"));
   };
+const addTeacher = () => {
+  console.log("Sending new teacher data:", newTeacher);
 
-  const addTeacher = () => {
-  API.post('/admin/teachers/add-teacher', newTeacher)
+  API.post('/admin/teachers/add-teacher', newTeacher, {
+    headers: { 'Content-Type': 'application/json' },
+  })
     .then(() => {
       alert("Teacher added");
       setShowAddModal(false);
       setNewTeacher({ firstName: '', lastName: '', email: '', contactNumber: '' });
       API.get('/teacher').then(res => setTeachers(res.data));
     })
-    .catch(err => alert("Error adding teacher"));
+    .catch(err => {
+      const errorMsg = err.response?.data || err.message || "Error adding teacher";
+      alert(errorMsg);
+      console.error("Add teacher error:", err);
+    });
 };
+
 
 const handleFileUpload = (e) => {
   setUploadFileData(e.target.files[0]);

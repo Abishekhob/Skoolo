@@ -134,8 +134,17 @@ const ManageParents = () => {
         }
       }}
     />
-  </div>
 
+     
+  </div>
+{/* Download sample file button */}
+  <a
+    href="/sample-parent.xlsx"
+    download
+    className="btn btn-outline-light"
+  >
+    ⬇️ Download Sample File
+  </a>
 </div>
 
 

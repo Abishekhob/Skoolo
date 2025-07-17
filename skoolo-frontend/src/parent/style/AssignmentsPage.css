@@ -1,0 +1,212 @@
+/* style/AssignmentsPage.css */
+
+/* --- Global Layout & Base --- */
+body {
+  background-color: #12121e; /* Deep, rich dark background */
+  color: #e0e0e0; /* Light text for readability */
+  font-family: 'Inter', sans-serif; /* Modern, clean font */
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Prevent horizontal scrollbar */
+}
+
+.assignments-wrapper {
+  display: flex;
+  min-height: 100vh;
+  background-color: #12121e; /* Consistent background */
+  width: 100%;
+}
+
+.assignments-content {
+  flex: 1; /* Allows content to take remaining space */
+  padding-left: 260px; /* Adjust according to ParentSidebar width */
+  min-height: 100vh;
+  background-color: #1a1a2e; /* Slightly lighter background for the content area */
+  box-sizing: border-box; /* Include padding in element's total width */
+  padding: 3rem 2.5rem; /* Generous padding for desktop */
+}
+
+/* Responsive adjustments for content area */
+@media (max-width: 768px) {
+  .assignments-content {
+    padding-left: 0; /* Remove sidebar offset on smaller screens */
+    padding: 2rem 1rem; /* Reduced padding for mobile */
+  }
+}
+
+/* --- Heading Styling --- */
+.assignments-heading {
+  font-size: 3rem; /* Larger, more impactful heading */
+  font-weight: 800; /* Bolder */
+  margin-bottom: 3.5rem; /* More space below heading */
+  letter-spacing: -0.06em; /* Tighter letter spacing for boldness */
+  text-align: left;
+  background: linear-gradient(90deg, #b8860b, #daa520); /* Golden gradient for premium feel */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  width: fit-content;
+  max-width: 100%;
+  box-sizing: border-box;
+  text-shadow: 0 0 15px rgba(218, 165, 32, 0.3); /* Subtle glow for the heading */
+}
+
+/* --- Loading, Error, Empty States --- */
+.loading-state, .error-state, .empty-state {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 10rem); /* Take up most of the viewport height */
+  color: #e0e0e0;
+  text-align: center;
+  gap: 1.5rem; /* Space between spinner/alert and text */
+}
+
+.loading-text {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #a0c0ff; /* Soft blue for loading text */
+}
+
+.custom-alert {
+  background-color: #3a3a5c !important; /* Custom dark background for alerts */
+  color: #e0e0e0 !important; /* Light text color */
+  border: 1px solid rgba(255, 255, 255, 0.1) !important; /* Subtle border */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Soft shadow */
+  font-size: 1.1rem;
+  padding: 1.25rem 1.5rem;
+  border-radius: 10px;
+}
+
+.custom-alert.alert-danger {
+  background-color: #4a2a3a !important; /* Darker red for error alerts */
+  color: #ff8a8a !important; /* Softer red text */
+  border-color: rgba(255, 138, 138, 0.2) !important;
+}
+
+.custom-alert.alert-info {
+  background-color: #2a3a4a !important; /* Darker blue for info alerts */
+  color: #8ac0ff !important; /* Softer blue text */
+  border-color: rgba(138, 192, 255, 0.2) !important;
+}
+
+/* --- Assignments Grid --- */
+.assignments-grid {
+  margin-top: 2rem; /* Space below heading/alerts */
+}
+
+/* --- Assignment Card Styling --- */
+.assignment-card {
+  background: linear-gradient(145deg, #2a2a4a, #1f1f3a); /* Subtle gradient for depth */
+  border-radius: 16px; /* More rounded corners */
+  border: none; /* Remove default Bootstrap border */
+  overflow: hidden; /* Ensures content respects border-radius */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.05); /* Enhanced shadow + subtle inner border */
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.assignment-card:hover {
+  transform: translateY(-8px) scale(1.01); /* Lift and slight scale on hover */
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.1); /* More pronounced shadow on hover */
+}
+
+.assignment-card .card-body {
+  padding: 1.8rem; /* More generous padding inside card body */
+}
+
+.assignment-title {
+  font-size: 1.35rem; /* Adjusted from 1.6rem to a more balanced size */
+  font-weight: 700;
+  color: #f0f0f0;
+  margin-bottom: 0.8rem;
+  line-height: 1.2;
+}
+
+.assignment-subtitle {
+  font-size: 0.95rem; /* Slightly larger subtitle */
+  font-weight: 500;
+  color: #a0a0a0; /* Muted subtitle color */
+  margin-bottom: 1.5rem; /* More space between subtitle and description */
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* Space between elements in subtitle */
+}
+
+.assignment-subtitle .separator {
+  color: rgba(255, 255, 255, 0.2); /* Muted separator color */
+}
+
+/* Dynamic styling for assignment types (badges) */
+.assignment-type {
+  display: inline-block;
+  padding: 0.3em 0.7em;
+  border-radius: 4px;
+  font-size: 0.8em; /* Smaller badge text */
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.assignment-type.homework {
+  background-color: #6a0572; /* Deep purple */
+}
+
+.assignment-type.project {
+  background-color: #0e7b7b; /* Dark teal */
+}
+
+.assignment-type.quiz {
+  background-color: #b8860b; /* Golden */
+}
+
+.assignment-type.exam {
+  background-color: #8e2de2; /* Light purple */
+}
+
+/* Add more types as needed with different colors */
+/* Example:
+.assignment-type.essay {
+  background-color: #4a4a7a;
+}
+*/
+
+.due-date {
+  font-weight: 500;
+  color: #c0c0e0; /* Softer white for due date */
+}
+
+.assignment-description {
+  font-size: 1.05rem; /* Slightly larger description font */
+  color: #c0c0e0; /* Softer white for description */
+  line-height: 1.6;
+  margin-bottom: 1.5rem; /* Space before footer */
+}
+
+.assignment-card .card-footer {
+  background: rgba(0, 0, 0, 0.2); /* Darker footer background for contrast */
+  border-top: 1px solid rgba(255, 255, 255, 0.05); /* Subtle top border */
+  padding: 1rem 1.8rem; /* Consistent padding with body */
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem; /* Space between footer items */
+}
+
+.assignment-footer .footer-item {
+  display: flex;
+  align-items: center;
+}
+
+.assignment-footer .footer-label {
+  font-size: 0.85rem;
+  color: #a0a0a0; /* Muted label color */
+  font-weight: 500;
+  margin-right: 0.5rem; /* Space between label and value */
+}
+
+.assignment-footer .footer-value {
+  font-size: 0.95rem;
+  color: #b0c4de; /* Soft blue for values */
+  font-weight: 600;
+}

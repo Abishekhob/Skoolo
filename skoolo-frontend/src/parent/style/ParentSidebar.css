@@ -1,0 +1,163 @@
+/* ParentSidebar.css */
+
+/* CSS Variables for Dark Theme */
+:root {
+  --sidebar-width: 250px; /* Adjusted for md={3} column */
+  --bg-color: #1a202c; /* Dark background */
+  --text-color: #e2e8f0; /* Light text */
+  --accent-color: #63b3ed; /* Blue accent for active states/icons */
+  --hover-color: #2d3748; /* Slightly lighter dark for hover */
+  --border-color: #2d3748; /* Dark border */
+  --shadow-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Desktop Sidebar Container */
+.desktop-sidebar-container {
+  /* Using Bootstrap's d-none d-md-block to control visibility */
+  width: var(--sidebar-width);
+  height: 100vh;
+  background-color: var(--bg-color);
+  padding: 1.5rem 1rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  box-shadow: 5px 0 15px var(--shadow-color);
+  display: flex; /* Overrides default block from d-md-block to enable flex layout */
+  flex-direction: column;
+  z-index: 1000;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Sidebar Header */
+.sidebar-header {
+  color: var(--text-color);
+  text-align: center;
+  margin-bottom: 2.5rem;
+  font-size: 1.7rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Navigation List */
+.nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex-grow: 1; /* Allows the nav list to take available space */
+}
+
+/* Navigation Item */
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.8rem 1rem;
+  border-radius: 0.5rem;
+  color: var(--text-color);
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  will-change: transform;
+}
+
+.nav-item:hover {
+  background-color: var(--hover-color);
+  color: var(--accent-color);
+  transform: translateX(5px);
+}
+
+/* Active Navigation Item */
+.nav-item.active {
+  background-color: var(--accent-color);
+  color: var(--bg-color); /* Dark text on active background */
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.nav-item.active:hover {
+  background-color: var(--accent-color); /* Maintain active background on hover */
+  color: var(--bg-color);
+  transform: translateX(0); /* No translation when active */
+}
+
+/* Icon Styling within Nav Item */
+.nav-item svg {
+  font-size: 1.4rem;
+}
+
+/* Mobile Menu Toggle Button */
+.menu-toggle-button {
+  /* Using Bootstrap's d-md-none to hide on desktop */
+  display: none; /* Default hidden unless overridden by media query */
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin: 1rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  position: fixed; /* Keep button visible */
+  top: 1rem;
+  left: 1rem;
+  z-index: 1050; /* Above offcanvas backdrop */
+  align-items: center; /* For flex container when displayed */
+  gap: 0.5rem; /* Space between icon and text */
+}
+
+.menu-toggle-button:hover {
+  background-color: #4299e1; /* Slightly darker blue on hover */
+  transform: translateY(-2px);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 767.98px) { /* Bootstrap's 'md' breakpoint is typically 768px */
+  .menu-toggle-button {
+    display: flex; /* Show on mobile */
+  }
+
+  .desktop-sidebar-container {
+    /* Ensure desktop sidebar is fully hidden on mobile */
+    display: none !important; /* Use !important to override Bootstrap's d-md-block */
+  }
+}
+
+/* Offcanvas Specific Styling (from react-bootstrap) */
+/* Override default bootstrap styles for dark theme */
+.styled-offcanvas.offcanvas {
+  background-color: var(--bg-color);
+}
+
+.styled-offcanvas .offcanvas-header {
+  background-color: var(--bg-color);
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1rem;
+}
+
+.styled-offcanvas .offcanvas-header .offcanvas-title {
+  color: var(--text-color);
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+/* This targets the default Bootstrap close button icon */
+.styled-offcanvas .offcanvas-header .btn-close {
+  filter: invert(1); /* Makes the close button icon white */
+}
+
+.styled-offcanvas .offcanvas-body {
+  background-color: var(--bg-color);
+  padding: 1.5rem 1rem;
+}
+
+/* Override Bootstrap's default Nav.Link styles within Offcanvas */
+/* We apply our .nav-item styles directly to the Links, so reset Nav.Link defaults */
+.styled-offcanvas .offcanvas-body .nav-link {
+  padding: 0; /* Reset default padding to let .nav-item handle it */
+  color: inherit; /* Inherit color from .nav-item */
+}

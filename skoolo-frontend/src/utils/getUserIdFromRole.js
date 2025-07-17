@@ -10,8 +10,9 @@ export async function getUserIdFromRole(roleKey) {
       const res = await API.get(`/teacher/${id}`); // note singular 'teacher'
       return res.data?.userId || null;             // <-- use userId here
     } else if (roleKey === 'parentId') {
-      const res = await API.get(`/parent/${id}`);  // note singular 'parent'
-      return res.data?.userId || null;             // <-- same here
+      const res = await API.get(`/parents/user-id/${id}`); // note singular 'parent'
+      return res.data || null;
+        // <-- same here
     }
   } catch (error) {
     console.error('Failed to fetch userId from', roleKey, error);

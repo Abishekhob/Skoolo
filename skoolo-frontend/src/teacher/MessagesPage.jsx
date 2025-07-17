@@ -25,25 +25,35 @@ const handleProfileClick = async (user) => {
   setShowProfileModal(true);
 
   try {
-    // Step 1: Get teacherId from userId
-    const teacherIdRes = await API.get(`/teacher/profile/teacherId-by-userId/${user.id}`);
-    const teacherId = teacherIdRes.data;
+    if (user.role === 'TEACHER') {
+      const teacherIdRes = await API.get(`/teacher/profile/teacherId-by-userId/${user.id}`);
+      const teacherId = teacherIdRes.data;
 
-    if (!teacherId) {
-      console.error("No teacherId found for user", user.id);
-      return;
+      if (!teacherId) {
+        console.error("No teacherId found for user", user.id);
+        return;
+      }
+
+      const profileRes = await API.get(`/teacher/profile/${teacherId}`);
+      setProfileUser(profileRes.data);
+    } else if (user.role === 'PARENT') {
+  const profileRes = await API.get(`/parents/profile/${user.id}`);
+  setProfileUser({
+    firstName: profileRes.data.firstName,
+    lastName: profileRes.data.lastName,
+    profilePicUrl: user.profilePicUrl,
+    contactNumber: profileRes.data.contactNumber,
+    address: profileRes.data.address,
+    children: profileRes.data.children || [],
+  });
+}
+else {
+      console.error("Unknown role:", user.role);
     }
-
-    // Step 2: Get teacher profile by teacherId
-    const profileRes = await API.get(`/teacher/profile/${teacherId}`);
-    setProfileUser(profileRes.data);
   } catch (error) {
-    console.error("Failed to fetch teacher profile", error);
+    console.error("Failed to fetch profile", error);
   }
 };
-
-
-
 
 
   useEffect(() => {
@@ -262,11 +272,17 @@ const handleProfileClick = async (user) => {
                     </h5>
                   </div>
                   <div className="d-flex flex-column flex-grow-1">
-                   <ChatWindow
+                  <ChatWindow
                     conversationId={selectedConversation.id}
                     userId={userId}
+                    otherUser={
+                      selectedConversation.user1.id === userId
+                        ? selectedConversation.user2
+                        : selectedConversation.user1
+                    }
                     key={selectedConversation.id}
                   />
+
                   </div>
                 </>
               ) : (
@@ -339,59 +355,78 @@ console.log("→", user.firstName, user.lastName, "| classTeacher:", user.classT
           {profileUser ? `${profileUser.firstName} ${profileUser.lastName}'s Profile` : 'Loading...'}
         </Modal.Title>
       </Modal.Header>
-      <Modal.Body className="profile-modal-body">
-        {profileUser ? (
-          <>
-            {profileUser.profilePicUrl && (
-              <img
-                src={`http://localhost:8081${profileUser.profilePicUrl}`}
-                alt="Profile"
-                className="profile-image"
-              />
-            )}
-          <div className="info-section">
-  <p>
-    <strong>Contact:</strong> {profileUser.contactNumber}
-  </p>
-  <p>
-    <strong>Subjects:</strong> {profileUser.subjects.join(', ')}
-  </p>
+   <Modal.Body className="profile-modal-body">
+  {profileUser ? (
+    <>
+      {profileUser.profilePicUrl && (
+        <img
+          src={`http://localhost:8081${profileUser.profilePicUrl}`}
+          alt="Profile"
+          className="profile-image"
+        />
+      )}
+      <div className="info-section">
+        <p>
+          <strong>Contact:</strong> {profileUser.contactNumber}
+        </p>
 
-{profileUser.classTeacherOf && profileUser.classTeacherOf.length > 0 && (
-  <div className="info-section">
-    <p><strong>Class Teacher of:</strong></p>
-    <ul>
-      {profileUser.classTeacherOf.map((ct, idx) => (
-        <li key={idx}>
-          {ct.className} - {ct.sectionName}
-        </li>
-      ))}
-    </ul>
-  </div>
-)}
-
-</div>
-
-
-            <h6>Class Assignments</h6>
-            <ul className="class-assignments-list">
-              {profileUser.classAssignments.length > 0 ? (
-                profileUser.classAssignments.map((ca, idx) => (
-                  <li key={idx} className="assignment-item">
-                    {ca.className} - {ca.sectionName} - {ca.subjectName}
-                  </li>
-                ))
-              ) : (
-                <li className="assignment-item empty-state">
-                  No class assignments found.
-                </li>
-              )}
-            </ul>
-          </>
-        ) : (
-          <p>Loading profile...</p>
+        {profileUser.subjects && profileUser.subjects.length > 0 && (
+          <p>
+            <strong>Subjects:</strong> {profileUser.subjects.join(', ')}
+          </p>
         )}
-      </Modal.Body>
+
+        {profileUser.classTeacherOf && profileUser.classTeacherOf.length > 0 && (
+          <div className="info-section">
+            <p><strong>Class Teacher of:</strong></p>
+            <ul>
+              {profileUser.classTeacherOf.map((ct, idx) => (
+                <li key={idx}>
+                  {ct.className} - {ct.sectionName}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {profileUser.children && profileUser.children.length > 0 && (
+          <div className="info-section">
+            <p><strong>Children:</strong></p>
+            <ul>
+              {profileUser.children.map((child, idx) => (
+                <li key={idx}>
+                  {child.firstName} {child.lastName} - {child.className} {child.sectionName}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {profileUser.address && (
+          <p>
+            <strong>Address:</strong> {profileUser.address}
+          </p>
+        )}
+      </div>
+
+      {profileUser.classAssignments && profileUser.classAssignments.length > 0 && (
+        <>
+          <h6>Class Assignments</h6>
+          <ul className="class-assignments-list">
+            {profileUser.classAssignments.map((ca, idx) => (
+              <li key={idx} className="assignment-item">
+                {ca.className} - {ca.sectionName} - {ca.subjectName}
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+    </>
+  ) : (
+    <p>Loading profile...</p>
+  )}
+</Modal.Body>
+
     </Modal>
 
     </Container>

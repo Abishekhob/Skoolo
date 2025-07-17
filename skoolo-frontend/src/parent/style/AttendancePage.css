@@ -1,0 +1,223 @@
+/* style/AttendancePage.css */
+
+/* --- Global Layout & Base --- */
+body {
+  background-color: #12121e; /* Deep, rich dark background */
+  color: #e0e0e0; /* Light text for readability */
+  font-family: 'Inter', sans-serif; /* Modern, clean font */
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Prevent horizontal scrollbar */
+}
+
+.attendance-wrapper {
+  display: flex;
+  min-height: 100vh;
+  background-color: #12121e; /* Consistent background */
+  width: 100%;
+}
+
+.attendance-main-content {
+  flex: 1; /* Allows content to take remaining space */
+  margin-left: 260px; /* Offset for ParentSidebar width on desktop */
+  min-height: 100vh;
+  background-color: #1a1a2e; /* Slightly lighter background for the content area */
+  box-sizing: border-box; /* Include padding in element's total width */
+  padding: 3rem 2.5rem; /* Generous padding for desktop */
+  transition: margin-left 0.3s ease-in-out; /* Smooth transition for sidebar hide/show */
+}
+
+/* Responsive adjustments for content area */
+@media (max-width: 768px) {
+  .attendance-main-content {
+    margin-left: 0; /* Remove sidebar offset on smaller screens */
+    padding: 2rem 1rem; /* Reduced padding for mobile */
+  }
+}
+
+/* --- Heading Styling --- */
+.attendance-heading {
+  font-size: 3rem; /* Larger, more impactful heading */
+  font-weight: 800; /* Bolder */
+  margin-bottom: 3.5rem; /* More space below heading */
+  letter-spacing: -0.06em; /* Tighter letter spacing for boldness */
+  text-align: left;
+  background: linear-gradient(90deg, #b8860b, #daa520); /* Golden gradient for premium feel */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  width: fit-content;
+  max-width: 100%;
+  box-sizing: border-box;
+  text-shadow: 0 0 15px rgba(218, 165, 32, 0.3); /* Subtle glow for the heading */
+}
+
+/* --- Loading, Error, Empty States --- */
+.loading-state, .error-state, .empty-state {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 10rem); /* Take up most of the viewport height */
+  color: #e0e0e0;
+  text-align: center;
+  gap: 1.5rem; /* Space between spinner/alert and text */
+}
+
+.loading-text {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #a0c0ff; /* Soft blue for loading text */
+}
+
+.custom-alert {
+  background-color: #3a3a5c !important; /* Custom dark background for alerts */
+  color: #e0e0e0 !important; /* Light text color */
+  border: 1px solid rgba(255, 255, 255, 0.1) !important; /* Subtle border */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Soft shadow */
+  font-size: 1.1rem;
+  padding: 1.25rem 1.5rem;
+  border-radius: 10px;
+  width: 100%; /* Ensure alert fills container */
+  max-width: 600px; /* Max width for readability */
+}
+
+.custom-alert.alert-danger {
+  background-color: #4a2a3a !important; /* Darker red for error alerts */
+  color: #ff8a8a !important; /* Softer red text */
+  border-color: rgba(255, 138, 138, 0.2) !important;
+}
+
+.custom-alert.alert-info {
+  background-color: #2a3a4a !important; /* Darker blue for info alerts */
+  color: #8ac0ff !important; /* Softer blue text */
+  border-color: rgba(138, 192, 255, 0.2) !important;
+}
+
+
+/* --- Attendance Table Styling --- */
+.attendance-table-container {
+  overflow-x: auto; /* Allow horizontal scroll for table on small screens */
+  -webkit-overflow-scrolling: touch;
+  border-radius: 12px;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.5); /* Deep shadow for impact */
+  background-color: #20203a; /* Slightly lighter background than table cells for depth */
+  width: 100%;
+  box-sizing: border-box;
+  max-width: 900px; /* Adjust max-width for the table container */
+  margin: 0 auto; /* Center the container */
+  border: 1px solid rgba(255, 255, 255, 0.06); /* Very subtle outer border */
+}
+
+.attendance-table {
+  width: 100%;
+  border-collapse: separate; /* Allows border-spacing/rounded corners */
+  border-spacing: 0;
+  color: #e0e0e0;
+  table-layout: fixed; /* Ensures even column distribution */
+}
+
+.attendance-table thead th,
+.attendance-table tbody td {
+  padding: 1rem 0.8rem; /* Generous padding for readability */
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06); /* Softer borders */
+  border-right: 1px solid rgba(255, 255, 255, 0.04); /* Softer right border */
+  font-size: 1rem;
+  vertical-align: middle;
+}
+
+.attendance-table thead th:last-child,
+.attendance-table tbody td:last-child {
+  border-right: none; /* Remove last right border */
+}
+
+.attendance-table tbody tr:last-child td {
+  border-bottom: none; /* Remove bottom border for last row */
+}
+
+.attendance-table thead th {
+  background-color: #303050; /* Header background */
+  color: #f0f0f0;
+  font-weight: 600;
+  font-size: 1.05rem; /* Slightly larger header font */
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  height: 60px; /* Fixed height for headers */
+  letter-spacing: 0.02em; /* Subtle letter spacing */
+}
+
+.attendance-table thead th:first-child {
+  border-top-left-radius: 10px;
+}
+
+.attendance-table thead th:last-child {
+  border-top-right-radius: 10px;
+}
+
+/* Table Row Styling */
+.attendance-table tbody tr {
+  background-color: #2b2b4d; /* Base row background */
+  transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.attendance-table tbody tr:nth-child(even) {
+  background-color: #252545; /* Slightly different shade for zebra striping */
+}
+
+.attendance-table tbody tr:hover {
+  background-color: #3a3a5c; /* Enhanced hover effect */
+  transform: translateY(-2px); /* Slight lift on hover */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Subtle shadow on hover */
+  z-index: 1;
+  position: relative;
+}
+
+/* --- Attendance Status Badges --- */
+.attendance-status-badge {
+  display: inline-block;
+  padding: 0.4em 0.8em;
+  border-radius: 20px; /* Pill shape */
+  font-size: 0.85em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #fff;
+  min-width: 80px; /* Ensure badges have a consistent width */
+  text-align: center;
+}
+
+.attendance-status-badge.present {
+  background-color: #4CAF50; /* Green */
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+}
+
+.attendance-status-badge.absent {
+  background-color: #F44336; /* Red */
+  box-shadow: 0 2px 8px rgba(244, 67, 54, 0.3);
+}
+
+.attendance-status-badge.late {
+  background-color: #FFC107; /* Amber */
+  color: #333; /* Darker text for amber */
+  box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3);
+}
+
+/* --- Scrollbar Styling (for .attendance-table-container if overflow is needed) --- */
+.attendance-table-container::-webkit-scrollbar {
+  height: 8px; /* Height of horizontal scrollbar */
+}
+
+.attendance-table-container::-webkit-scrollbar-track {
+  background: #333355; /* Darker track */
+  border-radius: 10px;
+}
+
+.attendance-table-container::-webkit-scrollbar-thumb {
+  background: #555588; /* Lighter thumb */
+  border-radius: 10px;
+}
+
+.attendance-table-container::-webkit-scrollbar-thumb:hover {
+  background: #666699; /* Even lighter thumb on hover */
+}
