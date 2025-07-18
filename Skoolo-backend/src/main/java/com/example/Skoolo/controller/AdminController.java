@@ -1,21 +1,25 @@
 package com.example.Skoolo.controller;
 
 import com.example.Skoolo.dto.ParentDTO;
+import com.example.Skoolo.dto.PromotionRequest;
 import com.example.Skoolo.dto.StudentAddRequest;
 import com.example.Skoolo.dto.StudentUpdateRequest;
 import com.example.Skoolo.model.ClassEntity;
+import com.example.Skoolo.model.ClassHistory;
 import com.example.Skoolo.model.Section;
+import com.example.Skoolo.model.Student;
+import com.example.Skoolo.repo.ClassHistoryRepository;
 import com.example.Skoolo.repo.ClassRepository;
 import com.example.Skoolo.repo.SectionRepository;
+import com.example.Skoolo.repo.StudentRepository;
 import com.example.Skoolo.service.*;
+import java.util.List;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -41,6 +45,12 @@ public class AdminController {
 
     @Autowired
     private TimetableService timetableService;
+
+    @Autowired
+    private StudentRepository studentRepository;
+
+    @Autowired
+    private ClassHistoryRepository classHistoryRepository;
 
     @PostMapping("/upload-users")
     public ResponseEntity<?> uploadUsers(@RequestParam("file") MultipartFile file) {
@@ -159,5 +169,46 @@ public class AdminController {
                     .body("Failed to add parent: " + e.getMessage());
         }
     }
+
+    @PostMapping("/promote-students")
+    public ResponseEntity<?> promoteStudents(@RequestBody PromotionRequest request) {
+        for (PromotionRequest.StudentPromotion promo : request.getPromotions()) {
+            Student student = studentRepository.findById(promo.getStudentId())
+                    .orElseThrow(() -> new RuntimeException("Student not found"));
+
+            // Record history
+            ClassHistory history = new ClassHistory();
+            history.setStudent(student);
+            history.setClassEntity(student.getCurrentClass());
+            history.setSection(student.getCurrentSection());
+            history.setAcademicYear(request.getAcademicYear());
+            history.setResultStatus(promo.getResultStatus());
+            history.setRemarks(promo.getRemarks());
+            classHistoryRepository.save(history);
+
+            // Update student’s current class/section/status
+            if (promo.getResultStatus().equalsIgnoreCase("Promoted") ||
+                    promo.getResultStatus().equalsIgnoreCase("Repeated")) {
+
+                ClassEntity nextClass = classRepository.findById(promo.getNextClassId())
+                        .orElseThrow(() -> new RuntimeException("Class not found"));
+                Section nextSection = sectionRepository.findById(promo.getNextSectionId())
+                        .orElseThrow(() -> new RuntimeException("Section not found"));
+
+                student.setCurrentClass(nextClass);
+                student.setCurrentSection(nextSection);
+                student.setStatus("active");
+            } else if (promo.getResultStatus().equalsIgnoreCase("Discontinued")) {
+                student.setStatus("discontinued");
+            }
+
+            studentRepository.save(student);
+        }
+
+        return ResponseEntity.ok("Promotion processed successfully");
+    }
+
+
+
 }
 

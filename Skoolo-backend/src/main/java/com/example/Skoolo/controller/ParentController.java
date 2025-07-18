@@ -40,6 +40,8 @@ public class ParentController {
 
     private final AttendanceRepository attendanceRepository;
 
+    private final FeeRepository feeRepository;
+
     @GetMapping
     public List<Parent> getAllParents() {
         return parentRepository.findAll(); // or with DTO
@@ -190,4 +192,21 @@ public class ParentController {
                 .orElseThrow(() -> new RuntimeException("Parent not found"));
     }
 
+
+    @GetMapping("/fees/{parentId}")
+    public List<Fee> getFeesForParent(@PathVariable Long parentId) {
+        // Get student(s) for the parent
+        List<Student> students = studentRepository.findByParentId(parentId);
+
+        if (students.isEmpty()) {
+            throw new RuntimeException("No student found for this parent");
+        }
+
+        // Assuming one student per parent for now
+        Student student = students.get(0);
+        Long classId = student.getCurrentClass().getId();
+        Long sectionId = student.getCurrentSection().getId();
+
+        return feeRepository.findByClassEntityIdAndSectionId(classId, sectionId);
+    }
 }

@@ -1,16 +1,21 @@
 package com.example.Skoolo.dto;
 
-import com.example.Skoolo.model.ClassEntity;
-import com.example.Skoolo.model.Section;
 import lombok.Data;
-
 import java.util.List;
 
 @Data
 public class PromotionRequest {
-    private List<Long> studentIds;
-    private ClassEntity nextClass;
-    private Section nextSection;
     private String academicYear;
-}
+    private Long classId;
+    private Long sectionId;
+    private List<StudentPromotion> promotions;
 
+    @Data
+    public static class StudentPromotion {
+        private Long studentId;
+        private String resultStatus; // Promoted, Repeated, Discontinued
+        private Long nextClassId; // nullable if discontinued
+        private Long nextSectionId; // nullable if discontinued
+        private String remarks;
+    }
+}
