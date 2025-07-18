@@ -20,6 +20,7 @@ import TeacherAssignments from './teacher/TeacherAssignments';
 import MessagesPage from './teacher/MessagesPage';
 import TeacherProfile from './teacher/TeacherProfile';
 import ChildrenProfile from './parent/ChildrenProfile';
+import StudentPromotionPage from './admin/StudentPromotionPage';
 
 
 // In src/index.js or src/App.js
@@ -52,6 +53,8 @@ const App = () => {
         <Route path="/admin/parents" element={<ManageParents />} />
         <Route path="/admin/subjects" element={<SubjectsPage />} />
         <Route path="/admin/fees" element={<ManageFeesPage />} />
+        <Route path="/admin/promotions" element={<StudentPromotionPage />} />
+
 
         {/* Teacher routes */}
         <Route path="/teacher" element={<TeacherDashboard />} />

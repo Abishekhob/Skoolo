@@ -36,12 +36,10 @@ const AdminSidebar = () => {
           Assign Teachers to Periods
         </Nav.Link>
 
-        {/* NEW ADDITION: Subjects */}
         <h6 className="text-secondary mt-4">📚 Subjects</h6>
         <Nav.Link as={Link} to="/admin/subjects" className="text-white">
           Manage Subjects
         </Nav.Link>
-        {/* END NEW ADDITION */}
 
         <h6 className="text-secondary mt-4">👨‍👩‍👧‍👦 Parents</h6>
         <Nav.Link as={Link} to="/admin/parents" className="text-white">
@@ -49,9 +47,14 @@ const AdminSidebar = () => {
         </Nav.Link>
 
         <h6 className="text-secondary mt-4">💰 Fees</h6>
-<Nav.Link as={Link} to="/admin/fees" className="text-white">
-  Manage Fees
-</Nav.Link>
+        <Nav.Link as={Link} to="/admin/fees" className="text-white">
+          Manage Fees
+        </Nav.Link>
+
+        <h6 className="text-secondary mt-4">🎓 Promotions</h6>
+        <Nav.Link as={Link} to="/admin/promotions" className="text-white">
+          Student Promotions
+        </Nav.Link>
 
         <Button variant="outline-light" className="mt-5" onClick={handleLogout}>
           Logout

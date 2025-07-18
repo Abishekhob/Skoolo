@@ -1,0 +1,141 @@
+/* Base dark theme variables */
+:root {
+    --dark-bg-primary: #1a1a2e; /* Deep dark blue/purple for overall page */
+    --dark-bg-secondary: #16213e; /* Slightly lighter for cards/tables background */
+    --dark-text-primary: #e0e0e0; /* Light gray for main text */
+    --dark-text-secondary: #a0a0a0; /* Muted gray for secondary text/labels */
+    --dark-border: #3c4a6b; /* Subtle border color for elements */
+    --dark-accent-blue: #0f3460; /* Dark blue accent for table header */
+    --dark-accent-green: #2ecc71; /* Vibrant green for currency symbol */
+    --dark-hover-bg: #28375a; /* Darker blue for table row hover */
+    --dark-card-shadow: rgba(0, 0, 0, 0.4); /* Pronounced shadow for cards */
+}
+
+/* Overall container for the page, setting the main dark background */
+.feesPageContainer {
+    display: flex;
+    min-height: 100vh; /* Ensures the background covers the full viewport height */
+    background-color: var(--dark-bg-primary);
+    color: var(--dark-text-primary);
+    font-family: 'Inter', sans-serif; /* Modern, clean font for readability */
+}
+
+/* Content area next to the sidebar */
+.contentArea {
+    flex-grow: 1; /* Allows content to expand and fill available space */
+    margin-left: 250px; /* Aligns content next to a 250px wide sidebar */
+    padding: 30px; /* Generous padding around the content */
+    transition: margin-left 0.3s ease-in-out; /* Smooth transition if margin changes (e.g., responsive sidebar) */
+}
+
+/* Responsive adjustment: For smaller screens, remove left margin */
+@media (max-width: 768px) {
+    .contentArea {
+        margin-left: 0;
+        padding: 20px; /* Slightly less padding on mobile */
+    }
+}
+
+/* Container for additional spacing within the main content */
+.mainContent {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+/* Styling for the page title "Fee Details" */
+.pageTitle {
+    color: #90d4ff; /* A bright, contrasting blue for the heading */
+    font-weight: 700; /* Bold font weight */
+    margin-bottom: 30px; /* Space below the title */
+    text-shadow: 0 0 10px rgba(144, 212, 255, 0.3); /* Subtle glow effect for depth */
+}
+
+/* Centering and styling for the loading spinner */
+.spinnerContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px; /* Ensures spinner is visible and centered vertically */
+    font-size: 1.1rem;
+    color: var(--dark-text-secondary); /* Muted color for loading text */
+}
+
+/* Styling for the "No fee details found" message */
+.emptyState {
+    text-align: center;
+    padding: 50px;
+    font-size: 1.2rem;
+    color: var(--dark-text-secondary);
+    background-color: var(--dark-bg-secondary); /* Matches card/table background */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 15px var(--dark-card-shadow); /* Shadow for depth */
+}
+
+/* General styling for the Card component holding the table */
+.feesCard {
+    background-color: var(--dark-bg-secondary); /* Card background */
+    border: 1px solid var(--dark-border); /* Subtle border */
+    border-radius: 12px; /* Nicely rounded corners */
+    box-shadow: 0 6px 20px var(--dark-card-shadow); /* Stronger shadow for floating effect */
+    overflow: hidden; /* Ensures any content inside respects border-radius */
+    transition: transform 0.2s ease-in-out; /* Smooth hover transition */
+}
+
+.feesCard:hover {
+    transform: translateY(-3px); /* Subtle lift effect on hover */
+}
+
+/* Styling for the Table component within the card */
+.feesTable {
+    width: 100%;
+    color: var(--dark-text-primary); /* Text color for table content */
+    border-collapse: collapse; /* Removes spacing between table cells */
+}
+
+/* Table header styling */
+.feesTable thead th {
+    background-color: var(--dark-accent-blue); /* Distinct dark blue for header row */
+    color: #ffffff; /* White text for header */
+    padding: 15px 20px;
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 1px solid var(--dark-border); /* Separator below header */
+}
+
+/* Styling for table body rows */
+.feesTable tbody tr {
+    border-bottom: 1px solid var(--dark-border); /* Separator between rows */
+    transition: background-color 0.2s ease-in-out; /* Smooth hover transition */
+}
+
+.feesTable tbody tr:last-child {
+    border-bottom: none; /* No border for the very last row */
+}
+
+/* Hover effect for table rows */
+.feesTable tbody tr:hover {
+    background-color: var(--dark-hover-bg); /* Darker background on hover */
+}
+
+/* Padding for table data cells */
+.feesTable tbody td {
+    padding: 15px 20px;
+    vertical-align: middle;
+}
+
+/* Subtle striped background for odd rows to improve readability */
+.feesTable tbody tr:nth-child(odd) {
+    background-color: rgba(15, 52, 96, 0.1); /* Very light transparent blue for stripe */
+}
+/* Ensure even rows also have a consistent background */
+.feesTable tbody tr:nth-child(even) {
+    background-color: var(--dark-bg-secondary);
+}
+
+
+/* Styling for the currency symbol (₹) */
+.currencySymbol {
+    color: var(--dark-accent-green); /* Green color for emphasis */
+    font-weight: 600;
+    margin-right: 4px; /* Small space after symbol */
+}

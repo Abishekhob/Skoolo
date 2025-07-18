@@ -38,6 +38,7 @@ const SectionDetails = () => {
     const fetchSectionDetails = async () => {
       try {
         const res = await API.get(`/classes/${classId}/sections/${sectionId}/details`);
+        console.log('Fetched students:', res.data.students);
         setSectionStats(res.data);
         setStudents(res.data.students);
       } catch (err) {
