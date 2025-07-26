@@ -10,3 +10,6 @@ RUN ./mvnw clean install -DskipTests
 EXPOSE 8081
 
 CMD ["./mvnw", "spring-boot:run"]
+
+
+CMD ["java", "-jar", "target/Skoolo-0.0.1-SNAPSHOT.jar"]
