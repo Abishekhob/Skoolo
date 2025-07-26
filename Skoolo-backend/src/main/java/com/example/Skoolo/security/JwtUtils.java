@@ -1,6 +1,5 @@
 package com.example.Skoolo.security;
 
-import io.github.cdimascio.dotenv.Dotenv;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -19,22 +18,21 @@ public class JwtUtils {
     private final long JWT_EXPIRATION_MS = 1000 * 60 * 60 * 10; // 10 hours
 
     public JwtUtils() {
-        Dotenv dotenv = Dotenv.load();
+        // ✅ Load only from environment (Railway provides env variables)
         this.SECRET_KEY = System.getenv("JWT_SECRET");
 
-        if (this.SECRET_KEY == null) {
-            throw new IllegalStateException("JWT_SECRET not found in .env file!");
+        if (this.SECRET_KEY == null || this.SECRET_KEY.isBlank()) {
+            throw new IllegalStateException("❌ JWT_SECRET not found in environment variables!");
         }
 
+        // ✅ Optional debug log (safe because no actual secret is printed)
         byte[] decoded = Base64.getDecoder().decode(SECRET_KEY);
-        System.out.println("✅ JWT_SECRET loaded from .env");
+        System.out.println("✅ JWT_SECRET loaded from environment");
         System.out.println("🧠 Decoded key length = " + decoded.length + " bytes");
     }
 
-
-
     private Key getSigningKey() {
-        byte[] keyBytes = Base64.getDecoder().decode(SECRET_KEY); // SECRET_KEY is the Base64 string
+        byte[] keyBytes = Base64.getDecoder().decode(SECRET_KEY);
         return new SecretKeySpec(keyBytes, SignatureAlgorithm.HS512.getJcaName());
     }
 
@@ -69,7 +67,6 @@ public class JwtUtils {
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + JWT_EXPIRATION_MS))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS512)
-
                 .compact();
     }
 
