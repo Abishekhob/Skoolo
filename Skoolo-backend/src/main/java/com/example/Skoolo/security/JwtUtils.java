@@ -1,16 +1,16 @@
 package com.example.Skoolo.security;
 
-import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.Keys;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
+import io.github.cdimascio.dotenv.Dotenv;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
 import java.util.function.Function;
-import io.github.cdimascio.dotenv.Dotenv;
-
 import javax.crypto.spec.SecretKeySpec;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
 @Component
 public class JwtUtils {
@@ -20,7 +20,7 @@ public class JwtUtils {
 
     public JwtUtils() {
         Dotenv dotenv = Dotenv.load();
-        this.SECRET_KEY = dotenv.get("JWT_SECRET");
+        this.SECRET_KEY = System.getenv("JWT_SECRET");
 
         if (this.SECRET_KEY == null) {
             throw new IllegalStateException("JWT_SECRET not found in .env file!");
