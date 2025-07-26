@@ -1,5 +1,5 @@
 import { Container, Row, Col } from 'react-bootstrap';
-import AdminSidebar from './AdminSideBar';
+import AdminSidebar from './AdminSidebar';
 
 const AdminDashboard = () => {
   return (

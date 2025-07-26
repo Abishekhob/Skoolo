@@ -1,8 +1,10 @@
+// ClassesGrid.jsx
+
 import React, { useEffect, useState, useCallback } from 'react';
 import { Card, Row, Col, Spinner, Container, Form, Button, Alert, Modal } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import API from '../services/api';
-import AdminSidebar from './AdminSideBar';
+import API from '../services/api'; // Assuming this path is correct
+import AdminSidebar from './AdminSidebar'; // Assuming this path is correct
 
 // Dnd-Kit Imports
 import {
@@ -21,11 +23,12 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
-// --- CORRECTED IMPORT FOR DRAG ICON ---
-// Using MdDragIndicator from Material Design Icons, which is very common
+// Icons
 import { MdDragIndicator } from "react-icons/md";
-// If you prefer, you could also use a Font Awesome icon like FaGripVertical:
-// import { FaGripVertical } from "react-icons/fa";
+import { FaPlusCircle } from "react-icons/fa";
+
+// Import the CSS file for this page
+import './style/ClassesGrid.css';
 
 // --- Updated Component for Sortable Item ---
 const SortableClassCard = ({ cls, onClick, onEdit, onDelete }) => {
@@ -41,59 +44,56 @@ const SortableClassCard = ({ cls, onClick, onEdit, onDelete }) => {
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    zIndex: isDragging ? 10 : 0,
-    opacity: isDragging ? 0.7 : 1,
-    boxShadow: isDragging ? '0 8px 16px rgba(0,0,0,0.4)' : '0 4px 8px rgba(0,0,0,0.2)',
-    backgroundColor: isDragging ? '#343a40' : '#495057',
+    zIndex: isDragging ? 100 : 0,
+    opacity: isDragging ? 0.8 : 1,
+    // Apply a stronger shadow when dragging for better visual feedback
+    boxShadow: isDragging ? '0 15px 30px rgba(0,0,0,0.7)' : '0 8px 20px rgba(0,0,0,0.4)',
+    backgroundColor: isDragging ? 'var(--card-drag-bg)' : 'var(--card-bg)',
   };
 
   return (
-    <Col md={4} className="mb-4">
+    // Adjusted column sizes for better responsiveness:
+    // xs={6}: 2 cards per row on extra small (mobile)
+    // sm={6}: 2 cards per row on small
+    // md={4}: 3 cards per row on medium (tablets)
+    // lg={3}: 4 cards per row on large (laptops/desktops)
+    // Removed `d-flex` from Col, the Card itself handles flex for content, and `mb-4` is sufficient for spacing.
+    <Col xs={6} sm={6} md={4} lg={3} xxl={3} className="mb-4">
       <Card
         ref={setNodeRef}
         style={{
           ...style,
-          height: '180px',
-          borderRadius: '12px',
+          height: '200px', // Consistent height
+          borderRadius: '15px',
           display: 'flex',
           flexDirection: 'column',
           overflow: 'hidden',
+          border: 'none',
         }}
-        className="text-white shadow"
+        className="text-white shadow classes-grid-card"
       >
-        {/* Drag Handle - A small area or icon for dragging */}
+        {/* Drag Handle */}
         <div
           {...listeners}
           {...attributes}
-          style={{
-            cursor: 'grab',
-            padding: '5px 10px',
-            backgroundColor: 'rgba(0,0,0,0.1)',
-            textAlign: 'right',
-            borderTopLeftRadius: '12px',
-            borderTopRightRadius: '12px',
-            touchAction: 'none',
-          }}
+          className="drag-handle"
         >
-          {/* --- USING MdDragIndicator HERE --- */}
-          <MdDragIndicator style={{ color: '#adb5bd', fontSize: '1.2rem' }} />
-          {/* If you chose FaGripVertical, use it like this: */}
-          {/* <FaGripVertical style={{ color: '#adb5bd', fontSize: '1.2rem' }} /> */}
+          <MdDragIndicator className="drag-icon" />
         </div>
 
         <Card.Body
-          className="d-flex flex-column justify-content-center text-center flex-grow-1"
+          className="d-flex flex-column justify-content-center align-items-center text-center flex-grow-1 card-content-body"
           onClick={() => onClick(cls.id)}
-          style={{ cursor: 'pointer', flex: 1 }}
         >
-          <Card.Title style={{ fontSize: '1.5rem' }}>{cls.className}</Card.Title>
-          <Card.Text>Total Sections: {cls.sections?.length || 0}</Card.Text>
+          <Card.Title className="class-card-title">{cls.className}</Card.Title>
+          <Card.Text className="class-card-text">Total Sections: {cls.sections?.length || 0}</Card.Text>
         </Card.Body>
 
-        <Card.Footer className="d-flex justify-content-around bg-dark border-top border-secondary">
+        <Card.Footer className="card-footer-actions d-flex justify-content-around">
           <Button
             variant="warning"
             size="sm"
+            className="card-action-btn"
             onClick={(e) => {
               e.stopPropagation();
               onEdit(cls);
@@ -104,6 +104,7 @@ const SortableClassCard = ({ cls, onClick, onEdit, onDelete }) => {
           <Button
             variant="danger"
             size="sm"
+            className="card-action-btn"
             onClick={(e) => {
               e.stopPropagation();
               onDelete(cls);
@@ -145,6 +146,7 @@ const ClassesGrid = () => {
     try {
       const res = await API.get('/classes');
       if (Array.isArray(res.data)) {
+        // Ensure classes are sorted by position from the API or default to 0
         const sortedClasses = [...res.data].sort((a, b) => (a.position || 0) - (b.position || 0));
         setClasses(sortedClasses);
       } else {
@@ -207,7 +209,7 @@ const ClassesGrid = () => {
 
   const confirmDeleteClass = async () => {
     if (!classToDelete) return;
-    setLoading(true);
+    setLoading(true); // Show loading spinner during deletion
     setError('');
     setSuccess('');
     try {
@@ -215,12 +217,12 @@ const ClassesGrid = () => {
       setSuccess(`Class "${classToDelete.className}" deleted successfully.`);
       setShowDeleteConfirm(false);
       setClassToDelete(null);
-      fetchClasses();
+      fetchClasses(); // Re-fetch classes to update the list
     } catch (err) {
       console.error('Error deleting class:', err.response?.data || err.message);
       setError(err.response?.data?.message || 'Failed to delete class. Please try again.');
     } finally {
-      setLoading(false);
+      setLoading(false); // Hide loading spinner
     }
   };
 
@@ -255,7 +257,7 @@ const ClassesGrid = () => {
         setSuccess(`Class "${res.data.className}" and its sections added successfully!`);
       }
 
-      await fetchClasses();
+      await fetchClasses(); // Refresh classes after add/edit
       setClassName('');
       setSections(['']);
       setEditingClass(null);
@@ -281,6 +283,7 @@ const ClassesGrid = () => {
       const [movedItem] = newClasses.splice(oldIndex, 1);
       newClasses.splice(newIndex, 0, movedItem);
 
+      // Optimistic update
       setClasses(newClasses);
 
       try {
@@ -293,7 +296,7 @@ const ClassesGrid = () => {
       } catch (err) {
         console.error('Failed to save new class order:', err.response?.data || err.message);
         setError('Failed to save class order. Please try again.');
-        fetchClasses();
+        fetchClasses(); // Revert to original order if save fails
       }
     }
   };
@@ -301,64 +304,62 @@ const ClassesGrid = () => {
   if (loading) {
     return (
       <div
-        className="d-flex justify-content-center align-items-center bg-black text-white"
-        style={{ minHeight: '100vh' }}
+        className="loading-overlay"
       >
         <Spinner animation="border" variant="light" />
+        <p className="loading-text">Loading Classes...</p>
       </div>
     );
   }
 
   return (
-    <Container fluid className="bg-black text-white min-vh-100">
-      <Row>
+    <Container fluid className="classes-grid-container">
+      <Row className="flex-grow-1">
         <AdminSidebar />
-        <Col md={10} className="p-4">
-          <h3 className="mb-4">
+        <Col md={10} className="main-content-area p-4">
+          <h3 className="page-title mb-4">
             {showAddForm && editingClass ? `✏️ Edit Class: ${editingClass.className}` : '📚 Select a Class'}
           </h3>
 
-          {error && <Alert variant="danger">{error}</Alert>}
-          {success && <Alert variant="success">{success}</Alert>}
+          {error && <Alert variant="danger" className="mb-3 custom-alert">{error}</Alert>}
+          {success && <Alert variant="success" className="mb-3 custom-alert">{success}</Alert>}
 
-          {showAddForm || classes.length === 0 ? (
-            <div
-              className="d-flex justify-content-center align-items-center"
-              style={{ height: '80vh' }}
-            >
-              <Card className="bg-dark text-white p-4 shadow-lg" style={{ width: '100%', maxWidth: '500px', borderRadius: '15px' }}>
+          {showAddForm ? ( // Only show the form when explicitly requested
+            <div className="form-centered-container">
+              <Card className="form-card">
                 <Card.Body>
-                  <h4 className="mb-4 text-center">
+                  <h4 className="mb-4 text-center form-card-title">
                     {editingClass ? 'Edit Class & Sections' : 'Add New Class & Sections'}
                   </h4>
 
                   <Form onSubmit={handleSubmit}>
                     <Form.Group controlId="className" className="mb-3">
-                      <Form.Label>Class Name</Form.Label>
+                      <Form.Label className="form-label-custom">Class Name</Form.Label>
                       <Form.Control
                         type="text"
                         placeholder="Enter class name (e.g., 10th Grade)"
                         value={className}
                         onChange={(e) => setClassName(e.target.value)}
                         required
-                        className="bg-secondary text-white border-0"
+                        className="form-control-custom"
                       />
                     </Form.Group>
 
-                    <Form.Label>Sections</Form.Label>
+                    <Form.Label className="form-label-custom">Sections</Form.Label>
                     {sections.map((section, index) => (
-                      <div key={index} className="d-flex mb-2">
+                      <div key={index} className="d-flex mb-2 align-items-center">
                         <Form.Control
                           type="text"
                           placeholder={`Section ${index + 1} (e.g., A, B, Science)`}
                           value={section}
                           onChange={(e) => handleSectionChange(index, e.target.value)}
-                          className="bg-secondary text-white border-0 me-2"
+                          className="form-control-custom me-2"
                         />
                         {sections.length > 1 && (
                           <Button
                             variant="outline-danger"
                             onClick={() => handleRemoveSectionField(index)}
+                            className="section-remove-btn"
                           >
                             -
                           </Button>
@@ -366,29 +367,29 @@ const ClassesGrid = () => {
                       </div>
                     ))}
 
-                    <div className="d-flex justify-content-between mb-3">
-                      <Button variant="outline-light" size="sm" onClick={handleAddSectionField}>
-                        Add Section
+                    <div className="d-flex justify-content-between mb-3 mt-3">
+                      <Button variant="outline-light" size="sm" onClick={handleAddSectionField} className="add-section-btn">
+                        <FaPlusCircle className="me-1" /> Add Section
                       </Button>
-                      {(classes.length > 0 || editingClass) && (
-                        <Button
-                          variant="outline-secondary"
-                          size="sm"
-                          onClick={() => {
-                            setShowAddForm(false);
-                            setEditingClass(null);
-                            setClassName('');
-                            setSections(['']);
-                            setError('');
-                            setSuccess('');
-                          }}
-                        >
-                          Back to Classes
-                        </Button>
-                      )}
+                      {/* Always show back button when in form mode and there are classes or editing */}
+                      <Button
+                        variant="outline-secondary"
+                        size="sm"
+                        onClick={() => {
+                          setShowAddForm(false);
+                          setEditingClass(null);
+                          setClassName('');
+                          setSections(['']);
+                          setError('');
+                          setSuccess('');
+                        }}
+                        className="back-btn"
+                      >
+                        Back to Classes
+                      </Button>
                     </div>
 
-                    <Button variant="primary" type="submit" className="w-100">
+                    <Button variant="primary" type="submit" className="w-100 submit-form-btn">
                       {editingClass ? 'Update Class' : 'Save Class & Sections'}
                     </Button>
                   </Form>
@@ -396,16 +397,21 @@ const ClassesGrid = () => {
               </Card>
             </div>
           ) : (
+            // Show the grid with existing classes and the "Add New Class" card
             <DndContext
               sensors={sensors}
               collisionDetection={closestCenter}
               onDragEnd={handleDragEnd}
             >
               <SortableContext
-                items={classes.map(cls => cls.id)}
+                // Important: Include all IDs in the sortable context, even if 'Add New Class' isn't sortable
+                // We'll manage its static position visually.
+                items={classes.map(cls => cls.id)} // Only sortable items here
                 strategy={verticalListSortingStrategy}
               >
-                <Row className="g-3">
+                {/* Use g-4 for slightly more gutter space, justify-content-center for centering */}
+                <Row className="g-4 classes-grid-row justify-content-center">
+                  {/* Render existing class cards first */}
                   {classes.map((cls) => (
                     <SortableClassCard
                       key={cls.id}
@@ -415,18 +421,13 @@ const ClassesGrid = () => {
                       onDelete={handleDeleteClick}
                     />
                   ))}
-                  <Col md={4} className="mb-4">
+
+                  {/* Add New Class Card - NOW AT THE END OF THE GRID */}
+                  {/* Note: This card is intentionally NOT part of the SortableContext items
+                      because it's a fixed "add" button, not a draggable class item itself. */}
+                  <Col xs={6} sm={6} md={4} lg={3} xxl={3} className="mb-4">
                     <Card
-                      className="bg-dark text-white shadow"
-                      style={{
-                        cursor: 'pointer',
-                        height: '180px',
-                        borderRadius: '12px',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        border: '2px dashed #6c757d'
-                      }}
+                      className="add-class-card shadow"
                       onClick={() => {
                         setShowAddForm(true);
                         setEditingClass(null);
@@ -436,9 +437,10 @@ const ClassesGrid = () => {
                         setSuccess('');
                       }}
                     >
-                      <Card.Body className="text-center">
-                        <Card.Title style={{ fontSize: '1.5rem' }}>+ Add New Class</Card.Title>
-                        <Card.Text>Click to create a new class</Card.Text>
+                      <Card.Body className="text-center d-flex flex-column justify-content-center align-items-center">
+                        <FaPlusCircle className="add-class-icon mb-2" />
+                        <Card.Title className="add-class-title">Add New Class</Card.Title>
+                        <Card.Text className="add-class-text">Click to create a new class</Card.Text>
                       </Card.Body>
                     </Card>
                   </Col>
@@ -447,18 +449,19 @@ const ClassesGrid = () => {
             </DndContext>
           )}
 
-          <Modal show={showDeleteConfirm} onHide={() => setShowDeleteConfirm(false)} centered backdrop="static" keyboard={false}>
-            <Modal.Header className="bg-dark text-white border-bottom border-secondary">
-              <Modal.Title>Confirm Deletion</Modal.Title>
+          {/* Delete Confirmation Modal */}
+          <Modal show={showDeleteConfirm} onHide={() => setShowDeleteConfirm(false)} centered backdrop="static" keyboard={false} className="custom-modal">
+            <Modal.Header className="modal-header-custom">
+              <Modal.Title className="modal-title-custom">Confirm Deletion</Modal.Title>
             </Modal.Header>
-            <Modal.Body className="bg-dark text-white">
+            <Modal.Body className="modal-body-custom">
               Are you sure you want to delete the class "<strong>{classToDelete?.className}</strong>"? This action cannot be undone.
             </Modal.Body>
-            <Modal.Footer className="bg-dark border-top border-secondary">
-              <Button variant="secondary" onClick={() => setShowDeleteConfirm(false)}>
+            <Modal.Footer className="modal-footer-custom">
+              <Button variant="secondary" onClick={() => setShowDeleteConfirm(false)} className="modal-cancel-btn">
                 Cancel
               </Button>
-              <Button variant="danger" onClick={confirmDeleteClass}>
+              <Button variant="danger" onClick={confirmDeleteClass} className="modal-delete-btn">
                 Delete
               </Button>
             </Modal.Footer>

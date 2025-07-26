@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Form, Button, Table } from 'react-bootstrap';
 import API from '../services/api';
-import AdminSidebar from './AdminSideBar';
+import AdminSidebar from './AdminSidebar';
 import './style/ManageFeesPage.css';
 
 const ManageFeesPage = () => {

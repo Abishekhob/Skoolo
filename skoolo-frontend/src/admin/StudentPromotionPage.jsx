@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Button, Table, Row, Col, Card, Spinner, Alert } from 'react-bootstrap';
-import AdminSidebar from './AdminSideBar'; // Assuming AdminSidebar is styled for dark theme
+import AdminSidebar from './AdminSidebar'; // Assuming AdminSidebar is styled for dark theme
 import API from '../services/api';
 import styles from './style/StudentPromotionPage.module.css'; // Corrected: .module.css for CSS Modules
 

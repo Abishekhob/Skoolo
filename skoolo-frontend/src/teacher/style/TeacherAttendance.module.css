@@ -10,7 +10,7 @@
 .contentCol {
   background-color: #1e1e3b; /* Slightly lighter dark shade */
   border-radius: 12px;
-  margin: 20px;
+  margin-left: 270px;
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
   backdrop-filter: blur(15px) saturate(180%); /* Glassmorphism effect */
   -webkit-backdrop-filter: blur(15px) saturate(180%);

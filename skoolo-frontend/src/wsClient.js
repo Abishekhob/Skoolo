@@ -2,7 +2,7 @@
 import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 
-const WS_URL = 'http://localhost:8081/ws-chat'; // Spring Boot SockJS endpoint
+const WS_URL = 'https://skoolo-production.up.railway.app/ws-chat'; // Spring Boot SockJS endpoint
 
 export const createStompClient = (onMessageReceived) => {
   const client = new Client({

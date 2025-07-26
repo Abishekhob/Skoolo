@@ -110,7 +110,23 @@ const getProfilePicUrl = (url) => {
     return url; // full URL already
   }
   // Add base URL if relative path
-  return `http://localhost:8081${url.startsWith('/') ? '' : '/'}${url}`;
+  return `https://skoolo-production.up.railway.app${url.startsWith('/') ? '' : '/'}${url}`;
+};
+
+
+const startChatWithUser = async (user) => {
+    try {
+      const res = await API.post(`/conversations?userId1=${userId}&userId2=${user.id}`);
+
+        setSelectedConversation(res.data);
+        setShowUserList(false);
+
+        // Refresh conversation list to include the new one
+        const convRes = await API.get(`/conversations/user/${userId}`);
+        setConversations(convRes.data);
+    } catch (error) {
+        console.error("Failed to start chat:", error);
+    }
 };
 
 
@@ -199,23 +215,23 @@ const getProfilePicUrl = (url) => {
                                                     <small className="last-message-preview text-muted">Click to view chat</small>
                                                 </div>
                                                <span
-  role="button"
-  tabIndex={0}
-  className="info-icon-btn"
-  onClick={(e) => {
-    e.stopPropagation();
-    handleProfileClick(otherUser);
-  }}
-  onKeyDown={(e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      handleProfileClick(otherUser);
-    }
-  }}
-  style={{ cursor: 'pointer' }}
->
-  <FaInfoCircle size={16} />
-</span>
+                                                role="button"
+                                                tabIndex={0}
+                                                className="info-icon-btn"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleProfileClick(otherUser);
+                                                }}
+                                                onKeyDown={(e) => {
+                                                    if (e.key === 'Enter' || e.key === ' ') {
+                                                    e.preventDefault();
+                                                    handleProfileClick(otherUser);
+                                                    }
+                                                }}
+                                                style={{ cursor: 'pointer' }}
+                                                >
+                                                <FaInfoCircle size={16} />
+                                                </span>
 
                                             </div>
                                         </ListGroup.Item>
@@ -304,7 +320,7 @@ const getProfilePicUrl = (url) => {
                                     <div className="d-flex align-items-center">
                                         <div className="user-avatar-placeholder me-3 smaller-avatar">
                                             {user.profilePicUrl ? (
-                                                <img src={`http://localhost:8081${user.profilePicUrl}`} alt="Profile" className="profile-pic-avatar" />
+                                               <img src={getProfilePicUrl(user.profilePicUrl)} alt="Profile" className="profile-pic-avatar" />
                                             ) : (
                                                 `${user.firstName?.charAt(0) || ''}${user.lastName?.charAt(0) || ''}`
                                             )}
@@ -338,7 +354,7 @@ const getProfilePicUrl = (url) => {
                             {profileUser.profilePicUrl && (
                                 <div className="profile-image-container">
                                     <img
-                                        src={`http://localhost:8081${profileUser.profilePicUrl}`}
+                                        src={`https://skoolo-production.up.railway.app${profileUser.profilePicUrl}`}
                                         alt="Profile"
                                         className="profile-image"
                                     />

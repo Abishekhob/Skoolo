@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { Card, Row, Col, Spinner, Container, Button } from 'react-bootstrap';
-import API from '../services/api';
-import AdminSidebar from './AdminSideBar';
-import './style/SectionDetails.css'; // This will contain updated styles
-import AddStudentModal from './AddStudentModal';
-import StudentTable from './StudentTable';
-import TimetableTable from './TimetableTable';
+import API from '../services/api'; // Assuming this path is correct
+import AdminSidebar from './AdminSidebar'; // Assuming this path is correct
+import './style/SectionDetails.css'; // Updated styles linked here
+import AddStudentModal from './AddStudentModal'; // Assuming this path is correct
+import StudentTable from './StudentTable'; // Assuming this path is correct
+import TimetableTable from './TimetableTable'; // Assuming this path is correct
 
 const SectionDetails = () => {
   const { classId, sectionId } = useParams();
@@ -135,9 +135,9 @@ const SectionDetails = () => {
         gender: '',
         dob: '',
         contactNumber: '',
-        address: '', // Reset address
-        parentEmail: '', // Reset parentEmail
-        enrollmentDate: '', // Reset enrollmentDate
+        address: '',
+        parentEmail: '',
+        enrollmentDate: '',
       });
     } catch (err) {
       console.error('Manual add failed:', err);
@@ -217,7 +217,7 @@ const SectionDetails = () => {
             <Button
               variant="outline-light"
               onClick={() => window.history.back()}
-              className="back-button primary-btn" /* Added primary-btn class */
+              className="back-button primary-btn"
             >
               ← Back
             </Button>
@@ -228,7 +228,7 @@ const SectionDetails = () => {
           </div>
 
           {/* Stat tiles */}
-          <Row className="mb-5 text-center g-3">
+          <Row className="mb-5 text-center g-3 responsive-stat-row"> {/* Added responsive-stat-row */}
             {[
               { label: 'Total Students', value: sectionStats.totalStudents },
               { label: 'Male', value: sectionStats.maleCount },
@@ -252,11 +252,9 @@ const SectionDetails = () => {
               {students.length > 0 && (
                 <>
                   <Button
-                    variant="outline-info" /* Changed from outline-info to outline-primary-custom */
-                    size="sm"
                     href="/sample-students.xlsx"
                     download
-                    className="download-sample-btn outline-primary-custom" /* Added outline-primary-custom */
+                    className="download-sample-btn outline-primary-custom"
                   >
                     ⬇️ Download Sample File
                   </Button>
@@ -281,9 +279,8 @@ const SectionDetails = () => {
                   </div>
 
                   <Button
-                    variant="success" /* Changed from success to primary-btn */
                     onClick={() => setShowModal(true)}
-                    className="add-student-btn primary-btn" /* Added primary-btn */
+                    className="add-student-btn primary-btn"
                   >
                     + Add Student
                   </Button>
@@ -302,60 +299,60 @@ const SectionDetails = () => {
                 handleSave={handleSave}
               />
             ) : (
-                      <div className="d-flex justify-content-center align-items-center flex-grow-1"> {/* Added align-items-center and flex-grow-1 */}
-                <Card className="empty-state-card"> {/* Removed shadow-sm */}
-                  <Card.Body>
-                    <h4 className="text-center mb-3">📭 No Students Found</h4>
-                    <p className="text-center text-muted mb-3">
-                      Download the sample file, fill in student details, and upload it below.
-                    </p>
+              <div className="d-flex justify-content-center align-items-center flex-grow-1">
+                <Card className="empty-state-card">
+                  <Card.Body>
+                    <h4 className="text-center mb-3">📭 No Students Found</h4>
+                    <p className="text-center text-muted mb-3">
+                      Download the sample file, fill in student details, and upload it below.
+                    </p>
 
-                    <div className="text-center mb-3">
-                      <Button
-                        href="/sample-students.xlsx"
-                        download
-                        size="sm"
-                        className="outline-primary-custom" /* Uses the custom outline style */
-                      >
-                        ⬇️ Download Sample File
-                      </Button>
-                    </div>
+                    <div className="text-center mb-3">
+                      <Button
+                        href="/sample-students.xlsx"
+                        download
+                        size="sm"
+                        className="outline-primary-custom"
+                      >
+                        ⬇️ Download Sample File
+                      </Button>
+                    </div>
 
-                    <div
-                      ref={dropRef}
-                      onDragOver={onDragOver}
-                      onDragLeave={onDragLeave}
-                      onDrop={onDrop}
-                      onClick={() => fileInputRef.current.click()}
-                      className="file-upload-area empty-state-upload p-4"
-                    >
-                      <p className="fs-5 mb-1">📤 Drag & Drop student file here</p>
-                      <p className="mb-3">or click to upload from your system</p>
-                      <input
-                        type="file"
-                        accept=".csv, .xlsx, .xls"
-                        onChange={onFileChange}
-                        ref={fileInputRef}
-                        style={{ display: 'none' }}
-                      />
-                      <small className="text-muted d-block mb-2">
-                        Accepted formats: .csv, .xlsx, .xls
-                      </small>
-                    </div>
+                    <div
+                      ref={dropRef}
+                      onDragOver={onDragOver}
+                      onDragLeave={onDragLeave}
+                      onDrop={onDrop}
+                      onClick={() => fileInputRef.current.click()}
+                      className="file-upload-area empty-state-upload p-4"
+                    >
+                      <p className="fs-5 mb-1">📤 Drag & Drop student file here</p>
+                      <p className="mb-3">or click to upload from your system</p>
+                      <input
+                        type="file"
+                        accept=".csv, .xlsx, .xls"
+                        onChange={onFileChange}
+                        ref={fileInputRef}
+                        style={{ display: 'none' }}
+                      />
+                      <small className="text-muted d-block mb-2">
+                        Accepted formats: .csv, .xlsx, .xls
+                      </small>
+                    </div>
 
-                    <p className="text-center text-muted mt-4 mb-2">— or —</p>
+                    <p className="text-center text-muted mt-4 mb-2">— or —</p>
 
-                    <div className="text-center">
-                      <Button
-                        onClick={() => setShowModal(true)}
-                        className="primary-btn" /* Uses the custom primary style */
-                      >
-                        + Add Student using form
-                      </Button>
-                    </div>
-                  </Card.Body>
-                </Card>
-              </div>
+                    <div className="text-center">
+                      <Button
+                        onClick={() => setShowModal(true)}
+                        className="primary-btn"
+                      >
+                        + Add Student using form
+                      </Button>
+                    </div>
+                  </Card.Body>
+                </Card>
+              </div>
             )}
           </Card>
 

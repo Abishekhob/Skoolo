@@ -10,17 +10,17 @@ import {
     FaBell,
     FaPlusCircle,
     FaRegLightbulb,
-    FaTimes, // Added for modal close button
-    FaEye, // For general view icon in modal
+    FaTimes,
+    FaEye,
+    FaTag // Added FaTag for default case in getTypeIcon
 } from 'react-icons/fa';
-import { motion, AnimatePresence } from 'framer-motion'; // For animations
-import Modal from 'react-modal'; // For the modal
+import { motion, AnimatePresence } from 'framer-motion';
+import Modal from 'react-modal';
 import API from '../services/api';
-import TeacherSidebar from './TeacherSidebar';
-import './style/TeacherAssignments.css'; // Ensure this is linked!
+import TeacherSidebar from './TeacherSidebar'; // Assuming this component exists
+import './style/TeacherAssignments.css'; // Link to the new CSS file
 
-// Set app element for react-modal for accessibility
-Modal.setAppElement('#root'); // Or the ID of your main app container
+Modal.setAppElement('#root'); // Crucial for accessibility
 
 const TeacherAssignments = () => {
     const teacherId = localStorage.getItem('teacherId');
@@ -39,8 +39,8 @@ const TeacherAssignments = () => {
     const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
-    const [selectedAssignment, setSelectedAssignment] = useState(null); // State for modal
-    const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
+    const [selectedAssignment, setSelectedAssignment] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         if (!teacherId) {
@@ -77,7 +77,6 @@ const TeacherAssignments = () => {
 
         if (name === 'classId') {
             const sectionsForClass = classSections.filter(cs => cs.classId === value);
-            // Auto-select if only one section/subject exists for the chosen class
             const newSectionId = sectionsForClass.length === 1 ? sectionsForClass[0].sectionId : null;
             const newSubjectId = sectionsForClass.length === 1 ? sectionsForClass[0].subjectId : null;
 
@@ -175,7 +174,6 @@ const TeacherAssignments = () => {
         return found ? found.subjectName : 'N/A';
     };
 
-    // Modal functions
     const openAssignmentModal = (assignmentData) => {
         setSelectedAssignment(assignmentData);
         setIsModalOpen(true);
@@ -186,45 +184,43 @@ const TeacherAssignments = () => {
         setSelectedAssignment(null);
     };
 
-    // Custom styles for the modal (these will be moved to CSS, but kept here for now as you provided them this way)
+    // Custom styles for the modal (now primarily controlled by CSS, but `content` background is still here for direct `react-modal` override)
     const customModalStyles = {
         content: {
-            top: '50%',
-            left: '50%',
-            right: 'auto',
-            bottom: 'auto',
-            marginRight: '-50%',
-            transform: 'translate(-50%, -50%)',
-            background: 'rgba(20, 20, 40, 0.7)', // Darker blue with more opacity for glass effect
-            border: '1px solid rgba(100, 100, 180, 0.4)', // Blue-tinted border for luminosity
-            backdropFilter: 'blur(15px)', // Stronger blur
-            WebkitBackdropFilter: 'blur(15px)',
-            borderRadius: '25px',
-            boxShadow: '0 15px 50px 0 rgba(0, 0, 0, 0.65)', // Deeper shadow
-            padding: '40px',
+            background: 'var(--glass-bg)', // Use CSS variable
+            border: 'var(--glass-border)',
+            backdropFilter: 'var(--glass-backdrop-filter)',
+            WebkitBackdropFilter: 'var(--glass-backdrop-filter)',
+            borderRadius: 'var(--border-radius-lg)',
+            boxShadow: 'var(--glass-shadow-dark)',
+            padding: '2.5rem',
             maxWidth: '800px',
             width: '90%',
             maxHeight: '90vh',
             overflowY: 'auto',
             display: 'flex',
             flexDirection: 'column',
-            gap: '25px',
+            gap: '1.5rem',
             position: 'relative',
-            zIndex: 1000, // Ensure it's on top
+            zIndex: 1000,
+            top: '50%',
+            left: '50%',
+            right: 'auto',
+            bottom: 'auto',
+            marginRight: '-50%',
+            transform: 'translate(-50%, -50%)',
         },
         overlay: {
-            backgroundColor: 'rgba(0, 0, 0, 0.75)', // Darker overlay
-            zIndex: 999, // Ensure overlay is beneath modal but above page
+            backgroundColor: 'rgba(0, 0, 0, 0.75)',
+            zIndex: 999,
         },
     };
 
-
     return (
-        <Row className="g-0 teacher-assignments-container">
+        <div className="teacher-assignments-layout">
             <TeacherSidebar />
-            {/* New wrapper for content area to control padding/background */}
-            <Col md={10} className="teacher-assignments-page-wrapper">
-                <div className="teacher-content-area"> {/* Inner div for content alignment */}
+            <div className="teacher-assignments-main-content">
+                <div className="teacher-content-area">
                     <h3 className="mb-4 dashboard-title">📚 Manage Assignments</h3>
 
                     {message && <Alert variant={message.includes('✅') ? "success" : message.includes('⚠️') ? "warning" : "danger"} className="mb-3 custom-alert">{message}</Alert>}
@@ -234,25 +230,23 @@ const TeacherAssignments = () => {
                         <Row className="mb-3 gx-3">
                             <Col md={6} lg={4}>
                                 <Form.Group className="mb-3">
-                                    <Form.Label className="form-label-dark">Title</Form.Label>
+                                    <Form.Label>Title</Form.Label>
                                     <Form.Control
                                         name="title"
                                         value={assignment.title}
                                         onChange={handleChange}
                                         placeholder="Enter assignment title"
                                         autoComplete="off"
-                                        className="form-control-dark"
                                     />
                                 </Form.Group>
                             </Col>
                             <Col md={6} lg={4}>
                                 <Form.Group className="mb-3">
-                                    <Form.Label className="form-label-dark">Type</Form.Label>
+                                    <Form.Label>Type</Form.Label>
                                     <Form.Select
                                         name="type"
                                         value={assignment.type}
                                         onChange={handleChange}
-                                        className="form-select-dark"
                                     >
                                         <option value="assignment">Assignment</option>
                                         <option value="homework">Homework</option>
@@ -264,13 +258,12 @@ const TeacherAssignments = () => {
                             </Col>
                             <Col md={6} lg={4}>
                                 <Form.Group className="mb-3">
-                                    <Form.Label className="form-label-dark">Due Date</Form.Label>
+                                    <Form.Label>Due Date</Form.Label>
                                     <Form.Control
                                         type="date"
                                         name="dueDate"
                                         value={assignment.dueDate}
                                         onChange={handleChange}
-                                        className="form-control-dark"
                                     />
                                 </Form.Group>
                             </Col>
@@ -279,12 +272,11 @@ const TeacherAssignments = () => {
                         <Row className="mb-4 gx-3">
                             <Col md={6} lg={4}>
                                 <Form.Group className="mb-3">
-                                    <Form.Label className="form-label-dark">Class</Form.Label>
+                                    <Form.Label>Class</Form.Label>
                                     <Form.Select
                                         name="classId"
                                         value={assignment.classId || ''}
                                         onChange={handleChange}
-                                        className="form-select-dark"
                                     >
                                         <option value="">-- Select Class --</option>
                                         {[...new Set(classSections.map(cs => cs.classId))].map(classId => {
@@ -304,12 +296,11 @@ const TeacherAssignments = () => {
 
                             <Col md={6} lg={4}>
                                 <Form.Group className="mb-3">
-                                    <Form.Label className="form-label-dark">Section</Form.Label>
+                                    <Form.Label>Section</Form.Label>
                                     <Form.Select
                                         name="sectionId"
                                         value={assignment.sectionId || ''}
                                         onChange={handleChange}
-                                        className="form-select-dark"
                                         disabled={!assignment.classId}
                                     >
                                         <option value="">-- Select Section --</option>
@@ -327,12 +318,11 @@ const TeacherAssignments = () => {
 
                             <Col md={6} lg={4}>
                                 <Form.Group className="mb-3">
-                                    <Form.Label className="form-label-dark">Subject</Form.Label>
+                                    <Form.Label>Subject</Form.Label>
                                     <Form.Select
                                         name="subjectId"
                                         value={assignment.subjectId || ''}
                                         onChange={handleChange}
-                                        className="form-select-dark"
                                         disabled={!assignment.classId || !assignment.sectionId}
                                     >
                                         <option value="">-- Select Subject --</option>
@@ -355,7 +345,7 @@ const TeacherAssignments = () => {
                         </Row>
 
                         <Form.Group className="mb-4">
-                            <Form.Label className="form-label-dark">Description</Form.Label>
+                            <Form.Label>Description</Form.Label>
                             <Form.Control
                                 as="textarea"
                                 name="description"
@@ -364,7 +354,6 @@ const TeacherAssignments = () => {
                                 rows={4}
                                 placeholder="Provide a detailed description for the assignment, including instructions or specific requirements..."
                                 autoComplete="off"
-                                className="form-control-dark"
                             />
                         </Form.Group>
 
@@ -401,7 +390,6 @@ const TeacherAssignments = () => {
                             <p>Start by creating one using the form above!</p>
                         </motion.div>
                     ) : (
-                        // This is the main change: removed Row/Col around individual motion.divs
                         <div className="assignments-grid-container">
                             <AnimatePresence>
                                 {assignments.map((a) => {
@@ -417,14 +405,14 @@ const TeacherAssignments = () => {
                                             whileHover={{
                                                 y: -8,
                                                 scale: 1.02,
-                                                boxShadow: "0 18px 45px rgba(0, 0, 0, 0.7), inset 0 0 0 1px rgba(255, 255, 255, 0.1)"
+                                                boxShadow: "var(--glass-shadow-hover)"
                                             }}
                                             transition={{ type: "spring", stiffness: 300, damping: 20 }}
                                             initial={{ opacity: 0, y: 50 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             exit={{ opacity: 0, y: -20 }}
-                                            layout // Enables smooth re-layout when items are added/removed
-                                            key={a.id} // Key should be on the outermost element of map
+                                            layout
+                                            key={a.id}
                                         >
                                             <div className="card-header">
                                                 <h5 className="card-title-dark">
@@ -442,16 +430,15 @@ const TeacherAssignments = () => {
                                                 <p><strong><FaBookOpen className="me-2" />Subject:</strong> {subjectName}</p>
                                             </div>
 
-                                            {/* Short description for card preview */}
                                             <div className="card-description-wrapper">
                                                 <p className="card-description">
                                                     {a.description ? `${a.description.substring(0, 120)}${a.description.length > 120 ? '...' : ''}` : 'No description provided.'}
                                                 </p>
                                                 {a.description && a.description.length > 120 && (
                                                     <Button
-                                                        variant="link"
+                                                        variant="primary" // Changed to primary for better visibility
                                                         size="sm"
-                                                        onClick={(e) => { e.stopPropagation(); openAssignmentModal(a); }} // Open modal on click
+                                                        onClick={(e) => { e.stopPropagation(); openAssignmentModal(a); }}
                                                         className="read-more-btn"
                                                         aria-label="Read more about this assignment"
                                                     >
@@ -465,14 +452,13 @@ const TeacherAssignments = () => {
                             </AnimatePresence>
                         </div>
                     )}
-                </div> {/* End teacher-content-area */}
-            </Col>
+                </div>
+            </div>
 
-            {/* Assignment Detail Modal */}
             <Modal
                 isOpen={isModalOpen}
                 onRequestClose={closeAssignmentModal}
-                style={customModalStyles} // Will transfer these to CSS later
+                style={customModalStyles}
                 contentLabel="Assignment Details"
             >
                 {selectedAssignment && (
@@ -516,7 +502,7 @@ const TeacherAssignments = () => {
                     </motion.div>
                 )}
             </Modal>
-        </Row>
+        </div>
     );
 };
 

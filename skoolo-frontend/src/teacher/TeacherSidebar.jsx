@@ -1,6 +1,5 @@
-// src/components/TeacherSidebar.jsx
-import React from 'react';
-import { Col, Nav, Button } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Col, Nav, Button, Navbar } from 'react-bootstrap';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import {
     FaTachometerAlt,
@@ -11,13 +10,16 @@ import {
     FaUserCircle,
     FaSignOutAlt,
     FaChartBar,
-    FaComments // Changed FaUserCircle to FaComments for Communication
+    FaBars,
+    FaTimes,
+    FaComments
 } from 'react-icons/fa';
-import styles from './style/TeacherSidebar.module.css';
+import './style/TeacherSidebar.css'; // Import the CSS file
 
 const TeacherSidebar = () => {
     const navigate = useNavigate();
     const location = useLocation();
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -28,108 +30,138 @@ const TeacherSidebar = () => {
 
     const isActive = (path) => location.pathname === path;
 
+    const toggleMobileMenu = () => {
+        setIsMobileMenuOpen(!isMobileMenuOpen);
+    };
+
+    const closeMobileMenu = () => {
+        setIsMobileMenuOpen(false);
+    };
+
+    // Navigation items for easier management
+    const navItems = [
+        {
+            category: 'Timetable',
+            icon: FaCalendarAlt,
+            items: [
+                { path: '/teacher/timetable', label: 'View Timetable' }
+            ]
+        },
+        {
+            category: 'Students',
+            icon: FaUsers,
+            items: [
+                { path: '/teacher/students', label: 'Student List' }
+            ]
+        },
+        {
+            category: 'Attendance',
+            icon: FaCheckSquare,
+            items: [
+                { path: '/teacher/attendance', label: 'Manage Attendance' }
+            ]
+        },
+        {
+            category: 'Assignments',
+            icon: FaBookOpen,
+            items: [
+                { path: '/teacher/assignments', label: 'Manage Assignments' }
+            ]
+        },
+        {
+            category: 'Grades / Assessments',
+            icon: FaChartBar,
+            items: [
+                { path: '/teacher/grades', label: 'Manage Marks' }
+            ]
+        },
+        {
+            category: 'Communication',
+            icon: FaComments,
+            items: [
+                { path: '/teacher/messages', label: 'Messages' }
+            ]
+        },
+        {
+            category: 'Profile',
+            icon: FaUserCircle,
+            items: [
+                { path: '/teacher/profile', label: 'My Profile' }
+            ]
+        }
+    ];
+
     return (
-        <Col
-            md={2}
-            className={`${styles.sidebar} d-flex flex-column p-3`}
-        >
-            <h4 className={styles.sidebarTitle}>
-                Teacher Panel
-            </h4>
-            <Nav className="flex-column flex-grow-1">
-                <Nav.Link
-                    as={Link}
-                    to="/teacher/dashboard"
-                    className={`${styles.navLink} ${isActive('/teacher/dashboard') ? styles.active : ''}`}
-                >
-                    <FaTachometerAlt className={styles.navIcon} /> Dashboard
-                </Nav.Link>
-
-                <h6 className={styles.navCategory}>
-                    <FaCalendarAlt className={styles.categoryIcon} /> Timetable
-                </h6>
-                <Nav.Link
-                    as={Link}
-                    to="/teacher/timetable"
-                    className={`${styles.navLink} ${isActive('/teacher/timetable') ? styles.active : ''}`}
-                >
-                    <span className={styles.subNavLink}>View Timetable</span>
-                </Nav.Link>
-
-                <h6 className={styles.navCategory}>
-                    <FaUsers className={styles.categoryIcon} /> Students
-                </h6>
-                <Nav.Link
-                    as={Link}
-                    to="/teacher/students"
-                    className={`${styles.navLink} ${isActive('/teacher/students') ? styles.active : ''}`}
-                >
-                    <span className={styles.subNavLink}>Student List</span>
-                </Nav.Link>
-
-                <h6 className={styles.navCategory}>
-                    <FaCheckSquare className={styles.categoryIcon} /> Attendance
-                </h6>
-                <Nav.Link
-                    as={Link}
-                    to="/teacher/attendance"
-                    className={`${styles.navLink} ${isActive('/teacher/attendance') ? styles.active : ''}`}
-                >
-                    <span className={styles.subNavLink}>Manage Attendance</span>
-                </Nav.Link>
-
-                <h6 className={styles.navCategory}>
-                    <FaBookOpen className={styles.categoryIcon} /> Assignments
-                </h6>
-                <Nav.Link
-                    as={Link}
-                    to="/teacher/assignments"
-                    className={`${styles.navLink} ${isActive('/teacher/assignments') ? styles.active : ''}`}
-                >
-                    <span className={styles.subNavLink}>Manage Assignments</span>
-                </Nav.Link>
-
-                <h6 className={styles.navCategory}>
-                    <FaChartBar className={styles.categoryIcon} /> Grades / Assessments
-                </h6>
-                <Nav.Link
-                    as={Link}
-                    to="/teacher/grades"
-                    className={`${styles.navLink} ${isActive('/teacher/grades') ? styles.active : ''}`}
-                >
-                    <span className={styles.subNavLink}>Manage Marks</span>
-                </Nav.Link>
-
-                <h6 className={styles.navCategory}>
-                    <FaComments className={styles.categoryIcon} /> Communication
-                </h6>
-                <Nav.Link
-                    as={Link}
-                    to="/teacher/messages"
-                    className={`${styles.navLink} ${isActive('/teacher/messages') ? styles.active : ''}`}
-                >
-                    <span className={styles.subNavLink}>Messages</span>
-                </Nav.Link>
-
-                <h6 className={styles.navCategory}>
-                    <FaUserCircle className={styles.categoryIcon} /> Profile
-                </h6>
-                <Nav.Link
-                    as={Link}
-                    to="/teacher/profile"
-                    className={`${styles.navLink} ${isActive('/teacher/profile') ? styles.active : ''}`}
-                >
-                    <span className={styles.subNavLink}>My Profile</span>
-                </Nav.Link>
-
-            </Nav>
-
-            <div className="mt-auto pt-3">
-                <Button variant="outline-light" className={styles.logoutButton} onClick={handleLogout}>
-                    <FaSignOutAlt className="me-2" /> Logout
-                </Button>
+        <>
+            {/* Mobile Header with Menu Toggle */}
+            <div className="mobile-header d-lg-none">
+                <Navbar className="mobile-navbar px-3 py-2">
+                    <Navbar.Brand className="mobile-title">Teacher Panel</Navbar.Brand>
+                    <Button 
+                        variant="outline-light" 
+                        className="mobile-menu-toggle"
+                        onClick={toggleMobileMenu}
+                    >
+                        {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
+                    </Button>
+                </Navbar>
             </div>
-        </Col>
+
+            {/* Overlay for mobile menu */}
+            {isMobileMenuOpen && (
+                <div className="mobile-overlay" onClick={closeMobileMenu}></div>
+            )}
+
+            {/* Sidebar */}
+            <Col
+                lg={2}
+                className={`teacher-sidebar d-flex flex-column ${isMobileMenuOpen ? 'mobile-open' : ''}`}
+            >
+                <div className="sidebar-header">
+                    <h4 className="sidebar-title d-none d-lg-block">
+                        Teacher Panel
+                    </h4>
+                </div>
+                
+                <div className="sidebar-content">
+                    <Nav className="flex-column flex-grow-1 nav-container">
+                        {navItems.map((section, index) => (
+                            <div key={index} className="nav-section">
+                                <h6 className="nav-category">
+                                    <section.icon className="category-icon" /> 
+                                    <span className="category-text">{section.category}</span>
+                                </h6>
+                                {section.items.map((item, itemIndex) => (
+                                    <Nav.Link
+                                        key={itemIndex}
+                                        as={Link}
+                                        to={item.path}
+                                        className={`nav-link-custom ${isActive(item.path) ? 'active' : ''}`}
+                                        onClick={closeMobileMenu}
+                                    >
+                                        <span className="sub-nav-link">{item.label}</span>
+                                    </Nav.Link>
+                                ))}
+                            </div>
+                        ))}
+                    </Nav>
+
+                    <div className="logout-container">
+                        <Button 
+                            variant="outline-light" 
+                            className="logout-button"
+                            onClick={() => {
+                                handleLogout();
+                                closeMobileMenu();
+                            }}
+                        >
+                            <FaSignOutAlt className="me-2" /> 
+                            <span>Logout</span>
+                        </Button>
+                    </div>
+                </div>
+            </Col>
+        </>
     );
 };
 

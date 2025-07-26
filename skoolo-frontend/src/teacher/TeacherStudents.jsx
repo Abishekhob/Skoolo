@@ -10,10 +10,10 @@ import {
   ListGroup,
   Badge,
 } from 'react-bootstrap';
-import { FaUsers, FaGraduationCap, FaMale, FaFemale, FaChalkboardTeacher, FaExclamationCircle } from 'react-icons/fa'; // Import icons
+import { FaUsers, FaGraduationCap, FaMale, FaFemale, FaChalkboardTeacher, FaExclamationCircle } from 'react-icons/fa';
 import TeacherSidebar from './TeacherSidebar';
 import API from '../services/api';
-import styles from './style/TeacherStudents.module.css'; // Import CSS Modules
+import styles from './style/TeacherStudents.module.css';
 
 const TeacherStudents = () => {
   const [classSections, setClassSections] = useState([]);
@@ -37,7 +37,7 @@ const TeacherStudents = () => {
         setClassSections(res.data);
         if (res.data.length > 0) {
           const first = res.data[0];
-          handleClassClick(first.classId, first.sectionId); // Load first class by default
+          handleClassClick(first.classId, first.sectionId);
         } else {
           setError('No classes assigned to you.');
         }
@@ -53,10 +53,10 @@ const TeacherStudents = () => {
 
   const handleClassClick = (classId, sectionId) => {
     setLoading(true);
-    setError(''); // Clear previous errors
+    setError('');
     setSelectedClass({ classId, sectionId });
-    setStudents([]); // Clear students from previous selection
-    setClassInfo({}); // Clear class info from previous selection
+    setStudents([]);
+    setClassInfo({});
 
     API.get(`/classes/${classId}/sections/${sectionId}/details`)
       .then((res) => {
@@ -82,12 +82,14 @@ const TeacherStudents = () => {
 
   return (
     <Container fluid className={styles.mainContainer}>
-      <Row className="flex-nowrap">
-        {/* Teacher Sidebar - Assuming it handles its own styling */}
-        <TeacherSidebar />
+      <Row className={styles.mainRow}>
+        {/* Teacher Sidebar - Fixed positioning */}
+        <Col xs={12} lg={2} className={styles.sidebarCol}>
+          <TeacherSidebar />
+        </Col>
 
         {/* Class List Sidebar */}
-        <Col xs={12} md={3} lg={2} className={`${styles.classListSidebar} py-4 d-flex flex-column`}>
+        <Col xs={12} lg={2} className={`${styles.classListSidebar} py-3`}>
           <h5 className={styles.sidebarHeading}>My Classes</h5>
           <ListGroup variant="flush" className="flex-grow-1">
             {classSections.length > 0 ? (
@@ -108,7 +110,7 @@ const TeacherStudents = () => {
                     <span className={styles.classNameText}>{cls.className} - {cls.sectionName}</span>
                     {cls.isClassTeacher && (
                       <Badge className={styles.classTeacherBadge}>
-                        👑 Class Teacher
+                        👑 CT
                       </Badge>
                     )}
                   </ListGroup.Item>
@@ -121,7 +123,7 @@ const TeacherStudents = () => {
         </Col>
 
         {/* Student Details Content */}
-        <Col xs={12} md={9} lg={10} className={`${styles.contentArea} py-4 px-4`}>
+        <Col xs={12} lg={8} className={`${styles.contentArea} py-4 px-4`}>
           <h3 className={styles.contentHeading}>
             <FaGraduationCap /> Student List
           </h3>
@@ -195,7 +197,7 @@ const TeacherStudents = () => {
                   <Table
                     striped
                     hover
-                    responsive="sm" // Enable responsive behavior for small screens and up
+                    responsive="sm"
                     variant="dark"
                     className={styles.studentTable}
                   >
@@ -242,7 +244,7 @@ const TeacherStudents = () => {
               Please select a class from the left sidebar to view student details.
             </Alert>
           )}
-           {!loading && !error && !selectedClass && classSections.length === 0 && (
+          {!loading && !error && !selectedClass && classSections.length === 0 && (
             <Alert variant="info" className={styles.initialPrompt}>
               No classes assigned to you.
             </Alert>

@@ -1,8 +1,16 @@
-import { Col, Nav, Button } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
+// AdminSidebar.jsx
+import React, { useState, useEffect } from 'react';
+import { Nav, Button, Accordion } from 'react-bootstrap';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { FaBars, FaTimes, FaChalkboardTeacher, FaBook, FaUsers, FaMoneyBillWave, FaGraduationCap, FaAngleDown, FaAngleUp } from 'react-icons/fa';
+import { RiDashboardFill } from 'react-icons/ri';
+import './style/AdminSidebar.css'; // Import the CSS file
 
 const AdminSidebar = () => {
   const navigate = useNavigate();
+  const location = useLocation(); // To get the current path
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [activeKey, setActiveKey] = useState(""); // For accordion control
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -12,55 +20,147 @@ const AdminSidebar = () => {
     navigate('/');
   };
 
+  // Close sidebar on larger screens if it was open on mobile
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 768) { // md breakpoint in Bootstrap is 768px
+        setSidebarOpen(false); // Close sidebar on desktop
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Set initial active accordion key based on current path
+  useEffect(() => {
+    if (location.pathname.startsWith("/admin/classes")) setActiveKey("0");
+    else if (location.pathname.startsWith("/admin/teachers") || location.pathname.startsWith("/admin/timetable-scheduler")) setActiveKey("1");
+    else if (location.pathname.startsWith("/admin/subjects")) setActiveKey("2");
+    else if (location.pathname.startsWith("/admin/parents")) setActiveKey("3");
+    else if (location.pathname.startsWith("/admin/fees")) setActiveKey("4");
+    else if (location.pathname.startsWith("/admin/promotions")) setActiveKey("5");
+    else setActiveKey(""); // No active accordion if path doesn't match
+  }, [location.pathname]);
+
+  const navItems = [
+    {
+      title: "Classes",
+      icon: <FaBook />,
+      links: [
+        { name: "List All Classes", path: "/admin/classes" },
+      ],
+      eventKey: "0",
+    },
+    {
+      title: "Teachers",
+      icon: <FaChalkboardTeacher />,
+      links: [
+        { name: "Manage Teachers", path: "/admin/teachers" },
+        { name: "Assign Teachers to Periods", path: "/admin/timetable-scheduler" },
+      ],
+      eventKey: "1",
+    },
+    {
+      title: "Subjects",
+      icon: <FaBook />,
+      links: [
+        { name: "Manage Subjects", path: "/admin/subjects" },
+      ],
+      eventKey: "2",
+    },
+    {
+      title: "Parents",
+      icon: <FaUsers />,
+      links: [
+        { name: "View All Parents", path: "/admin/parents" },
+      ],
+      eventKey: "3",
+    },
+    {
+      title: "Fees",
+      icon: <FaMoneyBillWave />,
+      links: [
+        { name: "Manage Fees", path: "/admin/fees" },
+      ],
+      eventKey: "4",
+    },
+    {
+      title: "Promotions",
+      icon: <FaGraduationCap />,
+      links: [
+        { name: "Student Promotions", path: "/admin/promotions" },
+      ],
+      eventKey: "5",
+    },
+  ];
+
   return (
-    <Col
-      md={2}
-      className="bg-dark text-white p-3 position-sticky top-0"
-      style={{ height: '100vh', zIndex: 1030 }}
-    >
-      <h4 className="mb-4">Admin Panel</h4>
-      <Nav className="flex-column">
+    <>
+      {/* Mobile Toggle Button */}
+      <Button
+        variant="primary"
+        className="sidebar-toggle-btn d-md-none" // Only visible on small screens
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+        aria-controls="admin-sidebar-menu"
+        aria-expanded={sidebarOpen}
+      >
+        {sidebarOpen ? <FaTimes /> : <FaBars />}
+      </Button>
 
-        <h6 className="text-secondary mt-3">📚 Classes</h6>
-        <Nav.Link as={Link} to="/admin/classes" className="text-white">
-          List All Classes
-        </Nav.Link>
+      <div
+        className={`admin-sidebar bg-dark text-white p-3 d-flex flex-column ${sidebarOpen ? 'open' : ''}`}
+      >
+        <div className="sidebar-header d-flex justify-content-between align-items-center mb-4">
+          <h4 className="m-0 d-flex align-items-center">
+            <RiDashboardFill className="me-2" /> Admin Panel
+          </h4>
+          <Button
+            variant="link"
+            className="text-white d-md-none sidebar-close-btn" // Close button for mobile sidebar
+            onClick={() => setSidebarOpen(false)}
+            aria-label="Close sidebar"
+          >
+            <FaTimes />
+          </Button>
+        </div>
 
-        <h6 className="text-secondary mt-4">👨‍🏫 Teachers</h6>
-        <Nav.Link as={Link} to="/admin/teachers" className="text-white">
-          Manage Teachers
-        </Nav.Link>
+        <Nav className="flex-column flex-grow-1 sidebar-nav">
+          <Accordion alwaysOpen activeKey={activeKey} onSelect={(eventKey) => setActiveKey(eventKey)}>
+            {navItems.map((category, index) => (
+              <Accordion.Item eventKey={category.eventKey} key={index} className="sidebar-accordion-item">
+                <Accordion.Header className="sidebar-accordion-header">
+                  <span className="sidebar-accordion-title">
+                    {category.icon} {category.title}
+                  </span>
+                  {activeKey === category.eventKey ? <FaAngleUp /> : <FaAngleDown />}
+                </Accordion.Header>
+                <Accordion.Body className="sidebar-accordion-body p-0">
+                  {category.links.map((link, linkIndex) => (
+                    <Nav.Link
+                      key={linkIndex}
+                      as={Link}
+                      to={link.path}
+                      className={`sidebar-nav-link ${location.pathname === link.path ? 'active' : ''}`}
+                      onClick={() => {
+                        if (window.innerWidth <= 768) { // Close sidebar on mobile after clicking a link
+                          setSidebarOpen(false);
+                        }
+                      }}
+                    >
+                      {link.name}
+                    </Nav.Link>
+                  ))}
+                </Accordion.Body>
+              </Accordion.Item>
+            ))}
+          </Accordion>
 
-        <h6 className="text-secondary mt-4">👨‍🏫 Teacher Scheduling</h6>
-        <Nav.Link as={Link} to="/admin/timetable-scheduler" className="text-white">
-          Assign Teachers to Periods
-        </Nav.Link>
-
-        <h6 className="text-secondary mt-4">📚 Subjects</h6>
-        <Nav.Link as={Link} to="/admin/subjects" className="text-white">
-          Manage Subjects
-        </Nav.Link>
-
-        <h6 className="text-secondary mt-4">👨‍👩‍👧‍👦 Parents</h6>
-        <Nav.Link as={Link} to="/admin/parents" className="text-white">
-          View All Parents
-        </Nav.Link>
-
-        <h6 className="text-secondary mt-4">💰 Fees</h6>
-        <Nav.Link as={Link} to="/admin/fees" className="text-white">
-          Manage Fees
-        </Nav.Link>
-
-        <h6 className="text-secondary mt-4">🎓 Promotions</h6>
-        <Nav.Link as={Link} to="/admin/promotions" className="text-white">
-          Student Promotions
-        </Nav.Link>
-
-        <Button variant="outline-light" className="mt-5" onClick={handleLogout}>
-          Logout
-        </Button>
-      </Nav>
-    </Col>
+          <Button variant="outline-light" className="mt-auto sidebar-logout-btn" onClick={handleLogout}>
+            Logout
+          </Button>
+        </Nav>
+      </div>
+    </>
   );
 };
 

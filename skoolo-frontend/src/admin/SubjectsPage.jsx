@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Container, Row, Col, Card, Form, Button, Table, Spinner, Alert, Modal } from 'react-bootstrap';
-import AdminSidebar from './AdminSideBar'; // Adjust path if necessary
+import AdminSidebar from './AdminSidebar';// Adjust path if necessary
 import API from '../services/api'; // Adjust path to your API service
 
 const SubjectsPage = () => {

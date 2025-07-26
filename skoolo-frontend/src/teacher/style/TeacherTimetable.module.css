@@ -16,6 +16,7 @@
   flex-grow: 1;
   overflow-y: auto; /* Enable scrolling for content */
   height: calc(100vh - 40px); /* Adjust height to fit container with margin */
+    margin-left: 270px;
 }
 
 /* Custom Scrollbar Styles */

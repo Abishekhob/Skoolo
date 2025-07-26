@@ -1,0 +1,525 @@
+/* Base Layout & General Styling */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.admin-classes-container {
+  background-color: #121212; /* Deep dark background */
+  color: #e0e0e0;
+  min-height: 100vh;
+  padding: 0 !important; /* Remove default bootstrap container padding */
+  display: flex; /* Use flex to manage sidebar and content */
+}
+
+/* Main Content Area */
+.main-content-area {
+  padding: 2rem !important;
+  flex-grow: 1; /* Allows main content to take remaining space */
+}
+
+/* Responsive adjustment for main content when sidebar is open on mobile */
+@media (max-width: 768px) {
+  .main-content-area {
+    width: 100%; /* Take full width on mobile */
+    margin-left: 0; /* No margin from sidebar */
+    padding-top: 5rem !important; /* Add space for the fixed toggle button */
+  }
+}
+
+/* Page Title */
+.page-title {
+  color: #ffffff;
+  margin-bottom: 2.5rem;
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Alert Messages (Success/Error) */
+.styled-alert {
+  margin-bottom: 1.5rem;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  border: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+.alert-danger {
+  background-color: #dc3545; /* Bootstrap red */
+  color: #fff;
+}
+.alert-success {
+  background-color: #28a745; /* Bootstrap green */
+  color: #fff;
+}
+
+
+/* --- Class Cards Grid --- */
+.class-cards-grid {
+  --bs-gutter-x: 1.5rem; /* Custom gutter spacing */
+  --bs-gutter-y: 1.5rem; /* Custom gutter spacing */
+}
+
+/* Individual Class Card Styling */
+.class-card {
+  background: linear-gradient(135deg, #2c3e50, #2c3e50); /* Darker, sleek background */
+  color: #f8f9fa;
+  height: 180px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.08); /* Subtle border */
+  cursor: pointer; /* Indicates clickable */
+}
+
+.class-card:hover {
+  transform: translateY(-5px); /* Slight lift effect */
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+.class-card.dragging {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* More pronounced shadow when dragging */
+  cursor: grabbing !important; /* Indicate grabbing state */
+  border-color: #007bff; /* Highlight border when dragging */
+}
+
+/* Drag Handle */
+.class-card-drag-handle {
+  cursor: grab;
+  padding: 5px 10px;
+  background-color: rgba(255, 255, 255, 0.05); /* Lighter background for handle */
+  text-align: right;
+  border-top-left-radius: 15px; /* Match card border radius */
+  border-top-right-radius: 15px;
+  touch-action: none; /* Essential for DND-Kit on touch devices */
+}
+
+.class-card-drag-handle svg {
+  color: #adb5bd;
+  font-size: 1.3rem; /* Slightly larger icon */
+}
+
+/* Card Body (main content area of the card) */
+.class-card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; /* Center content vertically and horizontally */
+  text-align: center;
+  flex-grow: 1;
+  padding: 1rem; /* Adjust padding */
+}
+
+.class-card-title {
+  font-size: 1.6rem; /* Larger title */
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #8ac0ff; /* Primary accent color */
+}
+
+.class-card-text {
+  font-size: 0.95rem;
+  color: #bbbbbb;
+}
+
+/* Card Footer (buttons) */
+.class-card-footer {
+  display: flex;
+  justify-content: space-around; /* Distribute space evenly */
+  align-items: center;
+  background-color: #212529; /* Darker footer background */
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.75rem 1rem; /* Adjust padding */
+  border-bottom-left-radius: 15px; /* Match card border radius */
+  border-bottom-right-radius: 15px;
+}
+
+.class-action-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* Space between icon and text */
+  padding: 0.4rem 0.8rem; /* Adjusted button padding */
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 8px; /* Slightly more rounded buttons */
+  transition: all 0.2s ease;
+}
+
+.class-action-button .button-icon {
+  font-size: 1rem;
+}
+
+.edit-button {
+  background-color: #ffc107; /* Warning yellow */
+  border-color: #ffc107;
+  color: #343a40; /* Dark text for warning button */
+}
+.edit-button:hover {
+  background-color: #e0a800;
+  border-color: #e0a800;
+  color: #212529;
+  transform: translateY(-1px);
+}
+
+.delete-button {
+  background-color: #dc3545; /* Danger red */
+  border-color: #dc3545;
+  color: #ffffff;
+}
+.delete-button:hover {
+  background-color: #c82333;
+  border-color: #bd2130;
+  transform: translateY(-1px);
+}
+
+/* --- Add New Class Card --- */
+.add-new-class-card {
+  background-color: rgba(255, 255, 255, 0.05); /* Semi-transparent white background */
+  color: #f8f9fa;
+  height: 180px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: 2px dashed rgba(255, 255, 255, 0.3); /* Dashed border */
+  transition: all 0.2s ease;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.add-new-class-card:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: #007bff; /* Highlight dashed border on hover */
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.add-new-card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.add-icon {
+  font-size: 3rem; /* Large plus icon */
+  color: #007bff; /* Primary blue color */
+  margin-bottom: 0.5rem;
+}
+
+.add-new-card-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 0.2rem;
+}
+
+.add-new-card-text {
+  font-size: 0.9rem;
+  color: #bbbbbb;
+}
+
+/* --- Add/Edit Form Styling --- */
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 150px); /* Adjust height for form container */
+  padding: 1rem; /* Add padding for smaller screens */
+}
+
+.add-edit-card {
+  background: linear-gradient(135deg, #1f2a38, #2a3d50); /* Darker, subtle gradient */
+  color: #f8f9fa;
+  width: 100%;
+  max-width: 550px; /* Slightly increased max-width */
+  border-radius: 18px; /* More rounded */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1.5rem; /* Increased inner padding */
+}
+
+.card-form-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 2.2rem;
+  text-align: center;
+  color: #ffffff;
+  letter-spacing: 0.03em;
+}
+
+.form-label {
+  color: #c9e0ff; /* Lighter blue for labels */
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.form-input {
+  background-color: #2f3e4e; /* Slightly lighter dark background for inputs */
+  color: #f8f9fa;
+  border: 1px solid #4a5d6e; /* Subtle border */
+  border-radius: 10px; /* Rounded input fields */
+  padding: 0.75rem 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-input:focus {
+  background-color: #3a4b5d;
+  color: #f8f9fa;
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+}
+
+.section-input {
+  flex-grow: 1; /* Allow sections input to take available space */
+}
+
+.remove-section-button {
+  width: 40px; /* Fixed width for '-' button */
+  height: 40px; /* Fixed height for '-' button */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%; /* Make it circular */
+  font-size: 1.5rem;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+.remove-section-button:hover {
+  background-color: #dc3545;
+  color: #fff;
+  transform: scale(1.05);
+}
+
+.form-actions-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap; /* Allow wrapping on small screens */
+  gap: 0.75rem; /* Gap between buttons if they wrap */
+}
+
+.add-section-button {
+  border-color: #007bff;
+  color: #007bff;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.add-section-button:hover {
+  background-color: #007bff;
+  color: #ffffff;
+}
+
+.back-to-classes-button {
+  border-color: #6c757d;
+  color: #6c757d;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.back-to-classes-button:hover {
+  background-color: #6c757d;
+  color: #ffffff;
+}
+
+.submit-button {
+  background-color: #28a745; /* Green submit button */
+  border-color: #28a745;
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 0.8rem 1.5rem;
+  border-radius: 10px;
+  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+}
+.submit-button:hover {
+  background-color: #218838;
+  border-color: #1e7e34;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+}
+
+
+/* --- Loading Spinner --- */
+.loading-spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #121212;
+}
+
+/* --- Modals --- */
+.modal-header-styled {
+  background-color: #212529; /* Darker header */
+  color: #ffffff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1rem 1.5rem;
+}
+.modal-header-styled .btn-close {
+  filter: invert(1); /* Make close button white */
+}
+
+.modal-body-styled {
+  background-color: #1a2a3a; /* Deep dark background */
+  color: #e0e0e0;
+  padding: 1.5rem;
+  font-size: 1rem;
+}
+.modal-body-styled strong {
+  color: #8ac0ff; /* Highlight strong text */
+}
+
+.modal-footer-styled {
+  background-color: #212529; /* Darker footer */
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: flex-end; /* Push buttons to the right */
+  gap: 0.75rem; /* Space between buttons */
+}
+
+.modal-button-cancel {
+  background-color: #6c757d; /* Secondary grey */
+  border-color: #6c757d;
+  color: #ffffff;
+  font-weight: 500;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+.modal-button-cancel:hover {
+  background-color: #5a6268;
+  border-color: #545b62;
+  transform: translateY(-1px);
+}
+
+.modal-button-delete {
+  background-color: #dc3545; /* Danger red */
+  border-color: #dc3545;
+  color: #ffffff;
+  font-weight: 500;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+.modal-button-delete:hover {
+  background-color: #c82333;
+  border-color: #bd2130;
+  transform: translateY(-1px);
+}
+
+/* Responsive Adjustments for smaller screens */
+@media (max-width: 992px) { /* Adjust for medium screens (laptops, large tablets) */
+  .main-content-area {
+    padding: 1.5rem !important;
+  }
+  .page-title {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+  }
+  .class-card-title {
+    font-size: 1.4rem;
+  }
+  .add-new-card-title {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 768px) { /* Adjust for mobile and small tablets */
+  .main-content-area {
+    padding: 1rem !important;
+  }
+  .page-title {
+    font-size: 1.6rem;
+    margin-bottom: 1.5rem;
+  }
+  .class-card, .add-new-class-card {
+    height: 160px; /* Slightly smaller cards on mobile */
+  }
+  .class-card-title, .add-new-card-title {
+    font-size: 1.3rem;
+  }
+  .add-icon {
+    font-size: 2.5rem;
+  }
+  .form-container {
+    min-height: auto; /* Allow form to adjust height naturally */
+    padding: 0.5rem;
+  }
+  .add-edit-card {
+    padding: 1rem;
+    border-radius: 12px;
+  }
+  .card-form-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .form-actions-bottom {
+    flex-direction: column; /* Stack buttons vertically */
+    align-items: stretch; /* Stretch buttons to full width */
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+  .add-section-button, .back-to-classes-button, .submit-button {
+    width: 100%; /* Full width buttons */
+    margin-bottom: 0.5rem; /* Spacing between stacked buttons */
+  }
+  .remove-section-button {
+    width: 36px;
+    height: 36px;
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 576px) { /* Extra small screens (phones) */
+  .class-cards-grid {
+    --bs-gutter-x: 1rem;
+    --bs-gutter-y: 1rem;
+  }
+  .class-card, .add-new-class-card {
+    height: 150px;
+    border-radius: 10px;
+  }
+  .class-card-title, .add-new-card-title {
+    font-size: 1.2rem;
+  }
+  .add-icon {
+    font-size: 2rem;
+  }
+  .class-action-button {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.8rem;
+  }
+  .class-action-button .button-icon {
+    font-size: 0.9rem;
+  }
+  .modal-body-styled {
+    font-size: 0.9rem;
+    padding: 1rem;
+  }
+  .modal-footer-styled {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .modal-button-cancel, .modal-button-delete {
+    width: 100%;
+  }
+}

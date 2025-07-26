@@ -1,0 +1,455 @@
+:root {
+  /* General Colors */
+  --bg-dark-primary: #1a1a2e;
+  --bg-dark-secondary: #16213e;
+  --text-white: #e0e0e0;
+  --text-muted: #adb5bd;
+  --accent-blue: #007bff;
+  --accent-green: #28a745;
+  --accent-yellow: #ffc107; /* Bootstrap warning */
+  --accent-red: #dc3545; /* Bootstrap danger */
+  --border-color: rgba(255, 255, 255, 0.15);
+  --shadow-light: rgba(0, 0, 0, 0.2);
+  --shadow-medium: rgba(0, 0, 0, 0.3);
+  --shadow-heavy: rgba(0, 0, 0, 0.6);
+  --transition-speed: 0.3s ease-in-out;
+
+  /* Card Specific */
+  --card-bg: linear-gradient(145deg, #2a3a50, #1f2a3a);
+  --card-hover-bg: linear-gradient(145deg, #304058, #253040);
+  --card-drag-bg: #212529; /* Darker background when dragging */
+  --add-card-border: #6c757d;
+
+  /* Form Specific */
+  --form-card-bg: linear-gradient(135deg, #252a35, #1d212b);
+  --form-control-bg: #343a40;
+  --form-control-text: #ffffff;
+  --form-control-border: #495057;
+
+  /* Modal Specific */
+  --modal-bg: #212529;
+  --modal-header-footer-bg: #2c313a;
+}
+
+/* Overall Page Layout */
+.classes-grid-container {
+  background-color: var(--bg-dark-primary);
+  min-height: 100vh;
+  display: flex;
+  color: var(--text-white);
+  padding: 0; /* Remove default container padding */
+}
+
+.main-content-area {
+  background-color: var(--bg-dark-secondary);
+  border-left: 1px solid var(--border-color); /* Separator from sidebar */
+  padding: 2rem !important; /* Override bootstrap padding */
+  flex-grow: 1;
+}
+
+.page-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--text-white);
+  margin-bottom: 2.5rem;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Loading Overlay */
+.loading-overlay {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--bg-dark-primary);
+  color: var(--text-white);
+}
+
+.loading-text {
+  margin-top: 1rem;
+  font-size: 1.2rem;
+  color: var(--text-muted);
+}
+
+/* Alert Messages */
+.custom-alert {
+  border-radius: 8px;
+  font-size: 0.95rem;
+  padding: 0.8rem 1.2rem;
+  box-shadow: 0 2px 8px var(--shadow-light);
+}
+.alert-danger {
+  background-color: rgba(220, 53, 69, 0.15); /* Light red background */
+  border-color: var(--accent-red);
+  color: #ffcccc; /* Lighter red text */
+}
+.alert-success {
+  background-color: rgba(40, 167, 69, 0.15); /* Light green background */
+  border-color: var(--accent-green);
+  color: #ccffcc; /* Lighter green text */
+}
+
+/* Classes Grid Row */
+.classes-grid-row {
+  margin-top: 2rem; /* Spacing below title/alerts */
+}
+
+/* Sortable Class Card */
+.classes-grid-card {
+  background: var(--card-bg);
+  transition: transform var(--transition-speed), box-shadow var(--transition-speed), background var(--transition-speed);
+  cursor: pointer;
+  height: 200px; /* Fixed height for consistent grid */
+}
+
+.classes-grid-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px var(--shadow-medium);
+  background: var(--card-hover-bg);
+}
+
+.classes-grid-card .drag-handle {
+  cursor: grab;
+  padding: 8px 15px;
+  background-color: rgba(0,0,0,0.1); /* Subtle dark band at top */
+  text-align: right;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  touch-action: none; /* Important for DND-Kit on touch devices */
+  display: flex;
+  justify-content: flex-end; /* Align icon to right within handle */
+  align-items: center;
+}
+
+.classes-grid-card .drag-icon {
+  color: var(--text-muted);
+  font-size: 1.5rem;
+  transition: color var(--transition-speed);
+}
+
+.classes-grid-card .drag-handle:hover .drag-icon {
+  color: var(--accent-blue); /* Highlight drag icon on hover */
+}
+
+.classes-grid-card .card-content-body {
+  padding: 1rem;
+  flex: 1; /* Ensures content fills available space */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.classes-grid-card .class-card-title {
+  font-size: 1.8rem; /* Larger title */
+  font-weight: 600;
+  color: var(--text-white);
+  line-height: 1.2;
+}
+
+.classes-grid-card .class-card-text {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.classes-grid-card .card-footer-actions {
+  background-color: rgba(0, 0, 0, 0.2); /* Slightly transparent footer */
+  border-top: 1px solid var(--border-color);
+  padding: 0.75rem 1rem;
+  display: flex;
+  justify-content: space-around;
+  gap: 10px; /* Space between buttons */
+}
+
+/* --- START: MODIFIED BUTTON STYLES --- */
+.classes-grid-card .card-action-btn {
+  font-size: 0.9rem; /* Slightly larger font */
+  padding: 0.5rem 1rem; /* More padding */
+  border-radius: 8px;
+  font-weight: 500; /* Slightly bolder text */
+  transition: background-color var(--transition-speed), color var(--transition-speed), border-color var(--transition-speed);
+  flex: 1; /* Distribute space evenly */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.classes-grid-card .card-action-btn.btn-warning {
+  background-color: var(--accent-yellow) !important;
+  border-color: var(--accent-yellow) !important;
+  color: var(--bg-dark-primary) !important; /* Dark text on yellow for contrast */
+}
+.classes-grid-card .card-action-btn.btn-warning:hover {
+  background-color: #e0a800 !important; /* Darker yellow on hover */
+  border-color: #e0a800 !important;
+  color: var(--bg-dark-primary) !important;
+}
+
+.classes-grid-card .card-action-btn.btn-danger {
+  background-color: var(--accent-red) !important;
+  border-color: var(--accent-red) !important;
+  color: #fff !important;
+}
+.classes-grid-card .card-action-btn.btn-danger:hover {
+  background-color: #bd2130 !important; /* Darker red on hover */
+  border-color: #bd2130 !important;
+  color: #fff !important;
+}
+/* --- END: MODIFIED BUTTON STYLES --- */
+
+
+/* Add New Class Card */
+.add-class-card {
+  height: 200px; /* Match height of other cards */
+  border: 2px dashed var(--add-card-border) !important; /* Dashed border */
+  background: transparent; /* Transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 15px;
+  transition: transform var(--transition-speed), border-color var(--transition-speed), background-color var(--transition-speed);
+}
+
+.add-class-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--accent-blue) !important;
+  background-color: rgba(0, 123, 255, 0.05); /* Very subtle blue tint on hover */
+}
+
+.add-class-icon {
+  font-size: 3.5rem; /* Larger plus icon */
+  color: var(--add-card-border);
+  transition: color var(--transition-speed);
+}
+
+.add-class-card:hover .add-class-icon {
+  color: var(--accent-blue);
+}
+
+.add-class-title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--text-white);
+}
+
+.add-class-text {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+
+/* Add/Edit Form Styles */
+.form-centered-container {
+  min-height: 80vh; /* Occupy most of the height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem; /* Padding for small screens */
+}
+
+.form-card {
+  width: 100%;
+  max-width: 550px; /* Slightly wider for form elements */
+  background: var(--form-card-bg);
+  border-radius: 18px; /* More rounded corners */
+  box-shadow: 0 10px 30px var(--shadow-medium);
+  border: none;
+  padding: 1.5rem; /* Increased padding */
+}
+
+.form-card-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text-white);
+  margin-bottom: 1.5rem;
+}
+
+.form-label-custom {
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  display: block; /* Ensure label is on its own line */
+}
+
+.form-control-custom {
+  background-color: var(--form-control-bg) !important;
+  color: var(--form-control-text) !important;
+  border: 1px solid var(--form-control-border) !important;
+  border-radius: 8px !important;
+  padding: 0.75rem 1rem !important;
+  transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+.form-control-custom::placeholder {
+  color: rgba(255, 255, 255, 0.4) !important;
+}
+
+.form-control-custom:focus {
+  border-color: var(--accent-blue) !important;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25) !important;
+  background-color: var(--form-control-bg) !important;
+}
+
+.section-remove-btn {
+  background-color: var(--accent-red) !important;
+  border-color: var(--accent-red) !important;
+  width: 40px; /* Fixed width for minus button */
+  flex-shrink: 0;
+  border-radius: 8px !important;
+}
+
+.add-section-btn, .back-btn, .submit-form-btn {
+  border-radius: 8px;
+  padding: 0.75rem 1.25rem;
+  font-weight: 600;
+  transition: background-color var(--transition-speed), border-color var(--transition-speed), color var(--transition-speed);
+}
+
+.add-section-btn {
+  color: var(--accent-green);
+  border-color: var(--accent-green);
+}
+.add-section-btn:hover {
+  background-color: var(--accent-green);
+  color: #fff;
+}
+
+.back-btn {
+  color: var(--text-muted);
+  border-color: var(--text-muted);
+}
+.back-btn:hover {
+  background-color: var(--text-muted);
+  color: var(--bg-dark-primary);
+}
+
+.submit-form-btn {
+  background-color: var(--accent-blue) !important;
+  border-color: var(--accent-blue) !important;
+}
+.submit-form-btn:hover {
+  background-color: #0056b3 !important; /* Darker blue on hover */
+  border-color: #0056b3 !important;
+}
+
+/* Modal Styling */
+.custom-modal .modal-content {
+  background-color: var(--modal-bg);
+  color: var(--text-white);
+  border-radius: 15px;
+  overflow: hidden; /* Ensures inner elements respect border-radius */
+}
+
+.modal-header-custom {
+  background-color: var(--modal-header-footer-bg);
+  border-bottom: 1px solid var(--border-color) !important;
+  padding: 1rem 1.5rem;
+}
+.modal-title-custom {
+  color: var(--text-white);
+  font-weight: 600;
+}
+
+.modal-body-custom {
+  padding: 1.5rem;
+  color: var(--text-muted);
+}
+
+.modal-footer-custom {
+  background-color: var(--modal-header-footer-bg);
+  border-top: 1px solid var(--border-color) !important;
+  padding: 1rem 1.5rem;
+}
+
+.modal-cancel-btn {
+  background-color: #6c757d !important;
+  border-color: #6c757d !important;
+  color: #fff;
+  border-radius: 8px;
+  transition: background-color var(--transition-speed);
+}
+.modal-cancel-btn:hover {
+  background-color: #5a6268 !important;
+  border-color: #5a6268 !important;
+}
+
+.modal-delete-btn {
+  background-color: var(--accent-red) !important;
+  border-color: var(--accent-red) !important;
+  color: #fff;
+  border-radius: 8px;
+  transition: background-color var(--transition-speed);
+}
+.modal-delete-btn:hover {
+  background-color: #c82333 !important;
+  border-color: #c82333 !important;
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 767.98px) { /* Small devices (mobile) */
+  .main-content-area {
+    padding: 1.5rem !important; /* Slightly less padding */
+    border-left: none; /* No border for mobile */
+  }
+
+  .page-title {
+    font-size: 1.8rem;
+    text-align: center;
+    margin-top: 1rem; /* Space from top */
+  }
+
+  /* Cards stack on mobile */
+  .classes-grid-row > .col-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  .form-card {
+    padding: 1rem;
+    border-radius: 12px;
+  }
+
+  .form-card-title {
+    font-size: 1.5rem;
+  }
+
+  .add-section-btn, .back-btn {
+    font-size: 0.9rem;
+    padding: 0.6rem 1rem;
+    flex: 1; /* Allow them to grow */
+  }
+  .d-flex.justify-content-between.mb-3.mt-3 {
+    flex-direction: column;
+    gap: 10px; /* Space between buttons when stacked */
+  }
+  .submit-form-btn {
+    font-size: 1rem;
+    padding: 0.75rem;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) { /* Medium devices (tablets) */
+  .classes-grid-row > .col-sm-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) { /* Large devices (laptops) */
+  .classes-grid-row > .col-lg-4 {
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+  }
+}
+
+/* For XXL (extra large desktops and ultra-wide monitors) */
+@media (min-width: 1200px) {
+  .classes-grid-row > .col-xxl-3 {
+    flex: 0 0 25%;
+    max-width: 25%;
+  }
+}

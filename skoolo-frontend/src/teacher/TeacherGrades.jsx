@@ -15,7 +15,7 @@ import Collapsible from 'react-collapsible';
 import { motion } from 'framer-motion';
 
 import TeacherSidebar from './TeacherSidebar';
-import API from '../services/api';
+import API from '../services/api'; // Assuming this is your API service
 
 // Import the CSS file
 import './style/TeacherGrades.css';
@@ -26,7 +26,7 @@ const TeacherGrades = () => {
     const [assignments, setAssignments] = useState([]);
     const [selectedAssignment, setSelectedAssignment] = useState(null);
     const [examName, setExamName] = useState('');
-    const [academicYear, setAcademicYear] = useState('2025-2026');
+    const [academicYear, setAcademicYear] = useState('2025-2026'); // Default value
 
     const [students, setStudents] = useState([]);
     const [marksList, setMarksList] = useState([]);
@@ -213,7 +213,7 @@ const TeacherGrades = () => {
             case 'C': return 'grade-c';
             case 'D': return 'grade-d';
             case 'F': return 'grade-f';
-            case 'N/A': return 'grade-na'; // Changed for more specific styling
+            case 'N/A': return 'grade-na';
             default: return '';
         }
     };
@@ -292,6 +292,7 @@ const TeacherGrades = () => {
                                                     border: '1px solid var(--border-dark)',
                                                     boxShadow: 'var(--shadow-elevation-medium)',
                                                     borderRadius: '8px',
+                                                    zIndex: 9999, // Ensure dropdown is above other content
                                                 }),
                                                 option: (baseStyles, state) => ({
                                                     ...baseStyles,
@@ -358,7 +359,7 @@ const TeacherGrades = () => {
                                             Academic Year
                                         </Form.Label>
                                         <Form.Control
-                                            type="text"
+                                            type="text" // Changed to text as years are usually strings "YYYY-YYYY"
                                             placeholder="e.g., 2025-2026"
                                             value={academicYear}
                                             onChange={(e) => setAcademicYear(e.target.value)}
@@ -419,7 +420,15 @@ const TeacherGrades = () => {
                                 className="submit-marks-btn w-auto d-flex align-items-center justify-content-center"
                                 disabled={loading || !examName.trim() || marksList.some(m => m.marksObtained === '' || m.maxMarks === '')}
                             >
-                                Submit Marks <SendFill className="ms-2" />
+                                {loading ? (
+                                    <>
+                                        <Spinner animation="border" size="sm" className="me-2" /> Submitting...
+                                    </>
+                                ) : (
+                                    <>
+                                        Submit Marks <SendFill className="ms-2" />
+                                    </>
+                                )}
                             </Button>
                         </motion.div>
                     )}

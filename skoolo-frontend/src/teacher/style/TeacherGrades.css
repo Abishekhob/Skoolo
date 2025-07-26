@@ -1,189 +1,188 @@
-/* Color Variables - Adjusted for a richer, deeper dark theme */
+/* src/style/variables.css */
+
 :root {
-    --background-dark: #120b2e; /* Deep dark purple */
-    --card-bg-dark: rgba(22, 16, 56, 0.6); /* Slightly lighter, more transparent purple for cards */
-    --card-bg-darker: rgba(18, 12, 48, 0.7); /* Even darker for tables inside cards */
-    --input-bg-dark: #1b1342; /* Darker input fields */
-    --input-focus-bg: #2a1f5f; /* Lighter on focus */
-    --border-dark: #3a2e7c; /* Muted purple border */
+    /* Colors */
+    --background-dark: #1a1a2e; /* Deep Charcoal */
+    --card-bg-dark: rgba(25, 25, 40, 0.7); /* Slightly lighter, translucent for glass effect */
+    --sidebar-bg-dark: #16162a; /* Even deeper for sidebar */
     --text-light: #e0e0e0; /* Off-white for general text */
-    --text-muted: #a0a0a0; /* Lighter grey for labels/placeholders */
-    --text-placeholder: #7c729c; /* Even softer for placeholders */
+    --text-muted: #a0a0a0; /* Lighter gray for secondary text */
+    --text-placeholder: #888; /* Placeholder text color */
+    --border-dark: rgba(255, 255, 255, 0.1); /* Subtle white border */
+    --input-bg-dark: #2a2a4a; /* Darker input background */
+    --input-hover-bg: #3a3a5a; /* Input hover background */
+    --table-row-even-bg: rgba(35, 35, 55, 0.6); /* New: Slightly different dark for even rows */
+    --table-row-hover-bg: rgba(50, 50, 75, 0.8); /* New: More distinct hover for rows */
 
-    --primary-color: #7b42f6; /* Vibrant purple */
-    --primary-color-hover: #6c32e0; /* Darker purple on hover */
-    --primary-color-shadow: rgba(123, 66, 246, 0.4); /* Shadow for primary elements */
 
-    --success-color: #28a745;
-    --warning-color: #ffc107;
-    --danger-color: #dc3545;
-    --info-color: #17a2b8;
+    --primary-color: #00bcd4; /* Vibrant Cyan/Teal */
+    --primary-color-hover: #00acc1; /* Darker Cyan on hover */
+    --primary-color-active: #008ba3; /* Even darker on active */
+    --primary-color-shadow: rgba(0, 188, 212, 0.25); /* Cyan shadow for focus */
 
-    --table-header-bg: #261b5c; /* Darker header for tables */
-    --table-row-hover-bg: rgba(60, 40, 120, 0.3); /* Subtle hover for table rows */
-    --table-row-even-bg: rgba(30, 20, 70, 0.2); /* For striped effect */
+    --success-color: #4CAF50; /* Green */
+    --warning-color: #FFC107; /* Amber */
+    --danger-color: #F44336; /* Red */
+    --info-color: #2196F3; /* Blue */
 
-    --grade-a-bg: #28a745; /* Green */
-    --grade-b-bg: #17a2b8; /* Info Blue */
-    --grade-c-bg: #ffc107; /* Warning Yellow */
-    --grade-d-bg: #fd7e14; /* Orange */
-    --grade-f-bg: #dc3545; /* Red */
-    --grade-na-bg: #6c757d; /* Muted grey */
+    /* Grade Colors */
+    --grade-a: #4CAF50; /* Green */
+    --grade-b: #8BC34A; /* Light Green */
+    --grade-c: #FFC107; /* Amber */
+    --grade-d: #FF9800; /* Orange */
+    --grade-f: #F44336; /* Red */
+    --grade-na: #757575; /* Gray */
 
-    /* Shadows for depth */
-    --shadow-elevation-extra-small: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-    --shadow-elevation-small: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-    --shadow-elevation-medium: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-    --shadow-elevation-high: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    /* Shadows */
+    --shadow-elevation-low:
+        0 1px 2px rgba(0, 0, 0, 0.12),
+        0 1px 1px rgba(0, 0, 0, 0.24);
+    --shadow-elevation-medium:
+        0 3px 6px rgba(0, 0, 0, 0.16),
+        0 3px 6px rgba(0, 0, 0, 0.23);
+    --shadow-elevation-high:
+        0 10px 20px rgba(0, 0, 0, 0.19),
+        0 6px 6px rgba(0, 0, 0, 0.23);
+
+    /* Glassmorphism Effect */
+    --glass-blur: 8px;
+    --glass-border: 1px solid rgba(255, 255, 255, 0.18);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.27);
+    --glass-backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
 }
 
-/* General Body and Container Styles */
 .teacher-grades-container {
-    background: linear-gradient(135deg, #0e0821, #1e134f); /* Deeper, more engaging background */
-    color: var(--text-light);
     min-height: 100vh;
-    overflow-x: hidden;
-    font-family: 'Inter', sans-serif; /* Modern, clean font */
+    background: var(--background-dark);
+    color: var(--text-light);
+    font-family: 'Inter', sans-serif; /* Modern clean font */
 }
 
 .teacher-content-area {
-    padding: 40px; /* Increased padding */
+    padding: 30px;
+    background: linear-gradient(145deg, var(--background-dark), #101020); /* Subtle gradient for depth */
+    position: relative;
+    z-index: 1; /* Ensure content is above sidebar background effects if any */
+    overflow-x: hidden; /* Prevent horizontal scroll from tables */
 }
 
 .content-inner-wrapper {
-    max-width: 1300px; /* Slightly wider content area */
+    max-width: 1200px;
     margin: 0 auto;
+    padding: 20px;
 }
 
-/* Headings and Titles */
 .section-heading {
     color: var(--primary-color);
     font-weight: 700;
-    margin-bottom: 2.5rem; /* Increased margin */
     display: flex;
     align-items: center;
-    font-size: 2rem; /* Larger heading */
-    padding-bottom: 15px;
-    border-bottom: 2px solid var(--border-dark);
-    text-shadow: 0 0 10px rgba(123, 66, 246, 0.3); /* Subtle glow */
+    margin-bottom: 2.5rem !important; /* Increased margin for better separation */
+    font-size: 1.8rem;
+    letter-spacing: 0.05em;
+    text-shadow: 0 0 10px rgba(0, 188, 212, 0.2);
 }
 
-.section-heading svg {
-    font-size: 2.2rem; /* Larger icon */
-    color: var(--primary-color);
+/* Glassmorphism Card Effect */
+.card-glass {
+    background: var(--card-bg-dark);
+    border-radius: 12px;
+    border: var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    backdrop-filter: var(--glass-backdrop-filter);
+    -webkit-backdrop-filter: var(--glass-backdrop-filter);
+    padding: 2.5rem !important; /* More padding inside cards */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-glass:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.35); /* More pronounced shadow on hover */
 }
 
 .form-section-title {
     color: var(--text-light);
     font-weight: 600;
-    margin-bottom: 2rem; /* Increased margin */
-    font-size: 1.6rem; /* Larger sub-heading */
+    font-size: 1.5rem;
     display: flex;
     align-items: center;
-    gap: 12px;
+    border-bottom: 1px solid var(--border-dark);
+    padding-bottom: 1rem;
+    margin-bottom: 2rem !important;
 }
 
-.form-section-title svg {
-    font-size: 1.8rem; /* Larger icon */
-    color: var(--text-muted);
-}
-
-/* Card-like Sections (Glassmorphism inspired) */
-.card-glass {
-    background-color: var(--card-bg-dark);
-    border-radius: 16px; /* More rounded corners */
-    padding: 35px; /* Increased padding */
-    box-shadow: var(--shadow-elevation-medium);
-    backdrop-filter: blur(10px); /* Stronger blur */
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid var(--border-dark);
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother transition */
-    position: relative; /* For potential pseudo-elements or overlays */
-}
-
-.card-glass:hover {
-    box-shadow: var(--shadow-elevation-high);
-    border-color: var(--primary-color); /* Primary color border on hover */
-    transform: translateY(-3px); /* Subtle lift effect */
-}
-
-/* Form Elements */
+/* Form Control Styling */
 .form-label-dark {
     color: var(--text-muted);
     font-weight: 500;
-    margin-bottom: 10px; /* More space for labels */
-    font-size: 1rem;
-    display: block; /* Ensures label takes full width */
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
 }
 
-.form-control-dark,
-.marks-input {
-    background-color: var(--input-bg-dark);
-    border: 1px solid var(--border-dark);
-    color: var(--text-light);
-    padding: 12px 18px; /* Increased padding */
-    border-radius: 10px; /* More rounded */
-    transition: all 0.3s ease;
-    -webkit-appearance: none; /* Remove default styling for number inputs */
-    -moz-appearance: textfield; /* Firefox specific */
+.form-control-dark {
+    background-color: var(--input-bg-dark) !important;
+    border: 1px solid var(--border-dark) !important;
+    color: var(--text-light) !important;
+    padding: 0.75rem 1rem !important;
+    border-radius: 8px !important;
+    transition: all 0.2s ease-in-out;
 }
 
-.form-control-dark::placeholder,
-.marks-input::placeholder {
-    color: var(--text-placeholder);
-    opacity: 0.8;
+.form-control-dark::placeholder {
+    color: var(--text-placeholder) !important;
+    opacity: 0.7;
 }
 
-.form-control-dark:focus,
-.marks-input:focus {
-    background-color: var(--input-focus-bg);
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 0.3rem var(--primary-color-shadow); /* Larger, more diffused shadow */
-    color: var(--text-light);
-    outline: none; /* Remove default outline */
+.form-control-dark:focus {
+    background-color: var(--input-hover-bg) !important;
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 0 0.25rem var(--primary-color-shadow) !important;
+    outline: none !important;
 }
 
 /* React-Select Customizations */
+/* The styles prop already handles this, but adding general overrides for safety */
 .react-select-dark__control {
     background-color: var(--input-bg-dark) !important;
     border: 1px solid var(--border-dark) !important;
-    border-radius: 10px !important; /* Matches other inputs */
-    min-height: 50px !important; /* Consistent height */
+    min-height: 48px !important; /* Consistent height with Bootstrap inputs */
+    border-radius: 8px !important;
     box-shadow: none !important;
-    transition: all 0.3s ease !important;
-    font-size: 1rem !important;
+    transition: all 0.2s ease-in-out;
+    z-index: 1000; /* Ensure control is above other elements when interacted with */
 }
 
 .react-select-dark__control--is-focused {
     border-color: var(--primary-color) !important;
-    box-shadow: 0 0 0 0.3rem var(--primary-color-shadow) !important;
+    box-shadow: 0 0 0 0.25rem var(--primary-color-shadow) !important;
 }
 
 .react-select-dark__single-value {
     color: var(--text-light) !important;
 }
 
+.react-select-dark__input-container {
+    color: var(--text-light) !important;
+}
+
 .react-select-dark__placeholder {
     color: var(--text-placeholder) !important;
-    opacity: 0.8;
 }
 
 .react-select-dark__menu {
-    background-color: var(--card-bg-darker) !important; /* Slightly darker for menu */
+    background-color: var(--card-bg-dark) !important;
     border: 1px solid var(--border-dark) !important;
     box-shadow: var(--shadow-elevation-medium) !important;
-    border-radius: 10px !important;
-    z-index: 1000;
-    overflow: hidden; /* Ensures options fit within border-radius */
+    border-radius: 8px !important;
+    z-index: 9999 !important; /* Crucial for dropdown visibility */
+    overflow: hidden; /* Ensures rounded corners are respected for options */
 }
 
 .react-select-dark__option {
-    background-color: var(--card-bg-darker) !important;
+    padding: 12px 20px !important;
     color: var(--text-light) !important;
-    padding: 14px 20px !important; /* More padding */
-    cursor: pointer;
     transition: background-color 0.2s ease, color 0.2s ease;
-    font-size: 0.95rem;
 }
 
 .react-select-dark__option--is-focused {
@@ -192,359 +191,403 @@
 
 .react-select-dark__option--is-selected {
     background-color: var(--primary-color) !important;
-    color: #fff !important;
-    font-weight: 600;
+    color: #fff !important; /* White text on selected primary color */
 }
 
 /* Buttons */
 .load-students-btn,
 .submit-marks-btn {
-    background: linear-gradient(90deg, var(--primary-color), #8a57ed); /* Gradient button */
-    border: none; /* No border for gradient */
-    color: #fff;
-    padding: 14px 30px; /* More generous padding */
-    border-radius: 10px;
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+    color: white !important;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
     font-weight: 600;
-    font-size: 1.05rem;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-elevation-low);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    letter-spacing: 0.02em;
-    box-shadow: var(--shadow-elevation-small);
+    gap: 0.5rem; /* Space between text and icon */
 }
 
 .load-students-btn:hover,
 .submit-marks-btn:hover {
-    background: linear-gradient(90deg, var(--primary-color-hover), #7b42f6); /* Darker gradient on hover */
-    transform: translateY(-3px);
+    background-color: var(--primary-color-hover) !important;
+    border-color: var(--primary-color-hover) !important;
+    transform: translateY(-2px);
     box-shadow: var(--shadow-elevation-medium);
+}
+
+.load-students-btn:active,
+.submit-marks-btn:active {
+    background-color: var(--primary-color-active) !important;
+    border-color: var(--primary-color-active) !important;
+    transform: translateY(0);
+    box-shadow: var(--shadow-elevation-low);
 }
 
 .load-students-btn:disabled,
 .submit-marks-btn:disabled {
-    background: var(--disabled-bg); /* Muted background for disabled */
-    border-color: var(--disabled-bg);
+    background-color: #555 !important;
+    border-color: #555 !important;
     cursor: not-allowed;
     opacity: 0.6;
     transform: none;
     box-shadow: none;
 }
 
-/* Responsive Table Wrapper */
+.submit-marks-btn {
+    background-color: var(--success-color) !important;
+    border-color: var(--success-color) !important;
+}
+
+.submit-marks-btn:hover {
+    background-color: #43a047 !important;
+    border-color: #43a047 !important;
+}
+
+.submit-marks-btn:active {
+    background-color: #388e3c !important;
+    border-color: #388e3c !important;
+}
+
+
+/* Table Styling */
 .responsive-table-wrapper {
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    border: 1px solid var(--border-dark);
-    border-radius: 12px; /* Consistent rounded corners */
-    box-shadow: var(--shadow-elevation-extra-small);
-    background-color: var(--card-bg-darker); /* Darker background for tables */
+    border-radius: 8px;
+    border: 1px solid var(--border-dark); /* Subtle border for the table container */
+    box-shadow: var(--shadow-elevation-medium); /* Add subtle shadow to the whole table wrapper */
 }
 
-/* Grades Table */
 .grades-table {
     width: 100%;
-    margin-bottom: 0;
-    color: var(--text-light);
-    border-collapse: separate;
-    border-spacing: 0;
+    margin-bottom: 0; /* Remove default table margin-bottom */
+    background-color: var(--input-bg-dark); /* Darker background for table */
+    border-collapse: separate; /* Allow border-radius on table */
+    border-spacing: 0; /* Remove default spacing */
 }
 
-.grades-table thead {
-    background-color: var(--table-header-bg);
-    /* border-bottom removed, now a gradient border on the parent wrapper */
-}
-
-.grades-table th {
-    padding: 18px 25px; /* More padding */
-    text-align: left;
+.grades-table thead th {
+    background-color: var(--primary-color); /* Header background */
+    color: white;
+    padding: 1rem 1.2rem;
+    border-bottom: none; /* Remove default border */
     font-weight: 600;
-    color: var(--text-muted); /* Softer header text */
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em; /* More space between letters */
-    border-bottom: 1px solid var(--border-dark); /* Subtle separator */
+    text-align: left;
+    white-space: nowrap; /* Prevent wrapping in headers */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for the header */
+}
+
+.grades-table thead th:first-child {
+    border-top-left-radius: 8px;
+}
+.grades-table thead th:last-child {
+    border-top-right-radius: 8px;
 }
 
 .grades-table tbody tr {
     transition: background-color 0.2s ease;
 }
 
-.grades-table tbody tr:nth-of-type(even) {
-    background-color: var(--table-row-even-bg); /* Subtle stripe */
+.grades-table tbody tr:nth-child(even) {
+    background-color: var(--table-row-even-bg); /* Use new variable for lighter stripe */
 }
 
 .grades-table tbody tr:hover {
-    background-color: var(--table-row-hover-bg); /* Hover effect */
-    color: var(--primary-color); /* Highlight text on hover */
+    background-color: var(--table-row-hover-bg); /* Use new variable for pronounced hover */
+    transform: translateY(-1px); /* Subtle lift on hover */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* Subtle shadow on hover */
 }
 
-.grades-table td {
-    padding: 15px 25px; /* Consistent padding */
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08); /* Lighter separator */
+.grades-table tbody td {
+    padding: 1rem 1.2rem;
+    border-top: 1px solid var(--border-dark);
+    color: black;
+    vertical-align: middle;
 }
 
-.grades-table tbody tr:last-child td {
-    border-bottom: none; /* No border on last row */
+.grades-table .marks-input {
+    width: 80px; /* Smaller input for marks */
+    text-align: center;
+    padding: 0.5rem;
+    /* Apply existing form control styles for consistency */
+    background-color: var(--input-bg-dark) !important;
+    border: 1px solid var(--border-dark) !important;
+    color: var(--text-light) !important;
+    border-radius: 6px !important; /* Slightly smaller radius for in-table inputs */
+    transition: all 0.2s ease-in-out;
 }
+
+.grades-table .marks-input::placeholder {
+    color: var(--text-placeholder) !important;
+    opacity: 0.7;
+}
+
+.grades-table .marks-input:focus {
+    background-color: var(--input-hover-bg) !important;
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 0 0.15rem var(--primary-color-shadow) !important; /* Smaller shadow for in-table */
+    outline: none !important;
+}
+
 
 /* Grade Badges */
 .grade-badge {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 45px;
-    height: 30px;
-    padding: 0 10px;
-    border-radius: 6px;
+    padding: 0.4em 0.8em;
+    border-radius: 20px;
     font-weight: 700;
-    font-size: 0.85rem;
-    color: #ffffff;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    transition: transform 0.2s ease-in-out;
+    font-size: 0.85em;
+    min-width: 50px;
+    text-align: center;
+    color: white; /* Text color for badges */
+    box-shadow: var(--shadow-elevation-low);
+    transition: all 0.2s ease; /* Add transition for hover effect */
 }
 
 .grade-badge:hover {
     transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2); /* More pronounced shadow on hover */
 }
 
-.grade-a { background-color: var(--grade-a-bg); }
-.grade-b { background-color: var(--grade-b-bg); }
-.grade-c { background-color: var(--grade-c-bg); }
-.grade-d { background-color: var(--grade-d-bg); }
-.grade-f { background-color: var(--grade-f-bg); }
-.grade-na { background-color: var(--grade-na-bg); } /* N/A grade color */
+.grade-a { background-color: var(--grade-a); box-shadow: 0 0 8px rgba(76, 175, 80, 0.4); }
+.grade-b { background-color: var(--grade-b); box-shadow: 0 0 8px rgba(139, 195, 74, 0.4); }
+.grade-c { background-color: var(--grade-c); box-shadow: 0 0 8px rgba(255, 193, 7, 0.4); }
+.grade-d { background-color: var(--grade-d); box-shadow: 0 0 8px rgba(255, 152, 0, 0.4); }
+.grade-f { background-color: var(--grade-f); box-shadow: 0 0 8px rgba(244, 67, 54, 0.4); }
+.grade-na { background-color: var(--grade-na); box-shadow: 0 0 8px rgba(117, 117, 117, 0.4); }
 
-/* Alerts */
+
+/* Message Alerts */
 .custom-alert {
-    border-radius: 10px;
-    padding: 15px 20px;
+    border-radius: 8px;
+    padding: 1.2rem 1.5rem;
     font-weight: 500;
+    border: none;
     display: flex;
     align-items: center;
-    gap: 10px;
-    border: 1px solid;
-    box-shadow: var(--shadow-elevation-small);
-    background-color: rgba(255, 255, 255, 0.05); /* Subtle transparency */
+    box-shadow: var(--shadow-elevation-medium);
 }
 
-.alert-info {
-    background-color: rgba(23, 162, 184, 0.2);
-    border-color: var(--info-color);
-    color: var(--info-color);
-}
-.alert-success {
-    background-color: rgba(40, 167, 69, 0.2);
-    border-color: var(--success-color);
-    color: var(--success-color);
-}
-.alert-warning {
-    background-color: rgba(255, 193, 7, 0.2);
-    border-color: var(--warning-color);
-    color: var(--warning-color);
-}
-.alert-danger {
-    background-color: rgba(220, 53, 69, 0.2);
-    border-color: var(--danger-color);
-    color: var(--danger-color);
+.alert-info { background-color: #263e5b; color: #a8dadc; }
+.alert-warning { background-color: #5b4626; color: #ffe082; }
+.alert-danger { background-color: #5b2626; color: #ffab91; }
+.alert-success { background-color: #265b26; color: #a7d9a7; }
+
+.custom-alert .me-2 {
+    font-size: 1.3rem;
+    margin-right: 1rem !important;
 }
 
-.custom-alert svg {
-    font-size: 1.5rem;
-}
-
-/* Empty State / No Entries Found */
-.no-entries-found {
+/* Empty State & Loading State */
+.no-entries-found, .loading-state {
     text-align: center;
-    padding: 60px 20px;
-    background-color: var(--card-bg-dark);
-    border-radius: 16px;
-    border: 1px dashed var(--border-dark); /* Dashed border for empty state */
-    color: var(--text-muted);
-    font-size: 1.1rem;
-    box-shadow: var(--shadow-elevation-extra-small);
+    padding: 4rem 0;
+    background: var(--card-bg-dark);
+    border-radius: 12px;
+    border: var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    backdrop-filter: var(--glass-backdrop-filter);
+    -webkit-backdrop-filter: var(--glass-backdrop-filter);
 }
 
 .no-entries-found .icon-large {
-    font-size: 3.5rem; /* Larger icon */
-    color: var(--text-placeholder);
-    opacity: 0.6;
+    font-size: 4rem;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    opacity: 0.8;
 }
 
-.no-entries-found .lead {
-    font-size: 1.4rem;
-    font-weight: 600;
-    color: var(--text-light);
-    margin-top: 20px;
+.no-entries-found .lead, .loading-state p {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
 }
 
 .no-entries-found .lead2 {
-    font-size: 1rem;
-
-    color: var(--text-light);
-    margin-top: 20px;
+    color: var(--text-placeholder);
+    font-size: 0.95rem;
 }
 
-/* Collapsible Accordion Styles */
-.submitted-exam-card .Collapsible__trigger {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 25px; /* More padding */
+.loading-state .spinner-lg {
+    width: 3rem;
+    height: 3rem;
+    color: var(--primary-color);
+}
+
+/* Submitted Marks Accordion Cards */
+.submitted-exam-card {
     cursor: pointer;
-    border-bottom: 1px solid var(--border-dark);
-    transition: background-color 0.2s ease;
-    border-radius: 16px 16px 0 0; /* Only top corners rounded for trigger */
-}
-
-.submitted-exam-card .Collapsible__trigger.is-open {
-    border-bottom: 1px solid var(--primary-color); /* Highlight border when open */
-    background-color: rgba(25, 18, 68, 0.8); /* Slightly darker when open */
-    border-radius: 16px 16px 0 0;
-}
-
-.submitted-exam-card .Collapsible__trigger:hover {
-    background-color: rgba(25, 18, 68, 0.8); /* Darker background on hover */
+    overflow: hidden; /* Ensures rounded corners are respected */
 }
 
 .submitted-exam-header {
-    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 1.5rem 2rem;
+    background-color: var(--input-bg-dark); /* Darker header for contrast */
+    border-bottom: 1px solid var(--border-dark);
+    border-radius: 12px; /* For when it's closed */
+    transition: all 0.3s ease;
 }
 
-.header-title-group {
+.submitted-exam-card .Collapsible__trigger.is-open .submitted-exam-header {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    background-color: var(--primary-color-hover); /* Highlight when open */
+}
+
+.submitted-exam-header .header-title-group {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 0.75rem;
 }
 
-.header-title-group h5 {
+.submitted-exam-header h5 {
     margin-bottom: 0;
     color: var(--text-light);
+    font-size: 1.2rem;
     font-weight: 600;
-    font-size: 1.25rem; /* Slightly larger title */
-    letter-spacing: 0.02em;
 }
 
 .accordion-icon {
     font-size: 1.5rem;
     color: var(--text-muted);
-    transition: transform 0.3s ease-in-out, color 0.3s ease;
+    transition: transform 0.3s ease;
 }
 
 .accordion-icon.expanded {
     transform: rotate(180deg);
-    color: var(--primary-color);
+    color: white; /* White when expanded */
 }
 
 .submitted-exam-content {
-    padding: 20px;
-    background-color: var(--card-bg-darker); /* Content background */
-    border-radius: 0 0 16px 16px; /* Only bottom corners rounded for content */
+    padding: 1.5rem 0; /* Padding around the table inside accordion */
+    background-color: rgba(25, 25, 40, 0.5); /* Slightly transparent background for content */
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
 }
 
-.submitted-exam-card:not(:last-child) {
-    margin-bottom: 25px; /* Space between accordion cards */
+.submitted-exam-content .responsive-table-wrapper {
+    border: none; /* Remove extra border inside the card */
+    background-color: transparent; /* Inherit background */
+    box-shadow: none; /* Remove extra shadow for inner table */
 }
 
-/* Stylish Separator */
+.submitted-exam-content .grades-table {
+    background-color: transparent; /* Inherit background */
+}
+
+.submitted-exam-content .grades-table thead th {
+    background-color: var(--input-bg-dark); /* Slightly different header for nested table */
+    color: var(--primary-color);
+    font-size: 0.9rem;
+    padding: 0.8rem 1.2rem;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    box-shadow: none; /* Remove shadow for inner table header */
+}
+
+.submitted-exam-content .grades-table tbody td {
+    border-color: rgba(255, 255, 255, 0.08); /* Lighter border for inner table */
+    font-size: 0.95rem;
+}
+
+/* Horizontal Rule with Gradient */
 .hr-gradient {
-    border: none;
-    height: 3px;
-    background: linear-gradient(90deg, rgba(123, 66, 246, 0.1), var(--primary-color), rgba(123, 66, 246, 0.1));
-    margin-top: 60px;
-    margin-bottom: 60px;
-    border-radius: 2px;
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 188, 212, 0), rgba(0, 188, 212, 0.75), rgba(0, 188, 212, 0));
+    margin: 4rem 0;
 }
 
-/* Loading Spinner */
-.spinner-lg {
-    width: 3rem !important;
-    height: 3rem !important;
-    color: var(--primary-color) !important;
-}
+/* Custom styles for TeacherSidebar (adjust if needed) */
+/* Assuming TeacherSidebar has its own styles, ensure it complements the dark theme */
+/* Example: */
+/* .teacher-sidebar {
+    background-color: var(--sidebar-bg-dark);
+    color: var(--text-light);
+    padding: 30px 15px;
+    min-height: 100vh;
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+} */
 
-.loading-state p {
-    color: var(--text-muted);
-    font-size: 1.1rem;
-}
-
-/* Responsive adjustments */
+/* Responsive Adjustments */
 @media (max-width: 768px) {
     .teacher-content-area {
-        padding: 20px;
+        padding: 20px 15px;
     }
+
     .section-heading {
         font-size: 1.5rem;
-        margin-bottom: 2rem;
+        margin-bottom: 2rem !important;
     }
+
+    .card-glass {
+        padding: 1.5rem !important;
+    }
+
     .form-section-title {
         font-size: 1.3rem;
-        margin-bottom: 1.5rem;
+        margin-bottom: 1.5rem !important;
     }
-    .card-glass {
-        padding: 25px;
-    }
+
     .load-students-btn,
     .submit-marks-btn {
         width: 100% !important;
-        padding: 12px 20px;
-        font-size: 1rem;
+        margin-top: 1rem;
     }
-    .grades-table th,
-    .grades-table td {
-        padding: 12px 15px;
-        font-size: 0.85rem;
+
+    .grades-table thead th,
+    .grades-table tbody td {
+        padding: 0.8rem 0.8rem;
+        font-size: 0.9rem;
     }
-    .grade-badge {
-        font-size: 0.75rem;
-        min-width: 40px;
-        height: 26px;
+
+    .grades-table .marks-input {
+        width: 60px;
     }
-    .react-select-dark__control {
-        min-height: 45px !important;
+
+    .submitted-exam-header {
+        padding: 1rem 1.2rem;
     }
-    .submitted-exam-card .Collapsible__trigger {
-        padding: 15px 20px;
-    }
-    .header-title-group h5 {
+
+    .submitted-exam-header h5 {
         font-size: 1.1rem;
     }
 }
 
 @media (max-width: 576px) {
     .teacher-content-area {
-        padding: 15px;
+        padding: 15px 10px;
     }
+
     .section-heading {
         font-size: 1.3rem;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
     }
-    .section-heading svg {
-        font-size: 1.8rem;
+
+    .card-glass {
+        padding: 1rem !important;
     }
+
     .form-section-title {
         font-size: 1.1rem;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
     }
-    .form-section-title svg {
-        font-size: 1.5rem;
+
+    .custom-alert {
+        font-size: 0.9rem;
+        padding: 1rem;
     }
-    .card-glass {
-        padding: 20px;
-    }
-    .no-entries-found {
-        padding: 40px 15px;
+
+    .no-entries-found .icon-large {
+        font-size: 3rem;
     }
     .no-entries-found .lead {
-        font-size: 1.2rem;
+        font-size: 1rem;
     }
 }

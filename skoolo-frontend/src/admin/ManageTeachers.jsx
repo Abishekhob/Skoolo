@@ -4,7 +4,7 @@ import {
 } from 'react-bootstrap';
 import API from '../services/api';
 import AssignTeacherModal from './AssignTeacherModal';
-import AdminSidebar from './AdminSideBar';
+import AdminSidebar from './AdminSidebar';
 import AddTeacherModal from './AddTeacherModal';
 
 const ManageTeachers = () => {

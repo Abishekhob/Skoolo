@@ -1,10 +1,13 @@
-/* MessagesPage.css - Dark Theme Polished */
+/* MessagesPage.css - Dark Theme Polished with Layout Fixes */
 
 .messages-main-content {
   background-color: #101223;
   color: #fff;
   height: 100vh;
   overflow: hidden;
+  /* Remove any margins/padding that cause gaps */
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 .sidebar-header {
@@ -17,8 +20,9 @@
   background-color: #181b34;
   color: #fff;
   padding: 1rem;
-  height: 100%;
+  height: 100vh;
   border-right: 1px solid #2f334f;
+  overflow-y: auto;
 }
 
 .conversation-item {
@@ -53,13 +57,39 @@
   align-items: center;
 }
 
+/* Fixed Chat Header Avatar Styles */
+.chat-header-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #37457a;
+  flex-shrink: 0;
+}
+
+.chat-header-profile-pic {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.chat-header-initials {
+  color: #fff;
+  font-weight: bold;
+  font-size: 14px;
+}
+
 .crown-icon svg {
   color: gold;
 }
 
 .chat-area {
   background-color: #12142b;
-  height: 100%;
+  height: 100vh;
   overflow: hidden;
   position: relative;
 }
@@ -68,12 +98,18 @@
   background-color: #1c1f38;
   color: #fff;
   border-bottom: 1px solid #2c2f4a;
+  min-height: 60px;
 }
 
 .chat-placeholder {
   text-align: center;
   color: #aaa;
   padding: 3rem;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .start-chat-button {
@@ -104,12 +140,22 @@
 }
 
 .back-to-conversations {
-  color: #ccc;
-  text-decoration: none;
+  color: #ccc !important;
+  text-decoration: none !important;
+  border: none !important;
+  background: none !important;
+  padding: 0 !important;
 }
 
 .back-to-conversations:hover {
-  color: #fff;
+  color: #fff !important;
+  text-decoration: none !important;
+  background: none !important;
+}
+
+.back-to-conversations:focus {
+  box-shadow: none !important;
+  outline: none !important;
 }
 
 .empty-state-icon {
@@ -149,6 +195,7 @@
   margin-top: 10px;
   font-size: 16px;
 }
+
 /* ---- New Chat Offcanvas Styling ---- */
 .offcanvas.offcanvas-end {
   background-color: #12142b;
@@ -210,6 +257,7 @@
   width: 32px;
   height: 32px;
 }
+
 /* --- Base Modal Overrides (Dark) --- */
 .modal-content {
   border-radius: 12px;
@@ -285,15 +333,20 @@
   letter-spacing: -0.01em;
 }
 
-/* --- Profile Image (Dark) --- */
 .profile-image {
-  width: 150px;
-  height: 150px;
+  width: 200px !important;
+  height: 200px !important;
   object-fit: cover;
+  aspect-ratio: 1 / 1;
   border-radius: 50%;
-  border: 5px solid #3a3a3c; /* Darker, subtle border */
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.35); /* More diffused shadow */
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  border: 4px solid #4a4a4a;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+  display: block;
+  margin: 0 auto;
+  flex: none;
+  max-width: 200px;
+  max-height: 200px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .profile-image:hover {
@@ -316,12 +369,14 @@
   padding: 0;
   margin-top: 0.5rem;
   width: 100%;
-  max-height: 180px;
-  overflow-y: auto;
-  border-radius: 10px;
-  background-color: #232325; /* Even darker background for the list container */
+  background-color: #232325;
   padding: 15px;
-  border: 1px solid #3a3a3c; /* Subtle border for the container */
+  border-radius: 10px;
+  border: 1px solid #3a3a3c;
+
+  /* REMOVE scrolling */
+  max-height: unset;
+  overflow-y: unset;
 }
 
 /* Custom Scrollbar for Webkit browsers (Dark) */
@@ -372,7 +427,53 @@
   border: 1px dashed #555; /* Darker dashed border */
 }
 
-/* --- Responsive Adjustments (Dark) --- */
+/* --- Mobile Responsive Fixes --- */
+@media (max-width: 767.98px) {
+  .messages-main-content {
+    padding-top: 0; /* Remove top padding for mobile */
+  }
+  
+  .conversations-sidebar {
+    height: 100vh;
+  }
+  
+  .chat-area {
+    height: 100vh;
+  }
+  
+  .chat-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+}
+
+/* --- Desktop Layout Fixes --- */
+@media (min-width: 768px) {
+  .messages-main-content {
+    margin-left: 0;
+    padding-left: 0;
+    padding-top: 0;
+  }
+  
+  /* Ensure chat window doesn't go behind sidebar */
+  .chat-area {
+    position: relative;
+    z-index: 1;
+  }
+  
+  /* Remove any gaps between sidebar and main content */
+  .container-fluid .row {
+    margin: 0;
+  }
+  
+  .container-fluid .row > .col-md-2,
+  .container-fluid .row > .col-md-10 {
+    padding: 0;
+  }
+}
+
+/* --- Responsive Adjustments for Profile Modal --- */
 @media (max-width: 768px) {
   .profile-modal-body {
     padding: 1.5rem;
@@ -381,8 +482,8 @@
     font-size: 1.5rem;
   }
   .profile-image {
-    width: 120px;
-    height: 120px;
+    width: 120px !important;
+    height: 120px !important;
   }
   .assignment-item {
     font-size: 0.9rem;
@@ -400,13 +501,14 @@
     margin-bottom: 1rem;
   }
   .profile-image {
-    width: 100px;
-    height: 100px;
+    width: 100px !important;
+    height: 100px !important;
     border-width: 3px;
   }
   .class-assignments-list {
     max-height: 120px;
     padding: 10px;
+    overflow-y: auto;
   }
   .assignment-item {
     font-size: 0.85rem;

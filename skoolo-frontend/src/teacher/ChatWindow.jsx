@@ -231,7 +231,7 @@ console.log("receiverId:", receiverId);
   <div className="message-content">
  {msg.type === 'FILE' && msg.attachment ? (() => {
   const extension = msg.attachment.split('.').pop().toLowerCase();
-const BACKEND_BASE_URL = "http://localhost:8081";
+const BACKEND_BASE_URL = "https://skoolo-production.up.railway.app";
 const fileUrl = `${BACKEND_BASE_URL}/uploads/${encodeURIComponent(msg.attachment)}`;
 // ✅ Encode the filename
 

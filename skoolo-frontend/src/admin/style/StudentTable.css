@@ -1,64 +1,177 @@
-/* Student Table Enhancements */
+/* Container for responsive table to handle overflow */
+.table-responsive {
+    overflow-x: auto; /* Ensures horizontal scrolling if content overflows */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    border-radius: 10px; /* Apply border-radius to the container */
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4); /* Deeper shadow for the table block */
+}
+
+/* Base Table Styling */
 .student-table {
-    border: 1px solid #343a40 !important; /* Darker border for the table itself */
-    border-collapse: separate; /* Allows border-radius on cells if applied later */
+    width: 100%; /* Ensure table takes full width of its container */
+    margin-bottom: 0; /* Remove default margin from bootstrap table */
+    border-collapse: separate; /* Allows border-radius on cells */
     border-spacing: 0; /* Remove space between borders */
-  }
-  
-  .student-table thead th {
+    color: #f0f0f0; /* Light text color */
+}
+
+/* Table Header Styling */
+.student-table thead th {
     vertical-align: middle;
-    border-bottom: 2px solid #6c757d !important; /* Stronger line under header */
-    border-right: 1px solid #343a40 !important; /* Cell borders */
-    padding: 0.75rem; /* Standard padding */
-  }
-  
-  .student-table thead th:last-child {
-    border-right: none !important; /* No right border on last header */
-  }
-  
-  .student-table tbody tr td {
+    border-bottom: 2px solid #6c757d !important;
+    border-right: 1px solid rgba(52, 58, 64, 0.5) !important; /* Lighter cell borders */
+    padding: 0.8rem 1rem;
+    background-color: #2a2a47; /* Darker header background */
+    font-weight: 600;
+    color: #e0e0e0;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 0.03em;
+    white-space: nowrap; /* Prevent header text from wrapping */
+    position: sticky; /* Make headers sticky for horizontal scroll */
+    top: 0;
+    z-index: 2; /* Ensure sticky headers are above content */
+}
+
+.student-table thead th:first-child {
+    border-top-left-radius: 10px;
+}
+
+.student-table thead th:last-child {
+    border-top-right-radius: 10px;
+    border-right: none !important;
+}
+
+/* Sticky First Column for better UX on scroll (Optional, but great!) */
+.student-table th:first-child,
+.student-table td:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 1; /* Below header, above other cells */
+    background-color: #2a2a47; /* Match header/body background */
+    border-right: 1px solid rgba(52, 58, 64, 0.5) !important;
+}
+
+/* Adjust sticky background for hovered rows */
+.student-table tbody tr:hover td:first-child {
+    background-color: rgba(0, 170, 255, 0.15) !important; /* Match hovered row background */
+}
+
+/* Table Body Styling */
+.student-table tbody tr td {
     vertical-align: middle;
-    border-right: 1px solid #343a40 !important; /* Cell borders */
-    border-top: 1px solid #343a40 !important; /* Top border for rows */
-    padding: 0.5rem 0.75rem; /* Adjusted padding for data cells */
-  }
-  
-  .student-table tbody tr td:last-child {
-    border-right: none !important; /* No right border on last cell */
-  }
-  
-  .student-table.table-striped tbody tr:nth-of-type(odd) {
-    background-color: rgba(255, 255, 255, 0.05); /* Slightly lighter odd rows */
-  }
-  
-  .student-table.table-hover tbody tr:hover {
-    background-color: rgba(255, 255, 255, 0.1); /* Lighter hover effect */
-  }
-  
-  /* Form controls within table (edit mode) */
-  .student-table .form-control.bg-secondary,
-  .student-table .form-select.bg-secondary {
-    background-color: #495057 !important; /* Ensure secondary background */
-    color: #fff !important; /* White text */
-    border: 1px solid #6c757d !important; /* Subtle border for inputs */
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  }
-  
-  .student-table .form-control.bg-secondary:focus,
-  .student-table .form-select.bg-secondary:focus {
-    border-color: #0d6efd !important; /* Primary color focus */
-    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
-  }
-  
-  /* Custom button sizes for actions in table */
-  .student-table .action-btn {
-    padding: 0.25rem 0.6rem; /* Smaller padding for action buttons */
-    font-size: 0.8rem; /* Smaller font size */
-    white-space: nowrap; /* Prevent buttons from wrapping */
-    min-width: 60px; /* Ensure a minimum width for consistency */
-  }
-  
-  /* Ensure text-nowrap on the actions column if it's not already */
-  .student-table td.text-nowrap {
+    border-right: 1px solid rgba(52, 58, 64, 0.5) !important;
+    border-top: 1px solid rgba(52, 58, 64, 0.5) !important;
+    padding: 0.7rem 1rem; /* Slightly reduced padding for tighter fit */
+    color: #f0f0f0;
+    white-space: nowrap; /* Prevent data from wrapping by default, allow horizontal scroll */
+}
+
+.student-table tbody tr td:last-child {
+    border-right: none !important;
+}
+
+/* Striped and Hover Effects */
+.student-table.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.student-table.table-hover tbody tr:hover {
+    background-color: rgba(0, 170, 255, 0.15);
+    cursor: pointer;
+    transform: scale(1.005);
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+/* Form controls within table (edit mode) */
+.student-table .form-control-table-sm { /* Custom class for smaller table inputs */
+    background-color: #3b3b5c !important;
+    color: #fff !important;
+    border: 1px solid #6a6a99 !important;
+    padding: 0.25rem 0.5rem; /* Even smaller padding for inputs */
+    height: auto; /* Allow height to adjust based on content/padding */
+    font-size: 0.85rem; /* Smaller font size for inputs */
+    border-radius: 6px;
+    min-width: 80px; /* Ensure input is not too narrow */
+}
+
+.student-table .form-control-table-sm:focus {
+    border-color: #00aaff !important;
+    box-shadow: 0 0 0 0.2rem rgba(0, 170, 255, 0.25) !important;
+    background-color: #3b3b5c !important;
+}
+
+/* Action Buttons within table */
+.student-table .table-action-btn {
+    padding: 0.3rem 0.6rem; /* Compact padding for buttons */
+    font-size: 0.75rem; /* Small font size for buttons */
     white-space: nowrap;
-  }
+    min-width: 50px; /* Ensure a reasonable min-width */
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.student-table .table-action-btn.btn-info {
+    background-color: #00aaff;
+    border-color: #00aaff;
+}
+.student-table .table-action-btn.btn-info:hover {
+    background-color: #0088cc;
+    border-color: #0088cc;
+}
+
+.student-table .table-action-btn.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+.student-table .table-action-btn.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
+.student-table .table-action-btn.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+.student-table .table-action-btn.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+.student-table .table-action-btn.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+.student-table .table-action-btn.btn-secondary:hover {
+    background-color: #5c636a;
+    border-color: #565e64;
+}
+
+/* Specific adjustments for Actions column to prevent wrapping of buttons */
+.student-table td.actions-cell {
+    white-space: nowrap;
+}
+
+/* Media Queries for fine-tuning on smaller screens */
+@media (max-width: 767.98px) { /* Small screens (sm breakpoint) */
+    .student-table thead th,
+    .student-table tbody tr td {
+        padding: 0.5rem 0.75rem; /* Even tighter padding */
+        font-size: 0.85rem; /* Slightly smaller font size */
+    }
+
+    .student-table .form-control-table-sm {
+        padding: 0.2rem 0.4rem; /* Ultra-compact inputs */
+        font-size: 0.8rem;
+    }
+
+    .student-table .table-action-btn {
+        padding: 0.2rem 0.4rem; /* Ultra-compact buttons */
+        font-size: 0.7rem;
+        min-width: 45px;
+    }
+}
+
+/* Ensure the `table-responsive` wrapper is present from Bootstrap */
+/* No custom CSS for `table-responsive` itself is generally needed beyond overflow,
+   as `react-bootstrap` handles the wrapper div. */

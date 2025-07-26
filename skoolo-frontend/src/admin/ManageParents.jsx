@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Row, Col, Form, Button, Alert, Table } from 'react-bootstrap';
-import AdminSidebar from './AdminSideBar';
+import AdminSidebar from './AdminSidebar';
 import API from '../services/api';
 
 const ManageParents = () => {

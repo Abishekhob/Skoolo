@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 
 import Welcome from './auth/Welcome';
-import AdminDashboard from './admin/AdminDashboard';
+
 import ClassesGrid from './admin/ClassesGrid';
 import SectionsGrid from './admin/SectionsGrid';
 import SectionDetails from './admin/SectionDetails';
@@ -44,7 +44,7 @@ const App = () => {
       <Routes>
         {/* Admin routes */}
         <Route path="/" element={<Welcome />} />
-        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/admin" element={<ClassesGrid />} />
         <Route path="/admin/classes" element={<ClassesGrid />} />
         <Route path="/admin/classes/:classId" element={<SectionsGrid />} />
         <Route path="/admin/classes/:classId/sections/:sectionId" element={<SectionDetails />} />

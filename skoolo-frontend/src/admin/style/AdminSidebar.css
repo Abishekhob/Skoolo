@@ -1,0 +1,223 @@
+/* style/AdminSidebar.css */
+
+:root {
+  --sidebar-bg: linear-gradient(135deg, #1a1a2e, #16213e);
+  --sidebar-text-color: #e0e0e0;
+  --sidebar-hover-bg: rgba(255, 255, 255, 0.1);
+  --sidebar-active-bg: #0f3460;
+  --sidebar-active-text: #ffffff;
+  --header-color: #ffffff;
+  --accent-color: #007bff; /* Bootstrap primary blue - still useful for some highlights if needed */
+  --logout-btn-border: rgba(255, 255, 255, 0.4);
+  --logout-btn-hover-bg: #dc3545; /* Bootstrap danger red */
+  --toggle-icon-color: #ffffff; /* Color for the hamburger/close icon */
+  --toggle-hover-scale: 1.1; /* Slight scale on hover */
+  --transition-speed: 0.3s ease;
+}
+
+/* Base Sidebar Styles */
+.admin-sidebar {
+  width: 250px; /* Fixed width for larger screens */
+  min-height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: var(--sidebar-bg);
+  box-shadow: 5px 0 15px rgba(0, 0, 0, 0.3);
+  z-index: 1030; /* Higher than most content */
+  transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+  padding: 2rem 1.5rem; /* Increased padding */
+}
+
+/* Sidebar Header */
+.admin-sidebar .sidebar-header h4 {
+  font-weight: 600;
+  color: var(--header-color);
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+}
+
+.admin-sidebar .sidebar-header h4 svg {
+  font-size: 1.5rem;
+  margin-right: 0.5rem;
+  color: var(--accent-color);
+}
+
+/* Navigation Links */
+.admin-sidebar .sidebar-nav {
+  padding-top: 1rem;
+}
+
+.sidebar-accordion-item {
+  background-color: transparent !important; /* Override Bootstrap bg */
+  border: none !important;
+  margin-bottom: 0.5rem;
+}
+
+.sidebar-accordion-item .accordion-button {
+  background-color: transparent !important;
+  color: var(--sidebar-text-color) !important;
+  font-weight: 500;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  transition: background-color var(--transition-speed), color var(--transition-speed);
+  box-shadow: none !important; /* Remove focus outline */
+  border: none !important;
+  text-align: left; /* Ensure text starts from the left */
+}
+
+.sidebar-accordion-item .accordion-button:not(.collapsed) {
+  background-color: var(--sidebar-hover-bg) !important;
+  color: var(--sidebar-active-text) !important;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.sidebar-accordion-item .accordion-button::after {
+  display: none; /* Hide default Bootstrap arrow */
+}
+
+.sidebar-accordion-header {
+  display: flex;
+  justify-content: space-between; /* Keeps arrow on the right */
+  align-items: center;
+  width: 100%;
+}
+
+.sidebar-accordion-title {
+  display: flex;
+  align-items: center;
+  font-size: 1.05rem;
+  color: var(--sidebar-text-color);
+  /* --- START: MODIFICATION FOR LEFT ALIGNMENT OF ICON & TEXT --- */
+  margin-right: auto; /* Pushes the arrow to the right */
+  /* --- END: MODIFICATION FOR LEFT ALIGNMENT OF ICON & TEXT --- */
+}
+
+.sidebar-accordion-title svg {
+  margin-right: 0.75rem;
+  color: var(--accent-color);
+}
+
+.sidebar-accordion-body {
+  background-color: rgba(0, 0, 0, 0.2) !important; /* Slightly darker background for open accordion */
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  padding: 0.5rem 0 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-nav-link {
+  color: var(--sidebar-text-color) !important;
+  padding: 0.6rem 1.5rem !important; /* Increased padding */
+  border-radius: 6px;
+  margin-bottom: 0.2rem;
+  transition: background-color var(--transition-speed), color var(--transition-speed);
+  font-size: 0.95rem;
+  text-decoration: none; /* Remove underline from links */
+}
+
+.sidebar-nav-link:hover,
+.sidebar-nav-link:focus {
+  background-color: var(--sidebar-hover-bg) !important;
+  color: var(--sidebar-active-text) !important;
+  outline: none; /* Remove outline on focus */
+}
+
+.sidebar-nav-link.active {
+  background-color: var(--sidebar-active-bg) !important;
+  color: var(--sidebar-active-text) !important;
+  font-weight: 600;
+  box-shadow: inset 3px 0 0 var(--accent-color); /* Left border for active state */
+}
+
+/* Logout Button */
+.sidebar-logout-btn {
+  border: 1px solid var(--logout-btn-border);
+  color: var(--sidebar-text-color);
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: background-color var(--transition-speed), border-color var(--transition-speed), color var(--transition-speed);
+  width: 100%; /* Make button full width */
+}
+
+.sidebar-logout-btn:hover {
+  background-color: var(--logout-btn-hover-bg);
+  border-color: var(--logout-btn-hover-bg);
+  color: #fff;
+}
+
+/* Mobile Specific Styles */
+.sidebar-toggle-btn {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 1040; /* Higher than sidebar */
+  background-color: transparent !important; /* Remove blue background */
+  border-color: transparent !important;   /* Remove blue border */
+  color: var(--toggle-icon-color) !important; /* Set icon color to white */
+  border-radius: 8px;
+  padding: 0.6rem 0.8rem;
+  font-size: 1.5rem; /* Slightly larger icon */
+  box-shadow: none; /* Remove default shadow */
+  transition: transform var(--transition-speed), color var(--transition-speed);
+}
+
+.sidebar-toggle-btn:hover {
+  transform: scale(var(--toggle-hover-scale));
+  color: var(--accent-color) !important; /* Add a subtle color change on hover */
+}
+
+.sidebar-toggle-btn:focus {
+  outline: none; /* Remove outline on focus */
+  box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25); /* Optional: A subtle focus ring, matching accent */
+}
+
+
+/* Hide sidebar by default on mobile */
+@media (max-width: 767.98px) {
+  .admin-sidebar {
+    transform: translateX(-100%);
+    box-shadow: none; /* Hide shadow when closed */
+    width: 280px; /* Slightly wider for mobile */
+    padding: 1.5rem 1rem;
+  }
+
+  .admin-sidebar.open {
+    transform: translateX(0);
+    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.4); /* Show shadow when open */
+  }
+
+  .admin-sidebar .sidebar-close-btn {
+    display: block !important;
+    font-size: 1.5rem;
+    color: var(--toggle-icon-color); /* Ensure close icon is also white */
+    transition: transform var(--transition-speed), color var(--transition-speed);
+  }
+
+  .admin-sidebar .sidebar-close-btn:hover {
+    transform: scale(var(--toggle-hover-scale));
+    color: var(--accent-color) !important;
+  }
+}
+
+/* Desktop Specific Styles (Adjust if needed for larger widths) */
+@media (min-width: 768px) {
+  .admin-sidebar {
+    transform: translateX(0) !important; /* Ensure sidebar is always visible on desktop */
+    position: sticky; /* Keep it sticky */
+    top: 0;
+    left: 0; /* Ensure it's correctly positioned */
+    height: 100vh;
+  }
+
+  .sidebar-toggle-btn {
+    display: none !important; /* Hide toggle button on desktop */
+  }
+
+  .admin-sidebar .sidebar-close-btn {
+    display: none !important;
+  }
+}

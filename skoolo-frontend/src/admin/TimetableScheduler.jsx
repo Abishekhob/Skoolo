@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Form, Spinner } from 'react-bootstrap';
 import API from '../services/api';
 import TimetableTable from './TimetableTable';
-import AdminSidebar from './AdminSideBar';
+import AdminSidebar from './AdminSidebar';
 import ScheduleTeacherModal from './ScheduleTeacherModal';
 
 

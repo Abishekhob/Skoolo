@@ -9,18 +9,14 @@ import {
     Button,
     Alert,
 } from 'react-bootstrap';
-import API from '../services/api';
-import AdminSidebar from './AdminSideBar';
+import API from '../services/api'; // Assuming this path is correct
+import AdminSidebar from './AdminSidebar';
 
-// Define some reusable styles for consistency
-const STYLES = {
-    mainBackground: 'min-vh-100 bg-black text-white',
-    cardHoverEffect: {
-        transition: 'transform 0.2s ease-in-out',
-        cursor: 'pointer',
-    },
-    cardColors: 'bg-secondary text-white shadow-lg border-light',
-};
+// Icons (ensure react-icons is installed: npm install react-icons)
+import { IoArrowBackOutline } from "react-icons/io5";
+
+// Import the dedicated CSS file
+import './style/SectionsGrid.css';
 
 const SectionsGrid = () => {
     const { classId } = useParams();
@@ -36,7 +32,7 @@ const SectionsGrid = () => {
      */
     const fetchSections = useCallback(async () => {
         setLoading(true); // Ensure loading is true on every fetch attempt
-        setError(null);   // Clear any previous errors
+        setError(null);    // Clear any previous errors
         try {
             const res = await API.get(`/classes/${classId}/sections`);
             setSections(res.data.sections);
@@ -66,10 +62,9 @@ const SectionsGrid = () => {
     // Loading State
     if (loading) {
         return (
-            <div className="d-flex justify-content-center align-items-center vh-100 bg-dark">
-                <Spinner animation="border" variant="light" role="status">
-                    <span className="visually-hidden">Loading sections...</span>
-                </Spinner>
+            <div className="loading-overlay-full">
+                <Spinner animation="border" variant="light" />
+                <p className="loading-text">Summoning sections...</p>
             </div>
         );
     }
@@ -77,11 +72,11 @@ const SectionsGrid = () => {
     // Error State
     if (error) {
         return (
-            <div className={`${STYLES.mainBackground} d-flex justify-content-center align-items-center vh-100`}>
-                <Alert variant="danger" className="text-center">
-                    <Alert.Heading>Oh Snap! Something went wrong.</Alert.Heading>
-                    <p>{error}</p>
-                    <Button variant="outline-danger" onClick={fetchSections}>
+            <div className="error-overlay-full">
+                <Alert variant="danger" className="error-alert">
+                    <Alert.Heading className="error-heading">Oh Snap! Something went wrong.</Alert.Heading>
+                    <p className="error-message">{error}</p>
+                    <Button variant="outline-light" onClick={fetchSections} className="retry-button">
                         Retry Loading
                     </Button>
                 </Alert>
@@ -90,25 +85,25 @@ const SectionsGrid = () => {
     }
 
     return (
-        <div className={STYLES.mainBackground} style={{ overflowX: 'hidden' }}>
-            <Container fluid className="p-0">
-                <Row className="g-0">
+        <div className="sections-grid-page">
+            <Container fluid className="p-0 h-100">
+                <Row className="g-0 h-100">
                     {/* Admin Sidebar */}
                     <AdminSidebar />
 
                     {/* Main content area */}
-                    <Col md={10} className="py-5 px-4">
-                        <div className="d-flex justify-content-between align-items-center mb-4">
+                    <Col md={10} className="sections-main-content py-5 px-4">
+                        <div className="sections-header-bar mb-5">
                             <Button
                                 variant="outline-light"
                                 onClick={() => navigate(-1)}
-                                className="me-2"
+                                className="back-button"
                             >
-                                &larr; Back
+                                <IoArrowBackOutline className="me-1" /> Back
                             </Button>
 
-                            <h3 className="flex-grow-1 text-center m-0">
-                                Class {className} - Select a Section
+                            <h3 className="page-title flex-grow-1 text-center m-0">
+                                <span className="text-gradient">Class {className}</span> - Select a Section
                             </h3>
 
                             {/* Spacer to visually center the title, matching back button's width */}
@@ -116,29 +111,26 @@ const SectionsGrid = () => {
                         </div>
 
                         {sections.length === 0 ? (
-                            <Alert variant="info" className="text-center mt-5">
-                                No sections found for Class {className}.
-                            </Alert>
+                            <div className="no-sections-found">
+                                <Alert variant="info" className="no-sections-alert">
+                                    <span role="img" aria-label="info emoji">ℹ️</span> No sections found for <span className="fw-bold">{className}</span>.
+                                </Alert>
+                            </div>
                         ) : (
-                            <Row className="g-4 justify-content-center"> {/* Added justify-content-center for better alignment */}
+                            <Row className="g-4 justify-content-center">
                                 {sections.map((section) => (
-                                    <Col key={section.id} xs={12} sm={6} md={4} lg={3}>
+                                    <Col key={section.id} xs={12} sm={6} md={4} lg={3} xxl={3} className="d-flex">
                                         <Card
-                                            className={STYLES.cardColors}
-                                            style={STYLES.cardHoverEffect}
+                                            className="section-card flex-grow-1"
                                             onClick={() => handleSectionClick(section.id)}
-                                            onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.03)')}
-                                            onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1.0)')}
                                         >
-                                            <Card.Body>
-                                                <Card.Title className="text-center mb-3">
+                                            <Card.Body className="d-flex flex-column justify-content-center align-items-center text-center">
+                                                <Card.Title className="section-card-title mb-3">
                                                     {className}-{section.name.toUpperCase()}
                                                 </Card.Title>
-                                                <Card.Text className="text-center text-light">
-                                                    <small>
-                                                        Students: <strong>{section.totalStudents || 0}</strong> <br />
-                                                        Class Teacher: <strong>{section.classTeacher || 'Not Assigned'}</strong>
-                                                    </small>
+                                                <Card.Text className="section-card-text">
+                                                    <span className="info-item">Students: <span className="info-value">{section.totalStudents || 0}</span></span>
+                                                    <span className="info-item">Class Teacher: <span className="info-value">{section.classTeacher || 'Not Assigned'}</span></span>
                                                 </Card.Text>
                                             </Card.Body>
                                         </Card>
