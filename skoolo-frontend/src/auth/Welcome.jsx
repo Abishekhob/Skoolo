@@ -11,7 +11,7 @@ import { Pagination, Navigation, Autoplay, EffectCards } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import 'swiper/css/effect-cards';
+import 'swiper/css/effect-cards'; // Ensure this is imported for the effect
 
 // Import React Icons
 import { FaLaptopCode, FaChalkboardTeacher, FaUserGraduate, FaCalendarAlt, FaChartBar, FaComments, FaTasks, FaShieldAlt, FaGithub, FaLinkedinIn, FaEnvelope, FaBolt, FaDatabase, FaLock, FaWifi, FaServer } from 'react-icons/fa';
@@ -20,20 +20,25 @@ import { MdOutlinePlayCircleFilled } from 'react-icons/md';
 // Import custom CSS module for Welcome page specific styles
 import styles from './style/Welcome.module.css';
 
-// Import your screenshots (replace with actual paths)
-import screenshot1 from '../assets/screenshots/login-screen.png';
-import screenshot2 from '../assets/screenshots/teacher-dashboard.png';
-import screenshot3 from '../assets/screenshots/parent-dashboard.png';
-import screenshot4 from '../assets/screenshots/chat-interface.png';
-import screenshot5 from '../assets/screenshots/timetable.png';
-import screenshot6 from '../assets/screenshots/marks-update.png';
+// --- IMPORTANT: Placeholder Image URLs ---
+// These are public placeholder image URLs to make your build succeed.
+// You MUST replace these with your actual hosted screenshot URLs later.
+const PLACEHOLDER_SCREENSHOTS = {
+    login: 'https://via.placeholder.com/600x400/1E293B/E2E8F0?text=Login+Screen',
+    teacher: 'https://via.placeholder.com/600x400/2D3748/F7FAFC?text=Teacher+Dashboard',
+    parent: 'https://via.placeholder.com/600x400/3A475C/CBD5E0?text=Parent+Dashboard',
+    chat: 'https://via.placeholder.com/600x400/4B5A6D/EDF2F7?text=Chat+Interface',
+    timetable: 'https://via.placeholder.com/600x400/5C6B7D/F0F4F8?text=Timetable+View',
+    marks: 'https://via.placeholder.com/600x400/6D7E8F/DAE1E7?text=Marks+Update',
+};
 
-// Import AuthModal component
+// Import AuthModal component (assuming it exists)
 import AuthModal from './AuthModal';
 
 const Welcome = () => {
     const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
     const [isLoginState, setIsLoginState] = useState(true); // Controls whether to show login or register form
+    const navigate = useNavigate(); // Initialize useNavigate for potential future redirects after auth
 
     const openAuthModal = (isLogin) => {
         setIsLoginState(isLogin);
@@ -44,9 +49,9 @@ const Welcome = () => {
         setIsAuthModalOpen(false);
     };
 
-    // Preload images for smoother experience
+    // Preload placeholder images for smoother experience
     useEffect(() => {
-        const images = [screenshot1, screenshot2, screenshot3, screenshot4, screenshot5, screenshot6];
+        const images = Object.values(PLACEHOLDER_SCREENSHOTS);
         images.forEach((image) => {
             const img = new Image();
             img.src = image;
@@ -63,12 +68,12 @@ const Welcome = () => {
     ];
 
     const screenshots = [
-        { src: screenshot1, caption: "Login Screen: Secure access for all users." },
-        { src: screenshot2, caption: "Teacher Dashboard: Manage classes, updates, and communication." },
-        { src: screenshot3, caption: "Parent Dashboard: Track child's progress and stay informed." },
-        { src: screenshot4, caption: "Chat Interface: Seamless real-time communication." },
-        { src: screenshot5, caption: "Timetable View: Keep track of daily schedules effortlessly." },
-        { src: screenshot6, caption: "Marks Update: Teachers can easily input grades." },
+        { src: PLACEHOLDER_SCREENSHOTS.login, caption: "Login Screen: Secure access for all users." },
+        { src: PLACEHOLDER_SCREENSHOTS.teacher, caption: "Teacher Dashboard: Manage classes, updates, and communication." },
+        { src: PLACEHOLDER_SCREENSHOTS.parent, caption: "Parent Dashboard: Track child's progress and stay informed." },
+        { src: PLACEHOLDER_SCREENSHOTS.chat, caption: "Chat Interface: Seamless real-time communication." },
+        { src: PLACEHOLDER_SCREENSHOTS.timetable, caption: "Timetable View: Keep track of daily schedules effortlessly." },
+        { src: PLACEHOLDER_SCREENSHOTS.marks, caption: "Marks Update: Teachers can easily input grades." },
     ];
 
     return (
@@ -82,7 +87,7 @@ const Welcome = () => {
                     </div>
                     <div>
                         <Button
-                            href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" // Replace with actual demo link
+                            href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" // Example placeholder for a demo link
                             target="_blank"
                             rel="noopener noreferrer"
                             variant="primary"
@@ -91,7 +96,7 @@ const Welcome = () => {
                             Live Demo
                         </Button>
                         <Button
-                            href="https://github.com/your-github-repo" // Replace with actual GitHub repo link
+                            href="https://github.com/Abishekhob/Skoolo" // Assuming this is your actual repo
                             target="_blank"
                             rel="noopener noreferrer"
                             variant="outline-primary"
@@ -143,8 +148,8 @@ const Welcome = () => {
             <section className="py-5 px-3 px-md-5">
                 <Container>
                     <Row className="g-5">
-                        <Col lg={6} className={`${styles.problemCard}`}>
-                            <Card className={`p-4 h-100 shadow-lg border ${styles.problemCardInner}`}>
+                        <Col lg={6}>
+                            <Card className={`p-4 h-100 shadow-lg border ${styles.problemCard}`}>
                                 <h3 className={`h2 fw-bold mb-4 d-flex align-items-center ${styles.problemTitle}`}>
                                     <span className="me-3 fs-1">🛑</span> The Problem
                                 </h3>
@@ -155,8 +160,8 @@ const Welcome = () => {
                                 </ul>
                             </Card>
                         </Col>
-                        <Col lg={6} className={`${styles.solutionCard}`}>
-                            <Card className={`p-4 h-100 shadow-lg border ${styles.solutionCardInner}`}>
+                        <Col lg={6}>
+                            <Card className={`p-4 h-100 shadow-lg border ${styles.solutionCard}`}>
                                 <h3 className={`h2 fw-bold mb-4 d-flex align-items-center ${styles.solutionTitle}`}>
                                     <span className="me-3 fs-1">✅</span> Skoolo Solves It
                                 </h3>
@@ -314,10 +319,10 @@ const Welcome = () => {
             {/* Footer */}
             <footer className={`py-4 px-3 px-md-5 text-center text-secondary border-top ${styles.footer}`}>
                 <Container className="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
-                    <p className="mb-0">&copy; {new Date().getFullYear()} Skoolo. All rights reserved.</p>
+                    <p className="mb-0">© {new Date().getFullYear()} Skoolo. All rights reserved.</p>
                     <div className="d-flex gap-4">
                         <a
-                            href="https://github.com/your-github-repo" // Replace with actual GitHub
+                            href="https://github.com/Abishekhob/Skoolo" // Replace with actual GitHub
                             target="_blank"
                             rel="noopener noreferrer"
                             className={`text-secondary ${styles.footerLink}`}
@@ -326,7 +331,7 @@ const Welcome = () => {
                             <FaGithub className="me-2 fs-5" /> GitHub
                         </a>
                         <a
-                            href="https://www.linkedin.com/in/your-linkedin/" // Replace with actual LinkedIn
+                            href="https://www.linkedin.com/in/abishekhob/" // Replace with actual LinkedIn
                             target="_blank"
                             rel="noopener noreferrer"
                             className={`text-secondary ${styles.footerLink}`}
