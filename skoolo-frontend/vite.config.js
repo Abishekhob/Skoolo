@@ -15,11 +15,12 @@ export default defineConfig({
       external: [
         'swiper/react',
         'swiper/modules',
-        'swiper/css', // ADD THIS LINE for core Swiper CSS
-        // If you are using other Swiper CSS modules, add them here too:
-        // 'swiper/css/navigation',
-        // 'swiper/css/pagination',
-        // 'swiper/css/bundle', // This imports all Swiper CSS styles
+        'swiper/css',
+        'swiper/css/pagination', // ADD THIS LINE for pagination styles
+        // You also have `swiper/css/navigation` and `swiper/css/effect-cards` in your Welcome.jsx
+        // Let's proactively add them as well to avoid another build failure.
+        'swiper/css/navigation', // ADD THIS LINE for navigation styles
+        'swiper/css/effect-cards', // ADD THIS LINE for effect-cards styles
       ],
     },
   },
