@@ -7,8 +7,16 @@ export default defineConfig({
   define: {
     global: 'window', // Polyfill `global` to `window` for browser compatibility
   },
-  // ADD THIS `resolve` BLOCK
   resolve: {
-    dedupe: ['swiper'], // This tells Vite/Rollup to ensure 'swiper' is resolved uniquely
+    dedupe: ['swiper'], // Keep this, it often helps with resolution
+  },
+  // ADD THIS `build` BLOCK
+  build: {
+    rollupOptions: {
+      external: [
+        'swiper/react', // Explicitly externalize swiper/react
+        'swiper/modules', // And its modules, if they are separate imports
+      ],
+    },
   },
 })
