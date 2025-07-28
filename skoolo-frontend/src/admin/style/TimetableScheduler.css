@@ -1,0 +1,208 @@
+/* General Layout */
+.admin-layout {
+  min-height: 100vh;
+}
+
+.main-content-area {
+  background-color: #0d1117; /* GitHub Dark BG */
+  color: #c9d1d9; /* Light gray for text */
+  padding: 2.5rem !important; /* Increased padding for main content */
+}
+
+/* Section Title */
+.section-title {
+  color: #e6edf3; /* Slightly brighter white for titles */
+  font-weight: 700;
+  font-size: 2.2rem; /* Larger title */
+  margin-bottom: 2.5rem; /* More space below title */
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #30363d; /* Subtle separator */
+  padding-bottom: 1rem;
+}
+
+.section-title .icon-lg {
+  font-size: 2.5rem; /* Large icon for title */
+  color: #58a6ff; /* GitHub blue for icons */
+}
+
+/* Selection Card (Class/Section Dropdowns) */
+.selection-card {
+  background-color: #161b22; /* Darker card background */
+  border: 1px solid #30363d; /* Subtle border */
+  border-radius: 12px; /* Rounded corners */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Soft shadow */
+  padding: 1.5rem;
+}
+
+.form-label-custom {
+  color: #c9d1d9;
+  font-weight: 600;
+  margin-bottom: 0.75rem; /* Space below label */
+  display: block; /* Ensure label takes full width */
+}
+
+.form-select-custom {
+  background-color: #21262d; /* Slightly lighter input background */
+  border: 1px solid #30363d;
+  color: #e6edf3;
+  border-radius: 8px; /* Rounded corners */
+  padding: 0.75rem 1rem;
+  appearance: none; /* Remove default arrow */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%238b949e' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 16px 12px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.form-select-custom:focus {
+  border-color: #58a6ff;
+  box-shadow: 0 0 0 0.2rem rgba(88, 166, 255, 0.25);
+  background-color: #161b22; /* Darker on focus */
+  outline: 0;
+}
+.form-select-custom:disabled {
+  background-color: #161b22;
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Option styling within select (for better dark theme contrast) */
+.form-select-custom option {
+  background-color: #161b22; /* Dark background for options */
+  color: #e6edf3; /* Light text for options */
+}
+.form-select-custom option:checked {
+  background-color: #58a6ff; /* Highlight selected option */
+  color: white;
+}
+
+
+/* Timetable Container */
+.timetable-container {
+  background-color: #161b22; /* Matches selection card background */
+  border-radius: 12px;
+  overflow: hidden; /* Ensures rounded corners */
+  border: 1px solid #30363d;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  margin-top: 2rem; /* Space below selection card */
+}
+
+/* Loading State */
+.loading-spinner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px; /* Ensure spinner has enough space */
+}
+
+.loading-spinner {
+  width: 3rem;
+  height: 3rem;
+  color: #58a6ff; /* Bootstrap primary color for spinner */
+}
+
+.loading-text {
+  color: #8b949e;
+  font-size: 1.1rem;
+  margin-top: 1.5rem;
+}
+
+/* Empty State Message */
+.empty-state-message {
+  background-color: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 12px;
+  padding: 2.5rem;
+  color: #c9d1d9;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.empty-state-message .info-icon {
+  font-size: 3rem;
+  color: #58a6ff;
+  margin-bottom: 1rem;
+}
+
+.empty-state-message strong {
+  color: #e6edf3;
+  font-weight: 700;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 991.98px) {
+  .main-content-area {
+    padding: 1.5rem !important;
+  }
+
+  .section-title {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    text-align: center; /* Center title on mobile */
+    justify-content: center; /* Center icon and text */
+  }
+
+  .section-title .icon-lg {
+    font-size: 2rem;
+  }
+
+  .selection-card {
+    padding: 1rem;
+  }
+
+  .form-label-custom {
+    text-align: center; /* Center labels on mobile */
+    margin-bottom: 0.5rem;
+  }
+
+  .form-select-custom {
+    font-size: 0.95rem;
+    padding: 0.6rem 0.8rem;
+  }
+
+  .loading-spinner-container {
+    min-height: 150px;
+  }
+
+  .loading-spinner {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .loading-text {
+    font-size: 1rem;
+  }
+
+  .empty-state-message {
+    padding: 1.5rem;
+    font-size: 1rem;
+  }
+  .empty-state-message .info-icon {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .section-title {
+    font-size: 1.6rem;
+  }
+  .section-title .icon-lg {
+    font-size: 1.8rem;
+  }
+
+  .form-label-custom {
+    font-size: 0.9rem;
+  }
+
+  .form-select-custom {
+    font-size: 0.9rem;
+  }
+  .empty-state-message {
+    font-size: 0.9rem;
+  }
+}
