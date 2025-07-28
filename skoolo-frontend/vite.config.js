@@ -13,14 +13,12 @@ export default defineConfig({
   build: {
     rollupOptions: {
       external: [
-        'swiper/react',
-        'swiper/modules',
+        // ONLY externalize CSS imports.
+        // Vite's default CSS handling should take care of them, but this prevents Rollup from treating them as JS modules.
         'swiper/css',
-        'swiper/css/pagination', // ADD THIS LINE for pagination styles
-        // You also have `swiper/css/navigation` and `swiper/css/effect-cards` in your Welcome.jsx
-        // Let's proactively add them as well to avoid another build failure.
-        'swiper/css/navigation', // ADD THIS LINE for navigation styles
-        'swiper/css/effect-cards', // ADD THIS LINE for effect-cards styles
+        'swiper/css/pagination',
+        'swiper/css/navigation',
+        'swiper/css/effect-cards',
       ],
     },
   },
