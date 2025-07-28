@@ -40,30 +40,41 @@ const AuthModal = ({ isOpen, onClose, isLogin, setIsLogin, API }) => {
         }
     };
 
-    const handleRegisterSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const res = await API.post('/auth/register', registerData);
-            const { token, role, teacherId, parentId } = res.data;
+  const handleRegisterSubmit = async (e) => {
+    e.preventDefault();
+    try {
+        const res = await API.post('/auth/register', registerData);
+        const { token, role, teacherId, parentId, email, plainPassword } = res.data;
 
-            localStorage.setItem('token', token);
-            localStorage.setItem('role', role);
+        localStorage.setItem('token', token);
+        localStorage.setItem('role', role);
 
-            if (teacherId) {
-                localStorage.setItem('teacherId', teacherId);
-            }
-            if (parentId) {
-                localStorage.setItem('parentId', parentId);
-            }
-            onClose(); // Close modal on successful registration
-            if (role === 'ADMIN') navigate('/admin');
-            else if (role === 'TEACHER') navigate('/teacher');
-            else if (role === 'PARENT') navigate('/parent');
-        } catch (err) {
-            alert('Registration failed. Please try again.');
-            console.error(err);
+        if (teacherId) localStorage.setItem('teacherId', teacherId);
+        if (parentId) localStorage.setItem('parentId', parentId);
+
+        // ✅ Only for ADMIN, trigger the download
+        if (role === 'ADMIN' && email && plainPassword) {
+            const text = `Admin Credentials:\nEmail: ${email}\nPassword: ${plainPassword}`;
+            const blob = new Blob([text], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = 'admin_credentials.txt';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
-    };
+
+        onClose();
+        if (role === 'ADMIN') navigate('/admin');
+        else if (role === 'TEACHER') navigate('/teacher');
+        else if (role === 'PARENT') navigate('/parent');
+
+    } catch (err) {
+        alert('Registration failed. Please try again.');
+        console.error(err);
+    }
+};
+
 
     return (
         <Modal show={isOpen} onHide={onClose} centered dialogClassName={styles.authModalDialog}>
