@@ -8,7 +8,6 @@
 /* Main Content Area */
 .main-content-area {
   padding: 2.5rem !important; /* Consistent padding */
-  flex-grow: 1; /* Ensure it takes available space */
 }
 
 /* Section Title */
@@ -25,7 +24,7 @@
 
 .section-title .icon-lg {
   font-size: 2.5rem;
-  color: #a371f7; /* Purple accent for money */
+  color: #58a6ff; /* Accent color */
 }
 
 .sub-section-title {
@@ -72,50 +71,127 @@
 }
 
 
-/* Add Fee Toggle Button */
-.add-fee-toggle-btn {
-  background-image: linear-gradient(to right, #a371f7, #8e5bd9); /* Purple gradient */
+/* Action Buttons */
+.add-parent-btn {
+  background-image: linear-gradient(to right, #2ea44f, #288f43);
   border: none;
   border-radius: 8px;
   padding: 0.75rem 1.5rem;
   font-weight: 600;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 10px rgba(163, 113, 247, 0.4);
+  box-shadow: 0 4px 10px rgba(46, 164, 79, 0.4);
   color: #fff;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0; /* Prevent shrinking on small screens */
 }
-.add-fee-toggle-btn:hover {
-  background-image: linear-gradient(to right, #8e5bd9, #7a46c5);
+.add-parent-btn:hover {
+  background-image: linear-gradient(to right, #288f43, #237a3c);
   transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(163, 113, 247, 0.5);
+  box-shadow: 0 6px 15px rgba(46, 164, 79, 0.5);
 }
-.add-fee-toggle-btn:active, .add-fee-toggle-btn:focus {
-  background-image: linear-gradient(to right, #7a46c5, #6631b1) !important;
-  box-shadow: 0 0 0 0.25rem rgba(163, 113, 247, 0.4) !important;
+.add-parent-btn:active, .add-parent-btn:focus {
+  background-image: linear-gradient(to right, #237a3c, #1f6b33) !important;
+  box-shadow: 0 0 0 0.25rem rgba(46, 164, 79, 0.4) !important;
 }
-.add-fee-toggle-btn.btn-secondary {
+
+.add-parent-btn.btn-secondary {
     background-image: none;
     background-color: #6a737d;
     border-color: #6a737d;
     box-shadow: none;
 }
-.add-fee-toggle-btn.btn-secondary:hover {
+.add-parent-btn.btn-secondary:hover {
     background-color: #586069;
     border-color: #586069;
     transform: translateY(-2px);
 }
 
-/* Add Fee Form Card */
-.add-fee-form-container {
-  overflow: hidden; /* For collapse animation */
+/* File Upload Dropzone */
+.file-upload-dropzone {
+  border: 2px dashed #30363d;
+  padding: 1.2rem 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  background-color: #161b22;
+  border-radius: 12px;
+  color: #8b949e;
+  max-width: 400px; /* Constrain width on larger screens */
+  flex-grow: 1;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
-.add-fee-card {
+.file-upload-dropzone:hover {
+  border-color: #58a6ff;
+  color: #c9d1d9;
+  background-color: #1e242b;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+.file-upload-dropzone p {
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+.file-upload-dropzone small {
+  font-size: 0.8rem;
+  color: #6a737d;
+}
+
+.selected-file-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.upload-btn {
+  background-color: #58a6ff;
+  border-color: #58a6ff;
+  color: #0d1117; /* Dark text for bright button */
+  font-weight: 600;
+  padding: 0.3rem 0.75rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+.upload-btn:hover {
+  background-color: #79c0ff;
+  border-color: #79c0ff;
+  transform: translateY(-1px);
+}
+.upload-btn .spinner-border {
+  margin-right: 0.5rem;
+}
+
+.download-sample-btn {
+  border-color: #30363d;
+  color: #c9d1d9;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  flex-shrink: 0; /* Prevent shrinking on small screens */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.download-sample-btn:hover {
+  background-color: #30363d;
+  color: #e6edf3;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Add Parent Form Card */
+.add-parent-form-container {
+  overflow: hidden; /* Ensure collapse animation works */
+}
+.add-parent-card {
   background-color: #161b22;
   border: 1px solid #30363d;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  margin-bottom: 2.5rem;
 }
 
 .card-title-custom {
@@ -143,40 +219,40 @@
 }
 .form-control-custom:focus {
   background-color: #161b22;
-  border-color: #a371f7; /* Accent color on focus */
-  box-shadow: 0 0 0 0.15rem rgba(163, 113, 247, 0.25);
+  border-color: #58a6ff;
+  box-shadow: 0 0 0 0.15rem rgba(88, 166, 255, 0.25);
   outline: 0;
 }
 .form-control-custom::placeholder {
   color: #6a737d;
 }
 
-.submit-fee-btn {
-  background-image: linear-gradient(to right, #a371f7, #8e5bd9);
+.submit-parent-btn {
+  background-image: linear-gradient(to right, #58a6ff, #4396e6); /* Blue gradient */
   border: none;
   border-radius: 8px;
   padding: 0.75rem 1.5rem;
   font-weight: 600;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 10px rgba(163, 113, 247, 0.4);
+  box-shadow: 0 4px 10px rgba(88, 166, 255, 0.4);
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.submit-fee-btn:hover {
-  background-image: linear-gradient(to right, #8e5bd9, #7a46c5);
+.submit-parent-btn:hover {
+  background-image: linear-gradient(to right, #4396e6, #3281cc);
   transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(163, 113, 247, 0.5);
+  box-shadow: 0 6px 15px rgba(88, 166, 255, 0.5);
 }
-.submit-fee-btn:active, .submit-fee-btn:focus {
-  background-image: linear-gradient(to right, #7a46c5, #6631b1) !important;
-  box-shadow: 0 0 0 0.25rem rgba(163, 113, 247, 0.4) !important;
+.submit-parent-btn:active, .submit-parent-btn:focus {
+  background-image: linear-gradient(to right, #3281cc, #2a6cb8) !important;
+  box-shadow: 0 0 0 0.25rem rgba(88, 166, 255, 0.4) !important;
 }
 
 
-/* Fees Table (Desktop View) */
-.fees-table {
+/* Parents Table (Desktop View) */
+.parents-table {
   width: 100%;
   margin-bottom: 0;
   background-color: #161b22;
@@ -186,7 +262,7 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
-.fees-table thead th {
+.parents-table thead th {
   background-color: #21262d;
   color: #e6edf3;
   font-weight: 600;
@@ -196,7 +272,7 @@
   vertical-align: middle;
 }
 
-.fees-table tbody td {
+.parents-table tbody td {
   background-color: #161b22;
   color: #c9d1d9;
   border-color: #30363d;
@@ -205,16 +281,16 @@
   font-size: 0.95rem;
 }
 
-.fees-table.table-striped tbody tr:nth-of-type(odd) {
+.parents-table.table-striped tbody tr:nth-of-type(odd) {
   background-color: #0d1117;
 }
 
-.fees-table.table-hover tbody tr:hover:not(.children-expanded-row) {
+.parents-table.table-hover tbody tr:hover:not(.children-expanded-row) {
   background-color: #21262d;
   cursor: pointer;
 }
 
-.view-payments-btn {
+.view-children-btn {
   font-size: 0.85rem;
   padding: 0.4rem 0.8rem;
   border-radius: 6px;
@@ -224,8 +300,8 @@
   gap: 0.25rem;
 }
 
-/* Nested Payment Status Table */
-.payment-status-card-nested {
+/* Nested Children Table */
+.children-card-nested {
   background-color: #1e242b; /* Slightly different dark for nested content */
   border: 1px solid #30363d;
   border-radius: 0 0 10px 10px; /* Rounded only at bottom */
@@ -234,17 +310,7 @@
   border-top: none; /* No top border for seamless look */
 }
 
-.nested-card-title {
-    color: #a371f7;
-    font-size: 1.1rem;
-    font-weight: 600;
-}
-.nested-card-title strong {
-    color: #e6edf3;
-}
-
-
-.student-payment-table-nested thead th {
+.children-table-nested thead th {
   background-color: #2d333b; /* Darker header for nested table */
   color: #e6edf3;
   font-size: 0.85rem;
@@ -252,7 +318,7 @@
   border-color: #3e444c;
 }
 
-.student-payment-table-nested tbody td {
+.children-table-nested tbody td {
   background-color: #1e242b;
   color: #aebacd;
   font-size: 0.85rem;
@@ -260,24 +326,23 @@
   border-color: #3e444c;
 }
 
-.student-payment-table-nested.table-striped tbody tr:nth-of-type(odd) {
+.children-table-nested.table-striped tbody tr:nth-of-type(odd) {
   background-color: #161b22;
 }
 
-
-/* Mobile Card View for Fees */
-.mobile-fee-card-list {
+/* Mobile Card View for Parents */
+.mobile-card-list {
   margin-top: 2rem;
 }
 
-.fee-mobile-card {
+.parent-mobile-card {
   background-color: #161b22;
   border: 1px solid #30363d;
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   transition: all 0.2s ease;
 }
-.fee-mobile-card:hover {
+.parent-mobile-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
 }
@@ -289,36 +354,28 @@
   border-bottom: 1px solid rgba(48, 54, 61, 0.5);
   padding-bottom: 0.75rem;
   margin-bottom: 1rem !important;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
-
-.fee-type-badge {
-    background-color: #a371f7;
-    color: #fff;
-    padding: 0.3em 0.7em;
-    border-radius: 5px;
+.mobile-card-title span:first-child {
+    color: #8b949e;
+    font-weight: 500;
     font-size: 0.9em;
-    font-weight: 600;
 }
 
-
-.mobile-fee-details li {
+.mobile-parent-details li {
   font-size: 0.9rem;
   padding: 0.25rem 0;
   border-bottom: 1px dashed rgba(48, 54, 61, 0.3);
 }
-.mobile-fee-details li:last-child {
+.mobile-parent-details li:last-child {
   border-bottom: none;
 }
-.mobile-fee-details strong {
-  color: #79c0ff; /* Accent color for labels */
-  min-width: 80px; /* Align content */
+.mobile-parent-details strong {
+  color: #58a6ff;
+  min-width: 70px; /* Align content */
   display: inline-block;
 }
 
-.view-payments-btn-mobile {
+.view-children-btn-mobile {
   font-size: 0.9rem;
   padding: 0.6rem 1rem;
   border-radius: 8px;
@@ -328,32 +385,28 @@
   gap: 0.5rem;
 }
 
-.mobile-payment-card {
+.mobile-children-card {
   margin-top: 1rem;
   border-radius: 8px; /* Slightly more rounded for mobile nested card */
   background-color: #1e242b;
   border-color: #30363d;
 }
-.nested-card-title-mobile {
-    font-size: 1rem;
-    color: #aebacd;
-}
 
-.student-payment-item {
-  background-color: #21262d; /* Background for each student item */
+.child-detail-item {
+  background-color: #21262d; /* Background for each child item */
   border: 1px solid #30363d;
   border-radius: 6px;
   margin-bottom: 0.5rem;
   font-size: 0.9rem;
   color: #c9d1d9;
 }
-.student-payment-item p {
+.child-detail-item p {
   margin-bottom: 0.2rem;
 }
-.student-payment-item strong {
-  color: #a371f7; /* Accent color for names */
+.child-detail-item strong {
+  color: #79c0ff; /* Accent color for child names */
 }
-.student-payment-item small {
+.child-detail-item small {
   color: #8b949e;
 }
 
@@ -362,7 +415,7 @@
 .initial-loading-spinner {
   width: 4rem;
   height: 4rem;
-  color: #a371f7;
+  color: #58a6ff;
 }
 
 
@@ -388,9 +441,27 @@
     text-align: center;
   }
 
-  /* Form layout for smaller screens */
-  .add-fee-card {
-    padding: 0.5rem; /* Reduce card padding */
+  /* Flex wrap for action buttons/upload */
+  .d-flex.flex-column.flex-md-row {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+  .add-parent-btn, .file-upload-dropzone, .download-sample-btn {
+    width: 100%;
+    max-width: none;
+  }
+
+  /* Hide desktop table on smaller screens */
+  .d-lg-none.mobile-card-list {
+    display: block !important;
+  }
+  .table-responsive.d-none.d-lg-block {
+    display: none !important;
+  }
+
+  /* Add parent form styling */
+  .add-parent-card {
+    padding: 0.5rem; /* Reduce padding */
   }
   .card-title-custom {
     font-size: 1.3rem;
@@ -404,37 +475,9 @@
     padding: 0.6rem 0.8rem;
     font-size: 0.9rem;
   }
-  .submit-fee-btn {
+  .submit-parent-btn {
     font-size: 0.9rem;
     padding: 0.6rem 1.2rem;
-  }
-  .add-fee-toggle-btn {
-    width: 100%; /* Full width button on small screens */
-    font-size: 0.95rem;
-    padding: 0.65rem 1rem;
-  }
-
-
-  /* Hide desktop table on smaller screens */
-  .d-lg-none.mobile-fee-card-list {
-    display: block !important;
-  }
-  .table-responsive.d-none.d-lg-block {
-    display: none !important;
-  }
-
-  .mobile-card-title {
-    font-size: 1.05rem;
-  }
-  .mobile-fee-details li {
-    font-size: 0.85rem;
-  }
-  .student-payment-item {
-    font-size: 0.8rem;
-    padding: 0.8rem;
-  }
-  .student-payment-item small {
-    font-size: 0.7rem;
   }
 }
 
@@ -455,22 +498,38 @@
     font-size: 0.85rem;
   }
 
-  .add-fee-toggle-btn {
+  .add-parent-btn {
+    font-size: 0.85rem;
+    padding: 0.6rem 1rem;
+  }
+
+  .file-upload-dropzone p {
+    font-size: 0.85rem;
+  }
+  .file-upload-dropzone small {
+    font-size: 0.75rem;
+  }
+  .upload-btn {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.5rem;
+  }
+
+  .download-sample-btn {
     font-size: 0.85rem;
     padding: 0.6rem 1rem;
   }
 
   .mobile-card-title {
-    font-size: 1rem;
+    font-size: 1.05rem;
   }
-  .fee-type-badge {
-    font-size: 0.8em;
-  }
-  .mobile-fee-details li {
-    font-size: 0.8rem;
-  }
-  .view-payments-btn-mobile {
+  .mobile-parent-details li {
     font-size: 0.85rem;
-    padding: 0.5rem 0.8rem;
+  }
+  .child-detail-item {
+    font-size: 0.8rem;
+    padding: 0.8rem;
+  }
+  .child-detail-item small {
+    font-size: 0.7rem;
   }
 }

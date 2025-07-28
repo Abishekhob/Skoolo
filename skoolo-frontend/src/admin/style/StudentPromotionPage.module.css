@@ -1,248 +1,363 @@
-/* Dark Theme Variables */
-:root {
-    --dark-bg-primary: #1a1a2e; /* Deep dark blue/purple */
-    --dark-bg-secondary: #16213e; /* Slightly lighter for cards/forms */
-    --dark-text-primary: #e0e0e0; /* Light gray for main text */
-    --dark-text-secondary: #a0a0a0; /* Muted gray for labels/placeholders */
-    --dark-border: #3c4a6b; /* Subtle border color */
-    --dark-input-bg: #222c4a; /* Input field background */
-    --dark-input-border: #4d5d85; /* Input field border */
-    --dark-select-arrow: url('data:image/svg+xml;utf8,<svg fill="%23e0e0e0" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>'); /* Custom arrow for selects */
-    --dark-accent-blue: #0f3460; /* Dark blue accent for headers/buttons */
-    --dark-button-hover: #1e4a7c; /* Button hover color */
-    --dark-table-header: #0f3460; /* Table header background */
-    --dark-table-stripe: rgba(15, 52, 96, 0.1); /* Subtle stripe for table rows */
-    --dark-hover-bg: #28375a; /* Table row hover */
-    --dark-card-shadow: rgba(0, 0, 0, 0.4); /* Card shadow */
-    --success-alert-bg: #28a745; /* Green for success */
-    --success-alert-border: #218838;
-    --success-alert-text: #ffffff;
-    --discontinued-row-bg: rgba(220, 53, 69, 0.1); /* Light red for discontinued */
-    --discontinued-text: #dc3545; /* Red text for discontinued */
-}
-
-/* Overall page container */
+/* Overall Container */
 .promotionPageContainer {
-    display: flex;
-    min-height: 100vh;
-    background-color: var(--dark-bg-primary);
-    color: var(--dark-text-primary);
-    font-family: 'Inter', sans-serif;
+  display: flex;
+  min-height: 100vh;
+  background-color: #0d1117; /* Dark background similar to GitHub */
+  color: #c9d1d9; /* Light text color */
 }
 
-/* Content area next to sidebar */
+/* Main Content Area */
 .contentArea {
-    flex-grow: 1;
-    margin-left: 250px; /* Adjust based on AdminSidebar width */
-    padding: 30px;
-    transition: margin-left 0.3s ease-in-out;
-}
-
-@media (max-width: 768px) {
-    .contentArea {
-        margin-left: 0;
-        padding: 20px;
-    }
+  flex-grow: 1;
+  padding: 2.5rem;
+  overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
 /* Page Title */
 .pageTitle {
-    color: #90d4ff; /* Vibrant light blue */
-    font-weight: 700;
-    margin-bottom: 30px;
-    text-shadow: 0 0 10px rgba(144, 212, 255, 0.3);
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--dark-border);
+  color: #e6edf3;
+  font-weight: 700;
+  font-size: 2.5rem;
+  margin-bottom: 2.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #30363d;
 }
 
-/* Success Alert */
-.successAlert {
-    background-color: var(--success-alert-bg);
-    border-color: var(--success-alert-border);
-    color: var(--success-alert-text);
-    margin-bottom: 25px;
-    padding: 15px 20px;
-    border-radius: 8px;
-    animation: fadeInOut 5s forwards; /* Simple animation */
+.pageIcon {
+  font-size: 2.8rem;
+  color: #58a6ff; /* Blue accent for icons */
 }
 
-@keyframes fadeInOut {
-    0% { opacity: 0; }
-    10% { opacity: 1; }
-    90% { opacity: 1; }
-    100% { opacity: 0; }
+/* Custom Alerts */
+.customAlert {
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  font-size: 0.95rem;
+  border: none;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  margin-bottom: 1.5rem;
 }
 
-/* Card for forms and data tables */
+.alertSuccess {
+  background-color: #238636; /* GitHub green */
+  color: #fff;
+}
+
+.alertDanger {
+  background-color: #da3633; /* GitHub red */
+  color: #fff;
+}
+
+/* Card Styling for Forms and Data */
 .formCard,
 .dataCard {
-    background-color: var(--dark-bg-secondary);
-    border: 1px solid var(--dark-border);
-    border-radius: 12px;
-    box-shadow: 0 6px 20px var(--dark-card-shadow);
-    margin-bottom: 30px; /* Space between form and table cards */
-    transition: transform 0.2s ease-in-out;
+  background-color: #161b22; /* Slightly lighter dark for cards */
+  border: 1px solid #30363d;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  margin-bottom: 2rem;
 }
 
-.formCard:hover,
-.dataCard:hover {
-    transform: translateY(-3px); /* Subtle lift on hover */
+.cardTitle {
+  color: #e6edf3;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(48, 54, 61, 0.5);
 }
 
-/* Form element styling */
+/* Form Elements */
 .formLabel {
-    color: var(--dark-text-primary);
-    font-weight: 500;
-    margin-bottom: 8px;
-    display: block; /* Ensures label takes full width */
+  color: #8b949e;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
 }
 
 .formSelect,
 .formControl {
-    background-color: var(--dark-input-bg);
-    color: var(--dark-text-primary);
-    border: 1px solid var(--dark-input-border);
-    border-radius: 8px;
-    padding: 10px 15px;
-    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-    -webkit-appearance: none; /* Remove default browser styling for select */
-    -moz-appearance: none;
-    appearance: none;
-    background-image: var(--dark-select-arrow); /* Custom arrow for selects */
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    background-size: 20px;
+  background-color: #21262d;
+  border: 1px solid #30363d;
+  color: #e6edf3;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .formSelect:focus,
 .formControl:focus {
-    background-color: var(--dark-input-bg);
-    color: var(--dark-text-primary);
-    border-color: #6a95e2; /* Lighter blue on focus */
-    box-shadow: 0 0 0 0.25rem rgba(106, 149, 226, 0.25);
-    outline: none;
-}
-
-.formSelect option {
-    background-color: var(--dark-input-bg); /* Option background */
-    color: var(--dark-text-primary); /* Option text color */
+  background-color: #161b22;
+  border-color: #58a6ff; /* Blue accent on focus */
+  box-shadow: 0 0 0 0.15rem rgba(88, 166, 255, 0.25);
+  outline: 0;
 }
 
 .formControl::placeholder {
-    color: var(--dark-text-secondary); /* Placeholder text color */
-    opacity: 0.7;
+  color: #6a737d;
 }
 
+/* Disabled states */
 .formSelect:disabled,
 .formControl:disabled {
-    background-color: rgba(255, 255, 255, 0.05); /* Slightly lighter disabled background */
-    border-color: rgba(255, 255, 255, 0.1);
-    color: var(--dark-text-secondary);
-    opacity: 0.7;
-    cursor: not-allowed;
+  background-color: #2b323c;
+  color: #6a737d;
+  cursor: not-allowed;
+  opacity: 0.7;
 }
 
-/* Table styling for student promotions */
+/* Student Promotion Table (Desktop) */
 .promotionTable {
-    width: 100%;
-    color: var(--dark-text-primary);
-    border-collapse: collapse;
-    margin-top: 20px;
+  width: 100%;
+  border-collapse: separate; /* Required for border-radius on table */
+  border-spacing: 0;
+  margin-bottom: 0; /* Remove default margin from table */
 }
 
 .promotionTable thead th {
-    background-color: var(--dark-table-header); /* Distinct header background */
-    color: #ffffff;
-    padding: 15px 15px;
-    text-align: left;
-    font-weight: 600;
-    border-bottom: 1px solid var(--dark-border);
+  background-color: #21262d;
+  color: #e6edf3;
+  font-weight: 600;
+  border-color: #30363d;
+  padding: 1rem 1.2rem;
+  font-size: 1rem;
+  vertical-align: middle;
+  text-align: left;
 }
+/* Rounded corners for table header */
+.promotionTable thead th:first-child { border-top-left-radius: 8px; }
+.promotionTable thead th:last-child { border-top-right-radius: 8px; }
 
-.promotionTable tbody tr {
-    border-bottom: 1px solid var(--dark-border);
-    transition: background-color 0.2s ease-in-out;
-}
 
-.promotionTable tbody tr:last-child {
-    border-bottom: none;
+.promotionTable tbody td {
+  background-color: #161b22;
+  color: #c9d1d9;
+  border-color: #30363d;
+  padding: 0.75rem 1.2rem;
+  vertical-align: middle;
+  font-size: 0.95rem;
 }
 
 .promotionTable tbody tr:hover {
-    background-color: var(--dark-hover-bg);
+  background-color: #21262d;
+  transition: background-color 0.2s ease;
 }
 
-.promotionTable tbody tr:nth-child(odd) {
-    background-color: var(--dark-table-stripe); /* Subtle stripe */
+.studentNameCell {
+    font-weight: 600;
+    color: #58a6ff; /* Highlight student names */
 }
 
-.promotionTable tbody td {
-    padding: 12px 15px;
-    vertical-align: middle;
-}
-
-/* Style for rows where student is 'Discontinued' */
 .discontinuedRow {
-    background-color: var(--discontinued-row-bg) !important; /* !important to override striped */
-    color: var(--discontinued-text);
-    opacity: 0.8;
-    font-style: italic;
+  background-color: #2d1c1c !important; /* Muted red for discontinued rows */
+  color: #8b949e !important;
+  opacity: 0.7;
 }
+
 .discontinuedRow .formSelect,
 .discontinuedRow .formControl {
-    background-color: rgba(220, 53, 69, 0.08); /* Lighter red for inputs */
-    border-color: rgba(220, 53, 69, 0.2);
-    color: var(--discontinued-text);
+    background-color: #2b323c !important;
+    color: #6a737d !important;
+    cursor: not-allowed;
 }
-
 
 /* Submit Button */
 .submitButton {
-    background-color: var(--dark-accent-blue);
-    border-color: var(--dark-accent-blue);
-    color: #ffffff;
-    padding: 12px 25px;
-    font-size: 1rem;
-    font-weight: 600;
-    border-radius: 8px;
-    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+  background-image: linear-gradient(to right, #58a6ff, #4392f1); /* Blue gradient */
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(88, 166, 255, 0.4);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.submitButton:hover {
-    background-color: var(--dark-button-hover);
-    border-color: var(--dark-button-hover);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+.submitButton:hover:not(:disabled) {
+  background-image: linear-gradient(to right, #4392f1, #327ed3);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(88, 166, 255, 0.5);
 }
 
-.submitButton:active {
-    transform: translateY(0);
-    box-shadow: none;
+.submitButton:active:not(:disabled),
+.submitButton:focus:not(:disabled) {
+  background-image: linear-gradient(to right, #327ed3, #236bc2) !important;
+  box-shadow: 0 0 0 0.25rem rgba(88, 166, 255, 0.4) !important;
+  outline: 0;
 }
 
 .submitButton:disabled {
-    background-color: var(--dark-input-border);
-    border-color: var(--dark-input-border);
+    background-color: #4a5763;
+    border-color: #4a5763;
     cursor: not-allowed;
-    opacity: 0.6;
+    opacity: 0.7;
+    box-shadow: none;
 }
 
-/* Spinner and Empty State */
+
+/* Loading Spinner and Empty State */
 .spinnerContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 200px;
-    font-size: 1.1rem;
-    color: var(--dark-text-secondary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  color: #c9d1d9;
+}
+
+.loadingSpinner {
+  width: 3rem;
+  height: 3rem;
+  color: #58a6ff;
+  margin-bottom: 1rem;
+}
+
+.loadingText {
+  font-size: 1.1rem;
+  font-weight: 500;
 }
 
 .emptyState {
+  text-align: center;
+  padding: 3rem;
+  background-color: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 12px;
+  margin-top: 2rem;
+  font-size: 1.1rem;
+  color: #8b949e;
+}
+
+
+/* Mobile Card View for Students */
+.studentCard {
+  background-color: #1e242b; /* Slightly darker for individual cards */
+  border: 1px solid #30363d;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease-in-out;
+}
+
+.studentCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.studentCardTitle {
+  color: #58a6ff;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.cardDivider {
+  border-top: 1px solid rgba(48, 54, 61, 0.5);
+  margin-top: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.discontinuedCard {
+    background-color: #2d1c1c !important; /* Muted red for discontinued card */
+    opacity: 0.8;
+}
+.discontinuedCard .studentCardTitle {
+    color: #aebacd;
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 991.98px) {
+  .contentArea {
+    padding: 1.5rem; /* Reduce padding on smaller screens */
+  }
+
+  .pageTitle {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    justify-content: center; /* Center title on mobile */
     text-align: center;
-    padding: 50px;
+  }
+
+  .pageIcon {
+    font-size: 2.2rem;
+  }
+
+  .cardTitle {
+    font-size: 1.3rem;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  /* Hide desktop table on smaller screens */
+  .d-lg-none {
+    display: block !important;
+  }
+  .d-none.d-lg-block {
+    display: none !important;
+  }
+
+  .formCard, .dataCard {
+      margin-bottom: 1.5rem;
+  }
+
+  .promotionTable thead th,
+  .promotionTable tbody td {
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .studentCardTitle {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .contentArea {
+    padding: 1rem;
+  }
+
+  .pageTitle {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .pageIcon {
+    font-size: 2rem;
+  }
+
+  .cardTitle {
     font-size: 1.2rem;
-    color: var(--dark-text-secondary);
-    background-color: var(--dark-bg-secondary);
-    border-radius: 8px;
-    box-shadow: 0 4px 15px var(--dark-card-shadow);
+  }
+
+  .formLabel,
+  .formSelect,
+  .formControl {
+    font-size: 0.9rem;
+  }
+
+  .formSelect, .formControl {
+      padding: 0.6rem 0.8rem;
+  }
+
+  .submitButton {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+    width: 100%; /* Full width button on extra small screens */
+  }
+
+  .emptyState {
+      padding: 2rem;
+      font-size: 1rem;
+  }
+
+  .studentCard {
+    margin-bottom: 1rem;
+  }
 }
