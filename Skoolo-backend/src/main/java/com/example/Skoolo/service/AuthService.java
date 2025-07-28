@@ -5,6 +5,7 @@ import com.example.Skoolo.dto.AuthResponse;
 import com.example.Skoolo.dto.RegisterRequest;
 import com.example.Skoolo.model.Parent;
 import com.example.Skoolo.model.User;
+import com.example.Skoolo.model.enums.Role;
 import com.example.Skoolo.repo.ParentRepository;
 import com.example.Skoolo.repo.TeacherRepository;
 import com.example.Skoolo.repo.UserRepository;
@@ -30,6 +31,15 @@ public class AuthService {
 
 
     public AuthResponse register(RegisterRequest request) {
+        // ✅ Only allow one ADMIN to be created
+        if (request.getRole().name().equals("ADMIN")) {
+            boolean adminExists = userRepository.existsByRole(Role.ADMIN);
+            if (adminExists) {
+                throw new RuntimeException("Admin already exists");
+            }
+        }
+
+        // ✅ Create and save user
         User user = new User();
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
@@ -39,21 +49,30 @@ public class AuthService {
 
         userRepository.save(user);
 
-        AuthResponse response = new AuthResponse();
+        // ✅ Generate token
         String token = jwtUtils.generateToken(new CustomUserDetails(user));
+
+        // ✅ Build response
+        AuthResponse response = new AuthResponse();
         response.setToken(token);
         response.setRole(user.getRole().name());
 
+        // ✅ Include email and raw password ONLY for admin registration
+        if (request.getRole().name().equals("ADMIN")) {
+            response.setEmail(request.getEmail());
+            response.setPlainPassword(request.getPassword());
+        }
+
+        // ✅ If role is PARENT, create parent profile
         if (user.getRole().name().equals("PARENT")) {
             Parent parent = new Parent();
             parent.setUser(user);
             parent.setFirstName(user.getFirstName());
             parent.setLastName(user.getLastName());
-            parent.setContactNumber(""); // set default or from request if you add it
-            parent.setAddress("");       // set default or from request if you add it
+            parent.setContactNumber("");
+            parent.setAddress("");
             parentRepository.save(parent);
-
-            response.setParentId(parent.getId()); // ✅ Now it will return the ID to frontend
+            response.setParentId(parent.getId());
         }
 
         return response;

@@ -14,6 +14,8 @@ public class AuthResponse {
     private Long teacherId;
     private Long parentId;
 
+    private String email;
+    private String plainPassword; // Add this only for ADMIN, not persisted
 
 }
 
