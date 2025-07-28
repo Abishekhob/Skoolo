@@ -10,12 +10,16 @@ export default defineConfig({
   resolve: {
     dedupe: ['swiper'], // Keep this, it often helps with resolution
   },
-  // ADD THIS `build` BLOCK
   build: {
     rollupOptions: {
       external: [
-        'swiper/react', // Explicitly externalize swiper/react
-        'swiper/modules', // And its modules, if they are separate imports
+        'swiper/react',
+        'swiper/modules',
+        'swiper/css', // ADD THIS LINE for core Swiper CSS
+        // If you are using other Swiper CSS modules, add them here too:
+        // 'swiper/css/navigation',
+        // 'swiper/css/pagination',
+        // 'swiper/css/bundle', // This imports all Swiper CSS styles
       ],
     },
   },
