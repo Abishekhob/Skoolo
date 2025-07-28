@@ -1,169 +1,172 @@
-/* Container for the entire timetable section */
+/* General Layout & Background */
 .timetable-section {
-  padding: 1.5rem; /* Consistent padding with other sections */
-  border-radius: 15px; /* Consistent border-radius with other cards */
-  background-color: #22223b; /* Match data-section-card background */
-  box-shadow: none; /* Explicitly remove shadow */
-    width: 100%;
-  overflow-x: auto;
+  padding: 1.5rem;
+  border-radius: 15px;
+  background-color: #22223b; /* Dark card background */
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); /* Subtle, modern shadow */
+  backdrop-filter: blur(10px); /* Glassmorphism effect */
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18); /* Light border */
+  width: 100%;
 }
 
-.timetable-section .timetable-header {
-  border-bottom: 1px solid #444466 !important; /* Subtle separator line */
-  padding-bottom: 0.8rem !important; /* Space below header */
+/* Header Section */
+.timetable-header {
+  border-bottom: 1px solid #444466 !important;
+  padding-bottom: 0.8rem !important;
+  margin-bottom: 2rem !important; /* More space below header */
 }
 
 .timetable-section h4 {
-  color: #f0f0f0; /* Ensure header title is visible */
+  color: #f0f0f0;
   font-size: 1.8rem;
+  font-weight: 700; /* Bolder for impact */
+  letter-spacing: 0.5px;
+}
+
+/* Buttons */
+.edit-btn,
+.save-btn,
+.cancel-btn,
+.download-sample-btn {
+  padding: 0.7rem 1.4rem;
+  border-radius: 10px; /* More rounded buttons */
   font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth cubic-bezier transition */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Edit Timetable Button */
-.edit-timetable-btn {
-  background-color: #00aaff; /* Primary theme color */
-  border-color: #00aaff;
-  color: #fff;
-  padding: 0.6rem 1.25rem;
-  border-radius: 8px;
-  font-weight: 600;
-  transition: all 0.3s ease;
+.edit-btn {
+  background-color: #ffc107; /* Warning color for edit */
+  border-color: #ffc107;
+  color: #333;
+}
+.edit-btn:hover {
+  background-color: #e0a800;
+  border-color: #e0a800;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(255, 193, 7, 0.4);
+}
+.edit-btn:active,
+.edit-btn:focus {
+  background-color: #cc9c00 !important;
+  border-color: #cc9c00 !important;
+  box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.4) !important;
 }
 
-.edit-timetable-btn:hover {
-  background-color: #0088cc; /* Darker blue on hover */
-  border-color: #0088cc;
-  color: #fff;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(0, 170, 255, 0.4); /* Add back a subtle shadow on hover */
-}
-
-.edit-timetable-btn:active,
-.edit-timetable-btn:focus {
-    background-color: #0077b3 !important;
-    border-color: #0077b3 !important;
-    box-shadow: 0 0 0 0.25rem rgba(0, 170, 255, 0.4) !important;
-}
-
-/* Save and Cancel Buttons */
 .save-btn {
-  background-color: #00aaff; /* Primary theme color for Save */
-  border-color: #00aaff;
+  background-image: linear-gradient(45deg, #28a745, #218838); /* Green gradient for save */
+  border: none;
   color: #fff;
-  font-weight: 600;
-  border-radius: 8px;
-  transition: all 0.3s ease;
+}
+.save-btn:hover {
+  background-image: linear-gradient(45deg, #218838, #1e7e34);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(40, 167, 69, 0.4);
+}
+.save-btn:active,
+.save-btn:focus {
+  background-image: linear-gradient(45deg, #1e7e34, #1c7430) !important;
+  box-shadow: 0 0 0 0.25rem rgba(40, 167, 69, 0.4) !important;
 }
 
-.save-btn:hover {
-  background-color: #0088cc;
-  border-color: #0088cc;
+.cancel-btn {
+  background-image: linear-gradient(45deg, #6c757d, #5a6268); /* Gray gradient for cancel */
+  border: none;
+  color: #fff;
+}
+.cancel-btn:hover {
+  background-image: linear-gradient(45deg, #5a6268, #4e555b);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(108, 117, 125, 0.4);
+}
+.cancel-btn:active,
+.cancel-btn:focus {
+  background-image: linear-gradient(45deg, #4e555b, #464b50) !important;
+  box-shadow: 0 0 0 0.25rem rgba(108, 117, 125, 0.4) !important;
+}
+
+.download-sample-btn {
+  background-color: transparent;
+  border: 2px solid #00aaff;
+  color: #00aaff;
+}
+.download-sample-btn:hover {
+  background-color: #00aaff;
+  color: #fff;
   transform: translateY(-2px);
   box-shadow: 0 4px 10px rgba(0, 170, 255, 0.4);
 }
 
-.save-btn:active,
-.save-btn:focus {
-    background-color: #0077b3 !important;
-    border-color: #0077b3 !important;
-    box-shadow: 0 0 0 0.25rem rgba(0, 170, 255, 0.4) !important;
-}
-
-.cancel-btn {
-  background-color: #6c757d; /* Standard secondary gray */
-  border-color: #6c757d;
-  color: #fff;
-  font-weight: 500;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-}
-
-.cancel-btn:hover {
-  background-color: #5a6268;
-  border-color: #5a6268;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(108, 117, 125, 0.4);
-}
-
-.cancel-btn:active,
-.cancel-btn:focus {
-    background-color: #545b62 !important;
-    border-color: #545b62 !important;
-    box-shadow: 0 0 0 0.25rem rgba(108, 117, 125, 0.4) !important;
-}
-
-/* Timetable Table Styles */
+/* Timetable Table Styles (Desktop View) */
 .timetable-table {
   background-color: #1a1a2e; /* Darker background for table */
-  border-radius: 12px; /* Slightly rounded corners for the table */
-  overflow: hidden; /* Ensures rounded corners are visible */
-  border: 1px solid #33334d; /* Subtle border for the entire table */
-  width: 100%;
-  min-width: 600px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  min-width: 700px; /* Ensure enough width for table scroll on smaller laptops */
 }
-
-.table-responsive {
-  overflow-x: auto;
-}
-
 
 .timetable-table thead th {
-  background-color: #2c2c4d; /* Darker header background */
-  color: #f0f0f0;
-  font-weight: 600;
-  border-color: #3b3b5c; /* Darker border for headers */
-  padding: 0.8rem 0.5rem;
+  background-image: linear-gradient(to right, #343a40, #2c2c4d); /* Gradient for table header */
+  color: #f8f9fa; /* Lighter text for contrast */
+  font-weight: 700;
+  border-color: #3b3b5c;
+  padding: 1rem 0.8rem; /* More padding */
   vertical-align: middle;
+  text-transform: uppercase;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
 }
 
 .timetable-table tbody td {
-  background-color: #1a1a2e; /* Row background */
+  background-color: #1a1a2e;
   color: #e0e0e0;
-  border-color: #3b3b5c; /* Darker border for cells */
+  border-color: #3b3b5c;
   vertical-align: middle;
-  padding: 0.6rem 0.5rem;
+  padding: 0.7rem 0.6rem;
   font-size: 0.9rem;
 }
 
 .timetable-table.table-striped tbody tr:nth-of-type(odd) {
-  background-color: #22223b; /* Slightly different stripe color */
+  background-color: #22223b;
 }
 
 .timetable-table.table-hover tbody tr:hover {
-  background-color: #2c2c4d; /* Hover effect for rows */
-}
-
-.timetable-table .day-col,
-.timetable-table .period-col,
-.timetable-table .time-range-col {
-    text-transform: uppercase;
-    font-size: 0.9rem;
+  background-color: #2c2c4d;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2); /* Subtle inner shadow on hover */
 }
 
 .timetable-table .time-range-col small {
-  color: #a0a0a0; /* Muted time range text */
+  color: #b0b0b0; /* Slightly lighter muted time text */
+  display: block; /* Ensures it takes full width */
+  margin-top: 0.2rem;
+  font-size: 0.75rem;
 }
 
 .timetable-table .day-name {
-  text-transform: capitalize; /* Capitalize day names for display */
-  font-size: 1rem;
-  padding-left: 1.5rem;
-  width: 120px; /* Fixed width for day column */
+  text-transform: capitalize;
+  font-size: 1.05rem;
+  padding-left: 1.8rem;
+  width: 140px; /* Slightly wider day column for readability */
+  font-weight: 600;
+  color: #8be9fd; /* Accent color for day names */
 }
 
 .timetable-table .timetable-cell {
-  min-width: 120px; /* Ensure cells have minimum width */
+  min-width: 150px; /* Wider cells for content */
   text-align: center;
 }
 
 /* Input fields inside timetable cells when editing */
 .timetable-input {
-  background-color: #2c2c4d; /* Dark input background */
+  background-color: #2c2c4d;
   border: 1px solid #444466;
   color: #f0f0f0;
-  border-radius: 6px;
-  padding: 0.4rem 0.6rem;
+  border-radius: 8px; /* More rounded inputs */
+  padding: 0.5rem 0.8rem;
   font-size: 0.85rem;
+  transition: all 0.2s ease-in-out;
 }
 
 .timetable-input::placeholder {
@@ -172,72 +175,82 @@
 
 .timetable-input:focus {
   border-color: #00aaff;
-  box-shadow: 0 0 0 0.15rem rgba(0, 170, 255, 0.25);
+  box-shadow: 0 0 0 0.15rem rgba(0, 170, 255, 0.45); /* More prominent focus ring */
   background-color: #35355e;
+  outline: none;
 }
 
 /* Content display within cells */
 .timetable-display-content .subject-name {
-  color: #f0f0f0;
-  font-size: 0.95rem;
+  color: #f8f9fa; /* White text for main subject */
+  font-size: 1rem;
+  letter-spacing: 0.2px;
 }
 
 .timetable-display-content .teacher-name {
-  color: #b0b0c0; /* Slightly lighter muted color for teacher */
+  color: #8be9fd; /* Light blue for teacher */
   font-size: 0.8rem;
-  margin-top: 0.2rem;
+  margin-top: 0.3rem;
+  font-weight: 500;
 }
 
 .text-muted-dark {
-  color: #a0a0a0 !important; /* Specific muted color for "No Subject" */
+  color: #a0a0a0 !important;
+  font-style: italic;
 }
 
-.text-info-custom {
-    color: #8be9fd !important; /* Light blue for teacher names */
+.text-primary-custom {
+  color: #00aaff !important; /* Custom primary color for headings */
 }
 
 /* Clickable Cell for onCellClick prop */
 .clickable-cell {
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
-  padding: 0.5rem; /* Padding for the clickable div */
+  transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  padding: 0.8rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 70px; /* Ensure a minimum height for clickable area */
-  border-radius: 8px; /* Rounded border for clickable area */
+  min-height: 80px; /* Increased min-height */
+  border-radius: 10px; /* More rounded */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: #2c2c4d; /* Slightly lighter background for clickable cells */
 }
 
 .clickable-cell:hover {
-  background-color: #3b3b5c !important; /* Darker blue on hover */
-  transform: scale(1.02); /* Slight scale effect */
+  background-color: #3b3b5c !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 /* Empty State Styles */
 .timetable-empty-state-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 400px; /* Ensure sufficient height for empty state */
-    padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 500px; /* More vertical space */
+  padding: 2rem;
 }
 
 .timetable-empty-state-card {
-  background-color: #2c2c4d; /* Consistent card background */
+  background-color: #2c2c4d;
   color: #e0e0e0;
-  border: none;
-  border-radius: 15px;
-  padding: 3rem 2rem;
-  max-width: 650px; /* Wider for the note */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px; /* More rounded */
+  padding: 3.5rem 2.5rem;
+  max-width: 700px; /* Wider for better content flow */
   width: 100%;
-  box-shadow: none; /* No shadow */
+  box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.4); /* Stronger shadow for empty state */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   text-align: center;
 }
 
 .timetable-empty-state-card h4 {
   color: #f0f0f0;
-  font-size: 1.6rem;
+  font-size: 2rem;
+  font-weight: 700;
 }
 
 .timetable-empty-state-card .text-muted {
@@ -246,72 +259,200 @@
 
 .timetable-upload-area {
   background-color: #3b3b5c;
-  border: 2px dashed #6a6a99;
-  border-radius: 10px;
+  border: 3px dashed #6a6a99; /* Thicker dashed border */
+  border-radius: 12px; /* More rounded */
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   color: #f0f0f0;
+  padding: 2.5rem; /* More padding */
 }
 
 .timetable-upload-area.drag-over {
   background-color: #4f4f7a;
   border-color: #8c8cd9;
-  box-shadow: 0 0 15px rgba(140, 140, 217, 0.5); /* Subtle glow on drag over */
+  box-shadow: 0 0 20px rgba(140, 140, 217, 0.6);
+  transform: scale(1.02);
 }
 
 .timetable-note-box {
-  background-color: #1a1a2e; /* Darker background for the note */
-  border: 1px solid #00aaff; /* Primary color border for emphasis */
+  background-color: #1a1a2e;
+  border: 1px solid #00aaff;
   color: #e0e0e0;
-  padding: 1rem;
-  border-radius: 8px;
-  margin-top: 1.5rem;
-  font-size: 0.9rem;
+  padding: 1.2rem;
+  border-radius: 10px;
+  margin-top: 2rem;
+  font-size: 0.95rem;
+  text-align: left; /* Align note text to left */
+  box-shadow: inset 0 0 8px rgba(0, 170, 255, 0.2);
 }
 
 .timetable-note-box .text-muted-custom {
-  color: #a0a0a0 !important; /* Ensure muted text is readable */
+  color: #b0b0b0 !important;
 }
 
-/* Responsive adjustments for smaller screens */
-@media (max-width: 768px) {
-  .timetable-table .day-name {
-    width: 90px; /* Adjust day column width */
-    padding-left: 0.5rem;
-      font-size: 0.75rem;
-  }
-
-  .timetable-section {
-  overflow-x: auto;
-}
-  .timetable-table .timetable-cell {
-    min-width: 100px; /* Smaller min-width for cells */
-  }
-  .timetable-input {
-    font-size: 0.75rem; /* Smaller font for inputs */
-    padding: 0.3rem 0.5rem;
-  }
-  .timetable-display-content .subject-name {
-    font-size: 0.85rem;
-  }
-  .timetable-display-content .teacher-name {
-    font-size: 0.7rem;
-  }
+.icon-large {
+  font-size: 2.5rem; /* Larger icons for empty state */
+  margin-bottom: 0.5rem;
+  display: block;
+  color: #00aaff;
 }
 
-@media (max-width: 576px) {
+.icon-small {
+  font-size: 1.8rem;
+  vertical-align: middle;
+  margin-right: 0.5rem;
+  color: #8be9fd;
+}
+
+/* Mobile Timetable View (Accordion Cards) */
+.timetable-mobile-view {
+  margin-top: 1.5rem; /* Space between header and cards */
+}
+
+.timetable-card-item {
+  border: none !important; /* Remove default bootstrap card borders */
+  background-color: transparent !important;
+}
+
+.timetable-card-header.accordion-header {
+  background-color: #2c2c4d; /* Card header background */
+  border-radius: 12px; /* Match section border-radius */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  padding: 0; /* Remove default padding to control inner button */
+}
+
+.timetable-card-header.accordion-header:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.timetable-card-header .accordion-button {
+  background-color: #2c2c4d; /* Ensure button itself is dark */
+  color: #f0f0f0; /* White text for header */
+  font-weight: 600;
+  font-size: 1.1rem;
+  border-radius: 12px; /* Button matches header radius */
+  padding: 1rem 1.5rem;
+  box-shadow: none !important; /* Remove focus shadow */
+  transition: all 0.3s ease;
+}
+
+.timetable-card-header .accordion-button:not(.collapsed) {
+  background-color: #3b3b5c; /* Darker when open */
+  color: #00aaff; /* Accent color when open */
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.timetable-card-header .accordion-button::after {
+  filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%); /* Make arrow white */
+}
+.timetable-card-header .accordion-button:not(.collapsed)::after {
+  filter: invert(61%) sepia(61%) saturate(2250%) hue-rotate(170deg) brightness(101%) contrast(101%); /* Accent color for arrow when open */
+}
+
+.timetable-card-body.accordion-body {
+  background-color: #1a1a2e; /* Body background for periods */
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: none; /* No top border */
+  padding: 1.5rem;
+}
+
+.timetable-period-card {
+  background-color: #22223b; /* Individual period card background */
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+}
+
+.timetable-period-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.clickable-card-content {
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  border-radius: 8px; /* Rounded border for clickable area */
+  padding: 0.7rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start; /* Align text to start within card */
+  min-height: unset; /* Remove min-height from desktop cells */
+  background-color: #3b3b5c !important; /* Ensure background matches clickable style */
+}
+
+.clickable-card-content:hover {
+  background-color: #4f4f7a !important; /* Darker on hover */
+  transform: scale(1.01);
+}
+
+/* Responsive adjustments */
+@media (max-width: 991.98px) {
+  /* Hide table on small screens, show mobile view */
+  .d-none.d-lg-block {
+    display: none !important;
+  }
+  .d-lg-none {
+    display: block !important;
+  }
+
   .timetable-section {
     padding: 1rem;
   }
   .timetable-section h4 {
+    font-size: 1.6rem;
+  }
+  .timetable-actions {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 1rem; /* Space between title and buttons */
+  }
+  .timetable-actions .btn {
+    width: 100%;
+    margin-bottom: 0.75rem; /* Spacing between stacked buttons */
+  }
+  .timetable-actions .save-btn.me-2 {
+    margin-right: 0 !important;
+  }
+
+  .timetable-empty-state-card {
+    padding: 2rem 1.5rem;
+  }
+  .timetable-empty-state-card h4 {
+    font-size: 1.8rem;
+  }
+  .timetable-upload-area {
+    padding: 1.5rem;
+  }
+  .timetable-note-box {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .timetable-section h4 {
+    font-size: 1.4rem;
+  }
+  .timetable-empty-state-card {
+    padding: 1.5rem 1rem;
+  }
+  .timetable-empty-state-card h4 {
     font-size: 1.5rem;
   }
-  .edit-timetable-btn, .save-btn, .cancel-btn,
-  .timetable-empty-state-card .btn {
-    width: 100%; /* Full width buttons on very small screens */
-    margin-bottom: 0.5rem; /* Add spacing between stacked buttons */
+  .icon-large {
+    font-size: 2rem;
   }
-  .save-btn.me-2 {
-    margin-right: 0 !important; /* Remove margin if stacked */
+  .icon-small {
+    font-size: 1.5rem;
   }
 }
