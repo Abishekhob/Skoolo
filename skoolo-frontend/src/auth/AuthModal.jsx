@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { IoCloseOutline } from 'react-icons/io5'; // Close icon
-import styles from './Welcome.module.css'; // Use the same custom CSS module for modal styles
+import styles from './style/Welcome.module.css'; // Use the same custom CSS module for modal styles
 
 const AuthModal = ({ isOpen, onClose, isLogin, setIsLogin, API }) => {
     const [loginData, setLoginData] = useState({ email: '', password: '' });
