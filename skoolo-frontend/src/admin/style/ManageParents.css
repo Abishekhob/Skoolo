@@ -3,12 +3,24 @@
   min-height: 100vh;
   background-color: #0d1117; /* GitHub Dark BG */
   color: #c9d1d9; /* Light gray for text */
+  display: flex; /* Make it a flex container */
+  flex-direction: row; /* Sidebar and main content side-by-side */
 }
 
 /* Main Content Area */
 .main-content-area {
-  padding: 2.5rem !important; /* Consistent padding */
+  padding: 0 !important; /* Remove initial padding to control it inside the div */
+  flex: 1; /* Allow main content to grow and take remaining space */
+  overflow-y: auto; /* Enable vertical scrolling if content overflows */
+  display: flex; /* Make it a flex container */
+  flex-direction: column; /* Stack content vertically */
 }
+
+.main-content-padding {
+  padding: 2.5rem !important; /* Consistent padding inside the scrollable area */
+  flex-grow: 1; /* Allow padding container to grow */
+}
+
 
 /* Section Title */
 .section-title {
@@ -56,8 +68,8 @@
 }
 
 .custom-alert.alert-info {
-    background-color: #d1ecf1; /* Light blue */
-    color: #0c5460; /* Dark blue text */
+  background-color: #d1ecf1; /* Light blue */
+  color: #0c5460; /* Dark blue text */
 }
 
 /* Fade-in-down animation for alerts */
@@ -97,15 +109,15 @@
 }
 
 .add-parent-btn.btn-secondary {
-    background-image: none;
-    background-color: #6a737d;
-    border-color: #6a737d;
-    box-shadow: none;
+  background-image: none;
+  background-color: #6a737d;
+  border-color: #6a737d;
+  box-shadow: none;
 }
 .add-parent-btn.btn-secondary:hover {
-    background-color: #586069;
-    border-color: #586069;
-    transform: translateY(-2px);
+  background-color: #586069;
+  border-color: #586069;
+  transform: translateY(-2px);
 }
 
 /* File Upload Dropzone */
@@ -356,9 +368,9 @@
   margin-bottom: 1rem !important;
 }
 .mobile-card-title span:first-child {
-    color: #8b949e;
-    font-weight: 500;
-    font-size: 0.9em;
+  color: #8b949e;
+  font-weight: 500;
+  font-size: 0.9em;
 }
 
 .mobile-parent-details li {
@@ -421,7 +433,7 @@
 
 /* Responsive Adjustments */
 @media (max-width: 991.98px) {
-  .main-content-area {
+  .main-content-padding {
     padding: 1.5rem !important;
   }
 

@@ -1,132 +1,151 @@
 /* Overall Container */
 .promotionPageContainer {
-  display: flex;
-  min-height: 100vh;
-  background-color: #0d1117; /* Dark background similar to GitHub */
-  color: #c9d1d9; /* Light text color */
+    display: flex;
+    height: 100vh; /* Changed to height: 100vh to ensure it takes full viewport height */
+    background-color: #0d1117; /* Dark background similar to GitHub */
+    color: #c9d1d9; /* Light text color */
 }
 
 /* Main Content Area */
 .contentArea {
-  flex-grow: 1;
-  padding: 2.5rem;
-  overflow-x: hidden; /* Prevent horizontal scroll */
+    flex-grow: 1;
+    padding: 2.5rem;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    overflow-y: auto; /* Allow vertical scrolling within this area */
+    box-sizing: border-box; /* Include padding in height calculation */
+    display: flex; /* Use flex to push content up if sidebar is taller */
+    flex-direction: column; /* Stack content vertically */
 }
 
 /* Page Title */
 .pageTitle {
-  color: #e6edf3;
-  font-weight: 700;
-  font-size: 2.5rem;
-  margin-bottom: 2.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid #30363d;
+    color: #e6edf3;
+    font-weight: 700;
+    font-size: 2.5rem;
+    margin-bottom: 2.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #30363d;
+    flex-shrink: 0; /* Prevent title from shrinking */
 }
 
 .pageIcon {
-  font-size: 2.8rem;
-  color: #58a6ff; /* Blue accent for icons */
+    font-size: 2.8rem;
+    color: #58a6ff; /* Blue accent for icons */
 }
 
 /* Custom Alerts */
 .customAlert {
-  border-radius: 8px;
-  padding: 1rem 1.5rem;
-  font-size: 0.95rem;
-  border: none;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  margin-bottom: 1.5rem;
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    font-size: 0.95rem;
+    border: none;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    margin-bottom: 1.5rem;
+    flex-shrink: 0; /* Prevent alerts from shrinking */
 }
 
 .alertSuccess {
-  background-color: #238636; /* GitHub green */
-  color: #fff;
+    background-color: #238636; /* GitHub green */
+    color: #fff;
 }
 
 .alertDanger {
-  background-color: #da3633; /* GitHub red */
-  color: #fff;
+    background-color: #da3633; /* GitHub red */
+    color: #fff;
 }
 
 /* Card Styling for Forms and Data */
 .formCard,
 .dataCard {
-  background-color: #161b22; /* Slightly lighter dark for cards */
-  border: 1px solid #30363d;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  margin-bottom: 2rem;
+    background-color: #161b22; /* Slightly lighter dark for cards */
+    border: 1px solid #30363d;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    margin-bottom: 2rem;
+    flex-shrink: 0; /* Prevent form card from shrinking */
+    /* For dataCard, we might want it to expand and scroll internally if needed */
+}
+
+/* Allow dataCardBody to scroll if content is too large */
+.dataCardBody {
+    position: relative; /* Needed for child absolute positioning if any */
+    overflow-y: auto; /* Enable internal scrolling for the card body */
+    max-height: calc(100vh - 400px); /* Adjust this value as needed based on header/footer/filter height */
+    /* This max-height ensures the card itself scrolls if its content is too tall.
+       The '400px' is an arbitrary value to leave space for other elements.
+       You may need to fine-tune this based on your exact layout and screen sizes. */
 }
 
 .cardTitle {
-  color: #e6edf3;
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin-bottom: 1.5rem;
-  padding-bottom: 0.75rem;
-  border-bottom: 1px solid rgba(48, 54, 61, 0.5);
+    color: #e6edf3;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(48, 54, 61, 0.5);
+    flex-shrink: 0; /* Prevent card title from shrinking */
 }
 
 /* Form Elements */
 .formLabel {
-  color: #8b949e;
-  font-weight: 500;
-  margin-bottom: 0.5rem;
-  font-size: 0.95rem;
+    color: #8b949e;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
 }
 
 .formSelect,
 .formControl {
-  background-color: #21262d;
-  border: 1px solid #30363d;
-  color: #e6edf3;
-  border-radius: 8px;
-  padding: 0.75rem 1rem;
-  font-size: 0.95rem;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    background-color: #21262d;
+    border: 1px solid #30363d;
+    color: #e6edf3;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .formSelect:focus,
 .formControl:focus {
-  background-color: #161b22;
-  border-color: #58a6ff; /* Blue accent on focus */
-  box-shadow: 0 0 0 0.15rem rgba(88, 166, 255, 0.25);
-  outline: 0;
+    background-color: #161b22;
+    border-color: #58a6ff; /* Blue accent on focus */
+    box-shadow: 0 0 0 0.15rem rgba(88, 166, 255, 0.25);
+    outline: 0;
 }
 
 .formControl::placeholder {
-  color: #6a737d;
+    color: #6a737d;
 }
 
 /* Disabled states */
 .formSelect:disabled,
 .formControl:disabled {
-  background-color: #2b323c;
-  color: #6a737d;
-  cursor: not-allowed;
-  opacity: 0.7;
+    background-color: #2b323c;
+    color: #6a737d;
+    cursor: not-allowed;
+    opacity: 0.7;
 }
 
 /* Student Promotion Table (Desktop) */
 .promotionTable {
-  width: 100%;
-  border-collapse: separate; /* Required for border-radius on table */
-  border-spacing: 0;
-  margin-bottom: 0; /* Remove default margin from table */
+    width: 100%;
+    border-collapse: separate; /* Required for border-radius on table */
+    border-spacing: 0;
+    margin-bottom: 0; /* Remove default margin from table */
 }
 
 .promotionTable thead th {
-  background-color: #21262d;
-  color: #e6edf3;
-  font-weight: 600;
-  border-color: #30363d;
-  padding: 1rem 1.2rem;
-  font-size: 1rem;
-  vertical-align: middle;
-  text-align: left;
+    background-color: #21262d;
+    color: #e6edf3;
+    font-weight: 600;
+    border-color: #30363d;
+    padding: 1rem 1.2rem;
+    font-size: 1rem;
+    vertical-align: middle;
+    text-align: left;
 }
 /* Rounded corners for table header */
 .promotionTable thead th:first-child { border-top-left-radius: 8px; }
@@ -134,17 +153,17 @@
 
 
 .promotionTable tbody td {
-  background-color: #161b22;
-  color: #c9d1d9;
-  border-color: #30363d;
-  padding: 0.75rem 1.2rem;
-  vertical-align: middle;
-  font-size: 0.95rem;
+    background-color: #161b22;
+    color: #c9d1d9;
+    border-color: #30363d;
+    padding: 0.75rem 1.2rem;
+    vertical-align: middle;
+    font-size: 0.95rem;
 }
 
 .promotionTable tbody tr:hover {
-  background-color: #21262d;
-  transition: background-color 0.2s ease;
+    background-color: #21262d;
+    transition: background-color 0.2s ease;
 }
 
 .studentNameCell {
@@ -153,9 +172,9 @@
 }
 
 .discontinuedRow {
-  background-color: #2d1c1c !important; /* Muted red for discontinued rows */
-  color: #8b949e !important;
-  opacity: 0.7;
+    background-color: #2d1c1c !important; /* Muted red for discontinued rows */
+    color: #8b949e !important;
+    opacity: 0.7;
 }
 
 .discontinuedRow .formSelect,
@@ -167,30 +186,31 @@
 
 /* Submit Button */
 .submitButton {
-  background-image: linear-gradient(to right, #58a6ff, #4392f1); /* Blue gradient */
-  border: none;
-  border-radius: 8px;
-  padding: 0.75rem 1.5rem;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 10px rgba(88, 166, 255, 0.4);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    background-image: linear-gradient(to right, #58a6ff, #4392f1); /* Blue gradient */
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(88, 166, 255, 0.4);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0; /* Prevent button from shrinking */
 }
 
 .submitButton:hover:not(:disabled) {
-  background-image: linear-gradient(to right, #4392f1, #327ed3);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(88, 166, 255, 0.5);
+    background-image: linear-gradient(to right, #4392f1, #327ed3);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(88, 166, 255, 0.5);
 }
 
 .submitButton:active:not(:disabled),
 .submitButton:focus:not(:disabled) {
-  background-image: linear-gradient(to right, #327ed3, #236bc2) !important;
-  box-shadow: 0 0 0 0.25rem rgba(88, 166, 255, 0.4) !important;
-  outline: 0;
+    background-image: linear-gradient(to right, #327ed3, #236bc2) !important;
+    box-shadow: 0 0 0 0.25rem rgba(88, 166, 255, 0.4) !important;
+    outline: 0;
 }
 
 .submitButton:disabled {
@@ -204,63 +224,68 @@
 
 /* Loading Spinner and Empty State */
 .spinnerContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 200px;
-  color: #c9d1d9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    color: #c9d1d9;
+    flex-grow: 1; /* Allow spinner to take available space */
 }
 
 .loadingSpinner {
-  width: 3rem;
-  height: 3rem;
-  color: #58a6ff;
-  margin-bottom: 1rem;
+    width: 3rem;
+    height: 3rem;
+    color: #58a6ff;
+    margin-bottom: 1rem;
 }
 
 .loadingText {
-  font-size: 1.1rem;
-  font-weight: 500;
+    font-size: 1.1rem;
+    font-weight: 500;
 }
 
 .emptyState {
-  text-align: center;
-  padding: 3rem;
-  background-color: #161b22;
-  border: 1px solid #30363d;
-  border-radius: 12px;
-  margin-top: 2rem;
-  font-size: 1.1rem;
-  color: #8b949e;
+    text-align: center;
+    padding: 3rem;
+    background-color: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 12px;
+    margin-top: 2rem;
+    font-size: 1.1rem;
+    color: #8b949e;
+    flex-grow: 1; /* Allow empty state to take available space */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 
 /* Mobile Card View for Students */
 .studentCard {
-  background-color: #1e242b; /* Slightly darker for individual cards */
-  border: 1px solid #30363d;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  transition: all 0.2s ease-in-out;
+    background-color: #1e242b; /* Slightly darker for individual cards */
+    border: 1px solid #30363d;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease-in-out;
 }
 
 .studentCard:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .studentCardTitle {
-  color: #58a6ff;
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
+    color: #58a6ff;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
 }
 
 .cardDivider {
-  border-top: 1px solid rgba(48, 54, 61, 0.5);
-  margin-top: 0.75rem;
-  margin-bottom: 1rem;
+    border-top: 1px solid rgba(48, 54, 61, 0.5);
+    margin-top: 0.75rem;
+    margin-bottom: 1rem;
 }
 
 .discontinuedCard {
@@ -274,90 +299,98 @@
 
 /* Responsive Adjustments */
 @media (max-width: 991.98px) {
-  .contentArea {
-    padding: 1.5rem; /* Reduce padding on smaller screens */
-  }
+    .contentArea {
+        padding: 1.5rem; /* Reduce padding on smaller screens */
+    }
 
-  .pageTitle {
-    font-size: 2rem;
-    margin-bottom: 2rem;
-    justify-content: center; /* Center title on mobile */
-    text-align: center;
-  }
+    .pageTitle {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+        justify-content: center; /* Center title on mobile */
+        text-align: center;
+    }
 
-  .pageIcon {
-    font-size: 2.2rem;
-  }
+    .pageIcon {
+        font-size: 2.2rem;
+    }
 
-  .cardTitle {
-    font-size: 1.3rem;
-    text-align: center;
-    margin-bottom: 1rem;
-  }
+    .cardTitle {
+        font-size: 1.3rem;
+        text-align: center;
+        margin-bottom: 1rem;
+    }
 
-  /* Hide desktop table on smaller screens */
-  .d-lg-none {
-    display: block !important;
-  }
-  .d-none.d-lg-block {
-    display: none !important;
-  }
+    /* Hide desktop table on smaller screens */
+    .d-lg-none {
+        display: block !important;
+    }
+    .d-none.d-lg-block {
+        display: none !important;
+    }
 
-  .formCard, .dataCard {
-      margin-bottom: 1.5rem;
-  }
+    .formCard, .dataCard {
+        margin-bottom: 1.5rem;
+    }
 
-  .promotionTable thead th,
-  .promotionTable tbody td {
-    padding: 0.8rem 1rem;
-    font-size: 0.9rem;
-  }
+    .promotionTable thead th,
+    .promotionTable tbody td {
+        padding: 0.8rem 1rem;
+        font-size: 0.9rem;
+    }
 
-  .studentCardTitle {
-    font-size: 1.1rem;
-  }
+    .studentCardTitle {
+        font-size: 1.1rem;
+    }
+
+    .dataCardBody {
+        max-height: calc(100vh - 300px); /* Adjusted max-height for tablets */
+    }
 }
 
 @media (max-width: 767.98px) {
-  .contentArea {
-    padding: 1rem;
-  }
+    .contentArea {
+        padding: 1rem;
+    }
 
-  .pageTitle {
-    font-size: 1.8rem;
-    margin-bottom: 1.5rem;
-  }
+    .pageTitle {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+    }
 
-  .pageIcon {
-    font-size: 2rem;
-  }
+    .pageIcon {
+        font-size: 2rem;
+    }
 
-  .cardTitle {
-    font-size: 1.2rem;
-  }
+    .cardTitle {
+        font-size: 1.2rem;
+    }
 
-  .formLabel,
-  .formSelect,
-  .formControl {
-    font-size: 0.9rem;
-  }
+    .formLabel,
+    .formSelect,
+    .formControl {
+        font-size: 0.9rem;
+    }
 
-  .formSelect, .formControl {
-      padding: 0.6rem 0.8rem;
-  }
+    .formSelect, .formControl {
+        padding: 0.6rem 0.8rem;
+    }
 
-  .submitButton {
-    padding: 0.6rem 1.2rem;
-    font-size: 0.9rem;
-    width: 100%; /* Full width button on extra small screens */
-  }
+    .submitButton {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+        width: 100%; /* Full width button on extra small screens */
+    }
 
-  .emptyState {
-      padding: 2rem;
-      font-size: 1rem;
-  }
+    .emptyState {
+        padding: 2rem;
+        font-size: 1rem;
+    }
 
-  .studentCard {
-    margin-bottom: 1rem;
-  }
+    .studentCard {
+        margin-bottom: 1rem;
+    }
+
+    .dataCardBody {
+        max-height: calc(100vh - 250px); /* Adjusted max-height for mobile */
+    }
 }

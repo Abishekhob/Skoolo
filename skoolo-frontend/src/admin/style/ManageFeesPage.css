@@ -1,59 +1,74 @@
 /* General Layout */
 .admin-layout-container {
-  min-height: 100vh;
-  background-color: #0d1117; /* GitHub Dark BG */
-  color: #c9d1d9; /* Light gray for text */
+    min-height: 100vh;
+    background-color: #0d1117; /* GitHub Dark BG */
+    color: #c9d1d9; /* Light gray for text */
+    display: flex; /* Ensure flex behavior */
+    overflow: hidden; /* Hide overflow on the main container to prevent double scrollbars */
 }
+
+/* New Wrapper for Main Content to handle scrolling */
+.main-content-wrapper {
+    flex-grow: 1; /* Allow it to take up remaining space */
+    display: flex; /* Use flex to align content within the wrapper */
+    flex-direction: column; /* Stack content vertically */
+    overflow-y: auto; /* Enable vertical scrolling for this area */
+    max-height: 100vh; /* Ensure it doesn't overflow the viewport */
+    /* Add padding here if you want space around the scrollable content itself */
+    padding-bottom: 2.5rem; /* Ensure there's enough space at the bottom when scrolled */
+}
+
 
 /* Main Content Area */
 .main-content-area {
-  padding: 2.5rem !important; /* Consistent padding */
-  flex-grow: 1; /* Ensure it takes available space */
+    padding: 2.5rem !important; /* Consistent padding */
+    /* flex-grow: 1;  -- REMOVE THIS, it's now on .main-content-wrapper */
+    /* The Bootstrap `Container` element will naturally adapt within the flex item */
 }
 
 /* Section Title */
 .section-title {
-  color: #e6edf3;
-  font-weight: 700;
-  font-size: 2.2rem;
-  margin-bottom: 2.5rem;
-  display: flex;
-  align-items: center;
-  border-bottom: 1px solid #30363d;
-  padding-bottom: 1rem;
+    color: #e6edf3;
+    font-weight: 700;
+    font-size: 2.2rem;
+    margin-bottom: 2.5rem;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #30363d;
+    padding-bottom: 1rem;
 }
 
 .section-title .icon-lg {
-  font-size: 2.5rem;
-  color: #a371f7; /* Purple accent for money */
+    font-size: 2.5rem;
+    color: #a371f7; /* Purple accent for money */
 }
 
 .sub-section-title {
-  color: #e6edf3;
-  font-size: 1.75rem;
-  font-weight: 600;
-  margin-top: 2.5rem;
-  margin-bottom: 1.5rem;
+    color: #e6edf3;
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-top: 2.5rem;
+    margin-bottom: 1.5rem;
 }
 
 /* Custom Alerts */
 .custom-alert {
-  border-radius: 8px;
-  padding: 1rem 1.5rem;
-  font-size: 0.95rem;
-  border: none;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  margin-bottom: 1.5rem;
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    font-size: 0.95rem;
+    border: none;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    margin-bottom: 1.5rem;
 }
 
 .custom-alert.alert-danger {
-  background-color: #f8d7da; /* Light red */
-  color: #721c24; /* Dark red text */
+    background-color: #f8d7da; /* Light red */
+    color: #721c24; /* Dark red text */
 }
 
 .custom-alert.alert-success {
-  background-color: #d4edda; /* Light green */
-  color: #155724; /* Dark green text */
+    background-color: #d4edda; /* Light green */
+    color: #155724; /* Dark green text */
 }
 
 .custom-alert.alert-info {
@@ -63,37 +78,43 @@
 
 /* Fade-in-down animation for alerts */
 .fade-in-down {
-  animation: fadeInDown 0.5s ease-out forwards;
+    animation: fadeInDown 0.5s ease-out forwards;
 }
 
 @keyframes fadeInDown {
-  from { opacity: 0; transform: translateY(-20px); }
-  to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 
 /* Add Fee Toggle Button */
 .add-fee-toggle-btn {
-  background-image: linear-gradient(to right, #a371f7, #8e5bd9); /* Purple gradient */
-  border: none;
-  border-radius: 8px;
-  padding: 0.75rem 1.5rem;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 10px rgba(163, 113, 247, 0.4);
-  color: #fff;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+    background-image: linear-gradient(to right, #a371f7, #8e5bd9); /* Purple gradient */
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(163, 113, 247, 0.4);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 .add-fee-toggle-btn:hover {
-  background-image: linear-gradient(to right, #8e5bd9, #7a46c5);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(163, 113, 247, 0.5);
+    background-image: linear-gradient(to right, #8e5bd9, #7a46c5);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(163, 113, 247, 0.5);
 }
 .add-fee-toggle-btn:active, .add-fee-toggle-btn:focus {
-  background-image: linear-gradient(to right, #7a46c5, #6631b1) !important;
-  box-shadow: 0 0 0 0.25rem rgba(163, 113, 247, 0.4) !important;
+    background-image: linear-gradient(to right, #7a46c5, #6631b1) !important;
+    box-shadow: 0 0 0 0.25rem rgba(163, 113, 247, 0.4) !important;
 }
 .add-fee-toggle-btn.btn-secondary {
     background-image: none;
@@ -109,129 +130,129 @@
 
 /* Add Fee Form Card */
 .add-fee-form-container {
-  overflow: hidden; /* For collapse animation */
+    overflow: hidden; /* For collapse animation */
 }
 .add-fee-card {
-  background-color: #161b22;
-  border: 1px solid #30363d;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    background-color: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .card-title-custom {
-  color: #e6edf3;
-  font-size: 1.5rem;
-  font-weight: 600;
-  border-bottom: 1px solid rgba(48, 54, 61, 0.5);
-  padding-bottom: 0.75rem;
-  margin-bottom: 1.5rem !important;
+    color: #e6edf3;
+    font-size: 1.5rem;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(48, 54, 61, 0.5);
+    padding-bottom: 0.75rem;
+    margin-bottom: 1.5rem !important;
 }
 
 .form-label-custom {
-  color: #8b949e;
-  font-weight: 500;
-  margin-bottom: 0.5rem;
+    color: #8b949e;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
 }
 
 .form-control-custom {
-  background-color: #21262d;
-  border: 1px solid #30363d;
-  color: #e6edf3;
-  border-radius: 8px;
-  padding: 0.75rem 1rem;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    background-color: #21262d;
+    border: 1px solid #30363d;
+    color: #e6edf3;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 .form-control-custom:focus {
-  background-color: #161b22;
-  border-color: #a371f7; /* Accent color on focus */
-  box-shadow: 0 0 0 0.15rem rgba(163, 113, 247, 0.25);
-  outline: 0;
+    background-color: #161b22;
+    border-color: #a371f7; /* Accent color on focus */
+    box-shadow: 0 0 0 0.15rem rgba(163, 113, 247, 0.25);
+    outline: 0;
 }
 .form-control-custom::placeholder {
-  color: #6a737d;
+    color: #6a737d;
 }
 
 .submit-fee-btn {
-  background-image: linear-gradient(to right, #a371f7, #8e5bd9);
-  border: none;
-  border-radius: 8px;
-  padding: 0.75rem 1.5rem;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 10px rgba(163, 113, 247, 0.4);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    background-image: linear-gradient(to right, #a371f7, #8e5bd9);
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(163, 113, 247, 0.4);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .submit-fee-btn:hover {
-  background-image: linear-gradient(to right, #8e5bd9, #7a46c5);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(163, 113, 247, 0.5);
+    background-image: linear-gradient(to right, #8e5bd9, #7a46c5);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(163, 113, 247, 0.5);
 }
 .submit-fee-btn:active, .submit-fee-btn:focus {
-  background-image: linear-gradient(to right, #7a46c5, #6631b1) !important;
-  box-shadow: 0 0 0 0.25rem rgba(163, 113, 247, 0.4) !important;
+    background-image: linear-gradient(to right, #7a46c5, #6631b1) !important;
+    box-shadow: 0 0 0 0.25rem rgba(163, 113, 247, 0.4) !important;
 }
 
 
 /* Fees Table (Desktop View) */
 .fees-table {
-  width: 100%;
-  margin-bottom: 0;
-  background-color: #161b22;
-  border-radius: 12px;
-  overflow: hidden; /* Ensures rounded corners */
-  border: 1px solid #30363d;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    margin-bottom: 0;
+    background-color: #161b22;
+    border-radius: 12px;
+    overflow: hidden; /* Ensures rounded corners */
+    border: 1px solid #30363d;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .fees-table thead th {
-  background-color: #21262d;
-  color: #e6edf3;
-  font-weight: 600;
-  border-color: #30363d;
-  padding: 1rem 1.2rem;
-  font-size: 1rem;
-  vertical-align: middle;
+    background-color: #21262d;
+    color: #e6edf3;
+    font-weight: 600;
+    border-color: #30363d;
+    padding: 1rem 1.2rem;
+    font-size: 1rem;
+    vertical-align: middle;
 }
 
 .fees-table tbody td {
-  background-color: #161b22;
-  color: #c9d1d9;
-  border-color: #30363d;
-  padding: 1rem 1.2rem;
-  vertical-align: middle;
-  font-size: 0.95rem;
+    background-color: #161b22;
+    color: #c9d1d9;
+    border-color: #30363d;
+    padding: 1rem 1.2rem;
+    vertical-align: middle;
+    font-size: 0.95rem;
 }
 
 .fees-table.table-striped tbody tr:nth-of-type(odd) {
-  background-color: #0d1117;
+    background-color: #0d1117;
 }
 
 .fees-table.table-hover tbody tr:hover:not(.children-expanded-row) {
-  background-color: #21262d;
-  cursor: pointer;
+    background-color: #21262d;
+    cursor: pointer;
 }
 
 .view-payments-btn {
-  font-size: 0.85rem;
-  padding: 0.4rem 0.8rem;
-  border-radius: 6px;
-  transition: all 0.2s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
+    font-size: 0.85rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
 }
 
 /* Nested Payment Status Table */
 .payment-status-card-nested {
-  background-color: #1e242b; /* Slightly different dark for nested content */
-  border: 1px solid #30363d;
-  border-radius: 0 0 10px 10px; /* Rounded only at bottom */
-  margin: 0;
-  width: 100%;
-  border-top: none; /* No top border for seamless look */
+    background-color: #1e242b; /* Slightly different dark for nested content */
+    border: 1px solid #30363d;
+    border-radius: 0 0 10px 10px; /* Rounded only at bottom */
+    margin: 0;
+    width: 100%;
+    border-top: none; /* No top border for seamless look */
 }
 
 .nested-card-title {
@@ -245,53 +266,53 @@
 
 
 .student-payment-table-nested thead th {
-  background-color: #2d333b; /* Darker header for nested table */
-  color: #e6edf3;
-  font-size: 0.85rem;
-  padding: 0.75rem 1rem;
-  border-color: #3e444c;
+    background-color: #2d333b; /* Darker header for nested table */
+    color: #e6edf3;
+    font-size: 0.85rem;
+    padding: 0.75rem 1rem;
+    border-color: #3e444c;
 }
 
 .student-payment-table-nested tbody td {
-  background-color: #1e242b;
-  color: #aebacd;
-  font-size: 0.85rem;
-  padding: 0.75rem 1rem;
-  border-color: #3e444c;
+    background-color: #1e242b;
+    color: #aebacd;
+    font-size: 0.85rem;
+    padding: 0.75rem 1rem;
+    border-color: #3e444c;
 }
 
 .student-payment-table-nested.table-striped tbody tr:nth-of-type(odd) {
-  background-color: #161b22;
+    background-color: #161b22;
 }
 
 
 /* Mobile Card View for Fees */
 .mobile-fee-card-list {
-  margin-top: 2rem;
+    margin-top: 2rem;
 }
 
 .fee-mobile-card {
-  background-color: #161b22;
-  border: 1px solid #30363d;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  transition: all 0.2s ease;
+    background-color: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease;
 }
 .fee-mobile-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
 }
 
 .mobile-card-title {
-  color: #e6edf3;
-  font-size: 1.15rem;
-  font-weight: 600;
-  border-bottom: 1px solid rgba(48, 54, 61, 0.5);
-  padding-bottom: 0.75rem;
-  margin-bottom: 1rem !important;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+    color: #e6edf3;
+    font-size: 1.15rem;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(48, 54, 61, 0.5);
+    padding-bottom: 0.75rem;
+    margin-bottom: 1rem !important;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .fee-type-badge {
@@ -305,34 +326,34 @@
 
 
 .mobile-fee-details li {
-  font-size: 0.9rem;
-  padding: 0.25rem 0;
-  border-bottom: 1px dashed rgba(48, 54, 61, 0.3);
+    font-size: 0.9rem;
+    padding: 0.25rem 0;
+    border-bottom: 1px dashed rgba(48, 54, 61, 0.3);
 }
 .mobile-fee-details li:last-child {
-  border-bottom: none;
+    border-bottom: none;
 }
 .mobile-fee-details strong {
-  color: #79c0ff; /* Accent color for labels */
-  min-width: 80px; /* Align content */
-  display: inline-block;
+    color: #79c0ff; /* Accent color for labels */
+    min-width: 80px; /* Align content */
+    display: inline-block;
 }
 
 .view-payments-btn-mobile {
-  font-size: 0.9rem;
-  padding: 0.6rem 1rem;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
+    font-size: 0.9rem;
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
 }
 
 .mobile-payment-card {
-  margin-top: 1rem;
-  border-radius: 8px; /* Slightly more rounded for mobile nested card */
-  background-color: #1e242b;
-  border-color: #30363d;
+    margin-top: 1rem;
+    border-radius: 8px; /* Slightly more rounded for mobile nested card */
+    background-color: #1e242b;
+    border-color: #30363d;
 }
 .nested-card-title-mobile {
     font-size: 1rem;
@@ -340,137 +361,145 @@
 }
 
 .student-payment-item {
-  background-color: #21262d; /* Background for each student item */
-  border: 1px solid #30363d;
-  border-radius: 6px;
-  margin-bottom: 0.5rem;
-  font-size: 0.9rem;
-  color: #c9d1d9;
+    background-color: #21262d; /* Background for each student item */
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: #c9d1d9;
 }
 .student-payment-item p {
-  margin-bottom: 0.2rem;
+    margin-bottom: 0.2rem;
 }
 .student-payment-item strong {
-  color: #a371f7; /* Accent color for names */
+    color: #a371f7; /* Accent color for names */
 }
 .student-payment-item small {
-  color: #8b949e;
+    color: #8b949e;
 }
 
 
 /* Initial Loading Spinner */
 .initial-loading-spinner {
-  width: 4rem;
-  height: 4rem;
-  color: #a371f7;
+    width: 4rem;
+    height: 4rem;
+    color: #a371f7;
 }
 
 
 /* Responsive Adjustments */
 @media (max-width: 991.98px) {
-  .main-content-area {
-    padding: 1.5rem !important;
-  }
+    .main-content-area {
+        padding: 1.5rem !important;
+    }
 
-  .section-title {
-    font-size: 1.8rem;
-    margin-bottom: 2rem;
-    text-align: center;
-    justify-content: center;
-  }
+    .section-title {
+        font-size: 1.8rem;
+        margin-bottom: 2rem;
+        text-align: center;
+        justify-content: center;
+    }
 
-  .section-title .icon-lg {
-    font-size: 2rem;
-  }
+    .section-title .icon-lg {
+        font-size: 2rem;
+    }
 
-  .sub-section-title {
-    font-size: 1.5rem;
-    text-align: center;
-  }
+    .sub-section-title {
+        font-size: 1.5rem;
+        text-align: center;
+    }
 
-  /* Form layout for smaller screens */
-  .add-fee-card {
-    padding: 0.5rem; /* Reduce card padding */
-  }
-  .card-title-custom {
-    font-size: 1.3rem;
-    text-align: center;
-    margin-bottom: 1rem !important;
-  }
-  .form-label-custom {
-    text-align: left; /* Keep labels left-aligned in form */
-  }
-  .form-control-custom {
-    padding: 0.6rem 0.8rem;
-    font-size: 0.9rem;
-  }
-  .submit-fee-btn {
-    font-size: 0.9rem;
-    padding: 0.6rem 1.2rem;
-  }
-  .add-fee-toggle-btn {
-    width: 100%; /* Full width button on small screens */
-    font-size: 0.95rem;
-    padding: 0.65rem 1rem;
-  }
+    /* Form layout for smaller screens */
+    .add-fee-card {
+        padding: 0.5rem; /* Reduce card padding */
+    }
+    .card-title-custom {
+        font-size: 1.3rem;
+        text-align: center;
+        margin-bottom: 1rem !important;
+    }
+    .form-label-custom {
+        text-align: left; /* Keep labels left-aligned in form */
+    }
+    .form-control-custom {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.9rem;
+    }
+    .submit-fee-btn {
+        font-size: 0.9rem;
+        padding: 0.6rem 1.2rem;
+    }
+    .add-fee-toggle-btn {
+        width: 100%; /* Full width button on small screens */
+        font-size: 0.95rem;
+        padding: 0.65rem 1rem;
+    }
 
 
-  /* Hide desktop table on smaller screens */
-  .d-lg-none.mobile-fee-card-list {
-    display: block !important;
-  }
-  .table-responsive.d-none.d-lg-block {
-    display: none !important;
-  }
+    /* Hide desktop table on smaller screens */
+    .d-lg-none.mobile-fee-card-list {
+        display: block !important;
+    }
+    .table-responsive.d-none.d-lg-block {
+        display: none !important;
+    }
 
-  .mobile-card-title {
-    font-size: 1.05rem;
-  }
-  .mobile-fee-details li {
-    font-size: 0.85rem;
-  }
-  .student-payment-item {
-    font-size: 0.8rem;
-    padding: 0.8rem;
-  }
-  .student-payment-item small {
-    font-size: 0.7rem;
-  }
+    .mobile-card-title {
+        font-size: 1.05rem;
+    }
+    .fee-type-badge {
+        font-size: 0.8em;
+    }
+    .mobile-fee-details li {
+        font-size: 0.85rem;
+    }
+    .view-payments-btn-mobile {
+        font-size: 0.85rem;
+        padding: 0.5rem 0.8rem;
+    }
+
+    .student-payment-item {
+        font-size: 0.8rem;
+        padding: 0.8rem;
+    }
+    .student-payment-item small {
+        font-size: 0.7rem;
+    }
 }
 
 @media (max-width: 767.98px) {
-  .section-title {
-    font-size: 1.6rem;
-  }
-  .section-title .icon-lg {
-    font-size: 1.8rem;
-  }
+    .section-title {
+        font-size: 1.6rem;
+    }
+    .section-title .icon-lg {
+        font-size: 1.8rem;
+    }
 
-  .sub-section-title {
-    font-size: 1.3rem;
-  }
+    .sub-section-title {
+        font-size: 1.3rem;
+    }
 
-  .custom-alert {
-    padding: 0.8rem 1rem;
-    font-size: 0.85rem;
-  }
+    .custom-alert {
+        padding: 0.8rem 1rem;
+        font-size: 0.85rem;
+    }
 
-  .add-fee-toggle-btn {
-    font-size: 0.85rem;
-    padding: 0.6rem 1rem;
-  }
+    .add-fee-toggle-btn {
+        font-size: 0.85rem;
+        padding: 0.6rem 1rem;
+    }
 
-  .mobile-card-title {
-    font-size: 1rem;
-  }
-  .fee-type-badge {
-    font-size: 0.8em;
-  }
-  .mobile-fee-details li {
-    font-size: 0.8rem;
-  }
-  .view-payments-btn-mobile {
-    font-size: 0.85rem;
-    padding: 0.5rem 0.8rem;
-  }
+    .mobile-card-title {
+        font-size: 1rem;
+    }
+    .fee-type-badge {
+        font-size: 0.8em;
+    }
+    .mobile-fee-details li {
+        font-size: 0.8rem;
+    }
+    .view-payments-btn-mobile {
+        font-size: 0.85rem;
+        padding: 0.5rem 0.8rem;
+    }
 }

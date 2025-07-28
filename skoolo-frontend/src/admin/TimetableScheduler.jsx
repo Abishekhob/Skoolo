@@ -77,10 +77,10 @@ const TimetableScheduler = () => {
   };
 
   return (
-    <Row className="g-0 admin-layout"> {/* Use g-0 for no gutters and a custom class */}
-      <AdminSidebar /> {/* Sidebar remains on the left */}
+    <Row className="g-0 admin-layout">
+      <AdminSidebar />
 
-      <Col md={10} className="main-content-area">
+      <Col md={10} className="main-content-area scrollable-content"> {/* Added scrollable-content class */}
         <Container fluid className="p-4">
           <h3 className="section-title mb-4">
             <FaCalendarAlt className="me-2 icon-lg" />
@@ -99,7 +99,7 @@ const TimetableScheduler = () => {
                       onChange={(e) => {
                         setSelectedClass(e.target.value);
                         localStorage.setItem('selectedClass', e.target.value);
-                        setSelectedSection(''); // Reset section when class changes
+                        setSelectedSection('');
                         localStorage.removeItem('selectedSection');
                       }}
                     >
@@ -123,7 +123,7 @@ const TimetableScheduler = () => {
                         setSelectedSection(e.target.value);
                         localStorage.setItem('selectedSection', e.target.value);
                       }}
-                      disabled={!selectedClass} // Disable section if no class is selected
+                      disabled={!selectedClass}
                     >
                       <option value="">-- Select Section --</option>
                       {sections.map(sec => (
@@ -176,7 +176,7 @@ const TimetableScheduler = () => {
             subjectId={modalData.subjectId}
             onSuccess={() => {
               setShowModal(false);
-              refreshTimetableData(); // Refresh timetable after successful schedule
+              refreshTimetableData();
             }}
           />
         </Container>

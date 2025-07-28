@@ -1,12 +1,20 @@
 /* General Layout */
 .admin-layout {
   min-height: 100vh;
+  display: flex; /* Make it a flex container */
+  flex-direction: row; /* Layout children in a row */
 }
 
 .main-content-area {
   background-color: #0d1117; /* GitHub Dark BG */
   color: #c9d1d9; /* Light gray for text */
   padding: 2.5rem !important; /* Increased padding for main content */
+  flex-grow: 1; /* Allow it to take up remaining horizontal space */
+  /* --- IMPORTANT SCROLL FIX --- */
+  height: 100vh; /* Ensure it takes full viewport height */
+  overflow-y: auto; /* Enable vertical scrolling */
+  /* --- END SCROLL FIX --- */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
 }
 
 /* Section Title */
@@ -19,6 +27,8 @@
   align-items: center;
   border-bottom: 1px solid #30363d; /* Subtle separator */
   padding-bottom: 1rem;
+  /* To prevent the title from "sticking" if we introduce a sticky header later */
+  flex-shrink: 0;
 }
 
 .section-title .icon-lg {
@@ -33,6 +43,7 @@
   border-radius: 12px; /* Rounded corners */
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Soft shadow */
   padding: 1.5rem;
+  flex-shrink: 0; /* Prevent card from shrinking if content is too large */
 }
 
 .form-label-custom {
@@ -79,7 +90,6 @@
   color: white;
 }
 
-
 /* Timetable Container */
 .timetable-container {
   background-color: #161b22; /* Matches selection card background */
@@ -88,6 +98,9 @@
   border: 1px solid #30363d;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   margin-top: 2rem; /* Space below selection card */
+  /* If the timetable itself needs internal scrolling due to large number of periods/days */
+  overflow-x: auto; /* Enable horizontal scrolling for wide tables */
+  flex-grow: 1; /* Allow timetable to fill remaining space */
 }
 
 /* Loading State */
@@ -97,6 +110,7 @@
   align-items: center;
   justify-content: center;
   min-height: 200px; /* Ensure spinner has enough space */
+  flex-grow: 1; /* Allow spinner container to fill space */
 }
 
 .loading-spinner {
@@ -121,6 +135,7 @@
   font-size: 1.1rem;
   line-height: 1.6;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  flex-grow: 1; /* Allow empty state to fill space */
 }
 
 .empty-state-message .info-icon {

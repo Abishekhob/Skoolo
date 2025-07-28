@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { Row, Col, Form, Button, Alert, Table, Collapse, Card, Spinner } from 'react-bootstrap';
 import AdminSidebar from './AdminSidebar';
 import API from '../services/api';
-import { FaUsers, FaPlus, FaFileUpload, FaDownload, FaChevronDown, FaChevronUp } from 'react-icons/fa'; // Import icons
+import { FaUsers, FaPlus, FaFileUpload, FaDownload, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import './style/ManageParents.css'; // Dedicated CSS for this component
 
 const ManageParents = () => {
@@ -135,7 +135,7 @@ const ManageParents = () => {
     <Row className="g-0 admin-layout-container">
       <AdminSidebar />
       <Col md={10} className="main-content-area">
-        <div className="container-fluid p-4">
+        <div className="container-fluid p-4 main-content-padding"> {/* Added main-content-padding for better spacing */}
           <h3 className="section-title mb-4">
             <FaUsers className="me-2 icon-lg" /> Manage Parents
           </h3>
@@ -143,7 +143,7 @@ const ManageParents = () => {
           {message && <Alert variant={messageType} className="custom-alert fade-in-down">{message}</Alert>}
 
           {/* Action Buttons and File Upload */}
-          <div className="d-flex flex-column flex-md-row justify-content-between align-items-stretch align-items-md-start gap-3 mb-4">
+          <div className="d-flex flex-column flex-md-row justify-content-between align-items-center align-items-md-start gap-3 mb-4">
             {/* Add Parent Button */}
             <Button
               variant={showForm ? "secondary" : "primary"}
@@ -249,7 +249,7 @@ const ManageParents = () => {
           <h5 className="sub-section-title mb-3">All Parents</h5>
 
           {loading && parents.length === 0 ? (
-            <div className="text-center my-5">
+            <div className="text-center my-5 flex-grow-1"> {/* Added flex-grow-1 */}
               <Spinner animation="border" variant="light" role="status" className="initial-loading-spinner" />
               <p className="text-light mt-3">Loading parents...</p>
             </div>
