@@ -4,6 +4,7 @@ import com.example.Skoolo.dto.AuthRequest;
 import com.example.Skoolo.dto.AuthResponse;
 import com.example.Skoolo.dto.RegisterRequest;
 import com.example.Skoolo.model.Parent;
+import com.example.Skoolo.model.Teacher;
 import com.example.Skoolo.model.User;
 import com.example.Skoolo.model.enums.Role;
 import com.example.Skoolo.repo.ParentRepository;
@@ -74,6 +75,19 @@ public class AuthService {
             parentRepository.save(parent);
             response.setParentId(parent.getId());
         }
+
+        // ✅ If role is TEACHER, create teacher profile
+        if (user.getRole().name().equals("TEACHER")) {
+            Teacher teacher = new Teacher();
+            teacher.setUser(user);
+            teacher.setFirstName(user.getFirstName());
+            teacher.setLastName(user.getLastName());
+            teacher.setContactNumber(""); // Can update later
+            teacher.setProfilePicUrl(""); // Optional
+            teacherRepository.save(teacher);
+            response.setTeacherId(teacher.getId());
+        }
+
 
         return response;
     }
