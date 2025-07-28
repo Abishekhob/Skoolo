@@ -57,7 +57,7 @@ const App = () => {
 
 
         {/* Teacher routes */}
-        <Route path="/teacher" element={<TeacherDashboard />} />
+        <Route path="/teacher" element={<TeacherTimetable />} />
         <Route path="/teacher/timetable" element={<TeacherTimetable />} />
         <Route path="/teacher/students" element={<TeacherStudents />} />
         <Route path="/teacher/attendance" element={<TeacherAttendance />} />
