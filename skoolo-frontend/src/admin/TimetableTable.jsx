@@ -149,7 +149,8 @@ const TimetableTable = ({
       </div>
 
       <div className="table-responsive">
-        <Table striped bordered hover variant="dark" className="timetable-table">
+      <Table striped bordered hover variant="dark" className="timetable-table table-sm">
+
           <thead>
             <tr>
               <th className="day-col" rowSpan="2">
