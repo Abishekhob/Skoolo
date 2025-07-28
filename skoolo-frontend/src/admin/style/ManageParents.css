@@ -545,3 +545,37 @@
     font-size: 0.7rem;
   }
 }
+
+/* Sidebar Styling */
+.sidebar {
+  width: 250px;
+  background-color: #161b22;
+  color: #c9d1d9;
+  border-right: 1px solid #30363d;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 10;
+}
+
+.sidebar a {
+  color: #c9d1d9;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.sidebar a:hover {
+  background-color: #21262d;
+  color: #58a6ff;
+}
+@media (max-width: 767.98px) {
+  .sidebar {
+    display: none;
+  }
+}

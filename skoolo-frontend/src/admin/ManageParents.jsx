@@ -133,7 +133,10 @@ const ManageParents = () => {
 
   return (
     <Row className="g-0 admin-layout-container">
-      <AdminSidebar />
+       <div class="sidebar">
+  <AdminSidebar />
+</div>
+
       <Col md={10} className="main-content-area">
         <div className="container-fluid p-4 main-content-padding"> {/* Added main-content-padding for better spacing */}
           <h3 className="section-title mb-4">

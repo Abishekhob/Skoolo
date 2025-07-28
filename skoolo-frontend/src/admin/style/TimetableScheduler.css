@@ -1,9 +1,10 @@
-/* General Layout */
 .admin-layout {
-  min-height: 100vh;
-  display: flex; /* Make it a flex container */
-  flex-direction: row; /* Layout children in a row */
+  height: 100vh;           /* Force full height */
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;        /* Prevent layout overflow */
 }
+
 
 .main-content-area {
   background-color: #0d1117; /* GitHub Dark BG */
