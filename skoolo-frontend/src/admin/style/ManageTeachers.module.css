@@ -5,8 +5,6 @@
     background-color: #f8f9fa; /* Light background for the dashboard */
 }
 
-
-
 .main-content-area {
     flex-grow: 1;
     padding-left: 0; /* Adjust as needed, usually controlled by sidebar */
@@ -192,7 +190,16 @@
     width: 1%; /* Make column as small as possible */
 }
 
-.action-btn {
+/* New: Desktop action buttons container */
+.desktop-action-buttons {
+    display: flex;
+    gap: 8px; /* Space between buttons */
+}
+
+.assign-btn {
+    background-color: #17a2b8; /* Info variant */
+    border-color: #17a2b8;
+    color: #fff;
     font-size: 0.85rem;
     padding: 0.4rem 0.8rem;
     border-radius: 6px;
@@ -200,12 +207,37 @@
     align-items: center;
     gap: 5px;
     transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(23, 162, 184, 0.2);
 }
 
-.action-btn:hover {
+.assign-btn:hover {
+    background-color: #138496;
+    border-color: #117a8b;
     transform: translateY(-1px);
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(23, 162, 184, 0.3);
 }
+
+.edit-btn {
+    background-color: #ffc107; /* Warning variant */
+    border-color: #ffc107;
+    color: #343a40;
+    font-size: 0.85rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(255, 193, 7, 0.2);
+}
+
+.edit-btn:hover {
+    background-color: #e0a800;
+    border-color: #d39e00;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(255, 193, 7, 0.3);
+}
+
 
 .save-btn {
     font-size: 0.85rem;
@@ -382,27 +414,6 @@
     }
     .action-dropdown {
         /* This will not be displayed on large screens for TeacherRow */
-        display: none;
+        display: none !important;
     }
-}
-
-/* Animations for interaction */
-@keyframes fadeInScale {
-    from {
-        opacity: 0;
-        transform: scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-.teacher-card {
-    animation: fadeInScale 0.3s ease-out forwards;
-}
-
-/* Transitions for hover effects */
-button, .form-control, .card {
-    transition: all 0.3s ease;
 }

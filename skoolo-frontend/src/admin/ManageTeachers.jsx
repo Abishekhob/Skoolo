@@ -2,15 +2,15 @@ import React, { useEffect, useState, memo } from 'react';
 import {
     Container, Table, Button, Form, Row, Col, Dropdown, Card, InputGroup
 } from 'react-bootstrap';
-import { FaEdit, FaSave, FaTimes, FaPlus, FaUpload, FaUserPlus, FaInfoCircle, FaUsersCog, FaEllipsisV, FaChalkboardTeacher } from 'react-icons/fa'; // Added FaChalkboardTeacher for Assign button
+import { FaEdit, FaSave, FaTimes, FaUpload, FaUserPlus, FaInfoCircle, FaUsersCog, FaEllipsisV } from 'react-icons/fa';
 import API from '../services/api';
 import AssignTeacherModal from './AssignTeacherModal';
 import AdminSidebar from './AdminSidebar';
 import AddTeacherModal from './AddTeacherModal';
 
-import './style/ManageTeachers.module.css'; // Changed to .css for external stylesheet
+import styles from './style/ManageTeachers.module.css';
 
-// Memoize the TeacherRow component to prevent unnecessary re-renders of individual rows
+// Memoized TeacherRow component for desktop table view
 const TeacherRow = memo(({ teacher, i, isEditing, editedTeacher, handleInputChange, handleEditClick, handleSaveClick, handleCancelClick, openAssignModal }) => {
     return (
         <tr key={teacher.id}>
@@ -23,18 +23,18 @@ const TeacherRow = memo(({ teacher, i, isEditing, editedTeacher, handleInputChan
                             placeholder="First Name"
                             value={editedTeacher.firstName}
                             onChange={(e) => handleInputChange("firstName", e.target.value)}
-                            className="edit-input mb-1"
+                            className={`${styles.editInput} mb-1`}
                         />
                         <Form.Control
                             type="text"
                             placeholder="Last Name"
                             value={editedTeacher.lastName}
                             onChange={(e) => handleInputChange("lastName", e.target.value)}
-                            className="edit-input"
+                            className={styles.editInput}
                         />
                     </>
                 ) : (
-                    <span className="teacher-name-display">{teacher.fullName}</span>
+                    <span className={styles.teacherNameDisplay}>{teacher.fullName}</span>
                 )}
             </td>
             <td>
@@ -43,7 +43,7 @@ const TeacherRow = memo(({ teacher, i, isEditing, editedTeacher, handleInputChan
                         type="email"
                         value={editedTeacher.email}
                         onChange={(e) => handleInputChange("email", e.target.value)}
-                        className="edit-input"
+                        className={styles.editInput}
                     />
                 ) : (
                     teacher.email
@@ -55,66 +55,80 @@ const TeacherRow = memo(({ teacher, i, isEditing, editedTeacher, handleInputChan
                         type="text"
                         value={editedTeacher.contactNumber}
                         onChange={(e) => handleInputChange("contactNumber", e.target.value)}
-                        className="edit-input"
+                        className={styles.editInput}
                     />
                 ) : (
                     teacher.contactNumber
                 )}
             </td>
-            <td className="actions-column">
+            <td className={styles.actionsColumn}>
                 {isEditing ? (
                     <div className="d-flex flex-column flex-sm-row">
                         <Button
                             size="sm"
                             variant="success"
                             onClick={() => handleSaveClick(teacher.id)}
-                            className="save-btn me-2 mb-2 mb-sm-0"
+                            className={`${styles.saveBtn} me-2 mb-2 mb-sm-0`}
                         >
-                            <FaSave /> Save
+                            <FaSave className="me-1" /> Save
                         </Button>
                         <Button
                             size="sm"
                             variant="secondary"
                             onClick={handleCancelClick}
-                            className="cancel-btn"
+                            className={styles.cancelBtn}
                         >
-                            <FaTimes /> Cancel
+                            <FaTimes className="me-1" /> Cancel
                         </Button>
                     </div>
                 ) : (
-                    <div className="d-flex flex-column flex-sm-row">
+                    <div className={`${styles.desktopActionButtons} d-none d-lg-flex`}>
                         <Button
                             size="sm"
                             variant="info"
                             onClick={() => openAssignModal(teacher)}
-                            className="action-btn me-2 mb-2 mb-sm-0"
-                            title="Assign Subjects/Class"
+                            className={`${styles.assignBtn} me-2`}
                         >
-                            <FaChalkboardTeacher className="me-1" /> Assign
+                            <FaUsersCog className="me-1" /> Assign
                         </Button>
                         <Button
                             size="sm"
-                            variant="primary"
+                            variant="warning"
                             onClick={() => handleEditClick(teacher)}
-                            className="action-btn"
-                            title="Edit Teacher Details"
+                            className={styles.editBtn}
                         >
                             <FaEdit className="me-1" /> Edit
                         </Button>
                     </div>
+                )}
+                {/* Dropdown for mobile view (kept as is) */}
+                {!isEditing && (
+                    <Dropdown className={`${styles.actionDropdown} d-lg-none`}>
+                        <Dropdown.Toggle variant="info" id={`dropdown-actions-${teacher.id}`} size="sm" className={styles.dropdownToggle}>
+                            Actions
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu variant="dark" className={styles.dropdownMenu}>
+                            <Dropdown.Item onClick={() => openAssignModal(teacher)} className={styles.dropdownItem}>
+                                <FaUsersCog className="me-2" /> Assign Subjects/Class
+                            </Dropdown.Item>
+                            <Dropdown.Item onClick={() => handleEditClick(teacher)} className={styles.dropdownItem}>
+                                <FaEdit className="me-2" /> Edit Details
+                            </Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
                 )}
             </td>
         </tr>
     );
 });
 
-// Memoize the TeacherCard component for mobile view
-const TeacherCard = memo(({ teacher, i, isEditing, editedTeacher, handleInputChange, handleEditClick, handleSaveClick, handleCancelClick, openAssignModal }) => {
+// Memoized TeacherCard component for mobile view
+const TeacherCard = memo(({ teacher, isEditing, editedTeacher, handleInputChange, handleEditClick, handleSaveClick, handleCancelClick, openAssignModal }) => {
     return (
-        <Card key={teacher.id} className="teacher-card mb-3">
+        <Card key={teacher.id} className={`${styles.teacherCard} mb-3`}>
             <Card.Body>
                 <div className="d-flex justify-content-between align-items-start mb-2">
-                    <Card.Title className="teacher-card-title">
+                    <Card.Title className={styles.teacherCardTitle}>
                         {isEditing ? (
                             <>
                                 <Form.Control
@@ -122,56 +136,56 @@ const TeacherCard = memo(({ teacher, i, isEditing, editedTeacher, handleInputCha
                                     placeholder="First Name"
                                     value={editedTeacher.firstName}
                                     onChange={(e) => handleInputChange("firstName", e.target.value)}
-                                    className="edit-input mb-1"
+                                    className={`${styles.editInput} mb-1`}
                                 />
                                 <Form.Control
                                     type="text"
                                     placeholder="Last Name"
                                     value={editedTeacher.lastName}
                                     onChange={(e) => handleInputChange("lastName", e.target.value)}
-                                    className="edit-input"
+                                    className={styles.editInput}
                                 />
                             </>
                         ) : (
                             teacher.fullName
                         )}
                     </Card.Title>
-                    <Dropdown className="action-dropdown">
-                        <Dropdown.Toggle variant="info" id={`dropdown-actions-mobile-${teacher.id}`} size="sm" className="dropdown-toggle">
+                    <Dropdown className={styles.actionDropdown}>
+                        <Dropdown.Toggle variant="info" id={`dropdown-actions-mobile-${teacher.id}`} size="sm" className={styles.dropdownToggle}>
                             <FaEllipsisV />
                         </Dropdown.Toggle>
-                        <Dropdown.Menu variant="dark" align="end" className="dropdown-menu">
-                            <Dropdown.Item onClick={() => openAssignModal(teacher)} className="dropdown-item">
+                        <Dropdown.Menu variant="dark" align="end" className={styles.dropdownMenu}>
+                            <Dropdown.Item onClick={() => openAssignModal(teacher)} className={styles.dropdownItem}>
                                 <FaUsersCog className="me-2" /> Assign Subjects/Class
                             </Dropdown.Item>
-                            <Dropdown.Item onClick={() => handleEditClick(teacher)} className="dropdown-item">
+                            <Dropdown.Item onClick={() => handleEditClick(teacher)} className={styles.dropdownItem}>
                                 <FaEdit className="me-2" /> Edit Details
                             </Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
                 </div>
 
-                <Card.Text className="teacher-info">
-                    <strong className="info-label">Email:</strong>{' '}
+                <Card.Text className={styles.teacherInfo}>
+                    <strong className={styles.infoLabel}>Email:</strong>{' '}
                     {isEditing ? (
                         <Form.Control
                             type="email"
                             value={editedTeacher.email}
                             onChange={(e) => handleInputChange("email", e.target.value)}
-                            className="edit-input"
+                            className={styles.editInput}
                         />
                     ) : (
                         teacher.email
                     )}
                 </Card.Text>
-                <Card.Text className="teacher-info">
-                    <strong className="info-label">Contact:</strong>{' '}
+                <Card.Text className={styles.teacherInfo}>
+                    <strong className={styles.infoLabel}>Contact:</strong>{' '}
                     {isEditing ? (
                         <Form.Control
                             type="text"
                             value={editedTeacher.contactNumber}
                             onChange={(e) => handleInputChange("contactNumber", e.target.value)}
-                            className="edit-input"
+                            className={styles.editInput}
                         />
                     ) : (
                         teacher.contactNumber
@@ -179,22 +193,22 @@ const TeacherCard = memo(({ teacher, i, isEditing, editedTeacher, handleInputCha
                 </Card.Text>
 
                 {isEditing && (
-                    <div className="button-group-mobile">
+                    <div className={styles.buttonGroupMobile}>
                         <Button
                             size="sm"
                             variant="success"
                             onClick={() => handleSaveClick(teacher.id)}
-                            className="save-btn"
+                            className={styles.saveBtn}
                         >
-                            <FaSave /> Save
+                            <FaSave className="me-1" /> Save
                         </Button>
                         <Button
                             size="sm"
                             variant="secondary"
                             onClick={handleCancelClick}
-                            className="cancel-btn"
+                            className={styles.cancelBtn}
                         >
-                            <FaTimes /> Cancel
+                            <FaTimes className="me-1" /> Cancel
                         </Button>
                     </div>
                 )}
@@ -390,7 +404,7 @@ const ManageTeachers = () => {
             .catch(err => {
                 alert("Error updating teacher");
                 console.error(err);
-                fetchTeachers();
+                fetchTeachers(); // Re-fetch to ensure data consistency
             });
     };
 
@@ -407,36 +421,36 @@ const ManageTeachers = () => {
     };
 
     return (
-        <div className="dashboard-wrapper">
-            <AdminSidebar className="admin-sidebar" />
-            <Col md={10} className="main-content-area">
+        <div className={styles.dashboardWrapper}>
+            <AdminSidebar className={styles.adminSidebar} />
+            <Col md={10} className={styles.mainContentArea}>
                 <Container fluid className="p-4">
-                    <h3 className="section-title">
-                        <FaUsersCog className="icon-lg" />
+                    <h3 className={styles.sectionTitle}>
+                        <FaUsersCog className={styles.iconLg} />
                         Manage Teachers
                     </h3>
 
-                    <div className="action-panel">
-                        <Card className="action-card">
+                    <div className={styles.actionPanel}>
+                        <Card className={styles.actionCard}>
                             <Card.Body>
                                 <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-3">
-                                    <Button variant="primary" onClick={() => setShowAddModal(true)} className="add-teacher-btn mb-2 mb-md-0">
-                                        <FaUserPlus /> Add New Teacher
+                                    <Button variant="primary" onClick={() => setShowAddModal(true)} className={`${styles.addTeacherBtn} mb-2 mb-md-0`}>
+                                        <FaUserPlus className="me-1" /> Add New Teacher
                                     </Button>
 
-                                    <InputGroup className="upload-input-group">
+                                    <InputGroup className={styles.uploadInputGroup}>
                                         <Form.Control
                                             type="file"
                                             onChange={handleFileUpload}
-                                            className="form-control"
+                                            className={styles.formControl}
                                             accept=".csv, .xlsx, .xls"
                                         />
-                                        <Button variant="secondary" onClick={uploadFile} className="upload-btn">
-                                            <FaUpload /> Upload Teachers
+                                        <Button variant="secondary" onClick={uploadFile} className={styles.uploadBtn}>
+                                            <FaUpload className="me-1" /> Upload Teachers
                                         </Button>
                                     </InputGroup>
                                 </div>
-                                <small className="text-muted d-block text-center text-md-end">
+                                <small className={`${styles.textMuted} d-block text-center text-md-end`}>
                                     <FaInfoCircle className="me-1" /> Accepted formats: .csv, .xlsx, .xls
                                 </small>
                             </Card.Body>
@@ -444,9 +458,9 @@ const ManageTeachers = () => {
                     </div>
 
                     {/* Desktop Table View */}
-                    <div className="data-table-container d-none d-lg-block">
-                        <div className="table-responsive-wrapper">
-                            <Table striped bordered hover className="teachers-table">
+                    <div className={`${styles.dataTableContainer} d-none d-lg-block`}>
+                        <div className={styles.tableResponsiveWrapper}>
+                            <Table striped bordered hover className={styles.teachersTable}>
                                 <thead>
                                     <tr>
                                         <th>#</th>
@@ -477,12 +491,11 @@ const ManageTeachers = () => {
                     </div>
 
                     {/* Mobile Card View */}
-                    <div className="mobile-cards-container d-lg-none">
-                        {teachers.map((teacher, i) => (
+                    <div className={`${styles.mobileCardsContainer} d-lg-none`}>
+                        {teachers.map((teacher) => ( // Removed 'i' as it's not used in TeacherCard
                             <TeacherCard
                                 key={teacher.id}
                                 teacher={teacher}
-                                i={i}
                                 isEditing={editRowId === teacher.id}
                                 editedTeacher={editedTeacher}
                                 handleInputChange={handleInputChange}
