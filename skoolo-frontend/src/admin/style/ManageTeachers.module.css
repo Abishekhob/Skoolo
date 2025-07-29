@@ -1,475 +1,377 @@
-/* Variables for theming */
-:root {
-    --bg-dark: #1a1a2e; /* Dark background */
-    --bg-card: #16213e; /* Slightly lighter card background */
-    --text-primary: #e0e0e0; /* Light gray text */
-    --text-secondary: #9aa9c3; /* Muted text */
-    --border-color: #0f3460; /* Darker border for separation */
-    --accent-blue: #007bff; /* Primary accent color */
-    --accent-green: #28a745; /* Success color */
-    --accent-red: #dc3545; /* Danger color */
-    --accent-orange: #ffc107; /* Warning color */
-    --accent-info: #17a2b8; /* Info color */
-    --input-bg: #0f1c3f; /* Darker input background */
-    --input-border: #0e2f5d; /* Input border */
-    --shadow-light: rgba(0, 0, 0, 0.3); /* Subtle shadow */
-    --shadow-medium: rgba(0, 0, 0, 0.5); /* Medium shadow */
-    --transition-speed: 0.3s ease; /* Smooth transitions */
-    --sidebar-width-desktop: 250px; /* Define sidebar width */
-    --sidebar-width-tablet: 200px; /* Adjust for tablet */
-}
-
-body {
-    background-color: var(--bg-dark);
-    color: var(--text-primary);
-    font-family: 'Inter', sans-serif; /* Modern, clean font */
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden; /* Prevent horizontal scroll */
-}
-
-/* --- Layout Specific Styles (Corrected) --- */
+/* General Layout and Dashboard Structure */
 .dashboard-layout {
-    display: flex; /* Use flexbox for side-by-side layout */
-    min-height: 100vh; /* Full viewport height */
-    width: 100vw; /* Ensure it takes full width */
-}
-
-.admin-sidebar {
-    /* No longer fixed position for simpler flex layout */
-    flex-shrink: 0; /* Prevent sidebar from shrinking */
-    width: var(--sidebar-width-desktop); /* Default desktop width */
-    background-color: var(--bg-card); /* Sidebar background */
-    border-right: 1px solid var(--border-color);
-    padding: 20px;
-    box-shadow: 2px 0 10px var(--shadow-medium);
-    z-index: 1000;
-    /* Removed transform as it's not needed for static flex positioning */
-    transition: width 0.3s ease-in-out; /* Smooth transition for potential width changes */
+    display: flex; /* Use flexbox for sidebar and main content */
+    min-height: 100vh; /* Ensure it takes full viewport height */
+    background-color: #f8f9fa; /* Light background for the dashboard */
 }
 
 .main-content-wrapper {
-    flex-grow: 1; /* Allow content to take remaining space */
-    padding: 20px;
-    background-color: var(--bg-dark);
-    color: var(--text-primary);
-    overflow-y: auto; /* Allow content to scroll if it overflows vertically */
-    /* Removed margin-left as flexbox handles positioning */
+    flex-grow: 1; /* Allows main content to take up remaining space */
+    padding-left: 0; /* Reset padding-left for mobile */
+    transition: padding-left 0.3s ease-in-out; /* Smooth transition for sidebar open/close */
+    overflow-x: hidden; /* Prevent horizontal scroll from content overflow */
 }
 
-/* Responsive adjustments for layout */
-@media (max-width: 991.98px) {
-    .dashboard-layout {
-        flex-direction: column; /* Stack sidebar and content on small screens */
-    }
-
-    .admin-sidebar {
-        width: 100%; /* Full width on mobile */
-        height: auto; /* Height adapts to content */
-        border-right: none;
-        border-bottom: 1px solid var(--border-color);
-        box-shadow: 0 2px 10px var(--shadow-medium);
-        padding: 15px;
-        /* You might want to hide/show this with a toggle button using JS if it gets too long */
-    }
-
+/* Adjust main content based on sidebar state (example for a fixed sidebar) */
+/* Assuming AdminSidebar has a width (e.g., 250px) and pushes content */
+/* You might need to adjust this based on your actual AdminSidebar implementation */
+@media (min-width: 992px) { /* Adjust breakpoint as per your sidebar's responsiveness */
     .main-content-wrapper {
-        padding-top: 15px;
+        margin-left: 250px; /* Adjust this value to match your sidebar's width */
+        /* If your sidebar is positioned absolutely/fixed, you might use padding-left */
     }
+}
 
+
+.dashboard-container {
+    padding: 2rem !important; /* Important to override Bootstrap's default p-4 for consistency */
+    max-width: 100%; /* Ensure container doesn't overflow */
+}
+
+/* Section Title */
+.section-title {
+    color: #2c3e50; /* Darker text for titles */
+    margin-bottom: 2rem;
+    font-size: 2.2rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+}
+
+.icon-lg {
+    font-size: 2.5rem; /* Larger icon for the title */
+    color: #007bff; /* Primary color for the icon */
+}
+
+/* Action Panel Card */
+.action-panel-container {
+    margin-bottom: 2.5rem;
+}
+
+.action-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08); /* Soft, subtle shadow */
+    background: linear-gradient(145deg, #ffffff, #f0f2f5); /* Light gradient background */
+    padding: 1.5rem;
+}
+
+.add-teacher-btn {
+    background-color: #007bff;
+    border-color: #007bff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
+}
+
+.add-teacher-btn:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 123, 255, 0.3);
+}
+
+.upload-input-group {
+    max-width: 400px;
+}
+
+.form-control-file {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border: 1px solid #ced4da;
+    background-color: #f8f9fa;
+    color: #495057;
+    padding: 0.675rem 0.75rem; /* Align height with button */
+    height: auto; /* Ensure height adjusts */
+    line-height: 1.5;
+}
+
+.upload-btn {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.upload-btn:hover {
+    background-color: #5a6268;
+    border-color: #5a6268;
+    transform: translateY(-2px);
+}
+
+.text-muted-info {
+    font-size: 0.85rem;
+    color: #6c757d !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 0.5rem;
+}
+
+/* Desktop Table View */
+.data-table-container {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden; /* Ensures rounded corners apply to content */
+}
+
+.table-responsive-wrapper {
+    overflow-x: auto; /* Enable horizontal scroll for small screens within desktop view */
+}
+
+.teachers-table {
+    margin-bottom: 0; /* Remove default table margin */
+    min-width: 800px; /* Ensure a minimum width for better desktop experience */
+    border-collapse: separate;
+    border-spacing: 0; /* Remove space between cells */
+}
+
+.teachers-table th,
+.teachers-table td {
+    padding: 1rem 1.25rem;
+    vertical-align: middle;
+    border-top: 1px solid #e9ecef;
+    font-size: 0.95rem;
+}
+
+.teachers-table thead th {
+    background-color: #e9f5ff; /* Light blue header */
+    color: #2c3e50;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 2px solid #007bff;
+}
+
+.teachers-table tbody tr:hover {
+    background-color: #f0f8ff; /* Lighter blue on hover */
+    cursor: pointer;
+}
+
+.teacher-name-display {
+    font-weight: 600;
+    color: #34495e;
+}
+
+.dark-input.form-control {
+    background-color: #f0f2f5; /* Light gray background for input fields */
+    border-color: #dcdcdc;
+    color: #34495e;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.dark-input.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+    background-color: #ffffff;
+}
+
+/* Actions Column */
+.actions-column {
+    text-align: center;
+    white-space: nowrap; /* Prevent buttons from wrapping */
+}
+
+.save-btn,
+.cancel-btn,
+.assign-btn,
+.edit-btn {
+    border-radius: 6px;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    transition: all 0.2s ease;
+}
+
+.save-btn {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+.save-btn:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+    transform: scale(1.03);
+}
+
+.cancel-btn {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+.cancel-btn:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+    transform: scale(1.03);
+}
+
+.assign-btn {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+}
+.assign-btn:hover {
+    background-color: #138496;
+    border-color: #117a8b;
+    transform: scale(1.03);
+}
+
+.edit-btn {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: #343a40; /* Darker text for warning button */
+}
+.edit-btn:hover {
+    background-color: #e0a800;
+    border-color: #d39e00;
+    transform: scale(1.03);
+}
+
+/* Mobile Card View */
+.mobile-cards-container {
+    padding-top: 1rem;
+}
+
+.teacher-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.07);
+    background: linear-gradient(160deg, #ffffff, #f9fbfd);
+    overflow: hidden;
+    position: relative; /* For dropdown positioning */
+}
+
+.teacher-card-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 0.75rem;
+}
+
+.teacher-info {
+    font-size: 0.95rem;
+    color: #555;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.info-label {
+    color: #007bff;
+    min-width: 60px; /* Align labels */
+}
+
+.button-group-mobile {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+/* Dropdown specific styles */
+.action-dropdown .dropdown-toggle-custom {
+    background-color: #007bff;
+    border-color: #007bff;
+    padding: 0.4rem 0.6rem;
+    border-radius: 50%; /* Circular button */
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+}
+
+.action-dropdown .dropdown-toggle-custom::after {
+    display: none; /* Hide default caret */
+}
+
+.action-dropdown .dropdown-toggle-custom:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+    transform: scale(1.05);
+}
+
+.dropdown-menu-custom {
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    padding: 0.5rem 0;
+    min-width: 200px;
+    background-color: #2c3e50; /* Dark background for dropdown */
+    border: none;
+}
+
+.dropdown-item-custom {
+    color: #ecf0f1; /* Light text for items */
+    padding: 0.75rem 1.25rem;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.dropdown-item-custom:hover,
+.dropdown-item-custom:active {
+    background-color: #007bff; /* Primary color on hover/active */
+    color: #ffffff;
+    border-radius: 0; /* Override Bootstrap's default for full width */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 767.98px) {
     .section-title {
         font-size: 1.8rem;
         text-align: center;
         justify-content: center;
-        margin-bottom: 25px;
     }
 
-    .action-panel-container .card-body {
-        padding: 15px;
-    }
-
-    .d-flex.flex-column.flex-md-row {
-        flex-direction: column !important;
+    .action-panel-container .d-flex {
+        flex-direction: column;
         align-items: stretch !important;
     }
 
-    .add-teacher-btn, .upload-input-group {
-        width: 100%;
-    }
-
-    .add-teacher-btn {
-        margin-bottom: 15px !important; /* Spacing between buttons on mobile */
-    }
-
+    .add-teacher-btn,
     .upload-input-group {
-        flex-direction: column;
+        width: 100%;
     }
 
     .upload-input-group .form-control-file,
-    .upload-input-group .upload-btn {
-        width: 100%;
-        border-radius: 8px !important; /* Apply border-radius to both ends for full width */
+    .upload-input-group .btn {
+        border-radius: 8px !important; /* Full border-radius for mobile */
     }
 
     .upload-input-group .form-control-file {
         margin-bottom: 10px;
     }
 
-    .upload-input-group .form-control-file::file-selector-button {
-        width: 100%;
-        text-align: center;
+    .upload-input-group .input-group-text,
+    .upload-input-group .btn {
+        border-top-left-radius: 8px !important;
+        border-bottom-left-radius: 8px !important;
     }
 
-    .desktop-action-buttons {
-        display: none !important;
+    .upload-btn {
+        margin-top: 0.5rem;
     }
-    .action-dropdown {
-        width: 100%; /* Make dropdown span full width in card */
-        text-align: right; /* Align toggle to right */
-    }
-    .action-dropdown .dropdown-toggle-custom {
-        width: auto; /* Allow toggle to shrink */
-    }
-    .action-dropdown .dropdown-menu-custom {
-        width: max-content; /* Adjust dropdown menu width */
+
+    .teacher-card {
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 500px; /* Limit card width on larger mobile devices */
     }
 }
 
-@media (min-width: 768px) and (max-width: 991.98px) {
-    .admin-sidebar {
-        width: var(--sidebar-width-tablet); /* Adjust sidebar width for tablets */
+/* Ensure padding for smaller screens when sidebar is hidden/collapsed */
+@media (max-width: 991.98px) {
+    .main-content-wrapper {
+        padding-left: 1rem; /* Adjust as needed, Bootstrap's p-4 is 1.5rem */
+        padding-right: 1rem;
+        margin-left: 0; /* Reset margin for smaller screens */
     }
-}
-
-
-/* --- General UI Elements (retained) --- */
-.section-title {
-    color: var(--text-primary);
-    font-size: 2.2rem;
-    margin-bottom: 30px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    text-shadow: 1px 1px 3px var(--shadow-light);
-}
-
-.icon-lg {
-    font-size: 2rem;
-    color: var(--accent-info);
-}
-
-.action-panel-container {
-    margin-bottom: 40px;
-}
-
-.action-card {
-    background-color: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    box-shadow: 0 4px 15px var(--shadow-medium);
-    padding: 20px;
-    transition: transform var(--transition-speed);
-}
-
-.action-card:hover {
-    transform: translateY(-3px);
-}
-
-.add-teacher-btn,
-.upload-btn {
-    border-radius: 8px;
-    padding: 10px 20px;
-    font-weight: 600;
-    transition: all var(--transition-speed);
-    box-shadow: 0 2px 8px var(--shadow-light);
-}
-
-.add-teacher-btn {
-    background-color: var(--accent-blue);
-    border-color: var(--accent-blue);
-}
-
-.add-teacher-btn:hover {
-    background-color: #0069d9; /* Darker blue */
-    border-color: #0062cc; /* Darker blue */
-    transform: translateY(-2px);
-}
-
-.upload-btn {
-    background-color: var(--accent-info);
-    border-color: var(--accent-info);
-}
-
-.upload-btn:hover {
-    background-color: #138496; /* Darker info blue */
-    border-color: #117a8b; /* Darker info blue */
-    transform: translateY(-2px);
-}
-
-.upload-input-group .form-control-file {
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
-    background-color: var(--input-bg);
-    color: var(--text-primary);
-    border: 1px solid var(--input-border);
-}
-
-.upload-input-group .form-control-file::file-selector-button {
-    background-color: var(--bg-dark);
-    color: var(--text-primary);
-    border: none;
-    padding: 8px 15px;
-    margin-right: 10px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color var(--transition-speed);
-}
-
-.upload-input-group .form-control-file::file-selector-button:hover {
-    background-color: #3a4a6e;
-}
-
-.text-muted-info {
-    color: var(--text-secondary) !important;
-    font-size: 0.9em;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end; /* Align to end for desktop */
-    gap: 5px;
-    margin-top: 10px;
-}
-@media (max-width: 767.98px) {
-    .text-muted-info {
-        justify-content: center; /* Center for mobile */
-    }
-}
-
-
-/* --- Table Specific Styles (Desktop) --- */
-.data-table-container {
-    background-color: var(--bg-card);
-    border-radius: 12px;
-    overflow: hidden; /* Ensures rounded corners */
-    box-shadow: 0 4px 15px var(--shadow-medium);
-}
-
-.table-responsive-wrapper {
-    overflow-x: auto; /* Allows horizontal scrolling for table on smaller screens */
-    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-}
-
-.teachers-table {
-    width: 100%;
-    margin-bottom: 0; /* Remove default table margin */
-    color: var(--text-primary);
-}
-
-.teachers-table thead th {
-    background-color: var(--border-color);
-    color: var(--text-primary);
-    border-bottom: 2px solid var(--accent-blue);
-    padding: 15px 20px;
-    font-weight: 700;
-    text-transform: uppercase;
-    font-size: 0.9em;
-    white-space: nowrap; /* Prevent headers from wrapping */
-}
-
-.teachers-table tbody tr {
-    transition: background-color var(--transition-speed), transform var(--transition-speed);
-    border-color: var(--input-border);
-}
-
-.teachers-table tbody tr:hover {
-    background-color: rgba(var(--accent-blue), 0.1);
-    transform: scale(1.005);
-}
-
-.teachers-table tbody td {
-    padding: 12px 20px;
-    vertical-align: middle;
-    border-top: 1px solid var(--input-border);
-    white-space: nowrap; /* Prevent content from wrapping unless necessary */
-}
-
-.teachers-table tbody tr:last-child td {
-    border-bottom: none; /* Remove bottom border for last row */
-}
-
-.teachers-table .actions-column {
-    width: 1%; /* Collapse action column */
-    text-align: center;
-}
-
-.teacher-name-display {
-    font-weight: 600;
-    color: var(--accent-info);
-}
-
-/* Edit Inputs within Table */
-.dark-input.form-control {
-    background-color: var(--input-bg);
-    border: 1px solid var(--input-border);
-    color: var(--text-primary);
-    border-radius: 6px;
-    padding: 8px 12px;
-    font-size: 0.9em;
-    transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
-}
-
-.dark-input.form-control:focus {
-    background-color: var(--input-bg);
-    border-color: var(--accent-blue);
-    box-shadow: 0 0 0 0.25rem rgba(var(--accent-blue), 0.25);
-    color: var(--text-primary);
-}
-
-.save-btn, .cancel-btn, .assign-btn, .edit-btn {
-    border-radius: 6px;
-    font-weight: 500;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    padding: 7px 14px;
-    font-size: 0.85em;
-    transition: all var(--transition-speed);
-}
-
-.save-btn { background-color: var(--accent-green); border-color: var(--accent-green); }
-.save-btn:hover { background-color: #218838; border-color: #1e7e34; transform: translateY(-1px); }
-
-.cancel-btn { background-color: var(--text-secondary); border-color: var(--text-secondary); }
-.cancel-btn:hover { background-color: #79869a; border-color: #727f91; transform: translateY(-1px); }
-
-.assign-btn { background-color: var(--accent-info); border-color: var(--accent-info); }
-.assign-btn:hover { background-color: #138496; border-color: #117a8b; transform: translateY(-1px); }
-
-.edit-btn { background-color: var(--accent-orange); border-color: var(--accent-orange); }
-.edit-btn:hover { background-color: #e0a800; border-color: #cc9800; transform: translateY(-1px); }
-
-
-/* --- Mobile Card View Specific Styles --- */
-.mobile-cards-container {
-    padding: 10px 0;
-}
-
-.teacher-card {
-    background-color: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    box-shadow: 0 4px 12px var(--shadow-medium);
-    padding: 15px;
-    transition: transform var(--transition-speed);
-}
-
-.teacher-card:hover {
-    transform: translateY(-3px);
-}
-
-.teacher-card-title {
-    color: var(--accent-blue);
-    font-size: 1.25rem;
-    font-weight: 700;
-    margin-bottom: 10px;
-}
-
-.teacher-info {
-    font-size: 0.95em;
-    color: var(--text-primary);
-    margin-bottom: 8px;
-}
-
-.info-label {
-    color: var(--text-secondary);
-    min-width: 70px; /* Align labels */
-    display: inline-block;
-}
-
-.button-group-mobile {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    flex-wrap: wrap; /* Allow buttons to wrap */
-}
-
-/* Dropdown Menu Customization */
-.action-dropdown .dropdown-toggle-custom {
-    background-color: var(--accent-info);
-    border-color: var(--accent-info);
-    border-radius: 6px;
-    padding: 7px 10px;
-    font-size: 0.85em;
-    transition: background-color var(--transition-speed);
-}
-
-.action-dropdown .dropdown-toggle-custom:hover,
-.action-dropdown .dropdown-toggle-custom:focus {
-    background-color: #138496; /* Darker info blue */
-    border-color: #117a8b; /* Darker info blue */
-    box-shadow: none;
-}
-
-.dropdown-menu-custom {
-    background-color: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    box-shadow: 0 5px 15px var(--shadow-medium);
-    padding: 8px 0;
-}
-
-.dropdown-item-custom {
-    color: var(--text-primary);
-    padding: 10px 20px;
-    font-size: 0.9em;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: background-color var(--transition-speed), color var(--transition-speed);
-}
-
-.dropdown-item-custom:hover,
-.dropdown-item-custom:active {
-    background-color: var(--border-color); /* Lighter hover for dropdown items */
-    color: var(--accent-blue);
-}
-
-/* Adjustments for React-Bootstrap overrides */
-.table-striped > tbody > tr:nth-of-type(odd) > * {
-    background-color: var(--input-bg) !important; /* Slightly different stripe color */
-}
-
-.table-bordered > :not(caption) > * > * {
-    border-color: var(--input-border) !important;
-}
-
-.form-control:focus {
-    box-shadow: 0 0 0 0.25rem rgba(var(--accent-blue), 0.25);
-}
-
-/* Ensure modals also adapt to dark theme */
-.modal-content {
-    background-color: var(--bg-card) !important;
-    color: var(--text-primary) !important;
-    border: 1px solid var(--border-color) !important;
-    border-radius: 12px !important;
-}
-
-.modal-header {
-    border-bottom: 1px solid var(--border-color) !important;
-}
-
-.modal-footer {
-    border-top: 1px solid var(--border-color) !important;
-}
-
-.btn-close {
-    filter: invert(1); /* Make close button visible on dark background */
-}
-
-/* General button styling for better appearance */
-.btn {
-    border: none;
-    cursor: pointer;
 }
