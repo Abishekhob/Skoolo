@@ -5,10 +5,7 @@
     background-color: #f8f9fa; /* Light background for the dashboard */
 }
 
-.admin-sidebar {
-    /* Styles for your AdminSidebar component if needed */
-    /* Assumes it handles its own responsiveness and sizing */
-}
+
 
 .main-content-area {
     flex-grow: 1;

@@ -6,7 +6,7 @@ import { FaEdit, FaSave, FaTimes, FaPlus, FaUpload, FaUserPlus, FaInfoCircle, Fa
 import API from '../services/api';
 import AssignTeacherModal from './AssignTeacherModal';
 import AdminSidebar from './AdminSidebar';
-import AddTeacherModal from './AddMeeshoModal'; // Corrected typo here if it was meant to be AddTeacherModal
+import AddTeacherModal from './AddTeacherModal';
 
 import './style/ManageTeachers.css'; // Changed to .css for external stylesheet
 
