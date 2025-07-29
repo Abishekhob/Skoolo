@@ -1,439 +1,474 @@
 /* Variables for Dark Theme (same as before) */
 :root {
-  --background-dark: #1a1a2e;
-  --card-background: rgba(25, 25, 40, 0.8);
-  --text-primary: #e0e0e0;
-  --text-secondary: #a0a0a0;
-  --border-color: rgba(60, 60, 80, 0.5);
-  --header-background: #16213e;
-  --table-header-bg: #0f3460;
-  --table-row-hover: rgba(25, 25, 40, 0.6);
-  --button-primary-bg: #0f3460;
-  --button-primary-hover-bg: #16213e;
-  --button-secondary-bg: #52616b;
-  --button-secondary-hover-bg: #404b53;
-  --button-success-bg: #28a745;
-  --button-success-hover-bg: #218838;
-  --button-info-bg: #17a2b8;
-  --button-info-hover-bg: #138496;
-  --input-bg: rgba(40, 40, 60, 0.7);
-  --input-border: rgba(80, 80, 100, 0.5);
-  --dropdown-bg: #16213e;
-  --dropdown-item-hover-bg: #0f3460;
-  --box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    --background-dark: #1a1a2e;
+    --card-background: rgba(25, 25, 40, 0.8);
+    --text-primary: #e0e0e0;
+    --text-secondary: #a0a0a0;
+    --border-color: rgba(60, 60, 80, 0.5);
+    --header-background: #16213e;
+    --table-header-bg: #0f3460;
+    --table-row-hover: rgba(25, 25, 40, 0.6);
+    --button-primary-bg: #0f3460;
+    --button-primary-hover-bg: #16213e;
+    --button-secondary-bg: #52616b;
+    --button-secondary-hover-bg: #404b53;
+    --button-success-bg: #28a745;
+    --button-success-hover-bg: #218838;
+    --button-info-bg: #17a2b8;
+    --button-info-hover-bg: #138496;
+    --input-bg: rgba(40, 40, 60, 0.7);
+    --input-border: rgba(80, 80, 100, 0.5);
+    --dropdown-bg: #16213e;
+    --dropdown-item-hover-bg: #0f3460;
+    --box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    --text-shadow-light: 0 0 5px rgba(233, 69, 96, 0.1);
 }
 
 /* Base Styles (same as before) */
 .dashboardWrapper {
-  display: flex;
-  min-height: 100vh;
-  background-color: var(--background-dark);
-  color: var(--text-primary);
-  font-family: 'Inter', sans-serif;
+    display: flex;
+    min-height: 100vh;
+    background-color: var(--background-dark);
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden; /* Prevent horizontal scroll on body */
 }
 
 .adminSidebar {
-  flex-shrink: 0;
+    flex-shrink: 0;
 }
 
 .mainContentArea {
-  flex-grow: 1;
-  padding: 2rem;
-  /* Removed overflow-x: hidden; from here */
+    flex-grow: 1;
+    padding: 2rem;
+    /* Allow main content to scroll if needed, but not clip dropdowns */
+    overflow-y: auto;
+    overflow-x: hidden; /* Prevent horizontal scroll within content area */
 }
 
 .sectionTitle {
-  color: #e94560;
-  font-weight: 700;
-  margin-bottom: 2.5rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  font-size: 2.2rem;
-  text-shadow: 0 0 10px rgba(233, 69, 96, 0.3);
+    color: #e94560;
+    font-weight: 700;
+    margin-bottom: 2.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 2.2rem;
+    text-shadow: 0 0 10px rgba(233, 69, 96, 0.3);
 }
 
 .iconLg {
-  font-size: 2.5rem;
-  color: var(--text-primary);
+    font-size: 2.5rem;
+    color: var(--text-primary);
 }
 
-/* --- Action Panel & Cards --- (same as before) */
+/* --- Action Panel & Cards --- */
 .actionPanel {
-  margin-bottom: 3rem;
+    margin-bottom: 3rem;
 }
 
 .actionCard {
-  background-color: var(--card-background);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  box-shadow: var(--box-shadow);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  padding: 1.5rem;
-  transition: all 0.3s ease-in-out;
+    background-color: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: var(--box-shadow);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 1.5rem;
+    transition: all 0.3s ease-in-out;
 }
 
 .actionCard:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
 }
 
 .addTeacherBtn,
 .uploadBtn {
-  font-weight: 600;
-  border-radius: 8px;
-  padding: 0.75rem 1.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  transition: all 0.2s ease-in-out;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s ease-in-out;
 }
 
 .addTeacherBtn {
-  background-color: var(--button-primary-bg);
-  border-color: var(--button-primary-bg);
+    background-color: var(--button-primary-bg);
+    border-color: var(--button-primary-bg);
 }
 
 .addTeacherBtn:hover {
-  background-color: var(--button-primary-hover-bg);
-  border-color: var(--button-primary-hover-bg);
-  transform: translateY(-2px);
+    background-color: var(--button-primary-hover-bg);
+    border-color: var(--button-primary-hover-bg);
+    transform: translateY(-2px);
 }
 
 .uploadBtn {
-  background-color: var(--button-secondary-bg);
-  border-color: var(--button-secondary-bg);
-  color: var(--text-primary);
+    background-color: var(--button-secondary-bg);
+    border-color: var(--button-secondary-bg);
+    color: var(--text-primary);
 }
 
 .uploadBtn:hover {
-  background-color: var(--button-secondary-hover-bg);
-  border-color: var(--button-secondary-hover-bg);
-  transform: translateY(-2px);
+    background-color: var(--button-secondary-hover-bg);
+    border-color: var(--button-secondary-hover-bg);
+    transform: translateY(-2px);
 }
 
 .uploadInputGroup .formControl {
-  background-color: var(--input-bg);
-  border: 1px solid var(--input-border);
-  color: var(--text-primary);
-  border-radius: 8px 0 0 8px;
-  padding: 0.75rem 1rem;
+    background-color: var(--input-bg);
+    border: 1px solid var(--input-border);
+    color: var(--text-primary);
+    border-radius: 8px 0 0 8px;
+    padding: 0.75rem 1rem;
 }
 .uploadInputGroup .formControl::file-selector-button {
-  background-color: var(--button-info-bg);
-  color: var(--text-primary);
-  border: none;
-  padding: 0.75rem 1rem;
-  margin-right: 1rem;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
+    background-color: var(--button-info-bg);
+    color: var(--text-primary);
+    border: none;
+    padding: 0.75rem 1rem;
+    margin-right: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
 }
 
 .uploadInputGroup .formControl::file-selector-button:hover {
-  background-color: var(--button-info-hover-bg);
+    background-color: var(--button-info-hover-bg);
 }
 
 .textMuted {
-  color: var(--text-secondary) !important;
-  font-size: 0.85rem;
+    color: var(--text-secondary) !important;
+    font-size: 0.85rem;
 }
 
 /* --- Table Styles (Desktop) --- */
 .dataTableContainer {
-  background-color: var(--card-background);
-  border-radius: 12px;
-  box-shadow: var(--box-shadow);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  overflow: visible; /* CRITICAL: Ensure dropdowns are not clipped */
-  /* Re-added padding: 1.5rem to ensure it's here if the table itself needs padding */
-  padding: 1.5rem;
-  position: relative; /* Establish stacking context for z-index of children */
+    background-color: var(--card-background);
+    border-radius: 12px;
+    box-shadow: var(--box-shadow);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 1.5rem;
+    position: relative; /* Establish stacking context for children, critical for dropdown */
+    /* REMOVED: overflow property from here, as it can clip dropdowns. */
 }
 
+/* Add a wrapper around the table that can scroll if the table is too wide */
+.tableResponsiveWrapper {
+    overflow-x: auto; /* Allow horizontal scrolling for wide tables */
+    -webkit-overflow-scrolling: touch; /* For smoother scrolling on iOS */
+    padding-bottom: 10px; /* Space for scrollbar */
+    margin-right: -10px; /* Counteract padding-bottom from parent */
+}
 
 .teachersTable {
-  width: 100%;
-  margin-bottom: 0;
-  color: var(--text-primary);
-  border-collapse: separate;
-  border-spacing: 0;
+    width: 100%;
+    margin-bottom: 0;
+    color: var(--text-primary);
+    border-collapse: separate;
+    border-spacing: 0;
+    /* Important: Ensure table itself does not clip content */
+    overflow: visible;
 }
 
 .teachersTable thead th {
-  background-color: var(--table-header-bg);
-  color: #fff;
-  border-bottom: 1px solid var(--border-color);
-  padding: 1rem 1.2rem;
-  font-weight: 600;
-  text-align: left;
-  position: sticky;
-  top: 0;
-  z-index: 2; /* Increased z-index for sticky header */
+    background-color: var(--table-header-bg);
+    color: #fff;
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem 1.2rem;
+    font-weight: 600;
+    text-align: left;
+    position: sticky;
+    top: 0;
+    z-index: 2; /* Increased z-index for sticky header */
 }
 
 .teachersTable tbody tr {
-  transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+    transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
 }
 
 .teachersTable tbody tr:nth-of-type(odd) {
-  background-color: rgba(25, 25, 40, 0.4);
+    background-color: rgba(25, 25, 40, 0.4);
 }
 
 .teachersTable tbody tr:nth-of-type(even) {
-  background-color: rgba(25, 25, 40, 0.2);
+    background-color: rgba(25, 25, 40, 0.2);
 }
 
 .teachersTable tbody tr:hover {
-  background-color: var(--table-row-hover);
-  transform: scale(1.005);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    background-color: var(--table-row-hover);
+    transform: scale(1.005);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 
 .teachersTable td {
-  padding: 1rem 1.2rem;
-  border-top: 1px solid var(--border-color);
-  vertical-align: middle;
+    padding: 1rem 1.2rem;
+    border-top: 1px solid var(--border-color);
+    vertical-align: middle;
 }
 
 .teachersTable .teacherNameDisplay {
-  font-weight: 500;
-  color: #a0c2e3;
+    font-weight: 500;
+    color: #a0c2e3;
 }
 
 .editInput {
-  background-color: var(--input-bg);
-  border: 1px solid var(--input-border);
-  color: var(--text-primary);
-  border-radius: 6px;
-  padding: 0.4rem 0.8rem;
-  font-size: 0.95rem;
-  transition: border-color 0.2s ease;
+    background-color: var(--input-bg);
+    border: 1px solid var(--input-border);
+    color: var(--text-primary);
+    border-radius: 6px;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.95rem;
+    transition: border-color 0.2s ease;
 }
 .editInput:focus {
-  border-color: #0f3460;
-  box-shadow: 0 0 0 0.25rem rgba(15, 52, 96, 0.25);
-  background-color: rgba(40, 40, 60, 0.9);
+    border-color: #0f3460;
+    box-shadow: 0 0 0 0.25rem rgba(15, 52, 96, 0.25);
+    background-color: rgba(40, 40, 60, 0.9);
 }
 
 .actionsColumn {
-  min-width: 180px;
-  /* Add position relative to the table cell if dropdown is inside it and needs to escape */
-  position: relative;
+    min-width: 180px;
+    position: relative; /* CRITICAL: Establishes a positioning context for the dropdown */
+    /* Ensure no clipping here either */
+    overflow: visible;
 }
 
 .saveBtn,
 .cancelBtn {
-  font-weight: 600;
-  border-radius: 6px;
-  transition: all 0.2s ease-in-out;
-  padding: 0.5rem 1rem;
+    font-weight: 600;
+    border-radius: 6px;
+    transition: all 0.2s ease-in-out;
+    padding: 0.5rem 1rem;
 }
 
 .saveBtn {
-  background-color: var(--button-success-bg);
-  border-color: var(--button-success-bg);
+    background-color: var(--button-success-bg);
+    border-color: var(--button-success-bg);
 }
 .saveBtn:hover {
-  background-color: var(--button-success-hover-bg);
-  border-color: var(--button-success-hover-bg);
-  transform: translateY(-1px);
+    background-color: var(--button-success-hover-bg);
+    border-color: var(--button-success-hover-bg);
+    transform: translateY(-1px);
 }
 
 .cancelBtn {
-  background-color: var(--button-secondary-bg);
-  border-color: var(--button-secondary-bg);
+    background-color: var(--button-secondary-bg);
+    border-color: var(--button-secondary-bg);
 }
 .cancelBtn:hover {
-  background-color: var(--button-secondary-hover-bg);
-  border-color: var(--button-secondary-hover-bg);
-  transform: translateY(-1px);
+    background-color: var(--button-secondary-hover-bg);
+    border-color: var(--button-secondary-hover-bg);
+    transform: translateY(-1px);
 }
 
 /* --- Dropdown Actions --- */
 .actionDropdown {
-  /* Ensure the dropdown itself is positioned to contain the menu correctly */
-  position: relative;
-  z-index: 10; /* Important: Give the dropdown a higher z-index than table rows */
+    position: relative; /* Ensure the dropdown itself is positioned */
+    /* This z-index might be overridden by React-Bootstrap's Popper.js,
+       but it's good practice to have it. */
+    z-index: 10;
 }
 
 .actionDropdown .dropdownToggle {
-  background-color: var(--button-info-bg);
-  border-color: var(--button-info-bg);
-  color: white;
-  font-weight: 500;
-  border-radius: 6px;
-  padding: 0.5rem 1rem;
-  transition: background-color 0.2s ease;
+    background-color: var(--button-info-bg);
+    border-color: var(--button-info-bg);
+    color: white;
+    font-weight: 500;
+    border-radius: 6px;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.2s ease, transform 0.1s ease;
 }
 .actionDropdown .dropdownToggle:hover {
-  background-color: var(--button-info-hover-bg);
-  border-color: var(--button-info-hover-bg);
+    background-color: var(--button-info-hover-bg);
+    border-color: var(--button-info-hover-bg);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .actionDropdown .dropdownMenu {
-  background-color: var(--dropdown-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  box-shadow: var(--box-shadow);
-  overflow: hidden;
-  z-index: 1000; /* CRITICAL: Ensure this is higher than anything else on the page */
-  position: absolute; /* Ensures it's positioned relative to the closest positioned ancestor */
+    background-color: var(--dropdown-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: var(--box-shadow);
+    overflow: hidden;
+    /* CRITICAL: This z-index is the most important for the dropdown menu */
+    z-index: 1050; /* Bootstrap's default modal z-index is often 1050-1060, ensure it's higher than table content */
+    position: absolute !important; /* Force absolute positioning if React-Bootstrap's Popper doesn't apply it */
+    transform: translate3d(0, 5px, 0); /* Slight offset and hardware acceleration */
+    animation: fadeInDropdown 0.2s ease-out forwards;
+}
+
+@keyframes fadeInDropdown {
+    from {
+        opacity: 0;
+        transform: translate3d(0, -10px, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
 }
 
 .actionDropdown .dropdownItem {
-  color: var(--text-primary);
-  padding: 0.75rem 1rem;
-  transition: background-color 0.2s ease, color 0.2s ease;
+    color: var(--text-primary);
+    padding: 0.75rem 1rem;
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .actionDropdown .dropdownItem:hover,
 .actionDropdown .dropdownItem:active {
-  background-color: var(--dropdown-item-hover-bg);
-  color: #fff;
+    background-color: var(--dropdown-item-hover-bg);
+    color: #fff;
+    text-shadow: var(--text-shadow-light);
 }
 
 /* --- Mobile Card View (same as before) --- */
 .mobileCardsContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 }
 
 .teacherCard {
-  background-color: var(--card-background);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  box-shadow: var(--box-shadow);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  transition: all 0.3s ease-in-out;
+    background-color: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: var(--box-shadow);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: all 0.3s ease-in-out;
 }
 
 .teacherCard:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
 }
 
 .teacherCardTitle {
-  color: #a0c2e3;
-  font-weight: 600;
-  font-size: 1.3rem;
-  margin-bottom: 0.5rem;
+    color: #a0c2e3;
+    font-weight: 600;
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
 }
 
 .teacherInfo {
-  font-size: 0.95rem;
-  margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
 }
 
 .infoLabel {
-  color: var(--text-secondary);
-  font-weight: 500;
+    color: var(--text-secondary);
+    font-weight: 500;
 }
 
 .buttonGroupMobile {
-  display: flex;
-  gap: 0.75rem;
-  margin-top: 1rem;
-  justify-content: flex-end;
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    justify-content: flex-end;
 }
 
-/* --- Responsive Adjustments (same as before, minor z-index update for mobile toggle) --- */
+/* --- Responsive Adjustments --- */
 @media (max-width: 991.98px) {
-  .dashboardWrapper {
-    flex-direction: column;
-  }
+    .dashboardWrapper {
+        flex-direction: column;
+    }
 
-  .adminSidebar {
-    width: 100%;
-    margin-bottom: 2rem;
-  }
+    .adminSidebar {
+        width: 100%;
+        margin-bottom: 2rem;
+    }
 
-  .mainContentArea {
-    padding: 1rem;
-  }
+    .mainContentArea {
+        padding: 1rem;
+    }
 
-  .sectionTitle {
-    font-size: 1.8rem;
-    margin-bottom: 2rem;
-    justify-content: center;
-  }
+    .sectionTitle {
+        font-size: 1.8rem;
+        margin-bottom: 2rem;
+        justify-content: center;
+    }
 
-  .iconLg {
-    font-size: 2rem;
-  }
+    .iconLg {
+        font-size: 2rem;
+    }
 
-  .actionPanel .d-flex {
-    flex-direction: column;
-    align-items: stretch !important;
-  }
+    .actionPanel .d-flex {
+        flex-direction: column;
+        align-items: stretch !important;
+    }
 
-  .addTeacherBtn,
-  .uploadInputGroup {
-    width: 100%;
-  }
+    .addTeacherBtn,
+    .uploadInputGroup {
+        width: 100%;
+    }
 
-  .uploadInputGroup {
-    margin-top: 1rem;
-  }
+    .uploadInputGroup {
+        margin-top: 1rem;
+    }
 
-  .uploadInputGroup .formControl {
-    border-radius: 8px;
-  }
+    .uploadInputGroup .formControl {
+        border-radius: 8px;
+    }
 
-  .uploadBtn {
-    width: 100%;
-    margin-top: 0.5rem;
-    border-radius: 8px;
-  }
+    .uploadBtn {
+        width: 100%;
+        margin-top: 0.5rem;
+        border-radius: 8px;
+    }
 
-  .textMuted {
-    text-align: center !important;
-  }
+    .textMuted {
+        text-align: center !important;
+    }
 
-  .dataTableContainer {
-    display: none;
-  }
+    .dataTableContainer {
+        display: none;
+    }
 
-  .mobileCardsContainer {
-    display: flex;
-  }
+    .mobileCardsContainer {
+        display: flex;
+    }
 
-  .teachersTable .actionsColumn {
-    min-width: unset;
-  }
+    .teachersTable .actionsColumn {
+        min-width: unset;
+    }
 
-  .teacherCard .actionDropdown .dropdownToggle {
-    padding: 0.5rem 0.75rem;
-    z-index: 10; /* Ensure mobile dropdown toggle has higher z-index */
-  }
+    .teacherCard .actionDropdown .dropdownToggle {
+        padding: 0.5rem 0.75rem;
+        /* z-index on toggle itself doesn't affect menu visibility */
+    }
+    .teacherCard .actionDropdown .dropdownMenu {
+        z-index: 1050; /* Still ensure high z-index for mobile dropdowns */
+        position: absolute !important;
+    }
 }
 
 @media (min-width: 768px) and (max-width: 991.98px) {
-  .mainContentArea {
-    padding: 1.5rem;
-  }
+    .mainContentArea {
+        padding: 1.5rem;
+    }
 
-  .sectionTitle {
-    font-size: 2rem;
-  }
+    .sectionTitle {
+        font-size: 2rem;
+    }
 
-  .actionPanel .d-flex {
-    flex-direction: row;
-    justify-content: space-between;
-  }
+    .actionPanel .d-flex {
+        flex-direction: row;
+        justify-content: space-between;
+    }
 
-  .addTeacherBtn,
-  .uploadInputGroup {
-    width: auto;
-  }
+    .addTeacherBtn,
+    .uploadInputGroup {
+        width: auto;
+    }
 
-  .uploadInputGroup {
-    margin-top: 0;
-  }
+    .uploadInputGroup {
+        margin-top: 0;
+    }
 }
 
 /* Ensure React Bootstrap components inherit styles */
@@ -442,7 +477,7 @@
 .card,
 .table,
 .dropdown-menu {
-  color: inherit;
-  background-color: inherit;
-  border-color: inherit;
+    color: inherit;
+    background-color: inherit;
+    border-color: inherit;
 }
