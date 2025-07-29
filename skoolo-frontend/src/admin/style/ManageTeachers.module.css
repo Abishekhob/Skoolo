@@ -1,7 +1,7 @@
-/* Variables for Dark Theme */
+/* Variables for Dark Theme (same as before) */
 :root {
   --background-dark: #1a1a2e;
-  --card-background: rgba(25, 25, 40, 0.8); /* Slightly transparent dark */
+  --card-background: rgba(25, 25, 40, 0.8);
   --text-primary: #e0e0e0;
   --text-secondary: #a0a0a0;
   --border-color: rgba(60, 60, 80, 0.5);
@@ -20,31 +20,30 @@
   --input-border: rgba(80, 80, 100, 0.5);
   --dropdown-bg: #16213e;
   --dropdown-item-hover-bg: #0f3460;
-  --box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); /* Glassmorphism shadow */
+  --box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
 
-/* Base Styles */
+/* Base Styles (same as before) */
 .dashboardWrapper {
   display: flex;
   min-height: 100vh;
   background-color: var(--background-dark);
   color: var(--text-primary);
-  font-family: 'Inter', sans-serif; /* Modern sans-serif font */
+  font-family: 'Inter', sans-serif;
 }
 
 .adminSidebar {
-  /* Assuming AdminSidebar has its own styling for width and position */
   flex-shrink: 0;
 }
 
 .mainContentArea {
   flex-grow: 1;
   padding: 2rem;
-  overflow-x: hidden; /* Prevent horizontal scroll from tables/cards */
+  /* Removed overflow-x: hidden; from here */
 }
 
 .sectionTitle {
-  color: #e94560; /* Accent color */
+  color: #e94560;
   font-weight: 700;
   margin-bottom: 2.5rem;
   display: flex;
@@ -59,7 +58,7 @@
   color: var(--text-primary);
 }
 
-/* --- Action Panel & Cards --- */
+/* --- Action Panel & Cards --- (same as before) */
 .actionPanel {
   margin-bottom: 3rem;
 }
@@ -69,7 +68,7 @@
   border: 1px solid var(--border-color);
   border-radius: 12px;
   box-shadow: var(--box-shadow);
-  backdrop-filter: blur(8px); /* Glassmorphism effect */
+  backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   padding: 1.5rem;
   transition: all 0.3s ease-in-out;
@@ -148,16 +147,19 @@
   box-shadow: var(--box-shadow);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  overflow-x: auto; /* Ensure table is responsive */
+  overflow: visible; /* CRITICAL: Ensure dropdowns are not clipped */
+  /* Re-added padding: 1.5rem to ensure it's here if the table itself needs padding */
   padding: 1.5rem;
+  position: relative; /* Establish stacking context for z-index of children */
 }
+
 
 .teachersTable {
   width: 100%;
   margin-bottom: 0;
   color: var(--text-primary);
-  border-collapse: separate; /* Allows border-radius on cells */
-  border-spacing: 0; /* Remove default spacing */
+  border-collapse: separate;
+  border-spacing: 0;
 }
 
 .teachersTable thead th {
@@ -169,7 +171,7 @@
   text-align: left;
   position: sticky;
   top: 0;
-  z-index: 1;
+  z-index: 2; /* Increased z-index for sticky header */
 }
 
 .teachersTable tbody tr {
@@ -198,7 +200,7 @@
 
 .teachersTable .teacherNameDisplay {
   font-weight: 500;
-  color: #a0c2e3; /* A soft blue for names */
+  color: #a0c2e3;
 }
 
 .editInput {
@@ -217,7 +219,9 @@
 }
 
 .actionsColumn {
-  min-width: 180px; /* Ensure enough space for buttons */
+  min-width: 180px;
+  /* Add position relative to the table cell if dropdown is inside it and needs to escape */
+  position: relative;
 }
 
 .saveBtn,
@@ -249,6 +253,12 @@
 }
 
 /* --- Dropdown Actions --- */
+.actionDropdown {
+  /* Ensure the dropdown itself is positioned to contain the menu correctly */
+  position: relative;
+  z-index: 10; /* Important: Give the dropdown a higher z-index than table rows */
+}
+
 .actionDropdown .dropdownToggle {
   background-color: var(--button-info-bg);
   border-color: var(--button-info-bg);
@@ -268,7 +278,9 @@
   border: 1px solid var(--border-color);
   border-radius: 8px;
   box-shadow: var(--box-shadow);
-  overflow: hidden; /* Ensures rounded corners on items */
+  overflow: hidden;
+  z-index: 1000; /* CRITICAL: Ensure this is higher than anything else on the page */
+  position: absolute; /* Ensures it's positioned relative to the closest positioned ancestor */
 }
 
 .actionDropdown .dropdownItem {
@@ -283,7 +295,7 @@
   color: #fff;
 }
 
-/* --- Mobile Card View --- */
+/* --- Mobile Card View (same as before) --- */
 .mobileCardsContainer {
   display: flex;
   flex-direction: column;
@@ -306,7 +318,7 @@
 }
 
 .teacherCardTitle {
-  color: #a0c2e3; /* Soft blue for names */
+  color: #a0c2e3;
   font-weight: 600;
   font-size: 1.3rem;
   margin-bottom: 0.5rem;
@@ -326,28 +338,28 @@
   display: flex;
   gap: 0.75rem;
   margin-top: 1rem;
-  justify-content: flex-end; /* Align buttons to the right */
+  justify-content: flex-end;
 }
 
-/* --- Responsive Adjustments --- */
+/* --- Responsive Adjustments (same as before, minor z-index update for mobile toggle) --- */
 @media (max-width: 991.98px) {
   .dashboardWrapper {
-    flex-direction: column; /* Stack sidebar and content on small screens */
+    flex-direction: column;
   }
 
   .adminSidebar {
-    width: 100%; /* Sidebar takes full width */
+    width: 100%;
     margin-bottom: 2rem;
   }
 
   .mainContentArea {
-    padding: 1rem; /* Reduced padding for smaller screens */
+    padding: 1rem;
   }
 
   .sectionTitle {
     font-size: 1.8rem;
     margin-bottom: 2rem;
-    justify-content: center; /* Center align title on mobile */
+    justify-content: center;
   }
 
   .iconLg {
@@ -356,7 +368,7 @@
 
   .actionPanel .d-flex {
     flex-direction: column;
-    align-items: stretch !important; /* Stretch buttons to full width */
+    align-items: stretch !important;
   }
 
   .addTeacherBtn,
@@ -369,13 +381,13 @@
   }
 
   .uploadInputGroup .formControl {
-    border-radius: 8px; /* Full border-radius on mobile */
+    border-radius: 8px;
   }
 
   .uploadBtn {
     width: 100%;
     margin-top: 0.5rem;
-    border-radius: 8px; /* Apply to upload button as well */
+    border-radius: 8px;
   }
 
   .textMuted {
@@ -383,20 +395,20 @@
   }
 
   .dataTableContainer {
-    display: none; /* Hide table on small screens */
+    display: none;
   }
 
   .mobileCardsContainer {
-    display: flex; /* Show cards on small screens */
+    display: flex;
   }
 
   .teachersTable .actionsColumn {
-    min-width: unset; /* Remove min-width on mobile table, though hidden */
+    min-width: unset;
   }
 
   .teacherCard .actionDropdown .dropdownToggle {
-    /* Only show ellipsis icon for mobile dropdown */
     padding: 0.5rem 0.75rem;
+    z-index: 10; /* Ensure mobile dropdown toggle has higher z-index */
   }
 }
 
@@ -410,7 +422,7 @@
   }
 
   .actionPanel .d-flex {
-    flex-direction: row; /* Keep row for tablets if desired */
+    flex-direction: row;
     justify-content: space-between;
   }
 

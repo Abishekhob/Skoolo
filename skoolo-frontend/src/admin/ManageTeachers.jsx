@@ -1,15 +1,200 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, memo } from 'react'; // Import memo
 import {
   Container, Table, Button, Form, Row, Col, Dropdown, Card, InputGroup
 } from 'react-bootstrap';
 import { FaEdit, FaSave, FaTimes, FaPlus, FaUpload, FaUserPlus, FaInfoCircle, FaUsersCog, FaEllipsisV } from 'react-icons/fa';
-import API from '../services/api'; // Assuming this is your API service
-import AssignTeacherModal from './AssignTeacherModal'; // Assuming this is already styled well
-import AdminSidebar from './AdminSidebar'; // Assuming this is already styled well
-import AddTeacherModal from './AddTeacherModal'; // Assuming this is already styled well
+import API from '../services/api';
+import AssignTeacherModal from './AssignTeacherModal';
+import AdminSidebar from './AdminSidebar';
+import AddTeacherModal from './AddTeacherModal';
 
-// Import the CSS module
 import styles from './style/ManageTeachers.module.css';
+
+// Memoize the TeacherRow component to prevent unnecessary re-renders of individual rows
+const TeacherRow = memo(({ teacher, i, isEditing, editedTeacher, handleInputChange, handleEditClick, handleSaveClick, handleCancelClick, openAssignModal }) => {
+  return (
+    <tr key={teacher.id}>
+      <td>{i + 1}</td>
+      <td>
+        {isEditing ? (
+          <>
+            <Form.Control
+              type="text"
+              placeholder="First Name"
+              value={editedTeacher.firstName}
+              onChange={(e) => handleInputChange("firstName", e.target.value)}
+              className={`${styles.editInput} mb-1`}
+            />
+            <Form.Control
+              type="text"
+              placeholder="Last Name"
+              value={editedTeacher.lastName}
+              onChange={(e) => handleInputChange("lastName", e.target.value)}
+              className={styles.editInput}
+            />
+          </>
+        ) : (
+          <span className={styles.teacherNameDisplay}>{teacher.fullName}</span>
+        )}
+      </td>
+      <td>
+        {isEditing ? (
+          <Form.Control
+            type="email"
+            value={editedTeacher.email}
+            onChange={(e) => handleInputChange("email", e.target.value)}
+            className={styles.editInput}
+          />
+        ) : (
+          teacher.email
+        )}
+      </td>
+      <td>
+        {isEditing ? (
+          <Form.Control
+            type="text"
+            value={editedTeacher.contactNumber}
+            onChange={(e) => handleInputChange("contactNumber", e.target.value)}
+            className={styles.editInput}
+          />
+        ) : (
+          teacher.contactNumber
+        )}
+      </td>
+      <td className={styles.actionsColumn}>
+        {isEditing ? (
+          <div className="d-flex flex-column flex-sm-row">
+            <Button
+              size="sm"
+              variant="success"
+              onClick={() => handleSaveClick(teacher.id)}
+              className={`${styles.saveBtn} me-2 mb-2 mb-sm-0`}
+            >
+              <FaSave /> Save
+            </Button>
+            <Button
+              size="sm"
+              variant="secondary"
+              onClick={handleCancelClick}
+              className={styles.cancelBtn}
+            >
+              <FaTimes /> Cancel
+            </Button>
+          </div>
+        ) : (
+          <Dropdown className={styles.actionDropdown}>
+            <Dropdown.Toggle variant="info" id={`dropdown-actions-${teacher.id}`} size="sm" className={styles.dropdownToggle}>
+              Actions
+            </Dropdown.Toggle>
+            <Dropdown.Menu variant="dark" className={styles.dropdownMenu}>
+              <Dropdown.Item onClick={() => openAssignModal(teacher)} className={styles.dropdownItem}>
+                <FaUsersCog className="me-2" /> Assign Subjects/Class
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => handleEditClick(teacher)} className={styles.dropdownItem}>
+                <FaEdit className="me-2" /> Edit Details
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        )}
+      </td>
+    </tr>
+  );
+});
+
+// Memoize the TeacherCard component for mobile view
+const TeacherCard = memo(({ teacher, i, isEditing, editedTeacher, handleInputChange, handleEditClick, handleSaveClick, handleCancelClick, openAssignModal }) => {
+  return (
+    <Card key={teacher.id} className={`${styles.teacherCard} mb-3`}>
+      <Card.Body>
+        <div className="d-flex justify-content-between align-items-start mb-2">
+          <Card.Title className={styles.teacherCardTitle}>
+            {isEditing ? (
+              <>
+                <Form.Control
+                  type="text"
+                  placeholder="First Name"
+                  value={editedTeacher.firstName}
+                  onChange={(e) => handleInputChange("firstName", e.target.value)}
+                  className={`${styles.editInput} mb-1`}
+                />
+                <Form.Control
+                  type="text"
+                  placeholder="Last Name"
+                  value={editedTeacher.lastName}
+                  onChange={(e) => handleInputChange("lastName", e.target.value)}
+                  className={styles.editInput}
+                />
+              </>
+            ) : (
+              teacher.fullName
+            )}
+          </Card.Title>
+          <Dropdown className={styles.actionDropdown}>
+            <Dropdown.Toggle variant="info" id={`dropdown-actions-mobile-${teacher.id}`} size="sm" className={styles.dropdownToggle}>
+              <FaEllipsisV />
+            </Dropdown.Toggle>
+            <Dropdown.Menu variant="dark" align="end" className={styles.dropdownMenu}>
+              <Dropdown.Item onClick={() => openAssignModal(teacher)} className={styles.dropdownItem}>
+                <FaUsersCog className="me-2" /> Assign Subjects/Class
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => handleEditClick(teacher)} className={styles.dropdownItem}>
+                <FaEdit className="me-2" /> Edit Details
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </div>
+
+        <Card.Text className={styles.teacherInfo}>
+          <strong className={styles.infoLabel}>Email:</strong>{' '}
+          {isEditing ? (
+            <Form.Control
+              type="email"
+              value={editedTeacher.email}
+              onChange={(e) => handleInputChange("email", e.target.value)}
+              className={styles.editInput}
+            />
+          ) : (
+            teacher.email
+          )}
+        </Card.Text>
+        <Card.Text className={styles.teacherInfo}>
+          <strong className={styles.infoLabel}>Contact:</strong>{' '}
+          {isEditing ? (
+            <Form.Control
+              type="text"
+              value={editedTeacher.contactNumber}
+              onChange={(e) => handleInputChange("contactNumber", e.target.value)}
+              className={styles.editInput}
+            />
+          ) : (
+            teacher.contactNumber
+          )}
+        </Card.Text>
+
+        {isEditing && (
+          <div className={styles.buttonGroupMobile}>
+            <Button
+              size="sm"
+              variant="success"
+              onClick={() => handleSaveClick(teacher.id)}
+              className={styles.saveBtn}
+            >
+              <FaSave /> Save
+            </Button>
+            <Button
+              size="sm"
+              variant="secondary"
+              onClick={handleCancelClick}
+              className={styles.cancelBtn}
+            >
+              <FaTimes /> Cancel
+            </Button>
+          </div>
+        )}
+      </Card.Body>
+    </Card>
+  );
+});
 
 const ManageTeachers = () => {
   const [teachers, setTeachers] = useState([]);
@@ -32,7 +217,6 @@ const ManageTeachers = () => {
   });
   const [uploadFileData, setUploadFileData] = useState(null);
 
-  // Load all data on mount
   useEffect(() => {
     fetchTeachers();
     API.get('/classes').then(res => setClasses(res.data)).catch(console.error);
@@ -87,7 +271,7 @@ const ManageTeachers = () => {
         (subj) => subj.name === subjName || subj.subjectName === subjName
       );
       return found?.id;
-    }).filter(Boolean); // removes undefined values
+    }).filter(Boolean);
 
     API.put(`/admin/assign-subjects/${selectedTeacher.id}`, selectedIds)
       .then(() => alert("Subjects assigned successfully!"))
@@ -130,7 +314,6 @@ const ManageTeachers = () => {
   };
 
   const addTeacher = () => {
-    console.log("Sending new teacher data:", newTeacher);
     API.post('/admin/teachers/add-teacher', newTeacher, {
       headers: { 'Content-Type': 'application/json' },
     })
@@ -138,7 +321,7 @@ const ManageTeachers = () => {
         alert("Teacher added successfully!");
         setShowAddModal(false);
         setNewTeacher({ firstName: '', lastName: '', email: '', contactNumber: '' });
-        fetchTeachers(); // Refresh teacher list
+        fetchTeachers();
       })
       .catch(err => {
         const errorMsg = err.response?.data || err.message || "Error adding teacher";
@@ -160,7 +343,7 @@ const ManageTeachers = () => {
       .then(() => {
         alert("Teachers uploaded successfully!");
         setUploadFileData(null);
-        fetchTeachers(); // Refresh teacher list
+        fetchTeachers();
       })
       .catch(err => {
         const errorMsg = err.response?.data || err.message || "Upload failed";
@@ -187,16 +370,24 @@ const ManageTeachers = () => {
       contactNumber: editedTeacher.contactNumber,
     };
 
+    // Optimistically update the UI before API call to reduce perceived latency
+    setTeachers(prevTeachers =>
+      prevTeachers.map(t => (t.id === id ? { ...t, ...updatedData, fullName: `${updatedData.firstName} ${updatedData.lastName}`.trim() } : t))
+    );
+    setEditRowId(null);
+    setEditedTeacher({});
+
+
     API.put(`/admin/teachers/${id}`, updatedData)
       .then(() => {
+        // No need to fetchTeachers() again if optimistically updated
         alert("Teacher updated successfully!");
-        setEditRowId(null);
-        setEditedTeacher({});
-        fetchTeachers(); // Refresh teacher list
       })
       .catch(err => {
         alert("Error updating teacher");
         console.error(err);
+        // Revert UI on error if optimistic update was done
+        fetchTeachers(); // Re-fetch to ensure data consistency
       });
   };
 
@@ -250,7 +441,8 @@ const ManageTeachers = () => {
           </div>
 
           {/* Desktop Table View */}
-          <div className={`${styles.dataTableContainer} d-none d-lg-block`}>
+          {/* Added position: relative to dataTableContainer to establish a stacking context for dropdowns */}
+          <div className={`${styles.dataTableContainer} d-none d-lg-block position-relative`}>
             <Table striped bordered hover responsive className={styles.teachersTable}>
               <thead>
                 <tr>
@@ -262,196 +454,40 @@ const ManageTeachers = () => {
                 </tr>
               </thead>
               <tbody>
-                {teachers.map((teacher, i) => {
-                  const isEditing = editRowId === teacher.id;
-                  return (
-                    <tr key={teacher.id}>
-                      <td>{i + 1}</td>
-                      <td>
-                        {isEditing ? (
-                          <>
-                            <Form.Control
-                              type="text"
-                              placeholder="First Name"
-                              value={editedTeacher.firstName}
-                              onChange={(e) => handleInputChange("firstName", e.target.value)}
-                              className={`${styles.editInput} mb-1`}
-                            />
-                            <Form.Control
-                              type="text"
-                              placeholder="Last Name"
-                              value={editedTeacher.lastName}
-                              onChange={(e) => handleInputChange("lastName", e.target.value)}
-                              className={styles.editInput}
-                            />
-                          </>
-                        ) : (
-                          <span className={styles.teacherNameDisplay}>{teacher.fullName}</span>
-                        )}
-                      </td>
-                      <td>
-                        {isEditing ? (
-                          <Form.Control
-                            type="email"
-                            value={editedTeacher.email}
-                            onChange={(e) => handleInputChange("email", e.target.value)}
-                            className={styles.editInput}
-                          />
-                        ) : (
-                          teacher.email
-                        )}
-                      </td>
-                      <td>
-                        {isEditing ? (
-                          <Form.Control
-                            type="text"
-                            value={editedTeacher.contactNumber}
-                            onChange={(e) => handleInputChange("contactNumber", e.target.value)}
-                            className={styles.editInput}
-                          />
-                        ) : (
-                          teacher.contactNumber
-                        )}
-                      </td>
-                      <td className={styles.actionsColumn}>
-                        {isEditing ? (
-                          <div className="d-flex flex-column flex-sm-row">
-                            <Button
-                              size="sm"
-                              variant="success"
-                              onClick={() => handleSaveClick(teacher.id)}
-                              className={`${styles.saveBtn} me-2 mb-2 mb-sm-0`}
-                            >
-                              <FaSave /> Save
-                            </Button>
-                            <Button
-                              size="sm"
-                              variant="secondary"
-                              onClick={handleCancelClick}
-                              className={styles.cancelBtn}
-                            >
-                              <FaTimes /> Cancel
-                            </Button>
-                          </div>
-                        ) : (
-                          <Dropdown className={styles.actionDropdown}>
-                            <Dropdown.Toggle variant="info" id={`dropdown-actions-${teacher.id}`} size="sm" className={styles.dropdownToggle}>
-                              Actions
-                            </Dropdown.Toggle>
-                            <Dropdown.Menu variant="dark" className={styles.dropdownMenu}>
-                              <Dropdown.Item onClick={() => openAssignModal(teacher)} className={styles.dropdownItem}>
-                                <FaUsersCog className="me-2" /> Assign Subjects/Class
-                              </Dropdown.Item>
-                              <Dropdown.Item onClick={() => handleEditClick(teacher)} className={styles.dropdownItem}>
-                                <FaEdit className="me-2" /> Edit Details
-                              </Dropdown.Item>
-                            </Dropdown.Menu>
-                          </Dropdown>
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })}
+                {teachers.map((teacher, i) => (
+                  <TeacherRow
+                    key={teacher.id}
+                    teacher={teacher}
+                    i={i}
+                    isEditing={editRowId === teacher.id}
+                    editedTeacher={editedTeacher}
+                    handleInputChange={handleInputChange}
+                    handleEditClick={handleEditClick}
+                    handleSaveClick={handleSaveClick}
+                    handleCancelClick={handleCancelClick}
+                    openAssignModal={openAssignModal}
+                  />
+                ))}
               </tbody>
             </Table>
           </div>
 
           {/* Mobile Card View */}
           <div className={`${styles.mobileCardsContainer} d-lg-none`}>
-            {teachers.map((teacher, i) => {
-              const isEditing = editRowId === teacher.id;
-              return (
-                <Card key={teacher.id} className={`${styles.teacherCard} mb-3`}>
-                  <Card.Body>
-                    <div className="d-flex justify-content-between align-items-start mb-2">
-                      <Card.Title className={styles.teacherCardTitle}>
-                        {isEditing ? (
-                          <>
-                            <Form.Control
-                              type="text"
-                              placeholder="First Name"
-                              value={editedTeacher.firstName}
-                              onChange={(e) => handleInputChange("firstName", e.target.value)}
-                              className={`${styles.editInput} mb-1`}
-                            />
-                            <Form.Control
-                              type="text"
-                              placeholder="Last Name"
-                              value={editedTeacher.lastName}
-                              onChange={(e) => handleInputChange("lastName", e.target.value)}
-                              className={styles.editInput}
-                            />
-                          </>
-                        ) : (
-                          teacher.fullName
-                        )}
-                      </Card.Title>
-                      <Dropdown className={styles.actionDropdown}>
-                        <Dropdown.Toggle variant="info" id={`dropdown-actions-mobile-${teacher.id}`} size="sm" className={styles.dropdownToggle}>
-                          <FaEllipsisV />
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu variant="dark" align="end" className={styles.dropdownMenu}>
-                          <Dropdown.Item onClick={() => openAssignModal(teacher)} className={styles.dropdownItem}>
-                            <FaUsersCog className="me-2" /> Assign Subjects/Class
-                          </Dropdown.Item>
-                          <Dropdown.Item onClick={() => handleEditClick(teacher)} className={styles.dropdownItem}>
-                            <FaEdit className="me-2" /> Edit Details
-                          </Dropdown.Item>
-                        </Dropdown.Menu>
-                      </Dropdown>
-                    </div>
-
-                    <Card.Text className={styles.teacherInfo}>
-                      <strong className={styles.infoLabel}>Email:</strong>{' '}
-                      {isEditing ? (
-                        <Form.Control
-                          type="email"
-                          value={editedTeacher.email}
-                          onChange={(e) => handleInputChange("email", e.target.value)}
-                          className={styles.editInput}
-                        />
-                      ) : (
-                        teacher.email
-                      )}
-                    </Card.Text>
-                    <Card.Text className={styles.teacherInfo}>
-                      <strong className={styles.infoLabel}>Contact:</strong>{' '}
-                      {isEditing ? (
-                        <Form.Control
-                          type="text"
-                          value={editedTeacher.contactNumber}
-                          onChange={(e) => handleInputChange("contactNumber", e.target.value)}
-                          className={styles.editInput}
-                        />
-                      ) : (
-                        teacher.contactNumber
-                      )}
-                    </Card.Text>
-
-                    {isEditing && (
-                      <div className={styles.buttonGroupMobile}>
-                        <Button
-                          size="sm"
-                          variant="success"
-                          onClick={() => handleSaveClick(teacher.id)}
-                          className={styles.saveBtn}
-                        >
-                          <FaSave /> Save
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="secondary"
-                          onClick={handleCancelClick}
-                          className={styles.cancelBtn}
-                        >
-                          <FaTimes /> Cancel
-                        </Button>
-                      </div>
-                    )}
-                  </Card.Body>
-                </Card>
-              );
-            })}
+            {teachers.map((teacher, i) => (
+              <TeacherCard
+                key={teacher.id}
+                teacher={teacher}
+                i={i}
+                isEditing={editRowId === teacher.id}
+                editedTeacher={editedTeacher}
+                handleInputChange={handleInputChange}
+                handleEditClick={handleEditClick}
+                handleSaveClick={handleSaveClick}
+                handleCancelClick={handleCancelClick}
+                openAssignModal={openAssignModal}
+              />
+            ))}
           </div>
 
           <AssignTeacherModal
