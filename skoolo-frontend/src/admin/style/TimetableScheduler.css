@@ -1,105 +1,119 @@
+/* Base styles for dark theme */
+body.dark-theme {
+  --background-color: #1a1a2e; /* Dark blue/purple */
+  --card-background: #16213e; /* Slightly lighter dark blue */
+  --text-color: #e0e0e0; /* Light gray */
+  --primary-color: #0f3460; /* Deep blue for primary elements */
+  --secondary-color: #533483; /* Purple for accents */
+  --border-color: rgba(255, 255, 255, 0.1); /* Subtle white border */
+  --input-background: #0d131f; /* Even darker for inputs */
+  --input-border: rgba(255, 255, 255, 0.2);
+  --hover-color: #1f4068; /* Darker blue on hover */
+  --table-header-bg: #0f3460;
+  --table-row-hover: #1f4068;
+  --placeholder-color: #a0a0a0;
+  --empty-state-bg: #16213e;
+  --empty-state-border: #0f3460;
+}
+
+.timetable-scheduler-container {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  min-height: 100vh; /* Ensure it takes full height */
+  padding-bottom: 50px; /* Add some padding at the bottom */
+}
+
+/* Admin Layout and Sidebar - Assuming AdminSidebar styles complement this */
 .admin-layout {
-  height: 100vh;
-  display: flex;
-  flex-direction: row;
-  /* overflow: hidden;  ❌ REMOVED THIS LINE */
+  min-height: 100vh;
 }
 
 .main-content-area {
-  background-color: #0d1117; /* GitHub Dark BG */
-  color: #c9d1d9; /* Light gray for text */
-  padding: 2.5rem !important; /* Increased padding for main content */
-  flex-grow: 1; /* Allow it to take up remaining horizontal space */
-  /* --- IMPORTANT SCROLL FIX --- */
-  height: 100vh; /* Ensure it takes full viewport height */
-  overflow-y: auto; /* Enable vertical scrolling */
-  /* --- END SCROLL FIX --- */
-  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  background-color: var(--background-color);
+  padding: 2rem;
+  overflow-y: auto; /* Enable scrolling for content */
+  height: 100vh; /* Make sure it takes full height to enable scrolling */
 }
 
 /* Section Title */
 .section-title {
-  color: #e6edf3; /* Slightly brighter white for titles */
+  color: #e94560; /* Vibrant red for titles */
   font-weight: 700;
-  font-size: 2.2rem; /* Larger title */
-  margin-bottom: 2.5rem; /* More space below title */
   display: flex;
   align-items: center;
-  border-bottom: 1px solid #30363d; /* Subtle separator */
+  gap: 0.5rem;
   padding-bottom: 1rem;
-  flex-shrink: 0; /* Prevents title from shrinking */
+  border-bottom: 1px solid var(--border-color);
+  letter-spacing: 0.05em;
+  font-size: 2rem; /* Larger font size */
+  text-shadow: 0 0 10px rgba(233, 69, 96, 0.3); /* Subtle glow */
 }
 
 .section-title .icon-lg {
-  font-size: 2.5rem; /* Large icon for title */
-  color: #58a6ff; /* GitHub blue for icons */
+  font-size: 1.8em;
+  color: #e94560; /* Match title color */
 }
 
-/* Selection Card (Class/Section Dropdowns) */
+/* Card Styling for Selectors */
 .selection-card {
-  background-color: #161b22; /* Darker card background */
-  border: 1px solid #30363d; /* Subtle border */
-  border-radius: 12px; /* Rounded corners */
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Soft shadow */
+  background-color: var(--card-background);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); /* Deeper shadow */
+  backdrop-filter: blur(5px); /* Glassmorphism effect */
+  -webkit-backdrop-filter: blur(5px);
   padding: 1.5rem;
-  flex-shrink: 0; /* Prevents card from shrinking */
 }
 
+.selection-card .card-body {
+  padding: 0; /* Adjust padding within card body */
+}
+
+/* Form Group and Labels */
 .form-label-custom {
-  color: #c9d1d9;
+  color: var(--text-color);
   font-weight: 600;
-  margin-bottom: 0.75rem; /* Space below label */
-  display: block; /* Ensure label takes full width */
+  margin-bottom: 0.75rem;
+  display: block;
+  font-size: 0.95rem;
 }
 
+/* Custom Select Dropdowns */
 .form-select-custom {
-  background-color: #21262d; /* Slightly lighter input background */
-  border: 1px solid #30363d;
-  color: #e6edf3;
-  border-radius: 8px; /* Rounded corners */
-  padding: 0.75rem 1rem;
+  background-color: var(--input-background);
+  color: var(--text-color);
+  border: 1px solid var(--input-border);
+  border-radius: 8px;
+  padding: 0.75rem 1.25rem;
+  font-size: 1rem;
   appearance: none; /* Remove default arrow */
   -webkit-appearance: none;
   -moz-appearance: none;
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%238b949e' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23e0e0e0' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e"); /* Custom arrow */
   background-repeat: no-repeat;
-  background-position: right 0.75rem center;
-  background-size: 16px 12px;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  background-position: right 1rem center;
+  background-size: 0.65em auto;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2); /* Inner shadow for depth */
 }
+
 .form-select-custom:focus {
-  border-color: #58a6ff;
-  box-shadow: 0 0 0 0.2rem rgba(88, 166, 255, 0.25);
-  background-color: #161b22; /* Darker on focus */
-  outline: 0;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.25rem rgba(15, 52, 96, 0.5); /* Focus glow */
+  outline: none;
+  background-color: var(--input-background); /* Keep background consistent */
 }
+
+.form-select-custom option {
+  background-color: var(--card-background); /* Background for options */
+  color: var(--text-color);
+}
+
 .form-select-custom:disabled {
-  background-color: #161b22;
+  background-color: var(--input-background);
+  color: var(--placeholder-color);
   opacity: 0.7;
   cursor: not-allowed;
-}
-
-/* Option styling within select (for better dark theme contrast) */
-.form-select-custom option {
-  background-color: #161b22; /* Dark background for options */
-  color: #e6edf3; /* Light text for options */
-}
-.form-select-custom option:checked {
-  background-color: #58a6ff; /* Highlight selected option */
-  color: white;
-}
-
-/* Timetable Container */
-.timetable-container {
-  background-color: #161b22; /* Matches selection card background */
-  border-radius: 12px;
-  overflow: hidden; /* Ensures rounded corners */
-  border: 1px solid #30363d;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  margin-top: 2rem; /* Space below selection card */
-  /* If the timetable itself needs internal scrolling due to large number of periods/days */
-  overflow-x: auto; /* Enable horizontal scrolling for wide tables */
-  flex-grow: 1; /* Allow timetable to fill remaining space */
 }
 
 /* Loading State */
@@ -108,115 +122,183 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 200px; /* Ensure spinner has enough space */
-  flex-grow: 1; /* Allow spinner container to fill space */
+  min-height: 200px; /* Ensure visibility */
+  background: var(--card-background);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
 .loading-spinner {
   width: 3rem;
   height: 3rem;
-  color: #58a6ff; /* Bootstrap primary color for spinner */
+  border-width: 0.3em;
+  color: #e94560; /* Use accent color for spinner */
 }
 
 .loading-text {
-  color: #8b949e;
   font-size: 1.1rem;
-  margin-top: 1.5rem;
+  color: var(--text-color);
+  margin-top: 1rem;
 }
 
 /* Empty State Message */
 .empty-state-message {
-  background-color: #161b22;
-  border: 1px solid #30363d;
+  background-color: var(--empty-state-bg);
+  border: 1px solid var(--empty-state-border);
   border-radius: 12px;
   padding: 2.5rem;
-  color: #c9d1d9;
+  color: var(--text-color);
   font-size: 1.1rem;
   line-height: 1.6;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  flex-grow: 1; /* Allow empty state to fill space */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .empty-state-message .info-icon {
   font-size: 3rem;
-  color: #58a6ff;
-  margin-bottom: 1rem;
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  text-shadow: 0 0 15px rgba(15, 52, 96, 0.5);
 }
 
-.empty-state-message strong {
-  color: #e6edf3;
-  font-weight: 700;
+.empty-state-message p {
+  margin-bottom: 0;
+  max-width: 600px; /* Constrain text width */
+}
+
+/* Timetable Container - Assuming TimetableTable has its own dark theme styles */
+.timetable-container {
+  background-color: var(--card-background); /* Match card background for consistency */
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  overflow-x: auto; /* Enable horizontal scrolling for tables on small screens */
 }
 
 /* Responsive Adjustments */
-@media (max-width: 991.98px) {
+@media (max-width: 767.98px) {
   .main-content-area {
-    padding: 1.5rem !important;
+    padding: 1rem;
   }
 
   .section-title {
-    font-size: 1.8rem;
-    margin-bottom: 2rem;
-    text-align: center; /* Center title on mobile */
-    justify-content: center; /* Center icon and text */
-  }
-
-  .section-title .icon-lg {
-    font-size: 2rem;
+    font-size: 1.7rem;
+    justify-content: center; /* Center title on mobile */
+    text-align: center;
+    border-bottom: none; /* Remove bottom border for cleaner look */
+    padding-bottom: 0.5rem;
   }
 
   .selection-card {
     padding: 1rem;
+    margin-bottom: 1.5rem;
   }
 
-  .form-label-custom {
-    text-align: center; /* Center labels on mobile */
-    margin-bottom: 0.5rem;
+  .selection-card .row {
+    flex-direction: column; /* Stack class and section dropdowns vertically */
   }
 
-  .form-select-custom {
-    font-size: 0.95rem;
-    padding: 0.6rem 0.8rem;
+  .selection-card .col-md-6 {
+    width: 100%;
+    margin-bottom: 1rem; /* Space between stacked form groups */
   }
 
-  .loading-spinner-container {
-    min-height: 150px;
-  }
-
-  .loading-spinner {
-    width: 2.5rem;
-    height: 2.5rem;
-  }
-
-  .loading-text {
-    font-size: 1rem;
+  .selection-card .col-md-6:last-child {
+    margin-bottom: 0;
   }
 
   .empty-state-message {
     padding: 1.5rem;
     font-size: 1rem;
   }
+
   .empty-state-message .info-icon {
     font-size: 2.5rem;
+    margin-bottom: 1rem;
   }
 }
 
-@media (max-width: 767.98px) {
+@media (max-width: 575.98px) {
   .section-title {
-    font-size: 1.6rem;
-  }
-  .section-title .icon-lg {
-    font-size: 1.8rem;
-  }
-
-  .form-label-custom {
-    font-size: 0.9rem;
+    font-size: 1.5rem;
   }
 
   .form-select-custom {
+    padding: 0.6rem 1rem;
     font-size: 0.9rem;
   }
-  .empty-state-message {
-    font-size: 0.9rem;
-  }
+}
+
+/* Scrollbar styling for dark theme */
+.scrollable-content::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.scrollable-content::-webkit-scrollbar-track {
+  background: var(--background-color);
+  border-radius: 10px;
+}
+
+.scrollable-content::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 10px;
+  border: 2px solid var(--background-color);
+}
+
+.scrollable-content::-webkit-scrollbar-thumb:hover {
+  background: var(--hover-color);
+}
+
+/* Global Dark Theme Integration (for body) */
+body.dark-theme {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+/* Ensure bootstrap elements also adapt */
+.modal-content {
+  background-color: var(--card-background) !important;
+  color: var(--text-color) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+.modal-header,
+.modal-footer {
+  border-color: var(--border-color) !important;
+}
+
+.btn-close {
+  filter: invert(1) grayscale(100%) brightness(200%); /* Make close button visible on dark */
+}
+
+/* Assuming TimetableTable has its own styling */
+/* If TimetableTable uses plain HTML tables, you might need to add: */
+.timetable-container table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.timetable-container th,
+.timetable-container td {
+  border: 1px solid var(--border-color);
+  padding: 0.8rem;
+  text-align: center;
+  color: var(--text-color);
+}
+
+.timetable-container th {
+  background-color: var(--table-header-bg);
+  font-weight: 600;
+  color: #e0e0e0; /* Lighter text for headers */
+}
+
+.timetable-container tbody tr:hover {
+  background-color: var(--table-row-hover);
 }
