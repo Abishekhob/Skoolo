@@ -1,0 +1,419 @@
+/* ManageTeachers.module.css */
+
+/* Dark Theme Variables */
+:root {
+  --dark-bg-primary: #1a1a2e;
+  --dark-bg-secondary: #16213e;
+  --dark-bg-card: #0f3460;
+  --dark-text-primary: #e0e0e0;
+  --dark-text-secondary: #a0a0a0;
+  --dark-border-color: #0c2d57;
+  --dark-shadow-color: rgba(0, 0, 0, 0.4);
+  --dark-input-bg: #0d274a;
+  --dark-input-border: #0c2d57;
+  --dark-table-header-bg: #061c38;
+  --dark-table-row-hover: #133c6e;
+  --btn-primary-bg: #007bff;
+  --btn-primary-hover: #0056b3;
+  --btn-secondary-bg: #6c757d;
+  --btn-secondary-hover: #5a6268;
+  --btn-success-bg: #28a745;
+  --btn-success-hover: #218838;
+  --btn-info-bg: #17a2b8;
+  --btn-info-hover: #138496;
+}
+
+.dashboardWrapper {
+  display: flex;
+  min-height: 100vh;
+  background: var(--dark-bg-primary);
+  color: var(--dark-text-primary);
+}
+
+.adminSidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
+.mainContentArea {
+  flex-grow: 1;
+  padding: 2rem;
+  overflow-y: auto;
+  max-height: 100vh;
+  background-color: var(--dark-bg-secondary);
+  border-left: 1px solid var(--dark-border-color);
+}
+
+.sectionTitle {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--dark-text-primary);
+  margin-bottom: 2.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  letter-spacing: -0.02em;
+}
+
+.sectionTitle .iconLg {
+  font-size: 2.5rem;
+  color: var(--btn-primary-bg); /* Primary color for the icon */
+}
+
+@media (max-width: 768px) {
+  .sectionTitle {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+  }
+  .sectionTitle .iconLg {
+    font-size: 2rem;
+  }
+}
+
+.actionPanel {
+  margin-bottom: 3rem;
+}
+
+.actionCard {
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px var(--dark-shadow-color);
+  background: var(--dark-bg-card);
+  padding: 1.5rem 2rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.actionCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px var(--dark-shadow-color);
+}
+
+.addTeacherBtn {
+  background-color: var(--btn-primary-bg);
+  border-color: var(--btn-primary-bg);
+  padding: 0.75rem 1.5rem;
+  font-size: 1.1rem;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.addTeacherBtn:hover {
+  background-color: var(--btn-primary-hover);
+  border-color: var(--btn-primary-hover);
+  transform: translateY(-2px);
+}
+
+.uploadInputGroup .formControl {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-color: var(--dark-input-border);
+  background-color: var(--dark-input-bg);
+  color: var(--dark-text-primary);
+}
+
+.uploadInputGroup .formControl::file-selector-button {
+  background-color: var(--btn-secondary-bg);
+  color: var(--dark-text-primary);
+  border-right: 1px solid var(--dark-input-border);
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  padding: 0.75rem 1rem;
+  margin: -0.75rem -1rem -0.75rem -1rem; /* Adjust to align with input padding */
+  transition: all 0.3s ease;
+}
+
+.uploadInputGroup .formControl:focus {
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  border-color: var(--btn-primary-bg);
+  background-color: var(--dark-input-bg);
+  color: var(--dark-text-primary);
+}
+
+.uploadBtn {
+  background-color: var(--btn-secondary-bg);
+  border-color: var(--btn-secondary-bg);
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.uploadBtn:hover {
+  background-color: var(--btn-secondary-hover);
+  border-color: var(--btn-secondary-hover);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .actionCard {
+    padding: 1rem;
+  }
+  .actionCard .d-flex.flex-column.flex-md-row {
+    flex-direction: column;
+    align-items: stretch !important;
+  }
+  .addTeacherBtn,
+  .uploadInputGroup {
+    width: 100%;
+    margin-bottom: 1rem !important;
+  }
+  .uploadInputGroup > * {
+    width: 100%;
+  }
+  .uploadInputGroup .formControl,
+  .uploadInputGroup .uploadBtn {
+    border-radius: 10px !important; /* Override for mobile */
+    margin-bottom: 0.5rem; /* Add space between file input and button */
+  }
+  .uploadInputGroup .formControl::file-selector-button {
+    border-radius: 10px !important;
+    margin-bottom: 0.5rem;
+  }
+}
+
+.textMuted {
+  font-size: 0.9rem;
+  color: var(--dark-text-secondary) !important;
+}
+
+.textMuted .me-1 {
+  color: var(--dark-text-secondary);
+}
+
+.dataTableContainer {
+  background: var(--dark-bg-card);
+  border-radius: 15px;
+  box-shadow: 0 8px 25px var(--dark-shadow-color);
+  overflow-x: auto;
+  padding: 1.5rem;
+}
+
+.teachersTable {
+  margin-bottom: 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+}
+
+.teachersTable thead {
+  background-color: var(--dark-table-header-bg);
+  color: var(--dark-text-primary);
+}
+
+.teachersTable th {
+  padding: 1rem 1.25rem;
+  border-bottom: 2px solid var(--dark-border-color);
+  font-weight: 600;
+  font-size: 1rem;
+  position: sticky;
+  top: 0;
+  background-color: var(--dark-table-header-bg);
+  z-index: 10;
+}
+
+.teachersTable thead tr:first-child th:first-child {
+  border-top-left-radius: 12px;
+}
+
+.teachersTable thead tr:first-child th:last-child {
+  border-top-right-radius: 12px;
+}
+
+.teachersTable tbody tr {
+  transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.teachersTable tbody tr:hover {
+  background-color: var(--dark-table-row-hover);
+  transform: scale(1.005);
+  box-shadow: 0 4px 15px var(--dark-shadow-color);
+}
+
+.teachersTable td {
+  padding: 1rem 1.25rem;
+  vertical-align: middle;
+  border-top: 1px solid var(--dark-border-color);
+  color: var(--dark-text-primary);
+}
+
+.teacherNameDisplay {
+  font-weight: 500;
+  color: var(--dark-text-primary);
+}
+
+.editInput {
+  border-radius: 8px;
+  border-color: var(--dark-input-border);
+  background-color: var(--dark-input-bg);
+  color: var(--dark-text-primary);
+}
+
+.editInput:focus {
+  border-color: var(--btn-primary-bg);
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  background-color: var(--dark-input-bg);
+  color: var(--dark-text-primary);
+}
+
+.actionsColumn {
+  width: 180px;
+  white-space: nowrap;
+}
+
+.saveBtn,
+.cancelBtn {
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition: all 0.2s ease;
+}
+
+.saveBtn {
+  background-color: var(--btn-success-bg);
+  border-color: var(--btn-success-bg);
+}
+
+.saveBtn:hover {
+  background-color: var(--btn-success-hover);
+  border-color: var(--btn-success-hover);
+}
+
+.cancelBtn {
+  background-color: var(--btn-secondary-bg);
+  border-color: var(--btn-secondary-bg);
+}
+
+.cancelBtn:hover {
+  background-color: var(--btn-secondary-hover);
+  border-color: var(--btn-secondary-hover);
+}
+
+.actionDropdown .dropdownToggle {
+  background-color: var(--btn-info-bg);
+  border-color: var(--btn-info-bg);
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition: all 0.2s ease;
+  color: var(--dark-text-primary); /* Ensure text is visible on dark button */
+}
+
+.actionDropdown .dropdownToggle:hover {
+  background-color: var(--btn-info-hover);
+  border-color: var(--btn-info-hover);
+}
+
+.actionDropdown .dropdownMenu {
+  border-radius: 8px;
+  box-shadow: 0 5px 15px var(--dark-shadow-color);
+  background-color: var(--dark-bg-card);
+  border: 1px solid var(--dark-border-color);
+}
+
+.actionDropdown .dropdownItem {
+  color: var(--dark-text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+}
+
+.actionDropdown .dropdownItem:hover {
+  background-color: var(--btn-primary-bg);
+  color: #ffffff;
+}
+
+.mobileCardsContainer {
+  display: none; /* Hidden by default, shown on smaller screens */
+}
+
+@media (max-width: 991.98px) {
+  .dataTableContainer {
+    display: none;
+  }
+  .mobileCardsContainer {
+    display: block;
+  }
+}
+
+.teacherCard {
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px var(--dark-shadow-color);
+  background: var(--dark-bg-card);
+  padding: 1.25rem 1.5rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  color: var(--dark-text-primary);
+}
+
+.teacherCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px var(--dark-shadow-color);
+}
+
+.teacherCardTitle {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--dark-text-primary);
+  margin-bottom: 0.75rem;
+}
+
+.teacherInfo {
+  font-size: 0.95rem;
+  color: var(--dark-text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.teacherInfo .infoLabel {
+  font-weight: 600;
+  color: var(--dark-text-primary);
+}
+
+.teacherInfo .editInput {
+  border-radius: 8px;
+  border-color: var(--dark-input-border);
+  font-size: 0.9rem;
+  background-color: var(--dark-input-bg);
+  color: var(--dark-text-primary);
+}
+
+.teacherInfo .editInput:focus {
+  border-color: var(--btn-primary-bg);
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.buttonGroupMobile {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.buttonGroupMobile .saveBtn,
+.buttonGroupMobile .cancelBtn {
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.buttonGroupMobile .saveBtn {
+  margin-right: 0.5rem;
+}
