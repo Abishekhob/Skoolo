@@ -1,527 +1,436 @@
-/* ManageTeachers.module.css */
-
-/* Dark Theme Variables */
+/* Variables for Dark Theme */
 :root {
-    --dark-bg-primary: #121827; /* Deeper, more sophisticated dark blue */
-    --dark-bg-secondary: #1A2233; /* Slightly lighter for content areas */
-    --dark-bg-card: #212B40; /* Card backgrounds, a touch warmer */
-    --dark-text-primary: #E0E6F0; /* Light text for readability */
-    --dark-text-secondary: #9FA8B8; /* Muted text for secondary info */
-    --dark-border-color: #3B4A60; /* Subtle, contrasting borders */
-    --dark-shadow-color: rgba(0, 0, 0, 0.6); /* Deeper shadows for depth */
-    --dark-input-bg: #1A2233; /* Input fields match secondary background */
-    --dark-input-border: #3B4A60;
-    --dark-table-header-bg: #2B354A; /* Table headers with subtle differentiation */
-    --dark-table-row-hover: #2F3B52; /* Lighter hover for rows */
-
-    --btn-primary-bg: #4F80FF; /* Vibrant primary button */
-    --btn-primary-hover: #3867D6;
-    --btn-secondary-bg: #6E7B91; /* Muted secondary button */
-    --btn-secondary-hover: #5A6578;
-    --btn-success-bg: #2ECC71; /* Green for success actions */
-    --btn-success-hover: #28B463;
-    --btn-info-bg: #4FC3F7; /* Light blue for info/actions */
-    --btn-info-hover: #29B6F6;
-
-    /* New variables for gradients and finer details */
-    --gradient-start: #2A3855;
-    --gradient-end: #1F2A40;
-    --card-gradient-start: #2C3C5C;
-    --card-gradient-end: #222E42;
-    --highlight-color: #5D9CEC; /* For active states or subtle highlights */
+  --background-dark: #1a1a2e;
+  --card-background: rgba(25, 25, 40, 0.8); /* Slightly transparent dark */
+  --text-primary: #e0e0e0;
+  --text-secondary: #a0a0a0;
+  --border-color: rgba(60, 60, 80, 0.5);
+  --header-background: #16213e;
+  --table-header-bg: #0f3460;
+  --table-row-hover: rgba(25, 25, 40, 0.6);
+  --button-primary-bg: #0f3460;
+  --button-primary-hover-bg: #16213e;
+  --button-secondary-bg: #52616b;
+  --button-secondary-hover-bg: #404b53;
+  --button-success-bg: #28a745;
+  --button-success-hover-bg: #218838;
+  --button-info-bg: #17a2b8;
+  --button-info-hover-bg: #138496;
+  --input-bg: rgba(40, 40, 60, 0.7);
+  --input-border: rgba(80, 80, 100, 0.5);
+  --dropdown-bg: #16213e;
+  --dropdown-item-hover-bg: #0f3460;
+  --box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); /* Glassmorphism shadow */
 }
 
+/* Base Styles */
 .dashboardWrapper {
-    display: flex;
-    min-height: 100vh;
-    background: var(--dark-bg-primary);
-    color: var(--dark-text-primary);
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--background-dark);
+  color: var(--text-primary);
+  font-family: 'Inter', sans-serif; /* Modern sans-serif font */
 }
 
 .adminSidebar {
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    overflow-y: auto;
-    flex-shrink: 0;
-    /* Ensure sidebar background is consistent with its own styling or fits dark theme */
-    background-color: var(--dark-bg-card); /* Example: If sidebar isn't independently styled, align it here */
+  /* Assuming AdminSidebar has its own styling for width and position */
+  flex-shrink: 0;
 }
 
 .mainContentArea {
-    flex-grow: 1;
-    padding: 2rem;
-    overflow-y: auto;
-    max-height: 100vh;
-    background-color: var(--dark-bg-secondary);
-    border-left: 1px solid var(--dark-border-color);
-    border-radius: 15px 0 0 15px; /* Rounded border on the left for a modern touch */
-    box-shadow: -5px 0 20px rgba(0, 0, 0, 0.3); /* Subtle shadow for separation */
+  flex-grow: 1;
+  padding: 2rem;
+  overflow-x: hidden; /* Prevent horizontal scroll from tables/cards */
 }
 
 .sectionTitle {
-    font-size: 2.5rem; /* Slightly larger title */
-    font-weight: 700;
-    color: var(--dark-text-primary);
-    margin-bottom: 3rem; /* More space below title */
-    display: flex;
-    align-items: center;
-    gap: 1rem; /* Increased gap */
-    letter-spacing: -0.03em; /* Tighter letter spacing for boldness */
-    text-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Subtle text shadow */
+  color: #e94560; /* Accent color */
+  font-weight: 700;
+  margin-bottom: 2.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 2.2rem;
+  text-shadow: 0 0 10px rgba(233, 69, 96, 0.3);
 }
 
-.sectionTitle .iconLg {
-    font-size: 3rem; /* Larger icon */
-    color: var(--btn-primary-bg);
-    filter: drop-shadow(0 0 5px rgba(79, 128, 255, 0.5)); /* Glow effect for icon */
+.iconLg {
+  font-size: 2.5rem;
+  color: var(--text-primary);
 }
 
-@media (max-width: 768px) {
-    .sectionTitle {
-        font-size: 2rem;
-        margin-bottom: 2rem;
-    }
-    .sectionTitle .iconLg {
-        font-size: 2.5rem;
-    }
-    .mainContentArea {
-        border-radius: 0; /* No border radius on small screens */
-    }
-}
-
+/* --- Action Panel & Cards --- */
 .actionPanel {
-    margin-bottom: 3.5rem; /* More spacing */
+  margin-bottom: 3rem;
 }
 
 .actionCard {
-    border: none;
-    border-radius: 20px; /* More rounded corners */
-    box-shadow: 0 15px 40px var(--dark-shadow-color); /* Stronger, diffused shadow */
-    background: linear-gradient(135deg, var(--card-gradient-start), var(--card-gradient-end)); /* Subtle gradient */
-    padding: 2rem 2.5rem; /* Increased padding */
-    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother transition */
-    position: relative;
-    overflow: hidden; /* Hide overflow for internal effects */
-}
-
-.actionCard::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at top left, rgba(79, 128, 255, 0.1), transparent 70%); /* Light radial gradient effect */
-    opacity: 0.5;
-    pointer-events: none;
+  background-color: var(--card-background);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: var(--box-shadow);
+  backdrop-filter: blur(8px); /* Glassmorphism effect */
+  -webkit-backdrop-filter: blur(8px);
+  padding: 1.5rem;
+  transition: all 0.3s ease-in-out;
 }
 
 .actionCard:hover {
-    transform: translateY(-8px) scale(1.01); /* More pronounced lift */
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8); /* Even deeper shadow on hover */
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
+}
+
+.addTeacherBtn,
+.uploadBtn {
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease-in-out;
 }
 
 .addTeacherBtn {
-    background-color: var(--btn-primary-bg);
-    border-color: var(--btn-primary-bg);
-    padding: 0.9rem 1.8rem; /* Larger button */
-    font-size: 1.15rem; /* Slightly larger font */
-    border-radius: 12px; /* More rounded */
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 0.7rem; /* Increased gap */
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  background-color: var(--button-primary-bg);
+  border-color: var(--button-primary-bg);
 }
 
 .addTeacherBtn:hover {
-    background-color: var(--btn-primary-hover);
-    border-color: var(--btn-primary-hover);
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-}
-
-.uploadInputGroup .formControl {
-    border-top-left-radius: 12px;
-    border-bottom-left-radius: 12px;
-    border: 1px solid var(--dark-input-border);
-    background-color: var(--dark-input-bg);
-    color: var(--dark-text-primary);
-    padding: 0.8rem 1rem; /* Align padding with button */
-    font-size: 1rem;
-    transition: all 0.3s ease;
-}
-
-.uploadInputGroup .formControl::file-selector-button {
-    background-color: var(--btn-secondary-bg);
-    color: var(--dark-text-primary); /* Ensure text is visible */
-    border-right: 1px solid var(--dark-input-border);
-    border-top-left-radius: 12px;
-    border-bottom-left-radius: 12px;
-    padding: 0.8rem 1.2rem;
-    margin: -0.8rem -1rem -0.8rem -1rem; /* Adjust to align with input padding */
-    transition: all 0.3s ease;
-    cursor: pointer;
-}
-
-.uploadInputGroup .formControl::file-selector-button:hover {
-    background-color: var(--btn-secondary-hover);
-    filter: brightness(1.1);
-}
-
-.uploadInputGroup .formControl:focus {
-    box-shadow: 0 0 0 0.25rem rgba(79, 128, 255, 0.4); /* Primary color shadow */
-    border-color: var(--btn-primary-bg);
-    background-color: var(--dark-input-bg);
-    color: var(--dark-text-primary);
+  background-color: var(--button-primary-hover-bg);
+  border-color: var(--button-primary-hover-bg);
+  transform: translateY(-2px);
 }
 
 .uploadBtn {
-    background-color: var(--btn-secondary-bg);
-    border-color: var(--btn-secondary-bg);
-    border-top-right-radius: 12px;
-    border-bottom-right-radius: 12px;
-    padding: 0.9rem 1.8rem;
-    font-size: 1.15rem;
-    display: flex;
-    align-items: center;
-    gap: 0.7rem;
-    transition: all 0.3s ease;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  background-color: var(--button-secondary-bg);
+  border-color: var(--button-secondary-bg);
+  color: var(--text-primary);
 }
 
 .uploadBtn:hover {
-    background-color: var(--btn-secondary-hover);
-    border-color: var(--btn-secondary-hover);
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  background-color: var(--button-secondary-hover-bg);
+  border-color: var(--button-secondary-hover-bg);
+  transform: translateY(-2px);
 }
 
-@media (max-width: 768px) {
-    .actionCard {
-        padding: 1.5rem;
-    }
-    .actionCard .d-flex.flex-column.flex-md-row {
-        flex-direction: column;
-        align-items: stretch !important;
-    }
-    .addTeacherBtn,
-    .uploadInputGroup {
-        width: 100%;
-        margin-bottom: 1.2rem !important;
-    }
-    .uploadInputGroup > * {
-        width: 100%;
-    }
-    .uploadInputGroup .formControl,
-    .uploadInputGroup .uploadBtn {
-        border-radius: 12px !important;
-        margin-bottom: 0.75rem;
-    }
-    .uploadInputGroup .formControl::file-selector-button {
-        border-radius: 12px !important;
-        margin-bottom: 0.75rem;
-    }
+.uploadInputGroup .formControl {
+  background-color: var(--input-bg);
+  border: 1px solid var(--input-border);
+  color: var(--text-primary);
+  border-radius: 8px 0 0 8px;
+  padding: 0.75rem 1rem;
+}
+.uploadInputGroup .formControl::file-selector-button {
+  background-color: var(--button-info-bg);
+  color: var(--text-primary);
+  border: none;
+  padding: 0.75rem 1rem;
+  margin-right: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.uploadInputGroup .formControl::file-selector-button:hover {
+  background-color: var(--button-info-hover-bg);
 }
 
 .textMuted {
-    font-size: 0.95rem;
-    color: var(--dark-text-secondary) !important;
-    display: flex; /* Ensure icon and text align */
-    align-items: center;
-    justify-content: flex-end;
+  color: var(--text-secondary) !important;
+  font-size: 0.85rem;
 }
 
-.textMuted .me-1 {
-    color: var(--dark-text-secondary);
-}
-
+/* --- Table Styles (Desktop) --- */
 .dataTableContainer {
-    background: var(--dark-bg-card);
-    border-radius: 20px;
-    box-shadow: 0 15px 40px var(--dark-shadow-color);
-    overflow: hidden; /* Important for border-radius on table elements */
-    padding: 1rem; /* Slightly less padding inside the container as table cells have their own */
+  background-color: var(--card-background);
+  border-radius: 12px;
+  box-shadow: var(--box-shadow);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  overflow-x: auto; /* Ensure table is responsive */
+  padding: 1.5rem;
 }
 
 .teachersTable {
-    margin-bottom: 0;
-    border-collapse: separate; /* Required for border-radius on table cells */
-    border-spacing: 0;
-    width: 100%;
-    border-radius: 15px; /* Apply to the table itself */
-    overflow: hidden; /* Ensures table corners are respected */
+  width: 100%;
+  margin-bottom: 0;
+  color: var(--text-primary);
+  border-collapse: separate; /* Allows border-radius on cells */
+  border-spacing: 0; /* Remove default spacing */
 }
 
-.teachersTable thead {
-    background-color: var(--dark-table-header-bg);
-    color: var(--dark-text-primary);
-}
-
-.teachersTable th {
-    padding: 1.2rem 1.5rem; /* More padding for header cells */
-    border-bottom: 2px solid var(--dark-border-color);
-    font-weight: 600;
-    font-size: 1.05rem;
-    position: sticky;
-    top: 0;
-    background-color: var(--dark-table-header-bg);
-    z-index: 10;
-    text-align: left;
-    white-space: nowrap; /* Prevent headers from wrapping */
-}
-
-/* Apply border-radius to specific header cells */
-.teachersTable thead tr:first-child th:first-child {
-    border-top-left-radius: 15px; /* Match container radius */
-}
-
-.teachersTable thead tr:first-child th:last-child {
-    border-top-right-radius: 15px; /* Match container radius */
+.teachersTable thead th {
+  background-color: var(--table-header-bg);
+  color: #fff;
+  border-bottom: 1px solid var(--border-color);
+  padding: 1rem 1.2rem;
+  font-weight: 600;
+  text-align: left;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 .teachersTable tbody tr {
-    transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+}
+
+.teachersTable tbody tr:nth-of-type(odd) {
+  background-color: rgba(25, 25, 40, 0.4);
+}
+
+.teachersTable tbody tr:nth-of-type(even) {
+  background-color: rgba(25, 25, 40, 0.2);
 }
 
 .teachersTable tbody tr:hover {
-    background-color: var(--dark-table-row-hover);
-    transform: translateY(-2px); /* Subtle lift on hover */
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Subtle shadow on hover */
+  background-color: var(--table-row-hover);
+  transform: scale(1.005);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 
 .teachersTable td {
-    padding: 1.1rem 1.5rem; /* More padding for data cells */
-    vertical-align: middle;
-    border-top: 1px solid var(--dark-border-color);
-    color: var(--dark-text-primary);
+  padding: 1rem 1.2rem;
+  border-top: 1px solid var(--border-color);
+  vertical-align: middle;
 }
 
-.teacherNameDisplay {
-    font-weight: 500;
-    color: var(--dark-text-primary);
+.teachersTable .teacherNameDisplay {
+  font-weight: 500;
+  color: #a0c2e3; /* A soft blue for names */
 }
 
 .editInput {
-    border-radius: 10px; /* Slightly more rounded */
-    border: 1px solid var(--dark-input-border);
-    background-color: var(--dark-input-bg);
-    color: var(--dark-text-primary);
-    padding: 0.6rem 0.8rem;
-    font-size: 0.95rem;
-    transition: all 0.3s ease;
+  background-color: var(--input-bg);
+  border: 1px solid var(--input-border);
+  color: var(--text-primary);
+  border-radius: 6px;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease;
 }
-
 .editInput:focus {
-    border-color: var(--btn-primary-bg);
-    box-shadow: 0 0 0 0.25rem rgba(79, 128, 255, 0.4);
-    background-color: var(--dark-input-bg);
-    color: var(--dark-text-primary);
-    outline: none; /* Remove default outline */
+  border-color: #0f3460;
+  box-shadow: 0 0 0 0.25rem rgba(15, 52, 96, 0.25);
+  background-color: rgba(40, 40, 60, 0.9);
 }
 
 .actionsColumn {
-    width: 200px; /* Give more space to actions */
-    white-space: nowrap;
-    position: relative; /* For dropdown z-index */
+  min-width: 180px; /* Ensure enough space for buttons */
 }
 
 .saveBtn,
 .cancelBtn {
-    border-radius: 10px;
-    padding: 0.6rem 1.2rem;
-    font-size: 0.95rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    transition: all 0.2s ease;
-    font-weight: 500;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  font-weight: 600;
+  border-radius: 6px;
+  transition: all 0.2s ease-in-out;
+  padding: 0.5rem 1rem;
 }
 
 .saveBtn {
-    background-color: var(--btn-success-bg);
-    border-color: var(--btn-success-bg);
+  background-color: var(--button-success-bg);
+  border-color: var(--button-success-bg);
 }
-
 .saveBtn:hover {
-    background-color: var(--btn-success-hover);
-    border-color: var(--btn-success-hover);
-    transform: translateY(-1px);
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+  background-color: var(--button-success-hover-bg);
+  border-color: var(--button-success-hover-bg);
+  transform: translateY(-1px);
 }
 
 .cancelBtn {
-    background-color: var(--btn-secondary-bg);
-    border-color: var(--btn-secondary-bg);
+  background-color: var(--button-secondary-bg);
+  border-color: var(--button-secondary-bg);
 }
-
 .cancelBtn:hover {
-    background-color: var(--btn-secondary-hover);
-    border-color: var(--btn-secondary-hover);
-    transform: translateY(-1px);
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+  background-color: var(--button-secondary-hover-bg);
+  border-color: var(--button-secondary-hover-bg);
+  transform: translateY(-1px);
 }
 
-.actionDropdown {
-    position: relative; /* Ensure dropdown is positioned correctly */
-    z-index: 100; /* Crucial for dropdown visibility */
-}
-
+/* --- Dropdown Actions --- */
 .actionDropdown .dropdownToggle {
-    background-color: var(--btn-info-bg);
-    border-color: var(--btn-info-bg);
-    border-radius: 10px;
-    padding: 0.6rem 1.2rem;
-    font-size: 0.95rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    transition: all 0.2s ease;
-    color: #FFFFFF; /* Explicitly white text for info button */
-    font-weight: 500;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  background-color: var(--button-info-bg);
+  border-color: var(--button-info-bg);
+  color: white;
+  font-weight: 500;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  transition: background-color 0.2s ease;
 }
-
 .actionDropdown .dropdownToggle:hover {
-    background-color: var(--btn-info-hover);
-    border-color: var(--btn-info-hover);
-    transform: translateY(-1px);
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+  background-color: var(--button-info-hover-bg);
+  border-color: var(--button-info-hover-bg);
 }
 
 .actionDropdown .dropdownMenu {
-    border-radius: 12px; /* More rounded */
-    box-shadow: 0 8px 25px var(--dark-shadow-color); /* Enhanced shadow */
-    background: linear-gradient(135deg, var(--dark-bg-card), var(--dark-bg-secondary)); /* Subtle gradient for menu */
-    border: 1px solid var(--dark-border-color);
-    padding: 0.5rem 0; /* Slightly more vertical padding */
-    min-width: 15rem; /* Ensure enough width for text */
-    z-index: 101; /* Higher than toggle to ensure it's on top */
+  background-color: var(--dropdown-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: var(--box-shadow);
+  overflow: hidden; /* Ensures rounded corners on items */
 }
 
 .actionDropdown .dropdownItem {
-    color: var(--dark-text-primary);
-    display: flex;
-    align-items: center;
-    gap: 0.7rem; /* Increased gap for icons */
-    padding: 0.75rem 1.25rem; /* More padding */
-    font-size: 0.95rem;
-    transition: all 0.2s ease;
-    background-color: transparent; /* Ensure transparent by default */
+  color: var(--text-primary);
+  padding: 0.75rem 1rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-.actionDropdown .dropdownItem:hover {
-    background-color: var(--btn-primary-bg); /* Primary color highlight on hover */
-    color: #ffffff; /* White text on hover */
-    padding-left: 1.5rem; /* Subtle slide effect */
+.actionDropdown .dropdownItem:hover,
+.actionDropdown .dropdownItem:active {
+  background-color: var(--dropdown-item-hover-bg);
+  color: #fff;
 }
 
+/* --- Mobile Card View --- */
 .mobileCardsContainer {
-    display: none; /* Hidden by default, shown on smaller screens */
-    padding: 1rem 0;
-}
-
-@media (max-width: 991.98px) {
-    .dataTableContainer {
-        display: none;
-    }
-    .mobileCardsContainer {
-        display: block;
-    }
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .teacherCard {
-    border: none;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px var(--dark-shadow-color);
-    background: linear-gradient(135deg, var(--card-gradient-start), var(--card-gradient-end));
-    padding: 1.5rem 2rem;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    color: var(--dark-text-primary);
-    position: relative;
-    overflow: hidden;
-}
-
-.teacherCard::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at top right, rgba(79, 128, 255, 0.08), transparent 70%);
-    opacity: 0.5;
-    pointer-events: none;
+  background-color: var(--card-background);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: var(--box-shadow);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: all 0.3s ease-in-out;
 }
 
 .teacherCard:hover {
-    transform: translateY(-5px) scale(1.005);
-    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.7);
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
 }
 
 .teacherCardTitle {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: var(--dark-text-primary);
-    margin-bottom: 1rem;
-    line-height: 1.3;
+  color: #a0c2e3; /* Soft blue for names */
+  font-weight: 600;
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
 }
 
 .teacherInfo {
-    font-size: 1rem;
-    color: var(--dark-text-secondary);
-    margin-bottom: 0.7rem;
-    display: flex; /* Align label and value */
-    flex-wrap: wrap;
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
 }
 
-.teacherInfo .infoLabel {
-    font-weight: 600;
-    color: var(--dark-text-primary);
-    min-width: 80px; /* Give labels consistent width */
-}
-
-.teacherInfo .editInput {
-    border-radius: 10px;
-    border: 1px solid var(--dark-input-border);
-    font-size: 0.95rem;
-    background-color: var(--dark-input-bg);
-    color: var(--dark-text-primary);
-    padding: 0.6rem 0.8rem;
-    flex-grow: 1; /* Make input fill available space */
-}
-
-.teacherInfo .editInput:focus {
-    border-color: var(--btn-primary-bg);
-    box-shadow: 0 0 0 0.25rem rgba(79, 128, 255, 0.4);
+.infoLabel {
+  color: var(--text-secondary);
+  font-weight: 500;
 }
 
 .buttonGroupMobile {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 1.5rem;
-    gap: 0.75rem; /* Space between buttons */
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  justify-content: flex-end; /* Align buttons to the right */
 }
 
-.buttonGroupMobile .saveBtn,
-.buttonGroupMobile .cancelBtn {
-    border-radius: 10px;
-    padding: 0.6rem 1.2rem;
-    font-size: 0.95rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    flex-grow: 1; /* Make buttons grow to fill space */
-    justify-content: center; /* Center content in buttons */
+/* --- Responsive Adjustments --- */
+@media (max-width: 991.98px) {
+  .dashboardWrapper {
+    flex-direction: column; /* Stack sidebar and content on small screens */
+  }
+
+  .adminSidebar {
+    width: 100%; /* Sidebar takes full width */
+    margin-bottom: 2rem;
+  }
+
+  .mainContentArea {
+    padding: 1rem; /* Reduced padding for smaller screens */
+  }
+
+  .sectionTitle {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    justify-content: center; /* Center align title on mobile */
+  }
+
+  .iconLg {
+    font-size: 2rem;
+  }
+
+  .actionPanel .d-flex {
+    flex-direction: column;
+    align-items: stretch !important; /* Stretch buttons to full width */
+  }
+
+  .addTeacherBtn,
+  .uploadInputGroup {
+    width: 100%;
+  }
+
+  .uploadInputGroup {
+    margin-top: 1rem;
+  }
+
+  .uploadInputGroup .formControl {
+    border-radius: 8px; /* Full border-radius on mobile */
+  }
+
+  .uploadBtn {
+    width: 100%;
+    margin-top: 0.5rem;
+    border-radius: 8px; /* Apply to upload button as well */
+  }
+
+  .textMuted {
+    text-align: center !important;
+  }
+
+  .dataTableContainer {
+    display: none; /* Hide table on small screens */
+  }
+
+  .mobileCardsContainer {
+    display: flex; /* Show cards on small screens */
+  }
+
+  .teachersTable .actionsColumn {
+    min-width: unset; /* Remove min-width on mobile table, though hidden */
+  }
+
+  .teacherCard .actionDropdown .dropdownToggle {
+    /* Only show ellipsis icon for mobile dropdown */
+    padding: 0.5rem 0.75rem;
+  }
 }
 
-/* Ensure dropdown menu is always on top, specifically in mobile view too */
-.dropdown-menu.show {
-    z-index: 1050 !important; /* Bootstrap modal default is 1050, ensure dropdown is higher */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .mainContentArea {
+    padding: 1.5rem;
+  }
+
+  .sectionTitle {
+    font-size: 2rem;
+  }
+
+  .actionPanel .d-flex {
+    flex-direction: row; /* Keep row for tablets if desired */
+    justify-content: space-between;
+  }
+
+  .addTeacherBtn,
+  .uploadInputGroup {
+    width: auto;
+  }
+
+  .uploadInputGroup {
+    margin-top: 0;
+  }
+}
+
+/* Ensure React Bootstrap components inherit styles */
+.form-control,
+.btn,
+.card,
+.table,
+.dropdown-menu {
+  color: inherit;
+  background-color: inherit;
+  border-color: inherit;
 }

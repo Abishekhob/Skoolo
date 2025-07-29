@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Container, Table, Button, Modal, Form, Row, Col, Dropdown, Card, InputGroup
+  Container, Table, Button, Form, Row, Col, Dropdown, Card, InputGroup
 } from 'react-bootstrap';
-import { FaEdit, FaSave, FaTimes, FaPlus, FaUpload, FaUserPlus, FaFileExcel, FaUsersCog, FaInfoCircle } from 'react-icons/fa';
+import { FaEdit, FaSave, FaTimes, FaPlus, FaUpload, FaUserPlus, FaInfoCircle, FaUsersCog, FaEllipsisV } from 'react-icons/fa';
 import API from '../services/api'; // Assuming this is your API service
 import AssignTeacherModal from './AssignTeacherModal'; // Assuming this is already styled well
 import AdminSidebar from './AdminSidebar'; // Assuming this is already styled well
@@ -41,7 +41,6 @@ const ManageTeachers = () => {
 
   const fetchTeachers = () => {
     API.get('/teacher').then(res => {
-      // Assuming teacher objects might not have fullName, create it
       const teachersWithFullName = res.data.map(t => ({
         ...t,
         fullName: `${t.firstName || ''} ${t.lastName || ''}`.trim()
@@ -358,7 +357,7 @@ const ManageTeachers = () => {
           </div>
 
           {/* Mobile Card View */}
-          <div className={styles.mobileCardsContainer}>
+          <div className={`${styles.mobileCardsContainer} d-lg-none`}>
             {teachers.map((teacher, i) => {
               const isEditing = editRowId === teacher.id;
               return (
@@ -389,7 +388,7 @@ const ManageTeachers = () => {
                       </Card.Title>
                       <Dropdown className={styles.actionDropdown}>
                         <Dropdown.Toggle variant="info" id={`dropdown-actions-mobile-${teacher.id}`} size="sm" className={styles.dropdownToggle}>
-                          Actions
+                          <FaEllipsisV />
                         </Dropdown.Toggle>
                         <Dropdown.Menu variant="dark" align="end" className={styles.dropdownMenu}>
                           <Dropdown.Item onClick={() => openAssignModal(teacher)} className={styles.dropdownItem}>
