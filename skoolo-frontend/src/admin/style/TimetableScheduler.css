@@ -1,358 +1,115 @@
-html, body, #root {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  overflow: auto; /* ✅ Allow page to scroll normally */
-}
-
-
-
-/* Base styles for dark theme */
+/* Dark theme base */
 body.dark-theme {
-  --background-color: #1a1a2e; /* Dark blue/purple */
-  --card-background: #16213e; /* Slightly lighter dark blue */
-  --text-color: #e0e0e0; /* Light gray */
-  --primary-color: #0f3460; /* Deep blue for primary elements */
-  --secondary-color: #533483; /* Purple for accents */
-  --border-color: rgba(255, 255, 255, 0.1); /* Subtle white border */
-  --input-background: #0d131f; /* Even darker for inputs */
-  --input-border: rgba(255, 255, 255, 0.2);
-  --hover-color: #1f4068; /* Darker blue on hover */
-  --table-header-bg: #0f3460;
-  --table-row-hover: #1f4068;
-  --placeholder-color: #a0a0a0;
-  --empty-state-bg: #16213e;
-  --empty-state-border: #0f3460;
-  --sidebar-width: 250px; /* Define sidebar width as a CSS variable */
-  --transition-speed: 0.3s; /* Define transition speed for consistency */
-  --sidebar-bg: #0d131f; /* Assuming a sidebar background color */
+  background-color: #0d1117;
+  color: #c9d1d9;
+  font-family: 'Segoe UI', sans-serif;
 }
 
-/* NEW: Overall Layout Wrapper */
+/* Layout styling */
 .admin-layout-wrapper {
-  display: flex; /* Make the wrapper a flex container */
-  min-height: 100vh; /* Ensure it takes full viewport height */
-  width: 100%;
-  position: relative; /* If you have any absolutely positioned children relative to this */
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--background-color, #0d1117);
 }
 
-/* AdminSidebar - adjusted to be a direct child of admin-layout-wrapper */
-.admin-sidebar {
-    width: var(--sidebar-width);
-    min-height: 100vh;
-    position: fixed; /* Still fixed, but now the main content explicitly knows about it */
-    top: 0;
-    left: 0;
-    box-shadow: rgba(0, 0, 0, 0.3) 5px 0px 15px;
-    z-index: 1030;
-    background: var(--sidebar-bg);
-    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
-    padding: 2rem 1.5rem;
-}
-
-/* The MAIN SCROLLABLE CONTENT AREA */
 .main-content-area {
-  background-color: var(--background-color);
-  padding: 2rem; /* Consistent padding */
-  overflow-y: auto; /* THIS IS THE SCROLLER */
-  flex-grow: 1; /* Allows it to take up remaining horizontal space in the flex container */
-  height: 100vh; /* It needs a defined height for overflow to work, 100vh here */
-  box-sizing: border-box; /* Include padding in height calculation */
-
-  /* Compensate for the fixed sidebar */
-  margin-left: var(--sidebar-width); /* Push content to the right of the sidebar */
-  width: calc(100% - var(--sidebar-width)); /* Fill remaining width */
-
-  /* Remove conflicting properties that might be inherited or wrongly applied */
-  /* Remove 'display: flex', 'flex-direction', 'grid-column', 'position: relative' from here
-     unless you have a very specific internal flex/grid layout that needs it.
-     The parent (.admin-layout-wrapper) is handling the flex. */
+  margin-left: 250px; /* Adjust if your AdminSidebar width is different */
+  width: calc(100% - 250px);
+  padding: 2rem;
+  overflow-y: auto;
+  background-color: #0d1117;
 }
 
-/* Timetable Scheduler Container (content wrapper inside main-content-area) */
-.timetable-scheduler-container {
-  background-color: var(--background-color);
-  color: var(--text-color);
-  /* Remove min-height: 100vh; from here, as main-content-area handles scrolling */
-  padding-bottom: 50px; /* Add some padding at the bottom for content not to touch the very edge */
-  /* No explicit height needed here, it should naturally expand based on its content */
+.scrollable-content::-webkit-scrollbar {
+  width: 8px;
+}
+.scrollable-content::-webkit-scrollbar-thumb {
+  background-color: #444;
+  border-radius: 4px;
 }
 
-
-/* --- Rest of your CSS remains as is, as it's not directly related to the scrolling mechanism --- */
-
-/* Section Title */
+/* Section title */
 .section-title {
-  color: #e94560;
-  font-weight: 700;
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #58a6ff;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--border-color);
-  letter-spacing: 0.05em;
-  font-size: 2rem;
-  text-shadow: 0 0 10px rgba(233, 69, 96, 0.3);
 }
 
-.section-title .icon-lg {
-  font-size: 1.8em;
-  color: #e94560;
+.icon-lg {
+  font-size: 1.5rem;
+  color: #58a6ff;
 }
 
-/* Card Styling for Selectors */
+/* Card Styles */
 .selection-card {
-  background-color: var(--card-background);
-  border: 1px solid var(--border-color);
+  background-color: #161b22;
+  border: 1px solid #30363d;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
   border-radius: 12px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  padding: 1.5rem;
 }
 
 .selection-card .card-body {
-  padding: 0;
+  padding: 1.5rem;
 }
 
-/* Form Group and Labels */
+/* Form */
 .form-label-custom {
-  color: var(--text-color);
-  font-weight: 600;
-  margin-bottom: 0.75rem;
-  display: block;
-  font-size: 0.95rem;
+  color: #8b949e;
+  font-weight: 500;
 }
 
-/* Custom Select Dropdowns */
 .form-select-custom {
-  background-color: var(--input-background);
-  color: var(--text-color);
-  border: 1px solid var(--input-border);
+  background-color: #0d1117;
+  color: #c9d1d9;
+  border: 1px solid #30363d;
   border-radius: 8px;
-  padding: 0.75rem 1.25rem;
-  font-size: 1rem;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23e0e0e0' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
-  background-repeat: no-repeat;
-  background-position: right 1rem center;
-  background-size: 0.65em auto;
-  transition: all 0.3s ease;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+  transition: border-color 0.3s;
 }
 
 .form-select-custom:focus {
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 0.25rem rgba(15, 52, 96, 0.5);
   outline: none;
-  background-color: var(--input-background);
+  box-shadow: none;
+  border-color: #58a6ff;
 }
 
-.form-select-custom option {
-  background-color: var(--card-background);
-  color: var(--text-color);
-}
-
-.form-select-custom:disabled {
-  background-color: var(--input-background);
-  color: var(--placeholder-color);
-  opacity: 0.7;
-  cursor: not-allowed;
-}
-
-/* Loading State */
+/* Loading Spinner */
 .loading-spinner-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 200px;
-  background: var(--card-background);
-  border-radius: 12px;
-  padding: 2rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  color: #c9d1d9;
 }
 
 .loading-spinner {
   width: 3rem;
   height: 3rem;
-  border-width: 0.3em;
-  color: #e94560;
+  color: #58a6ff;
 }
 
 .loading-text {
   font-size: 1.1rem;
-  color: var(--text-color);
-  margin-top: 1rem;
+  color: #8b949e;
 }
 
-/* Empty State Message */
+/* Empty State */
 .empty-state-message {
-  background-color: var(--empty-state-bg);
-  border: 1px solid var(--empty-state-border);
-  border-radius: 12px;
-  padding: 2.5rem;
-  color: var(--text-color);
-  font-size: 1.1rem;
-  line-height: 1.6;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.empty-state-message .info-icon {
-  font-size: 3rem;
-  color: var(--primary-color);
-  margin-bottom: 1.5rem;
-  text-shadow: 0 0 15px rgba(15, 52, 96, 0.5);
-}
-
-.empty-state-message p {
-  margin-bottom: 0;
+  background-color: #161b22;
+  color: #8b949e;
+  border: 1px dashed #30363d;
+  border-radius: 10px;
   max-width: 600px;
+  margin: 0 auto;
+}
+
+.info-icon {
+  font-size: 2rem;
+  color: #58a6ff;
 }
 
 /* Timetable Container */
 .timetable-container {
-  background-color: var(--card-background);
   border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-  overflow-x: auto; /* Enable horizontal scrolling for tables on small screens */
-}
-
-/* Responsive Adjustments */
-@media (max-width: 767.98px) {
-  /* On small screens, hide the sidebar and let main content take full width */
-  .admin-sidebar {
-      transform: translateX(-100%); /* Hide sidebar off-screen by default */
-      /* You'll need JS to toggle a class (e.g., .admin-sidebar.open) that sets transform: translateX(0); */
-  }
-
-  .main-content-area {
-    padding: 1rem;
-    margin-left: 0; /* Remove margin when sidebar is hidden */
-    width: 100%; /* Take full width */
-    height: 100vh; /* Still full height, but no offset */
-  }
-
-  .section-title {
-    font-size: 1.7rem;
-    justify-content: center;
-    text-align: center;
-    border-bottom: none;
-    padding-bottom: 0.5rem;
-  }
-
-  .selection-card {
-    padding: 1rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .selection-card .row {
-    flex-direction: column;
-  }
-
-  .selection-card .col-md-6 {
-    width: 100%;
-    margin-bottom: 1rem;
-  }
-
-  .selection-card .col-md-6:last-child {
-    margin-bottom: 0;
-  }
-
-  .empty-state-message {
-    padding: 1.5rem;
-    font-size: 1rem;
-  }
-
-  .empty-state-message .info-icon {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-  }
-}
-
-@media (max-width: 575.98px) {
-  .section-title {
-    font-size: 1.5rem;
-  }
-
-  .form-select-custom {
-    padding: 0.6rem 1rem;
-    font-size: 0.9rem;
-  }
-}
-
-/* Scrollbar styling for dark theme */
-.scrollable-content::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-.scrollable-content::-webkit-scrollbar-track {
-  background: var(--background-color);
-  border-radius: 10px;
-}
-
-.scrollable-content::-webkit-scrollbar-thumb {
-  background: var(--primary-color);
-  border-radius: 10px;
-  border: 2px solid var(--background-color);
-}
-
-.scrollable-content::-webkit-scrollbar-thumb:hover {
-  background: var(--hover-color);
-}
-
-/* Global Dark Theme Integration (for body) */
-body.dark-theme {
-  background-color: var(--background-color);
-  color: var(--text-color);
-}
-
-/* Ensure bootstrap elements also adapt */
-.modal-content {
-  background-color: var(--card-background) !important;
-  color: var(--text-color) !important;
-  border: 1px solid var(--border-color) !important;
-}
-
-.modal-header,
-.modal-footer {
-  border-color: var(--border-color) !important;
-}
-
-.btn-close {
-  filter: invert(1) grayscale(100%) brightness(200%);
-}
-
-/* Assuming TimetableTable has its own styling */
-.timetable-container table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 1rem;
-}
-
-.timetable-container th,
-.timetable-container td {
-  border: 1px solid var(--border-color);
-  padding: 0.8rem;
-  text-align: center;
-  color: var(--text-color);
-}
-
-.timetable-container th {
-  background-color: var(--table-header-bg);
-  font-weight: 600;
-  color: #e0e0e0;
-}
-
-.timetable-container tbody tr:hover {
-  background-color: var(--table-row-hover);
+  background-color: #161b22;
+  border: 1px solid #30363d;
+  padding: 1rem;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.03);
 }
