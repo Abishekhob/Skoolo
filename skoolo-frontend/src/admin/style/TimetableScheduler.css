@@ -3,7 +3,7 @@ html, body, #root {
   height: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden; /* Prevents body scroll and ensures layout manages its own scrolling */
+  overflow: hidden; /* Prevents unwanted body scroll */
 }
 
 /* Base styles for dark theme */
@@ -22,76 +22,63 @@ body.dark-theme {
   --placeholder-color: #a0a0a0;
   --empty-state-bg: #16213e;
   --empty-state-border: #0f3460;
-  --sidebar-width: 250px; /* NEW: Define sidebar width as a CSS variable */
+  --sidebar-width: 250px; /* Define sidebar width as a CSS variable */
+  --transition-speed: 0.3s; /* Define transition speed for consistency */
+  --sidebar-bg: #0d131f; /* Assuming a sidebar background color */
 }
 
+/* NEW: Overall Layout Wrapper */
+.admin-layout-wrapper {
+  display: flex; /* Make the wrapper a flex container */
+  min-height: 100vh; /* Ensure it takes full viewport height */
+  width: 100%;
+  position: relative; /* If you have any absolutely positioned children relative to this */
+}
+
+/* AdminSidebar - adjusted to be a direct child of admin-layout-wrapper */
+.admin-sidebar {
+    width: var(--sidebar-width);
+    min-height: 100vh;
+    position: fixed; /* Still fixed, but now the main content explicitly knows about it */
+    top: 0;
+    left: 0;
+    box-shadow: rgba(0, 0, 0, 0.3) 5px 0px 15px;
+    z-index: 1030;
+    background: var(--sidebar-bg);
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+    padding: 2rem 1.5rem;
+}
+
+/* The MAIN SCROLLABLE CONTENT AREA */
+.main-content-area {
+  background-color: var(--background-color);
+  padding: 2rem; /* Consistent padding */
+  overflow-y: auto; /* THIS IS THE SCROLLER */
+  flex-grow: 1; /* Allows it to take up remaining horizontal space in the flex container */
+  height: 100vh; /* It needs a defined height for overflow to work, 100vh here */
+  box-sizing: border-box; /* Include padding in height calculation */
+
+  /* Compensate for the fixed sidebar */
+  margin-left: var(--sidebar-width); /* Push content to the right of the sidebar */
+  width: calc(100% - var(--sidebar-width)); /* Fill remaining width */
+
+  /* Remove conflicting properties that might be inherited or wrongly applied */
+  /* Remove 'display: flex', 'flex-direction', 'grid-column', 'position: relative' from here
+     unless you have a very specific internal flex/grid layout that needs it.
+     The parent (.admin-layout-wrapper) is handling the flex. */
+}
+
+/* Timetable Scheduler Container (content wrapper inside main-content-area) */
 .timetable-scheduler-container {
   background-color: var(--background-color);
   color: var(--text-color);
-  /* REMOVED: min-height: 100vh; Its height should be determined by its content and parent's scroll */
-  padding-bottom: 50px; /* Add some padding at the bottom */
-  /* This container needs to fill the available space within main-content-area */
-  /* If the issue persists, consider display: flex; flex-direction: column; on this */
-}
-
-/* Admin Layout and Sidebar */
-.admin-layout {
-  min-height: 100vh; /* This should make the Row fill the viewport height */
-  display: flex; /* Make it a flex container */
-  flex-direction: row; /* Columns side-by-side */
-  width: 100%; /* Ensure it spans full width */
-  overflow: hidden; /* Prevent this container from causing body scroll */
-}
-
-/* Updated .main-content-area styles for fixed sidebar compensation and scrolling */
-.main-content-area {
-  background-color: var(--background-color);
-  padding: 2rem;
-  overflow-y: auto; /* CRITICAL FIX: Ensure this is 'auto' for scrolling */
-  flex-grow: 1; /* Allow it to grow and take available space */
-  height: 100%; /* IMPORTANT: Changed from 100vh to 100% to fill parent's height within flex context */
-  box-sizing: border-box; /* Include padding in height calculation */
-
-  /* NEW: Adjust for the fixed AdminSidebar's width */
-  margin-left: var(--sidebar-width); /* Pushes the content area to the right of the fixed sidebar */
-  width: calc(100% - var(--sidebar-width)); /* Ensures it takes the remaining width */
-
-  /* Removing potentially conflicting styles based on previous debug info */
-  /* display: flex;        <-- Removed: Apply to children if needed for internal layout */
-  /* flex-direction: column; <-- Removed: Apply to children if needed for internal layout */
-  /* position: relative;   <-- Kept if you have absolutely positioned children, otherwise can remove */
-  /* grid-column: 2;     <-- Removed: Conflicts with flexbox layout */
-}
-
-/* Existing AdminSidebar styles (copied from your input, make sure they are in the same file) */
-.admin-sidebar {
-    width: var(--sidebar-width); /* Using the CSS variable */
-    min-height: 100vh;
-    position: fixed; /* Keep it fixed on desktop */
-    top: 0px;
-    left: 0px;
-    box-shadow: rgba(0, 0, 0, 0.3) 5px 0px 15px;
-    z-index: 1030;
-    background: var(--sidebar-bg); /* Ensure --sidebar-bg is defined somewhere, or replace */
-    transition: transform var(--transition-speed, 0.3s), box-shadow var(--transition-speed, 0.3s); /* Added fallback for var() */
-    padding: 2rem 1.5rem;
-}
-@media (min-width: 768px) {
-    .admin-sidebar {
-        /* If you intend for it to be sticky after some scroll, keep this.
-           If it should always be fixed, you can remove this media query block
-           and ensure 'position: fixed;' is sufficient.
-           For this layout, 'position: fixed' often works better with a margin-left. */
-        position: fixed; /* Changed from sticky to fixed for consistent behavior with margin-left */
-        top: 0px;
-        left: 0px;
-        height: 100vh;
-        transform: translate(0px) !important;
-    }
+  /* Remove min-height: 100vh; from here, as main-content-area handles scrolling */
+  padding-bottom: 50px; /* Add some padding at the bottom for content not to touch the very edge */
+  /* No explicit height needed here, it should naturally expand based on its content */
 }
 
 
-/* --- Rest of your CSS remains as is --- */
+/* --- Rest of your CSS remains as is, as it's not directly related to the scrolling mechanism --- */
 
 /* Section Title */
 .section-title {
@@ -240,16 +227,17 @@ body.dark-theme {
 
 /* Responsive Adjustments */
 @media (max-width: 767.98px) {
-  .main-content-area {
-    padding: 1rem;
-    margin-left: 0; /* On mobile, remove margin as sidebar might be hidden/overlayed */
-    width: 100%; /* Take full width on mobile */
+  /* On small screens, hide the sidebar and let main content take full width */
+  .admin-sidebar {
+      transform: translateX(-100%); /* Hide sidebar off-screen by default */
+      /* You'll need JS to toggle a class (e.g., .admin-sidebar.open) that sets transform: translateX(0); */
   }
 
-  /* Adjustments for AdminSidebar on mobile if it overlays/hides */
-  .admin-sidebar {
-      transform: translateX(-100%); /* Example: Hide sidebar off-screen by default on mobile */
-      /* You'll need JS to toggle a class (e.g., .admin-sidebar.open) that sets transform: translateX(0); */
+  .main-content-area {
+    padding: 1rem;
+    margin-left: 0; /* Remove margin when sidebar is hidden */
+    width: 100%; /* Take full width */
+    height: 100vh; /* Still full height, but no offset */
   }
 
   .section-title {

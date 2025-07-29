@@ -86,11 +86,22 @@ const TimetableScheduler = () => {
   };
 
   return (
-    <Row className="g-0 admin-layout">
-      <AdminSidebar />
+    // IMPORTANT: Remove 'g-0' from Row if it's adding unwanted spacing, or ensure it works with your setup.
+    // The main-content-area needs to be a direct flex child for this to work perfectly.
+    // Let's ensure the outer-most container explicitly handles the flex.
+    // We'll treat the AdminSidebar as a separate, absolutely positioned element within the body,
+    // or as a flex item with explicit width and the main content compensating.
+    // Given your sidebar is `position: fixed`, the latter is simpler.
 
+    // Let's modify the outer JSX slightly to make a custom flex container.
+    // Keep your Row/Col structure, but the CSS will dictate how it behaves.
+    <div className="admin-layout-wrapper"> {/* NEW WRAPPER */}
+      <AdminSidebar /> {/* AdminSidebar is fixed, so it's a sibling of the main content layout */}
+
+      {/* This Col is now the main scrollable content area */}
       <Col md={10} className="main-content-area scrollable-content">
         <Container fluid className="p-4 timetable-scheduler-container">
+          {/* ... (Your existing content: title, selection card, loading/timetable/empty state, modal) ... */}
           <h3 className="section-title mb-4">
             <FaCalendarAlt className="me-2 icon-lg" />
             Timetable Scheduler
@@ -190,7 +201,7 @@ const TimetableScheduler = () => {
           />
         </Container>
       </Col>
-    </Row>
+    </div>
   );
 };
 
