@@ -6,7 +6,7 @@ html, body, #root {
   overflow: hidden; /* Prevents body scroll and ensures layout manages its own scrolling */
 }
 
-/* Base styles for dark theme (kept as is, assuming these are correct) */
+/* Base styles for dark theme */
 body.dark-theme {
   --background-color: #1a1a2e; /* Dark blue/purple */
   --card-background: #16213e; /* Slightly lighter dark blue */
@@ -22,6 +22,7 @@ body.dark-theme {
   --placeholder-color: #a0a0a0;
   --empty-state-bg: #16213e;
   --empty-state-border: #0f3460;
+  --sidebar-width: 250px; /* NEW: Define sidebar width as a CSS variable */
 }
 
 .timetable-scheduler-container {
@@ -42,17 +43,55 @@ body.dark-theme {
   overflow: hidden; /* Prevent this container from causing body scroll */
 }
 
+/* Updated .main-content-area styles for fixed sidebar compensation and scrolling */
 .main-content-area {
   background-color: var(--background-color);
   padding: 2rem;
-  overflow-y: auto; /* Enable scrolling for content within this column */
+  overflow-y: auto; /* CRITICAL FIX: Ensure this is 'auto' for scrolling */
   flex-grow: 1; /* Allow it to grow and take available space */
-  /* CRITICAL CHANGE: Use height: 100% to fill parent's height within flex context */
-  height: 100%;
+  height: 100%; /* IMPORTANT: Changed from 100vh to 100% to fill parent's height within flex context */
   box-sizing: border-box; /* Include padding in height calculation */
+
+  /* NEW: Adjust for the fixed AdminSidebar's width */
+  margin-left: var(--sidebar-width); /* Pushes the content area to the right of the fixed sidebar */
+  width: calc(100% - var(--sidebar-width)); /* Ensures it takes the remaining width */
+
+  /* Removing potentially conflicting styles based on previous debug info */
+  /* display: flex;        <-- Removed: Apply to children if needed for internal layout */
+  /* flex-direction: column; <-- Removed: Apply to children if needed for internal layout */
+  /* position: relative;   <-- Kept if you have absolutely positioned children, otherwise can remove */
+  /* grid-column: 2;     <-- Removed: Conflicts with flexbox layout */
 }
 
-/* --- Rest of your CSS remains as is, as it's not directly related to the scrolling mechanism --- */
+/* Existing AdminSidebar styles (copied from your input, make sure they are in the same file) */
+.admin-sidebar {
+    width: var(--sidebar-width); /* Using the CSS variable */
+    min-height: 100vh;
+    position: fixed; /* Keep it fixed on desktop */
+    top: 0px;
+    left: 0px;
+    box-shadow: rgba(0, 0, 0, 0.3) 5px 0px 15px;
+    z-index: 1030;
+    background: var(--sidebar-bg); /* Ensure --sidebar-bg is defined somewhere, or replace */
+    transition: transform var(--transition-speed, 0.3s), box-shadow var(--transition-speed, 0.3s); /* Added fallback for var() */
+    padding: 2rem 1.5rem;
+}
+@media (min-width: 768px) {
+    .admin-sidebar {
+        /* If you intend for it to be sticky after some scroll, keep this.
+           If it should always be fixed, you can remove this media query block
+           and ensure 'position: fixed;' is sufficient.
+           For this layout, 'position: fixed' often works better with a margin-left. */
+        position: fixed; /* Changed from sticky to fixed for consistent behavior with margin-left */
+        top: 0px;
+        left: 0px;
+        height: 100vh;
+        transform: translate(0px) !important;
+    }
+}
+
+
+/* --- Rest of your CSS remains as is --- */
 
 /* Section Title */
 .section-title {
@@ -203,6 +242,14 @@ body.dark-theme {
 @media (max-width: 767.98px) {
   .main-content-area {
     padding: 1rem;
+    margin-left: 0; /* On mobile, remove margin as sidebar might be hidden/overlayed */
+    width: 100%; /* Take full width on mobile */
+  }
+
+  /* Adjustments for AdminSidebar on mobile if it overlays/hides */
+  .admin-sidebar {
+      transform: translateX(-100%); /* Example: Hide sidebar off-screen by default on mobile */
+      /* You'll need JS to toggle a class (e.g., .admin-sidebar.open) that sets transform: translateX(0); */
   }
 
   .section-title {
