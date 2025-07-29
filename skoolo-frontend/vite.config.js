@@ -9,5 +9,5 @@ export default defineConfig({
   resolve: {
     dedupe: ['swiper'], // This is good
   },
-  base: './', // 👈 Add this line to fix path resolution on Vercel
+  base: '/', // ✅ Use absolute base path for Vercel
 });
