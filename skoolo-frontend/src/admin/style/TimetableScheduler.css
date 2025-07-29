@@ -1,10 +1,11 @@
-/* Add these global styles if not already present in your main CSS or index.css */
 html, body, #root {
   height: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden; /* Prevents unwanted body scroll */
+  overflow: auto; /* ✅ Allow page to scroll normally */
 }
+
+
 
 /* Base styles for dark theme */
 body.dark-theme {
