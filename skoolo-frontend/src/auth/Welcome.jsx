@@ -36,17 +36,17 @@ const PLACEHOLDER_SCREENSHOTS = {
 import AuthModal from './AuthModal';
 
 const Welcome = () => {
-    const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+    const [isAuthModalOpen, setIsAuthModal] = useState(false);
     const [isLoginState, setIsLoginState] = useState(true); // Controls whether to show login or register form
     const navigate = useNavigate(); // Initialize useNavigate for potential future redirects after auth
 
     const openAuthModal = (isLogin) => {
         setIsLoginState(isLogin);
-        setIsAuthModalOpen(true);
+        setIsAuthModal(true);
     };
 
     const closeAuthModal = () => {
-        setIsAuthModalOpen(false);
+        setIsAuthModal(false);
     };
 
     // Preload placeholder images for smoother experience
@@ -244,7 +244,7 @@ const Welcome = () => {
                     <Row className="g-4 justify-content-center">
                         <Col xs={6} sm={4} lg={2} className="d-flex flex-column align-items-center">
                             <FaLaptopCode className={`mb-3 ${styles.techIcon}`} />
-                            <p className="fw-bold text-white mb-1">React Native (Expo)</p>
+                            <p className="fw-bold text-white mb-1">React.js (Vite)</p>
                             <span className="text-secondary text-sm">Frontend</span>
                         </Col>
                         <Col xs={6} sm={4} lg={2} className="d-flex flex-column align-items-center">
@@ -269,7 +269,7 @@ const Welcome = () => {
                         </Col>
                         <Col xs={6} sm={4} lg={2} className="d-flex flex-column align-items-center">
                             <FaBolt className={`mb-3 ${styles.techIcon}`} />
-                            <p className="fw-bold text-white mb-1">Render / Expo Go</p>
+                            <p className="fw-bold text-white mb-1">Render</p>
                             <span className="text-secondary text-sm">Deployment</span>
                         </Col>
                     </Row>
@@ -353,7 +353,7 @@ const Welcome = () => {
 
             {/* Auth Modal Component */}
             <AuthModal
-                isOpen={isAuthModalOpen}
+                isOpen={isAuthModal}
                 onClose={closeAuthModal}
                 isLogin={isLoginState}
                 setIsLogin={setIsLoginState}
