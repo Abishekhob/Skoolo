@@ -5,7 +5,7 @@ import API from '../services/api';
 import TimetableTable from './TimetableTable';
 import AdminSidebar from './AdminSidebar';
 import ScheduleTeacherModal from './ScheduleTeacherModal';
-import './style/TimetableScheduler.css'; // Link to the new CSS file
+import './style/TimetableScheduler.css';
 
 const TimetableScheduler = () => {
   const [classes, setClasses] = useState([]);
@@ -37,7 +37,6 @@ const TimetableScheduler = () => {
   };
 
   useEffect(() => {
-    // Set dark theme on body
     document.body.classList.add('dark-theme');
     return () => {
       document.body.classList.remove('dark-theme');
@@ -86,22 +85,11 @@ const TimetableScheduler = () => {
   };
 
   return (
-    // IMPORTANT: Remove 'g-0' from Row if it's adding unwanted spacing, or ensure it works with your setup.
-    // The main-content-area needs to be a direct flex child for this to work perfectly.
-    // Let's ensure the outer-most container explicitly handles the flex.
-    // We'll treat the AdminSidebar as a separate, absolutely positioned element within the body,
-    // or as a flex item with explicit width and the main content compensating.
-    // Given your sidebar is `position: fixed`, the latter is simpler.
+    <div className="admin-layout-wrapper">
+      <AdminSidebar />
 
-    // Let's modify the outer JSX slightly to make a custom flex container.
-    // Keep your Row/Col structure, but the CSS will dictate how it behaves.
-    <div className="admin-layout-wrapper"> {/* NEW WRAPPER */}
-      <AdminSidebar /> {/* AdminSidebar is fixed, so it's a sibling of the main content layout */}
-
-      {/* This Col is now the main scrollable content area */}
-      <Col md={10} className="main-content-area scrollable-content">
+      <div className="main-content-area scrollable-content">
         <Container fluid className="p-4 timetable-scheduler-container">
-          {/* ... (Your existing content: title, selection card, loading/timetable/empty state, modal) ... */}
           <h3 className="section-title mb-4">
             <FaCalendarAlt className="me-2 icon-lg" />
             Timetable Scheduler
@@ -178,7 +166,7 @@ const TimetableScheduler = () => {
             <div className="empty-state-message text-center mt-5 p-4">
               <FaInfoCircle className="info-icon mb-3" />
               <p>
-                Please select both **Class** and **Section** from the dropdowns above
+                Please select both <strong>Class</strong> and <strong>Section</strong> from the dropdowns above
                 to view and manage the timetable.
               </p>
             </div>
@@ -200,7 +188,7 @@ const TimetableScheduler = () => {
             }}
           />
         </Container>
-      </Col>
+      </div>
     </div>
   );
 };
