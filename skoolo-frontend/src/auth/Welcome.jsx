@@ -269,7 +269,7 @@ const Welcome = () => {
                         </Col>
                         <Col xs={6} sm={4} lg={2} className="d-flex flex-column align-items-center">
                             <FaBolt className={`mb-3 ${styles.techIcon}`} />
-                            <p className="fw-bold text-white mb-1">Render / Expo Go</p>
+                            <p className="fw-bold text-white mb-1">Railway / Vercel</p>
                             <span className="text-secondary text-sm">Deployment</span>
                         </Col>
                     </Row>
