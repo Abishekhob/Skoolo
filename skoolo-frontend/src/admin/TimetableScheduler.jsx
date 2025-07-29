@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Form, Spinner, Card } from 'react-bootstrap';
-import { FaCalendarAlt, FaInfoCircle } from 'react-icons/fa'; // Import icons
+import { FaCalendarAlt, FaInfoCircle } from 'react-icons/fa';
 import API from '../services/api';
-import TimetableTable from './TimetableTable'; // Assuming this component is also styled well
-import AdminSidebar from './AdminSidebar'; // Assuming this component is styled well
-import ScheduleTeacherModal from './ScheduleTeacherModal'; // Assuming this component is styled well
-import './style/TimetableScheduler.css'; // Dedicated CSS for this component
+import TimetableTable from './TimetableTable';
+import AdminSidebar from './AdminSidebar';
+import ScheduleTeacherModal from './ScheduleTeacherModal';
+import './style/TimetableScheduler.css'; // Link to the new CSS file
 
 const TimetableScheduler = () => {
   const [classes, setClasses] = useState([]);
@@ -22,6 +22,7 @@ const TimetableScheduler = () => {
     period: '',
     teacherId: '',
     subjectName: '',
+    subjectId: '',
   });
 
   const handleCellClick = (day, period, subject, teacherId) => {
@@ -34,6 +35,14 @@ const TimetableScheduler = () => {
     });
     setShowModal(true);
   };
+
+  useEffect(() => {
+    // Set dark theme on body
+    document.body.classList.add('dark-theme');
+    return () => {
+      document.body.classList.remove('dark-theme');
+    };
+  }, []);
 
   useEffect(() => {
     API.get('/admin/classes')
@@ -58,7 +67,7 @@ const TimetableScheduler = () => {
         .then(res => setTimetable(res.data || []))
         .catch(error => {
           console.error("Error fetching timetable:", error);
-          setTimetable([]); // Clear timetable on error
+          setTimetable([]);
         })
         .finally(() => setLoading(false));
     } else {
@@ -81,7 +90,7 @@ const TimetableScheduler = () => {
       <AdminSidebar />
 
       <Col md={10} className="main-content-area scrollable-content">
-        <Container fluid className="p-4">
+        <Container fluid className="p-4 timetable-scheduler-container">
           <h3 className="section-title mb-4">
             <FaCalendarAlt className="me-2 icon-lg" />
             Timetable Scheduler
@@ -140,7 +149,7 @@ const TimetableScheduler = () => {
 
           {loading ? (
             <div className="text-center my-5 loading-spinner-container">
-              <Spinner animation="border" variant="light" className="loading-spinner" />
+              <Spinner animation="border" variant="primary" className="loading-spinner" />
               <p className="loading-text mt-3">Loading timetable...</p>
             </div>
           ) : selectedClass && selectedSection ? (

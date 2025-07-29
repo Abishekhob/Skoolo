@@ -300,7 +300,7 @@
 
 .teacher-name-display {
     font-weight: 600;
-    color: var(--dark-text-primary);
+    color: var(--dark-bg-secondary);
 }
 
 .dark-input.form-control {
