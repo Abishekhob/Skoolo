@@ -1,377 +1,643 @@
-/* General Layout and Dashboard Structure */
+/* src/components/style/ManageTeachers.module.css */
+
+/* --- Base Styles & Variables for Dark Theme --- */
+:root {
+    --dark-bg-primary: #1a202c; /* Dark charcoal */
+    --dark-bg-secondary: #2d3748; /* Slightly lighter charcoal */
+    --dark-bg-tertiary: #4a5568; /* Even lighter for cards/elements */
+    --dark-text-primary: #e2e8f0; /* Off-white text */
+    --dark-text-secondary: #a0aec0; /* Lighter gray for secondary text */
+    --dark-border-color: #4a5568; /* Subtle border for elements */
+    --dark-input-bg: #2d3748;
+    --dark-input-border: #4a5568;
+    --dark-input-placeholder: #a0aec0;
+    --primary-blue: #007bff; /* Original primary blue for accents */
+    --primary-blue-hover: #0056b3;
+    --success-green: #28a745;
+    --success-green-hover: #218838;
+    --warning-yellow: #ffc107;
+    --warning-yellow-hover: #e0a800;
+    --info-cyan: #17a2b8;
+    --info-cyan-hover: #138496;
+    --secondary-gray: #6c757d;
+    --secondary-gray-hover: #5a6268;
+    --shadow-dark-light: rgba(0, 0, 0, 0.2);
+    --shadow-dark-medium: rgba(0, 0, 0, 0.35);
+    --shadow-dark-strong: rgba(0, 0, 0, 0.5);
+}
+
+/* --- General Layout and Dashboard Structure --- */
 .dashboard-layout {
-    display: flex; /* Use flexbox for sidebar and main content */
-    min-height: 100vh; /* Ensure it takes full viewport height */
-    background-color: #f8f9fa; /* Light background for the dashboard */
+    display: flex;
+    min-height: 100vh;
+    background-color: var(--dark-bg-primary); /* Dark theme primary background */
+    color: var(--dark-text-primary);
+    font-family: 'Inter', sans-serif; /* Modern, clean font */
+    overflow-x: hidden; /* Prevent body overflow */
 }
 
 .main-content-wrapper {
-    flex-grow: 1; /* Allows main content to take up remaining space */
-    padding-left: 0; /* Reset padding-left for mobile */
-    transition: padding-left 0.3s ease-in-out; /* Smooth transition for sidebar open/close */
-    overflow-x: hidden; /* Prevent horizontal scroll from content overflow */
+    flex-grow: 1;
+    padding-left: 0; /* Reset for mobile */
+    transition: margin-left 0.3s ease-in-out; /* Smooth transition for sidebar */
+    overflow-x: hidden;
 }
 
-/* Adjust main content based on sidebar state (example for a fixed sidebar) */
-/* Assuming AdminSidebar has a width (e.g., 250px) and pushes content */
-/* You might need to adjust this based on your actual AdminSidebar implementation */
-@media (min-width: 992px) { /* Adjust breakpoint as per your sidebar's responsiveness */
+/* Adjust main content based on sidebar state for larger screens */
+@media (min-width: 992px) {
     .main-content-wrapper {
-        margin-left: 250px; /* Adjust this value to match your sidebar's width */
-        /* If your sidebar is positioned absolutely/fixed, you might use padding-left */
+        margin-left: 250px; /* Assuming AdminSidebar has a width of 250px */
     }
 }
 
-
 .dashboard-container {
-    padding: 2rem !important; /* Important to override Bootstrap's default p-4 for consistency */
-    max-width: 100%; /* Ensure container doesn't overflow */
+    padding: 2rem !important;
+    max-width: 100%;
+    box-sizing: border-box; /* Include padding in element's total width and height */
 }
 
-/* Section Title */
+/* --- Section Title --- */
 .section-title {
-    color: #2c3e50; /* Darker text for titles */
-    margin-bottom: 2rem;
-    font-size: 2.2rem;
-    font-weight: 700;
+    color: var(--dark-text-primary);
+    margin-bottom: 2.5rem; /* Increased spacing */
+    font-size: 2.5rem; /* Slightly larger */
+    font-weight: 800; /* Bolder */
     display: flex;
     align-items: center;
-    gap: 10px;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+    gap: 15px; /* More space between icon and text */
+    text-shadow: 0 4px 8px var(--shadow-dark-light); /* Deeper shadow for pop */
+    letter-spacing: -0.02em; /* Tighter letter spacing for modern feel */
 }
 
 .icon-lg {
-    font-size: 2.5rem; /* Larger icon for the title */
-    color: #007bff; /* Primary color for the icon */
+    font-size: 2.8rem; /* Larger icon */
+    color: var(--primary-blue); /* Primary color for consistency */
+    filter: drop-shadow(0 2px 5px rgba(0, 123, 255, 0.3)); /* Subtle glow */
 }
 
-/* Action Panel Card */
+/* --- Action Panel Card --- */
 .action-panel-container {
     margin-bottom: 2.5rem;
 }
 
 .action-card {
     border: none;
-    border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08); /* Soft, subtle shadow */
-    background: linear-gradient(145deg, #ffffff, #f0f2f5); /* Light gradient background */
-    padding: 1.5rem;
+    border-radius: 16px; /* More rounded corners */
+    background: linear-gradient(145deg, var(--dark-bg-secondary), #232c3b); /* Deeper gradient */
+    box-shadow: 0 10px 30px var(--shadow-dark-medium); /* More prominent, soft shadow */
+    padding: 2rem; /* Increased padding */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.action-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px var(--shadow-dark-strong);
 }
 
 .add-teacher-btn {
-    background-color: #007bff;
-    border-color: #007bff;
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
-    font-weight: 600;
+    background-color: var(--primary-blue);
+    border-color: var(--primary-blue);
+    padding: 0.9rem 1.8rem; /* Larger buttons */
+    border-radius: 10px; /* More rounded */
+    font-weight: 700;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+    letter-spacing: 0.02em;
 }
 
 .add-teacher-btn:hover {
-    background-color: #0056b3;
-    border-color: #0056b3;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(0, 123, 255, 0.3);
+    background-color: var(--primary-blue-hover);
+    border-color: var(--primary-blue-hover);
+    transform: translateY(-3px) scale(1.01);
+    box-shadow: 0 8px 20px rgba(0, 123, 255, 0.4);
 }
 
 .upload-input-group {
-    max-width: 400px;
+    max-width: 450px; /* Slightly wider upload section */
 }
 
 .form-control-file {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
-    border: 1px solid #ced4da;
-    background-color: #f8f9fa;
-    color: #495057;
-    padding: 0.675rem 0.75rem; /* Align height with button */
-    height: auto; /* Ensure height adjusts */
+    background-color: var(--dark-input-bg);
+    border: 1px solid var(--dark-input-border);
+    color: var(--dark-text-primary);
+    padding: 0.8rem 1rem; /* Consistent padding */
+    height: auto;
     line-height: 1.5;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+
+.form-control-file::file-selector-button {
+    background-color: var(--dark-bg-tertiary);
+    color: var(--dark-text-primary);
+    border: none;
+    padding: 0.8rem 1rem;
+    margin-right: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.form-control-file::file-selector-button:hover {
+    background-color: #5a6478; /* Slightly lighter on hover */
 }
 
 .upload-btn {
-    background-color: #6c757d;
-    border-color: #6c757d;
+    background-color: var(--secondary-gray);
+    border-color: var(--secondary-gray);
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
     font-weight: 600;
     transition: all 0.3s ease;
+    padding: 0.9rem 1.5rem; /* Match add teacher button height */
+    letter-spacing: 0.02em;
 }
 
 .upload-btn:hover {
-    background-color: #5a6268;
-    border-color: #5a6268;
-    transform: translateY(-2px);
+    background-color: var(--secondary-gray-hover);
+    border-color: var(--secondary-gray-hover);
+    transform: translateY(-3px) scale(1.01);
 }
 
 .text-muted-info {
-    font-size: 0.85rem;
-    color: #6c757d !important;
+    font-size: 0.8rem;
+    color: var(--dark-text-secondary) !important;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end; /* Align to the right for desktop, center for mobile */
     gap: 5px;
-    margin-top: 0.5rem;
+    margin-top: 0.8rem;
+    opacity: 0.8;
 }
 
-/* Desktop Table View */
-.data-table-container {
-    background-color: #ffffff;
+@media (max-width: 767.98px) {
+    .text-muted-info {
+        justify-content: center; /* Center on mobile */
+    }
+}
+
+/* --- Search Bar --- */
+.search-bar-container {
+    margin-bottom: 2.5rem;
+}
+
+.search-input-group {
     border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-    overflow: hidden; /* Ensures rounded corners apply to content */
+    overflow: hidden; /* Ensures rounded corners apply */
+    box-shadow: 0 5px 15px var(--shadow-dark-light);
+}
+
+.search-icon-wrapper {
+    background-color: var(--dark-bg-secondary);
+    border: 1px solid var(--dark-input-border);
+    border-right: none;
+    color: var(--dark-text-secondary);
+    padding: 0.8rem 1rem;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+}
+
+.search-icon {
+    font-size: 1.2rem;
+}
+
+.search-input.form-control {
+    background-color: var(--dark-input-bg);
+    border: 1px solid var(--dark-input-border);
+    border-left: none;
+    color: var(--dark-text-primary);
+    padding: 0.8rem 1rem;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+
+.search-input.form-control::placeholder {
+    color: var(--dark-input-placeholder);
+    opacity: 0.7;
+}
+
+.search-input.form-control:focus {
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+    background-color: #384252; /* Slightly darker on focus */
+}
+
+/* --- Desktop Table View --- */
+.data-table-container {
+    background-color: var(--dark-bg-secondary);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px var(--shadow-dark-medium);
+    overflow: hidden;
+    padding: 1.5rem; /* Padding inside the container for table to breathe */
 }
 
 .table-responsive-wrapper {
-    overflow-x: auto; /* Enable horizontal scroll for small screens within desktop view */
+    overflow-x: auto;
+    /* Optional: Add a subtle scrollbar for dark theme */
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-blue) var(--dark-bg-tertiary);
 }
 
+.table-responsive-wrapper::-webkit-scrollbar {
+    height: 8px;
+}
+.table-responsive-wrapper::-webkit-scrollbar-track {
+    background: var(--dark-bg-tertiary);
+    border-radius: 10px;
+}
+.table-responsive-wrapper::-webkit-scrollbar-thumb {
+    background-color: var(--primary-blue);
+    border-radius: 10px;
+    border: 2px solid var(--dark-bg-secondary);
+}
+
+
 .teachers-table {
-    margin-bottom: 0; /* Remove default table margin */
-    min-width: 800px; /* Ensure a minimum width for better desktop experience */
+    margin-bottom: 0;
+    min-width: 900px; /* Increased min-width for more spacious feel */
     border-collapse: separate;
-    border-spacing: 0; /* Remove space between cells */
+    border-spacing: 0;
+    color: var(--dark-text-primary); /* Default text color for table */
 }
 
 .teachers-table th,
 .teachers-table td {
-    padding: 1rem 1.25rem;
+    padding: 1.2rem 1.5rem; /* More padding for better readability */
     vertical-align: middle;
-    border-top: 1px solid #e9ecef;
-    font-size: 0.95rem;
+    border-top: 1px solid var(--dark-border-color); /* Darker border */
+    font-size: 0.98rem; /* Slightly larger font */
 }
 
 .teachers-table thead th {
-    background-color: #e9f5ff; /* Light blue header */
-    color: #2c3e50;
+    background-color: #2a3341; /* Darker blue-gray header */
+    color: var(--primary-blue); /* Primary blue for header text */
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    border-bottom: 2px solid #007bff;
+    letter-spacing: 0.08em; /* More distinct letter spacing */
+    border-bottom: 3px solid var(--primary-blue); /* Thicker, prominent bottom border */
+    position: sticky;
+    top: 0;
+    z-index: 1; /* Keep header sticky on scroll */
+}
+
+.teachers-table tbody tr {
+    transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
 .teachers-table tbody tr:hover {
-    background-color: #f0f8ff; /* Lighter blue on hover */
+    background-color: #384252; /* Lighter dark blue-gray on hover */
+    transform: scale(1.005); /* Subtle scale effect */
     cursor: pointer;
+}
+
+.teacher-table-row:first-child td {
+    border-top: none; /* Remove top border for first row */
 }
 
 .teacher-name-display {
     font-weight: 600;
-    color: #34495e;
+    color: var(--dark-text-primary);
 }
 
 .dark-input.form-control {
-    background-color: #f0f2f5; /* Light gray background for input fields */
-    border-color: #dcdcdc;
-    color: #34495e;
-    border-radius: 6px;
+    background-color: var(--dark-input-bg);
+    border-color: var(--dark-input-border);
+    color: var(--dark-text-primary);
+    border-radius: 8px; /* More rounded */
     transition: all 0.2s ease;
+    padding: 0.6rem 0.8rem; /* Smaller padding for inline edit */
+    font-size: 0.95rem;
 }
 
 .dark-input.form-control:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
-    background-color: #ffffff;
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.3);
+    background-color: #384252;
 }
 
-/* Actions Column */
+/* --- Actions Column Buttons --- */
 .actions-column {
     text-align: center;
-    white-space: nowrap; /* Prevent buttons from wrapping */
+    white-space: nowrap;
 }
 
 .save-btn,
 .cancel-btn,
 .assign-btn,
 .edit-btn {
-    border-radius: 6px;
-    font-weight: 500;
-    padding: 0.5rem 1rem;
-    transition: all 0.2s ease;
+    border-radius: 8px; /* More rounded */
+    font-weight: 600;
+    padding: 0.6rem 1.2rem; /* Consistent padding */
+    transition: all 0.2s ease, transform 0.1s ease;
+    font-size: 0.9rem;
 }
 
 .save-btn {
-    background-color: #28a745;
-    border-color: #28a745;
+    background-color: var(--success-green);
+    border-color: var(--success-green);
+    box-shadow: 0 2px 8px rgba(40, 167, 69, 0.2);
 }
 .save-btn:hover {
-    background-color: #218838;
-    border-color: #1e7e34;
-    transform: scale(1.03);
+    background-color: var(--success-green-hover);
+    border-color: var(--success-green-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
 }
 
 .cancel-btn {
-    background-color: #6c757d;
-    border-color: #6c757d;
+    background-color: var(--secondary-gray);
+    border-color: var(--secondary-gray);
+    box-shadow: 0 2px 8px rgba(108, 117, 125, 0.2);
 }
 .cancel-btn:hover {
-    background-color: #5a6268;
-    border-color: #545b62;
-    transform: scale(1.03);
+    background-color: var(--secondary-gray-hover);
+    border-color: var(--secondary-gray-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
 }
 
 .assign-btn {
-    background-color: #17a2b8;
-    border-color: #17a2b8;
+    background-color: var(--info-cyan);
+    border-color: var(--info-cyan);
+    box-shadow: 0 2px 8px rgba(23, 162, 184, 0.2);
 }
 .assign-btn:hover {
-    background-color: #138496;
-    border-color: #117a8b;
-    transform: scale(1.03);
+    background-color: var(--info-cyan-hover);
+    border-color: var(--info-cyan-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(23, 162, 184, 0.3);
 }
 
 .edit-btn {
-    background-color: #ffc107;
-    border-color: #ffc107;
-    color: #343a40; /* Darker text for warning button */
+    background-color: var(--warning-yellow);
+    border-color: var(--warning-yellow);
+    color: #343a40; /* Keep dark text for warning */
+    box-shadow: 0 2px 8px rgba(255, 193, 7, 0.2);
 }
 .edit-btn:hover {
-    background-color: #e0a800;
-    border-color: #d39e00;
-    transform: scale(1.03);
+    background-color: var(--warning-yellow-hover);
+    border-color: var(--warning-yellow-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
 }
 
-/* Mobile Card View */
+/* --- Mobile Card View --- */
 .mobile-cards-container {
-    padding-top: 1rem;
+    padding-top: 1.5rem;
 }
 
 .teacher-card {
     border: none;
-    border-radius: 12px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.07);
-    background: linear-gradient(160deg, #ffffff, #f9fbfd);
+    border-radius: 16px;
+    box-shadow: 0 8px 20px var(--shadow-dark-medium);
+    background: linear-gradient(160deg, var(--dark-bg-secondary), #2a3341); /* Dark gradient for cards */
     overflow: hidden;
-    position: relative; /* For dropdown positioning */
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.teacher-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px var(--shadow-dark-strong);
 }
 
 .teacher-card-title {
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     font-weight: 700;
-    color: #2c3e50;
-    margin-bottom: 0.75rem;
+    color: var(--dark-text-primary);
+    margin-bottom: 0.8rem;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .teacher-info {
-    font-size: 0.95rem;
-    color: #555;
-    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    color: var(--dark-text-secondary);
+    margin-bottom: 0.6rem;
     display: flex;
+    flex-wrap: wrap; /* Allow wrapping on very small screens */
     align-items: center;
-    gap: 8px;
+    gap: 10px;
 }
 
 .info-label {
-    color: #007bff;
-    min-width: 60px; /* Align labels */
+    color: var(--primary-blue);
+    min-width: 70px; /* Align labels better */
+    font-weight: 600;
 }
 
 .button-group-mobile {
     display: flex;
     justify-content: flex-start;
-    gap: 10px;
+    gap: 15px; /* More spacing */
+    margin-top: 1.5rem;
 }
 
-/* Dropdown specific styles */
+/* --- Dropdown specific styles --- */
 .action-dropdown .dropdown-toggle-custom {
-    background-color: #007bff;
-    border-color: #007bff;
-    padding: 0.4rem 0.6rem;
-    border-radius: 50%; /* Circular button */
-    width: 38px;
-    height: 38px;
+    background-color: var(--dark-bg-tertiary);
+    border-color: var(--dark-border-color);
+    padding: 0.5rem 0.7rem;
+    border-radius: 50%;
+    width: 42px; /* Slightly larger circle */
+    height: 42px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: all 0.2s ease;
-}
-
-.action-dropdown .dropdown-toggle-custom::after {
-    display: none; /* Hide default caret */
+    box-shadow: 0 2px 8px var(--shadow-dark-light);
+    transition: all 0.2s ease, transform 0.1s ease;
+    color: var(--dark-text-secondary); /* Icon color */
 }
 
 .action-dropdown .dropdown-toggle-custom:hover {
-    background-color: #0056b3;
-    border-color: #0056b3;
-    transform: scale(1.05);
+    background-color: #5a6478; /* Lighter dark-bg-tertiary on hover */
+    border-color: #5a6478;
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px var(--shadow-dark-medium);
+    color: var(--dark-text-primary);
+}
+
+.action-dropdown .dropdown-toggle-custom::after {
+    display: none;
 }
 
 .dropdown-menu-custom {
-    border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-    padding: 0.5rem 0;
-    min-width: 200px;
-    background-color: #2c3e50; /* Dark background for dropdown */
-    border: none;
+    border-radius: 10px; /* More rounded */
+    box-shadow: 0 8px 25px var(--shadow-dark-strong); /* Deeper shadow */
+    padding: 0.6rem 0;
+    min-width: 220px; /* Wider dropdown */
+    background-color: #2a3341; /* Darker background for dropdown */
+    border: 1px solid var(--dark-border-color);
+    animation: fadeInScale 0.2s ease-out forwards; /* Simple animation */
 }
 
 .dropdown-item-custom {
-    color: #ecf0f1; /* Light text for items */
-    padding: 0.75rem 1.25rem;
-    font-size: 0.95rem;
+    color: var(--dark-text-primary); /* Light text for items */
+    padding: 0.8rem 1.5rem; /* More padding */
+    font-size: 0.98rem;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .dropdown-item-custom:hover,
 .dropdown-item-custom:active {
-    background-color: #007bff; /* Primary color on hover/active */
+    background-color: var(--primary-blue);
     color: #ffffff;
-    border-radius: 0; /* Override Bootstrap's default for full width */
+    border-radius: 0;
 }
 
-/* Responsive Adjustments */
-@media (max-width: 767.98px) {
-    .section-title {
-        font-size: 1.8rem;
-        text-align: center;
-        justify-content: center;
+/* --- Animations --- */
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* --- Responsiveness Adjustments --- */
+
+/* Smaller screens (e.g., tablets, large phones) */
+@media (max-width: 991.98px) {
+    .main-content-wrapper {
+        margin-left: 0; /* Sidebar collapses or becomes overlay, no left margin */
+        padding: 1rem; /* Reduce overall padding on smaller screens */
     }
 
-    .action-panel-container .d-flex {
-        flex-direction: column;
+    .dashboard-container {
+        padding: 1rem !important;
+    }
+
+    .section-title {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .icon-lg {
+        font-size: 2.2rem;
+    }
+
+    .action-card {
+        padding: 1.5rem;
+    }
+
+    .d-flex.flex-column.flex-md-row {
+        flex-direction: column !important;
         align-items: stretch !important;
     }
 
-    .add-teacher-btn,
+    .add-teacher-btn {
+        width: 100%;
+        margin-bottom: 1rem !important;
+        padding: 0.8rem 1.5rem;
+    }
+
     .upload-input-group {
         width: 100%;
+        max-width: none; /* Remove max-width for full width */
     }
 
-    .upload-input-group .form-control-file,
-    .upload-input-group .btn {
-        border-radius: 8px !important; /* Full border-radius for mobile */
-    }
-
-    .upload-input-group .form-control-file {
-        margin-bottom: 10px;
-    }
-
-    .upload-input-group .input-group-text,
-    .upload-input-group .btn {
-        border-top-left-radius: 8px !important;
-        border-bottom-left-radius: 8px !important;
+    .form-control-file {
+        flex: 1; /* Make file input take available space */
     }
 
     .upload-btn {
-        margin-top: 0.5rem;
+        flex-shrink: 0; /* Prevent button from shrinking */
+        padding: 0.8rem 1.2rem;
+    }
+    
+    .search-input-group {
+        width: 100%;
     }
 
-    .teacher-card {
-        margin-left: auto;
-        margin-right: auto;
-        max-width: 500px; /* Limit card width on larger mobile devices */
+    .teachers-table {
+        min-width: unset; /* Remove min-width for mobile table */
     }
 }
 
-/* Ensure padding for smaller screens when sidebar is hidden/collapsed */
-@media (max-width: 991.98px) {
-    .main-content-wrapper {
-        padding-left: 1rem; /* Adjust as needed, Bootstrap's p-4 is 1.5rem */
-        padding-right: 1rem;
-        margin-left: 0; /* Reset margin for smaller screens */
+/* Very small screens (e.g., phones) */
+@media (max-width: 575.98px) {
+    .dashboard-container {
+        padding: 0.75rem !important;
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+        gap: 10px;
+    }
+
+    .icon-lg {
+        font-size: 2rem;
+    }
+
+    .action-card {
+        padding: 1rem;
+        border-radius: 10px;
+    }
+
+    .add-teacher-btn,
+    .upload-btn {
+        padding: 0.7rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .form-control-file,
+    .search-input.form-control {
+        padding: 0.7rem 0.8rem;
+        font-size: 0.9rem;
+    }
+
+    .teacher-card {
+        border-radius: 10px;
+        padding: 1rem;
+    }
+
+    .teacher-card-title {
+        font-size: 1.2rem;
+    }
+
+    .teacher-info {
+        font-size: 0.9rem;
+        gap: 5px;
+        flex-direction: column; /* Stack info labels vertically */
+        align-items: flex-start;
+    }
+
+    .info-label {
+        min-width: unset; /* Remove fixed width for labels */
+    }
+
+    .button-group-mobile {
+        flex-direction: column; /* Stack action buttons vertically */
+        gap: 10px;
+    }
+
+    .save-btn,
+    .cancel-btn {
+        width: 100%;
+    }
+
+    .action-dropdown .dropdown-toggle-custom {
+        width: 36px;
+        height: 36px;
+        padding: 0.3rem 0.5rem;
+    }
+
+    .dropdown-menu-custom {
+        min-width: 180px;
+    }
+    .dropdown-item-custom {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
     }
 }

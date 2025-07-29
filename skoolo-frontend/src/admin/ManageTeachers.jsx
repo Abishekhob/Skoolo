@@ -1,8 +1,9 @@
+// src/components/ManageTeachers.jsx
 import React, { useEffect, useState, memo } from 'react';
 import {
     Container, Table, Button, Form, Row, Col, Dropdown, Card, InputGroup
 } from 'react-bootstrap';
-import { FaEdit, FaSave, FaTimes, FaUpload, FaUserPlus, FaInfoCircle, FaUsersCog, FaEllipsisV } from 'react-icons/fa';
+import { FaEdit, FaSave, FaTimes, FaUpload, FaUserPlus, FaInfoCircle, FaUsersCog, FaEllipsisV, FaSearch } from 'react-icons/fa'; // Added FaSearch
 import API from '../services/api'; // Assuming this path is correct
 import AssignTeacherModal from './AssignTeacherModal'; // Assuming this path is correct
 import AdminSidebar from './AdminSidebar'; // Assuming this path is correct
@@ -13,7 +14,7 @@ import styles from './style/ManageTeachers.module.css'; // Updated import for CS
 // Memoized TeacherRow component for desktop table view
 const TeacherRow = memo(({ teacher, i, isEditing, editedTeacher, handleInputChange, handleEditClick, handleSaveClick, handleCancelClick, openAssignModal }) => {
     return (
-        <tr key={teacher.id}>
+        <tr key={teacher.id} className={styles["teacher-table-row"]}>
             <td>{i + 1}</td>
             <td>
                 {isEditing ? (
@@ -237,6 +238,7 @@ const ManageTeachers = () => {
         firstName: '', lastName: '', email: '', contactNumber: ''
     });
     const [uploadFileData, setUploadFileData] = useState(null);
+    const [searchQuery, setSearchQuery] = useState(''); // New state for search query
 
     useEffect(() => {
         fetchTeachers();
@@ -420,6 +422,12 @@ const ManageTeachers = () => {
         }));
     };
 
+    const filteredTeachers = teachers.filter(teacher =>
+        teacher.fullName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        teacher.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        teacher.contactNumber.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
     return (
         <div className={styles["dashboard-layout"]}>
             <AdminSidebar />
@@ -457,6 +465,22 @@ const ManageTeachers = () => {
                         </Card>
                     </div>
 
+                    {/* Search Bar */}
+                    <div className={styles["search-bar-container"] + " mb-4"}>
+                        <InputGroup className={styles["search-input-group"]}>
+                            <InputGroup.Text className={styles["search-icon-wrapper"]}>
+                                <FaSearch className={styles["search-icon"]} />
+                            </InputGroup.Text>
+                            <Form.Control
+                                type="text"
+                                placeholder="Search teachers by name, email, or contact number..."
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                className={styles["dark-input"] + " " + styles["search-input"]}
+                            />
+                        </InputGroup>
+                    </div>
+
                     {/* Desktop Table View */}
                     <div className={styles["data-table-container"] + " d-none d-lg-block"}>
                         <div className={styles["table-responsive-wrapper"]}>
@@ -471,20 +495,26 @@ const ManageTeachers = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {teachers.map((teacher, i) => (
-                                        <TeacherRow
-                                            key={teacher.id}
-                                            teacher={teacher}
-                                            i={i}
-                                            isEditing={editRowId === teacher.id}
-                                            editedTeacher={editedTeacher}
-                                            handleInputChange={handleInputChange}
-                                            handleEditClick={handleEditClick}
-                                            handleSaveClick={handleSaveClick}
-                                            handleCancelClick={handleCancelClick}
-                                            openAssignModal={openAssignModal}
-                                        />
-                                    ))}
+                                    {filteredTeachers.length > 0 ? (
+                                        filteredTeachers.map((teacher, i) => (
+                                            <TeacherRow
+                                                key={teacher.id}
+                                                teacher={teacher}
+                                                i={i}
+                                                isEditing={editRowId === teacher.id}
+                                                editedTeacher={editedTeacher}
+                                                handleInputChange={handleInputChange}
+                                                handleEditClick={handleEditClick}
+                                                handleSaveClick={handleSaveClick}
+                                                handleCancelClick={handleCancelClick}
+                                                openAssignModal={openAssignModal}
+                                            />
+                                        ))
+                                    ) : (
+                                        <tr>
+                                            <td colSpan="5" className="text-center">No teachers found.</td>
+                                        </tr>
+                                    )}
                                 </tbody>
                             </Table>
                         </div>
@@ -492,19 +522,23 @@ const ManageTeachers = () => {
 
                     {/* Mobile Card View */}
                     <div className={styles["mobile-cards-container"] + " d-lg-none"}>
-                        {teachers.map((teacher) => (
-                            <TeacherCard
-                                key={teacher.id}
-                                teacher={teacher}
-                                isEditing={editRowId === teacher.id}
-                                editedTeacher={editedTeacher}
-                                handleInputChange={handleInputChange}
-                                handleEditClick={handleEditClick}
-                                handleSaveClick={handleSaveClick}
-                                handleCancelClick={handleCancelClick}
-                                openAssignModal={openAssignModal}
-                            />
-                        ))}
+                        {filteredTeachers.length > 0 ? (
+                            filteredTeachers.map((teacher) => (
+                                <TeacherCard
+                                    key={teacher.id}
+                                    teacher={teacher}
+                                    isEditing={editRowId === teacher.id}
+                                    editedTeacher={editedTeacher}
+                                    handleInputChange={handleInputChange}
+                                    handleEditClick={handleEditClick}
+                                    handleSaveClick={handleSaveClick}
+                                    handleCancelClick={handleCancelClick}
+                                    openAssignModal={openAssignModal}
+                                />
+                            ))
+                        ) : (
+                            <p className="text-center text-muted">No teachers found.</p>
+                        )}
                     </div>
 
                     <AssignTeacherModal
