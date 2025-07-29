@@ -1,9 +1,10 @@
 .admin-layout {
-  height: 100vh;           /* Force full height */
+  height: 100vh;
   display: flex;
   flex-direction: row;
-  overflow: hidden;        /* Prevent layout overflow */
+  /* overflow: hidden; ❌ Remove this line */
 }
+
 
 
 .main-content-area {
