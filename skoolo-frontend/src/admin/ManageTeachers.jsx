@@ -8,7 +8,7 @@ import AssignTeacherModal from './AssignTeacherModal';
 import AdminSidebar from './AdminSidebar';
 import AddTeacherModal from './AddTeacherModal';
 
-import './style/ManageTeachers.css'; // Changed to .css for external stylesheet
+import './style/ManageTeachers.module.css'; // Changed to .css for external stylesheet
 
 // Memoize the TeacherRow component to prevent unnecessary re-renders of individual rows
 const TeacherRow = memo(({ teacher, i, isEditing, editedTeacher, handleInputChange, handleEditClick, handleSaveClick, handleCancelClick, openAssignModal }) => {
