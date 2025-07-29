@@ -1,3 +1,11 @@
+/* Add these global styles if not already present in your main CSS or index.css */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Prevent body scroll if the layout should manage scrolling internally */
+}
+
 /* Base styles for dark theme */
 body.dark-theme {
   --background-color: #1a1a2e; /* Dark blue/purple */
@@ -19,20 +27,27 @@ body.dark-theme {
 .timetable-scheduler-container {
   background-color: var(--background-color);
   color: var(--text-color);
-  min-height: 100vh; /* Ensure it takes full height */
+  /* min-height: 100vh;  Remove this, as main-content-area will handle its height and scrolling */
   padding-bottom: 50px; /* Add some padding at the bottom */
 }
 
-/* Admin Layout and Sidebar - Assuming AdminSidebar styles complement this */
+/* Admin Layout and Sidebar */
 .admin-layout {
-  min-height: 100vh;
+  min-height: 100vh; /* This needs to fill the viewport height */
+  display: flex; /* Make it a flex container */
+  flex-direction: row; /* Columns side-by-side */
+  width: 100%; /* Ensure it spans full width */
+  overflow: hidden; /* Prevent this container from causing body scroll */
 }
 
 .main-content-area {
   background-color: var(--background-color);
   padding: 2rem;
-  overflow-y: auto; /* Enable scrolling for content */
-  height: 100vh; /* Make sure it takes full height to enable scrolling */
+  overflow-y: auto; /* Enable scrolling for content within this column */
+  flex-grow: 1; /* Allow it to grow and take available space */
+  height: 100vh; /* Ensure it calculates height based on viewport */
+  /* If this still doesn't scroll, try height: 100% or flex: 1 for its container */
+  box-sizing: border-box; /* Include padding in height calculation */
 }
 
 /* Section Title */
@@ -235,6 +250,7 @@ body.dark-theme {
 }
 
 /* Scrollbar styling for dark theme */
+/* These apply to elements with `overflow-y: auto` or `overflow-x: auto` */
 .scrollable-content::-webkit-scrollbar {
   width: 8px;
   height: 8px;
