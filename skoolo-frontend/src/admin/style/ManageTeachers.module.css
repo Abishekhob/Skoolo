@@ -1,483 +1,411 @@
-/* Variables for Dark Theme (same as before) */
-:root {
-    --background-dark: #1a1a2e;
-    --card-background: rgba(25, 25, 40, 0.8);
-    --text-primary: #e0e0e0;
-    --text-secondary: #a0a0a0;
-    --border-color: rgba(60, 60, 80, 0.5);
-    --header-background: #16213e;
-    --table-header-bg: #0f3460;
-    --table-row-hover: rgba(25, 25, 40, 0.6);
-    --button-primary-bg: #0f3460;
-    --button-primary-hover-bg: #16213e;
-    --button-secondary-bg: #52616b;
-    --button-secondary-hover-bg: #404b53;
-    --button-success-bg: #28a745;
-    --button-success-hover-bg: #218838;
-    --button-info-bg: #17a2b8;
-    --button-info-hover-bg: #138496;
-    --input-bg: rgba(40, 40, 60, 0.7);
-    --input-border: rgba(80, 80, 100, 0.5);
-    --dropdown-bg: #16213e;
-    --dropdown-item-hover-bg: #0f3460;
-    --box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-    --text-shadow-light: 0 0 5px rgba(233, 69, 96, 0.1);
-}
-
-/* Base Styles (same as before) */
-.dashboardWrapper {
+/* General Layout and Typography */
+.dashboard-wrapper {
     display: flex;
     min-height: 100vh;
-    background-color: var(--background-dark);
-    color: var(--text-primary);
-    font-family: 'Inter', sans-serif;
-    overflow-x: hidden; /* Prevent horizontal scroll on body */
+    background-color: #f8f9fa; /* Light background for the dashboard */
 }
 
-.adminSidebar {
-    flex-shrink: 0;
+.admin-sidebar {
+    /* Styles for your AdminSidebar component if needed */
+    /* Assumes it handles its own responsiveness and sizing */
 }
 
-.mainContentArea {
+.main-content-area {
     flex-grow: 1;
-    padding: 2rem;
-    /* Allow main content to scroll if needed, but not clip dropdowns */
-    overflow-y: auto;
-    overflow-x: hidden; /* Prevent horizontal scroll within content area */
+    padding-left: 0; /* Adjust as needed, usually controlled by sidebar */
+    padding-right: 0;
 }
 
-.sectionTitle {
-    color: #e94560;
-    font-weight: 700;
+.container-fluid {
+    padding: 2rem !important;
+}
+
+.section-title {
+    font-size: 2.2rem;
+    color: #2c3e50; /* Darker blue-grey for headings */
     margin-bottom: 2.5rem;
+    font-weight: 700;
     display: flex;
     align-items: center;
-    gap: 1rem;
-    font-size: 2.2rem;
-    text-shadow: 0 0 10px rgba(233, 69, 96, 0.3);
+    gap: 10px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-.iconLg {
-    font-size: 2.5rem;
-    color: var(--text-primary);
+.icon-lg {
+    font-size: 1.8rem;
+    color: #007bff; /* Primary color for icons */
 }
 
-/* --- Action Panel & Cards --- */
-.actionPanel {
+/* Action Panel Styles (Add/Upload) */
+.action-panel {
     margin-bottom: 3rem;
 }
 
-.actionCard {
-    background-color: var(--card-background);
-    border: 1px solid var(--border-color);
+.action-card {
+    border: none;
     border-radius: 12px;
-    box-shadow: var(--box-shadow);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08); /* Softer, larger shadow */
+    background: linear-gradient(135deg, #ffffff 0%, #f0f4f8 100%); /* Subtle gradient */
     padding: 1.5rem;
-    transition: all 0.3s ease-in-out;
 }
 
-.actionCard:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
-}
-
-.addTeacherBtn,
-.uploadBtn {
+.add-teacher-btn,
+.upload-btn {
     font-weight: 600;
-    border-radius: 8px;
     padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    transition: all 0.2s ease-in-out;
+    gap: 8px;
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2); /* Shadow for primary button */
 }
 
-.addTeacherBtn {
-    background-color: var(--button-primary-bg);
-    border-color: var(--button-primary-bg);
+.add-teacher-btn {
+    background-color: #007bff;
+    border-color: #007bff;
 }
 
-.addTeacherBtn:hover {
-    background-color: var(--button-primary-hover-bg);
-    border-color: var(--button-primary-hover-bg);
+.add-teacher-btn:hover {
+    background-color: #0056b3;
+    border-color: #004085;
     transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 123, 255, 0.3);
 }
 
-.uploadBtn {
-    background-color: var(--button-secondary-bg);
-    border-color: var(--button-secondary-bg);
-    color: var(--text-primary);
+.upload-btn {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    box-shadow: 0 4px 10px rgba(108, 117, 125, 0.2); /* Shadow for secondary button */
 }
 
-.uploadBtn:hover {
-    background-color: var(--button-secondary-hover-bg);
-    border-color: var(--button-secondary-hover-bg);
+.upload-btn:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
     transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(108, 117, 125, 0.3);
 }
 
-.uploadInputGroup .formControl {
-    background-color: var(--input-bg);
-    border: 1px solid var(--input-border);
-    color: var(--text-primary);
+.upload-input-group .form-control {
     border-radius: 8px 0 0 8px;
-    padding: 0.75rem 1rem;
-}
-.uploadInputGroup .formControl::file-selector-button {
-    background-color: var(--button-info-bg);
-    color: var(--text-primary);
-    border: none;
-    padding: 0.75rem 1rem;
-    margin-right: 1rem;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
+    border: 1px solid #ced4da;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
 }
 
-.uploadInputGroup .formControl::file-selector-button:hover {
-    background-color: var(--button-info-hover-bg);
+.upload-input-group .form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
 }
 
-.textMuted {
-    color: var(--text-secondary) !important;
+.upload-input-group .btn {
+    border-radius: 0 8px 8px 0;
+}
+
+.text-muted {
     font-size: 0.85rem;
+    color: #6c757d !important;
+    padding-top: 0.5rem;
 }
 
-/* --- Table Styles (Desktop) --- */
-.dataTableContainer {
-    background-color: var(--card-background);
+/* Table Specific Styles (Desktop View) */
+.data-table-container {
+    position: relative; /* Needed for dropdown z-index context */
+    overflow-x: auto; /* Ensure horizontal scrolling for small screens if table content overflows */
     border-radius: 12px;
-    box-shadow: var(--box-shadow);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    padding: 1.5rem;
-    position: relative; /* Establish stacking context for children, critical for dropdown */
-    /* REMOVED: overflow property from here, as it can clip dropdowns. */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+    background-color: #fff;
 }
 
-/* Add a wrapper around the table that can scroll if the table is too wide */
-.tableResponsiveWrapper {
-    overflow-x: auto; /* Allow horizontal scrolling for wide tables */
-    -webkit-overflow-scrolling: touch; /* For smoother scrolling on iOS */
-    padding-bottom: 10px; /* Space for scrollbar */
-    margin-right: -10px; /* Counteract padding-bottom from parent */
+.table-responsive-wrapper {
+    overflow-x: auto; /* For tables that might exceed screen width */
+    -webkit-overflow-scrolling: touch;
+    border-radius: 12px; /* Apply border radius here too */
 }
 
-.teachersTable {
-    width: 100%;
+.teachers-table {
+    min-width: 800px; /* Ensure table doesn't get too cramped on slightly smaller desktops */
     margin-bottom: 0;
-    color: var(--text-primary);
-    border-collapse: separate;
+    border-collapse: separate; /* Required for border-radius on cells */
     border-spacing: 0;
-    /* Important: Ensure table itself does not clip content */
-    overflow: visible;
 }
 
-.teachersTable thead th {
-    background-color: var(--table-header-bg);
-    color: #fff;
-    border-bottom: 1px solid var(--border-color);
-    padding: 1rem 1.2rem;
+.teachers-table thead th {
+    background-color: #e9ecef; /* Lighter header background */
+    color: #495057;
     font-weight: 600;
-    text-align: left;
-    position: sticky;
-    top: 0;
-    z-index: 2; /* Increased z-index for sticky header */
-}
-
-.teachersTable tbody tr {
-    transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
-}
-
-.teachersTable tbody tr:nth-of-type(odd) {
-    background-color: rgba(25, 25, 40, 0.4);
-}
-
-.teachersTable tbody tr:nth-of-type(even) {
-    background-color: rgba(25, 25, 40, 0.2);
-}
-
-.teachersTable tbody tr:hover {
-    background-color: var(--table-row-hover);
-    transform: scale(1.005);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-}
-
-.teachersTable td {
-    padding: 1rem 1.2rem;
-    border-top: 1px solid var(--border-color);
+    padding: 1rem 1.25rem;
+    border-bottom: 2px solid #dee2e6;
     vertical-align: middle;
+    white-space: nowrap; /* Prevent wrapping in headers */
 }
 
-.teachersTable .teacherNameDisplay {
+.teachers-table tbody tr {
+    transition: background-color 0.2s ease-in-out;
+}
+
+.teachers-table tbody tr:hover {
+    background-color: #f0f8ff; /* Light blue on hover */
+}
+
+.teachers-table tbody td {
+    padding: 1rem 1.25rem;
+    vertical-align: middle;
+    border-top: 1px solid #dee2e6;
+    color: #343a40;
+}
+
+.teachers-table tbody tr:first-child td {
+    border-top: none; /* Remove top border for first row */
+}
+
+.teachers-table th:first-child,
+.teachers-table td:first-child {
+    border-top-left-radius: 10px; /* Rounded corners for the first cell of first row */
+    border-bottom-left-radius: 10px; /* Rounded corners for the first cell of last row */
+}
+
+.teachers-table th:last-child,
+.teachers-table td:last-child {
+    border-top-right-radius: 10px; /* Rounded corners for the last cell of first row */
+    border-bottom-right-radius: 10px; /* Rounded corners for the last cell of last row */
+}
+
+.teacher-name-display {
     font-weight: 500;
-    color: #a0c2e3;
+    color: #0056b3; /* A nice blue for teacher names */
 }
 
-.editInput {
-    background-color: var(--input-bg);
-    border: 1px solid var(--input-border);
-    color: var(--text-primary);
+.edit-input {
     border-radius: 6px;
+    border: 1px solid #ced4da;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.9rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.edit-input:focus {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.actions-column {
+    white-space: nowrap; /* Prevent buttons from wrapping */
+    width: 1%; /* Make column as small as possible */
+}
+
+.action-btn {
+    font-size: 0.85rem;
     padding: 0.4rem 0.8rem;
-    font-size: 0.95rem;
-    transition: border-color 0.2s ease;
-}
-.editInput:focus {
-    border-color: #0f3460;
-    box-shadow: 0 0 0 0.25rem rgba(15, 52, 96, 0.25);
-    background-color: rgba(40, 40, 60, 0.9);
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.2s ease;
 }
 
-.actionsColumn {
-    min-width: 180px;
-    position: relative; /* CRITICAL: Establishes a positioning context for the dropdown */
-    /* Ensure no clipping here either */
-    overflow: visible;
+.action-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
 }
 
-.saveBtn,
-.cancelBtn {
+.save-btn {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    background-color: #28a745;
+    border-color: #28a745;
+    transition: all 0.2s ease;
+}
+
+.save-btn:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cancel-btn {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    background-color: #6c757d;
+    border-color: #6c757d;
+    transition: all 0.2s ease;
+}
+
+.cancel-btn:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Mobile Card View Styles */
+.mobile-cards-container {
+    padding-top: 1rem;
+}
+
+.teacher-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    background: #ffffff;
+}
+
+.teacher-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.teacher-card-title {
+    font-size: 1.3rem;
+    color: #0056b3;
     font-weight: 600;
-    border-radius: 6px;
-    transition: all 0.2s ease-in-out;
-    padding: 0.5rem 1rem;
+    margin-bottom: 0.5rem;
 }
 
-.saveBtn {
-    background-color: var(--button-success-bg);
-    border-color: var(--button-success-bg);
-}
-.saveBtn:hover {
-    background-color: var(--button-success-hover-bg);
-    border-color: var(--button-success-hover-bg);
-    transform: translateY(-1px);
+.teacher-info {
+    font-size: 0.95rem;
+    color: #495057;
+    margin-bottom: 0.3rem;
 }
 
-.cancelBtn {
-    background-color: var(--button-secondary-bg);
-    border-color: var(--button-secondary-bg);
-}
-.cancelBtn:hover {
-    background-color: var(--button-secondary-hover-bg);
-    border-color: var(--button-secondary-hover-bg);
-    transform: translateY(-1px);
+.info-label {
+    font-weight: 600;
+    color: #212529;
 }
 
-/* --- Dropdown Actions --- */
-.actionDropdown {
-    position: relative; /* Ensure the dropdown itself is positioned */
-    /* This z-index might be overridden by React-Bootstrap's Popper.js,
-       but it's good practice to have it. */
-    z-index: 10;
+.button-group-mobile {
+    margin-top: 1rem;
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end; /* Align buttons to the right */
 }
 
-.actionDropdown .dropdownToggle {
-    background-color: var(--button-info-bg);
-    border-color: var(--button-info-bg);
-    color: white;
-    font-weight: 500;
-    border-radius: 6px;
-    padding: 0.5rem 1rem;
-    transition: background-color 0.2s ease, transform 0.1s ease;
-}
-.actionDropdown .dropdownToggle:hover {
-    background-color: var(--button-info-hover-bg);
-    border-color: var(--button-info-hover-bg);
-    transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-}
-
-.actionDropdown .dropdownMenu {
-    background-color: var(--dropdown-bg);
-    border: 1px solid var(--border-color);
+/* Dropdown Specific Styles (Mobile View - unchanged functionality) */
+.action-dropdown .dropdown-toggle {
+    background-color: #17a2b8; /* Info variant background */
+    border-color: #17a2b8;
+    color: #fff;
+    padding: 0.5rem 0.75rem;
     border-radius: 8px;
-    box-shadow: var(--box-shadow);
-    overflow: hidden;
-    /* CRITICAL: This z-index is the most important for the dropdown menu */
-    z-index: 1050; /* Bootstrap's default modal z-index is often 1050-1060, ensure it's higher than table content */
-    position: absolute !important; /* Force absolute positioning if React-Bootstrap's Popper doesn't apply it */
-    transform: translate3d(0, 5px, 0); /* Slight offset and hardware acceleration */
-    animation: fadeInDropdown 0.2s ease-out forwards;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(23, 162, 184, 0.2);
 }
 
-@keyframes fadeInDropdown {
-    from {
-        opacity: 0;
-        transform: translate3d(0, -10px, 0);
-    }
-    to {
-        opacity: 1;
-        transform: translate3d(0, 0, 0);
-    }
+.action-dropdown .dropdown-toggle::after {
+    display: none; /* Hide default caret */
 }
 
-.actionDropdown .dropdownItem {
-    color: var(--text-primary);
-    padding: 0.75rem 1rem;
+.action-dropdown .dropdown-toggle:hover {
+    background-color: #138496;
+    border-color: #117a8b;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(23, 162, 184, 0.3);
+}
+
+.action-dropdown .dropdown-menu {
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    padding: 0.5rem 0;
+    background-color: #343a40; /* Dark background for dropdown menu */
+    border: none;
+}
+
+.action-dropdown .dropdown-item {
+    color: #f8f9fa; /* Light text for dark dropdown */
+    padding: 0.75rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
     transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-.actionDropdown .dropdownItem:hover,
-.actionDropdown .dropdownItem:active {
-    background-color: var(--dropdown-item-hover-bg);
+.action-dropdown .dropdown-item:hover,
+.action-dropdown .dropdown-item:active {
+    background-color: #007bff; /* Primary blue on hover */
     color: #fff;
-    text-shadow: var(--text-shadow-light);
+    border-radius: 4px;
+    margin: 0 0.5rem;
 }
 
-/* --- Mobile Card View (same as before) --- */
-.mobileCardsContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
 
-.teacherCard {
-    background-color: var(--card-background);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    box-shadow: var(--box-shadow);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    transition: all 0.3s ease-in-out;
-}
-
-.teacherCard:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
-}
-
-.teacherCardTitle {
-    color: #a0c2e3;
-    font-weight: 600;
-    font-size: 1.3rem;
-    margin-bottom: 0.5rem;
-}
-
-.teacherInfo {
-    font-size: 0.95rem;
-    margin-bottom: 0.5rem;
-}
-
-.infoLabel {
-    color: var(--text-secondary);
-    font-weight: 500;
-}
-
-.buttonGroupMobile {
-    display: flex;
-    gap: 0.75rem;
-    margin-top: 1rem;
-    justify-content: flex-end;
-}
-
-/* --- Responsive Adjustments --- */
+/* Responsive Adjustments */
 @media (max-width: 991.98px) {
-    .dashboardWrapper {
-        flex-direction: column;
+    .main-content-area {
+        padding: 1rem !important; /* More padding on smaller screens */
     }
 
-    .adminSidebar {
-        width: 100%;
+    .section-title {
+        font-size: 1.8rem;
         margin-bottom: 2rem;
+        justify-content: center; /* Center title on mobile */
     }
 
-    .mainContentArea {
+    .icon-lg {
+        font-size: 1.5rem;
+    }
+
+    .action-card {
         padding: 1rem;
     }
 
-    .sectionTitle {
-        font-size: 1.8rem;
-        margin-bottom: 2rem;
-        justify-content: center;
-    }
-
-    .iconLg {
-        font-size: 2rem;
-    }
-
-    .actionPanel .d-flex {
-        flex-direction: column;
-        align-items: stretch !important;
-    }
-
-    .addTeacherBtn,
-    .uploadInputGroup {
+    .add-teacher-btn, .upload-input-group {
         width: 100%;
     }
 
-    .uploadInputGroup {
-        margin-top: 1rem;
+    .upload-input-group .form-control,
+    .upload-input-group .btn {
+        border-radius: 8px; /* Full border-radius for buttons and input on mobile */
     }
 
-    .uploadInputGroup .formControl {
-        border-radius: 8px;
+    .upload-input-group .form-control {
+        margin-bottom: 0.75rem;
     }
 
-    .uploadBtn {
-        width: 100%;
-        margin-top: 0.5rem;
-        border-radius: 8px;
+    .d-flex.flex-column.flex-md-row {
+        align-items: stretch !important; /* Stretch items to full width */
     }
 
-    .textMuted {
-        text-align: center !important;
+    .d-flex.flex-column.flex-md-row > .mb-2.mb-md-0 {
+        margin-bottom: 0.75rem !important; /* Add space between buttons on mobile */
     }
+}
 
-    .dataTableContainer {
+@media (min-width: 992px) {
+    .dashboard-wrapper {
+        display: grid;
+        grid-template-columns: auto 1fr; /* Sidebar width, then remaining for content */
+    }
+    .main-content-area {
+        padding-left: 20px; /* Adjust based on sidebar width */
+    }
+    .action-dropdown {
+        /* This will not be displayed on large screens for TeacherRow */
         display: none;
     }
+}
 
-    .mobileCardsContainer {
-        display: flex;
+/* Animations for interaction */
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
     }
-
-    .teachersTable .actionsColumn {
-        min-width: unset;
-    }
-
-    .teacherCard .actionDropdown .dropdownToggle {
-        padding: 0.5rem 0.75rem;
-        /* z-index on toggle itself doesn't affect menu visibility */
-    }
-    .teacherCard .actionDropdown .dropdownMenu {
-        z-index: 1050; /* Still ensure high z-index for mobile dropdowns */
-        position: absolute !important;
+    to {
+        opacity: 1;
+        transform: scale(1);
     }
 }
 
-@media (min-width: 768px) and (max-width: 991.98px) {
-    .mainContentArea {
-        padding: 1.5rem;
-    }
-
-    .sectionTitle {
-        font-size: 2rem;
-    }
-
-    .actionPanel .d-flex {
-        flex-direction: row;
-        justify-content: space-between;
-    }
-
-    .addTeacherBtn,
-    .uploadInputGroup {
-        width: auto;
-    }
-
-    .uploadInputGroup {
-        margin-top: 0;
-    }
+.teacher-card {
+    animation: fadeInScale 0.3s ease-out forwards;
 }
 
-/* Ensure React Bootstrap components inherit styles */
-.form-control,
-.btn,
-.card,
-.table,
-.dropdown-menu {
-    color: inherit;
-    background-color: inherit;
-    border-color: inherit;
+/* Transitions for hover effects */
+button, .form-control, .card {
+    transition: all 0.3s ease;
 }
