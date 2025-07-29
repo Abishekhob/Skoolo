@@ -80,7 +80,7 @@ const TimetableScheduler = () => {
     <Row className="g-0 admin-layout">
       <AdminSidebar />
 
-      <Col md={10} className="main-content-area scrollable-content"> {/* Added scrollable-content class */}
+      <Col md={10} className="main-content-area scrollable-content">
         <Container fluid className="p-4">
           <h3 className="section-title mb-4">
             <FaCalendarAlt className="me-2 icon-lg" />

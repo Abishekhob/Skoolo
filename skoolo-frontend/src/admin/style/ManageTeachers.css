@@ -1,16 +1,16 @@
 .admin-layout {
   display: flex;
-  height: 100vh;
-  overflow: hidden; /* Prevent double scrollbars */
+  min-height: 100vh; /* Changed from height: 100vh */
+  /* Removed overflow: hidden; */
 }
 
 .main-content-area {
   background-color: #0d1117; /* GitHub Dark BG */
   color: #c9d1d9; /* Light gray for text */
   padding: 2.5rem !important; /* Increased padding for main content */
-    flex: 1; /* Take remaining width beside sidebar */
-  overflow-y: auto;
-  max-height: 100vh; 
+  flex: 1; /* Take remaining width beside sidebar */
+  overflow-y: auto; /* This enables vertical scrolling when content overflows */
+  /* Removed max-height: 100vh; */
 }
 
 /* Section Title */

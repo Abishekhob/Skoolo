@@ -458,7 +458,6 @@ const ManageTeachers = () => {
             selectedClass={selectedClass}
             setSelectedClass={setSelectedClass}
             selectedSection={selectedSection}
-            setSelectedSection={setSelectedSection}
             fetchTimetable={fetchTimetable}
             timetable={timetable}
             handleCellClick={handleCellClick}
