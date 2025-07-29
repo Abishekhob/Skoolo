@@ -15,6 +15,8 @@
     --shadow-light: rgba(0, 0, 0, 0.3); /* Subtle shadow */
     --shadow-medium: rgba(0, 0, 0, 0.5); /* Medium shadow */
     --transition-speed: 0.3s ease; /* Smooth transitions */
+    --sidebar-width-desktop: 250px; /* Define sidebar width */
+    --sidebar-width-tablet: 200px; /* Adjust for tablet */
 }
 
 body {
@@ -26,61 +28,121 @@ body {
     overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
-/* --- Layout Specific Styles --- */
+/* --- Layout Specific Styles (Corrected) --- */
 .dashboard-layout {
-    display: flex;
+    display: flex; /* Use flexbox for side-by-side layout */
     min-height: 100vh; /* Full viewport height */
+    width: 100vw; /* Ensure it takes full width */
 }
 
 .admin-sidebar {
-    position: fixed; /* Keep sidebar fixed */
-    left: 0;
-    top: 0;
-    height: 100vh; /* Full height */
-    width: 250px; /* Standard sidebar width */
+    /* No longer fixed position for simpler flex layout */
+    flex-shrink: 0; /* Prevent sidebar from shrinking */
+    width: var(--sidebar-width-desktop); /* Default desktop width */
     background-color: var(--bg-card); /* Sidebar background */
     border-right: 1px solid var(--border-color);
     padding: 20px;
     box-shadow: 2px 0 10px var(--shadow-medium);
-    z-index: 1000; /* Ensure sidebar is above content on smaller screens */
-    transform: translateX(0); /* Default for desktop */
-    transition: transform 0.3s ease-in-out; /* Smooth transition for mobile toggle */
-}
-
-/* For mobile, consider a hidden sidebar that slides in */
-@media (max-width: 991.98px) {
-    .admin-sidebar {
-        width: 100%; /* Full width when active */
-        transform: translateX(-100%); /* Hide off-screen by default */
-        position: fixed;
-    }
-    /* You'd need a mechanism (e.g., a toggle button in the header) to set 'transform: translateX(0);' on active */
+    z-index: 1000;
+    /* Removed transform as it's not needed for static flex positioning */
+    transition: width 0.3s ease-in-out; /* Smooth transition for potential width changes */
 }
 
 .main-content-wrapper {
-    flex-grow: 1;
-    margin-left: 250px; /* Offset for the fixed sidebar */
+    flex-grow: 1; /* Allow content to take remaining space */
     padding: 20px;
     background-color: var(--bg-dark);
     color: var(--text-primary);
-    transition: margin-left 0.3s ease-in-out; /* Smooth transition when sidebar state changes */
+    overflow-y: auto; /* Allow content to scroll if it overflows vertically */
+    /* Removed margin-left as flexbox handles positioning */
 }
 
+/* Responsive adjustments for layout */
 @media (max-width: 991.98px) {
+    .dashboard-layout {
+        flex-direction: column; /* Stack sidebar and content on small screens */
+    }
+
+    .admin-sidebar {
+        width: 100%; /* Full width on mobile */
+        height: auto; /* Height adapts to content */
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+        box-shadow: 0 2px 10px var(--shadow-medium);
+        padding: 15px;
+        /* You might want to hide/show this with a toggle button using JS if it gets too long */
+    }
+
     .main-content-wrapper {
-        margin-left: 0; /* No offset for mobile */
+        padding-top: 15px;
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+        text-align: center;
+        justify-content: center;
+        margin-bottom: 25px;
+    }
+
+    .action-panel-container .card-body {
+        padding: 15px;
+    }
+
+    .d-flex.flex-column.flex-md-row {
+        flex-direction: column !important;
+        align-items: stretch !important;
+    }
+
+    .add-teacher-btn, .upload-input-group {
+        width: 100%;
+    }
+
+    .add-teacher-btn {
+        margin-bottom: 15px !important; /* Spacing between buttons on mobile */
+    }
+
+    .upload-input-group {
+        flex-direction: column;
+    }
+
+    .upload-input-group .form-control-file,
+    .upload-input-group .upload-btn {
+        width: 100%;
+        border-radius: 8px !important; /* Apply border-radius to both ends for full width */
+    }
+
+    .upload-input-group .form-control-file {
+        margin-bottom: 10px;
+    }
+
+    .upload-input-group .form-control-file::file-selector-button {
+        width: 100%;
+        text-align: center;
+    }
+
+    .desktop-action-buttons {
+        display: none !important;
+    }
+    .action-dropdown {
+        width: 100%; /* Make dropdown span full width in card */
+        text-align: right; /* Align toggle to right */
+    }
+    .action-dropdown .dropdown-toggle-custom {
+        width: auto; /* Allow toggle to shrink */
+    }
+    .action-dropdown .dropdown-menu-custom {
+        width: max-content; /* Adjust dropdown menu width */
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .admin-sidebar {
+        width: var(--sidebar-width-tablet); /* Adjust sidebar width for tablets */
     }
 }
 
 
-.dashboard-container {
-    max-width: 1400px; /* Limit content width for large screens */
-    margin: 0 auto;
-    padding-top: 20px !important;
-}
-
-
-/* --- General UI Elements --- */
+/* --- General UI Elements (retained) --- */
 .section-title {
     color: var(--text-primary);
     font-size: 2.2rem;
@@ -129,8 +191,8 @@ body {
 }
 
 .add-teacher-btn:hover {
-    background-color: darken(var(--accent-blue), 10%);
-    border-color: darken(var(--accent-blue), 10%);
+    background-color: #0069d9; /* Darker blue */
+    border-color: #0062cc; /* Darker blue */
     transform: translateY(-2px);
 }
 
@@ -140,8 +202,8 @@ body {
 }
 
 .upload-btn:hover {
-    background-color: darken(var(--accent-info), 10%);
-    border-color: darken(var(--accent-info), 10%);
+    background-color: #138496; /* Darker info blue */
+    border-color: #117a8b; /* Darker info blue */
     transform: translateY(-2px);
 }
 
@@ -276,16 +338,16 @@ body {
 }
 
 .save-btn { background-color: var(--accent-green); border-color: var(--accent-green); }
-.save-btn:hover { background-color: darken(var(--accent-green), 10%); border-color: darken(var(--accent-green), 10%); transform: translateY(-1px); }
+.save-btn:hover { background-color: #218838; border-color: #1e7e34; transform: translateY(-1px); }
 
 .cancel-btn { background-color: var(--text-secondary); border-color: var(--text-secondary); }
-.cancel-btn:hover { background-color: darken(var(--text-secondary), 10%); border-color: darken(var(--text-secondary), 10%); transform: translateY(-1px); }
+.cancel-btn:hover { background-color: #79869a; border-color: #727f91; transform: translateY(-1px); }
 
 .assign-btn { background-color: var(--accent-info); border-color: var(--accent-info); }
-.assign-btn:hover { background-color: darken(var(--accent-info), 10%); border-color: darken(var(--accent-info), 10%); transform: translateY(-1px); }
+.assign-btn:hover { background-color: #138496; border-color: #117a8b; transform: translateY(-1px); }
 
 .edit-btn { background-color: var(--accent-orange); border-color: var(--accent-orange); }
-.edit-btn:hover { background-color: darken(var(--accent-orange), 10%); border-color: darken(var(--accent-orange), 10%); transform: translateY(-1px); }
+.edit-btn:hover { background-color: #e0a800; border-color: #cc9800; transform: translateY(-1px); }
 
 
 /* --- Mobile Card View Specific Styles --- */
@@ -344,8 +406,8 @@ body {
 
 .action-dropdown .dropdown-toggle-custom:hover,
 .action-dropdown .dropdown-toggle-custom:focus {
-    background-color: darken(var(--accent-info), 10%);
-    border-color: darken(var(--accent-info), 10%);
+    background-color: #138496; /* Darker info blue */
+    border-color: #117a8b; /* Darker info blue */
     box-shadow: none;
 }
 
@@ -410,100 +472,4 @@ body {
 .btn {
     border: none;
     cursor: pointer;
-}
-
-/* Responsive adjustments for layout */
-@media (max-width: 991.98px) {
-    .dashboard-layout {
-        flex-direction: column; /* Stack sidebar and content */
-    }
-
-    .admin-sidebar {
-        position: relative; /* Not fixed, will scroll with content */
-        height: auto;
-        width: 100%;
-        border-right: none;
-        border-bottom: 1px solid var(--border-color);
-        box-shadow: 0 2px 10px var(--shadow-medium);
-        padding: 15px;
-        transform: translateX(0); /* Ensure it's visible by default on small screens */
-    }
-
-    .main-content-wrapper {
-        margin-left: 0;
-        padding-top: 15px;
-    }
-
-    .section-title {
-        font-size: 1.8rem;
-        text-align: center;
-        justify-content: center;
-        margin-bottom: 25px;
-    }
-
-    .action-panel-container .card-body {
-        padding: 15px;
-    }
-
-    .d-flex.flex-column.flex-md-row {
-        flex-direction: column !important;
-        align-items: stretch !important;
-    }
-
-    .add-teacher-btn, .upload-input-group {
-        width: 100%;
-    }
-
-    .add-teacher-btn {
-        margin-bottom: 15px !important; /* Spacing between buttons on mobile */
-    }
-
-    .upload-input-group {
-        flex-direction: column;
-    }
-
-    .upload-input-group .form-control-file,
-    .upload-input-group .upload-btn {
-        width: 100%;
-        border-radius: 8px !important; /* Apply border-radius to both ends for full width */
-    }
-
-    .upload-input-group .form-control-file {
-        margin-bottom: 10px;
-    }
-
-    .upload-input-group .form-control-file::file-selector-button {
-        width: 100%;
-        text-align: center;
-    }
-
-    .desktop-action-buttons {
-        display: none !important;
-    }
-    .action-dropdown {
-        width: 100%; /* Make dropdown span full width in card */
-        text-align: right; /* Align toggle to right */
-    }
-    .action-dropdown .dropdown-toggle-custom {
-        width: auto; /* Allow toggle to shrink */
-    }
-    .action-dropdown .dropdown-menu-custom {
-        width: max-content; /* Adjust dropdown menu width */
-    }
-}
-
-@media (max-width: 575.98px) { /* Extra small devices (phones) */
-    .teacher-card-title {
-        font-size: 1.1rem;
-    }
-    .teacher-info {
-        font-size: 0.9em;
-    }
-    .save-btn, .cancel-btn {
-        width: 100%; /* Full width buttons in mobile card edit mode */
-        margin-bottom: 10px !important;
-    }
-    .button-group-mobile {
-        flex-direction: column;
-    }
 }
