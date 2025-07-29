@@ -1,6 +1,7 @@
 .admin-layout {
   display: flex;
-  min-height: 100vh; /* Changed from height: 100vh */
+  min-height: 100vh; /* Ensures the layout always takes at least the full viewport height */
+  /* Removed height: 100vh to allow content to determine height when overflowing */
   /* Removed overflow: hidden; */
 }
 
@@ -8,9 +9,9 @@
   background-color: #0d1117; /* GitHub Dark BG */
   color: #c9d1d9; /* Light gray for text */
   padding: 2.5rem !important; /* Increased padding for main content */
-  flex: 1; /* Take remaining width beside sidebar */
+  flex: 1; /* This is crucial: allows the column to grow and take available space */
   overflow-y: auto; /* This enables vertical scrolling when content overflows */
-  /* Removed max-height: 100vh; */
+  /* Removed max-height: 100vh as it was conflicting with scrolling */
 }
 
 /* Section Title */
@@ -58,7 +59,8 @@
   transform: translateY(-2px);
   box-shadow: 0 6px 15px rgba(46, 164, 79, 0.5);
 }
-.add-teacher-btn:active, .add-teacher-btn:focus {
+.add-teacher-btn:active,
+.add-teacher-btn:focus {
   background-image: linear-gradient(to right, #237a3c, #1f6b33) !important;
   box-shadow: 0 0 0 0.25rem rgba(46, 164, 79, 0.4) !important;
 }
@@ -98,7 +100,8 @@
   transform: translateY(-2px);
   box-shadow: 0 4px 10px rgba(88, 166, 255, 0.4);
 }
-.upload-input-group .upload-btn:active, .upload-input-group .upload-btn:focus {
+.upload-input-group .upload-btn:active,
+.upload-input-group .upload-btn:focus {
   background-color: #3d7ad6 !important;
   box-shadow: 0 0 0 0.25rem rgba(88, 166, 255, 0.4) !important;
 }
@@ -180,7 +183,8 @@
   border-color: #288f43;
   transform: translateY(-1px);
 }
-.save-btn:active, .save-btn:focus {
+.save-btn:active,
+.save-btn:focus {
   background-color: #237a3c !important;
   border-color: #237a3c !important;
   box-shadow: 0 0 0 0.25rem rgba(46, 164, 79, 0.4) !important;
@@ -196,7 +200,8 @@
   border-color: #586069;
   transform: translateY(-1px);
 }
-.cancel-btn:active, .cancel-btn:focus {
+.cancel-btn:active,
+.cancel-btn:focus {
   background-color: #4d535b !important;
   border-color: #4d535b !important;
   box-shadow: 0 0 0 0.25rem rgba(106, 115, 125, 0.4) !important;
@@ -212,7 +217,8 @@
 .action-dropdown .dropdown-toggle:hover {
   background-color: #4a90e2;
 }
-.action-dropdown .dropdown-toggle:active, .action-dropdown .dropdown-toggle:focus {
+.action-dropdown .dropdown-toggle:active,
+.action-dropdown .dropdown-toggle:focus {
   background-color: #3d7ad6 !important;
   box-shadow: 0 0 0 0.25rem rgba(88, 166, 255, 0.4) !important;
 }
