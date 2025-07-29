@@ -3,11 +3,358 @@ import {
   Container, Table, Button, Modal, Form, Row, Col, Dropdown, Card, InputGroup
 } from 'react-bootstrap';
 import { FaEdit, FaSave, FaTimes, FaPlus, FaUpload, FaUserPlus, FaFileExcel, FaUsersCog, FaInfoCircle } from 'react-icons/fa'; // Import icons
-import API from '../services/api';
+import API from '../services/api'; // Assuming this is your API service
 import AssignTeacherModal from './AssignTeacherModal'; // Assuming this is already styled well
 import AdminSidebar from './AdminSidebar'; // Assuming this is already styled well
 import AddTeacherModal from './AddTeacherModal'; // Assuming this is already styled well
-import './style/ManageTeachers.css'; // Dedicated CSS for this component
+import styled from 'styled-components';
+
+// --- Styled Components ---
+
+const DashboardWrapper = styled.div`
+  display: flex;
+  min-height: 100vh; // Ensure it takes full viewport height
+  background: linear-gradient(135deg, #f0f2f5 0%, #e0e5ec 100%); // Subtle gradient background
+
+  .admin-sidebar {
+    position: sticky; // Make sidebar sticky
+    top: 0;
+    height: 100vh;
+    overflow-y: auto; // Allow sidebar to scroll if content is long
+    flex-shrink: 0;
+  }
+`;
+
+const MainContentArea = styled(Col)`
+  flex-grow: 1;
+  padding: 2rem;
+  overflow-y: auto; // Allow main content to scroll
+  max-height: 100vh; // Constrain height to enable scrolling within this area
+`;
+
+const SectionTitle = styled.h3`
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 2.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  letter-spacing: -0.02em;
+  .icon-lg {
+    font-size: 2.5rem;
+    color: #007bff; // Primary color for the icon
+  }
+
+  @media (max-width: 768px) {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    .icon-lg {
+      font-size: 2rem;
+    }
+  }
+`;
+
+const ActionPanel = styled.div`
+  margin-bottom: 3rem;
+  .action-card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    background: #ffffff;
+    padding: 1.5rem 2rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+    }
+
+    .add-teacher-btn {
+      background-color: #007bff;
+      border-color: #007bff;
+      padding: 0.75rem 1.5rem;
+      font-size: 1.1rem;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      &:hover {
+        background-color: #0056b3;
+        border-color: #004085;
+        transform: translateY(-2px);
+      }
+    }
+
+    .upload-input-group {
+      .upload-file-input {
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+        border-color: #ced4da;
+        &:focus {
+          box-shadow: none;
+          border-color: #80bdff;
+        }
+      }
+      .upload-btn {
+        background-color: #6c757d;
+        border-color: #6c757d;
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+        padding: 0.75rem 1.5rem;
+        font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
+
+        &:hover {
+          background-color: #5a6268;
+          border-color: #545b62;
+          transform: translateY(-2px);
+        }
+      }
+      @media (max-width: 768px) {
+        flex-direction: column;
+        .upload-file-input, .upload-btn {
+          width: 100%;
+          border-radius: 10px !important; // Override for mobile
+          margin-bottom: 0.5rem; // Add space between file input and button
+        }
+      }
+    }
+
+    .text-muted {
+      font-size: 0.9rem;
+      color: #7f8c8d !important;
+      .me-1 {
+        color: #95a5a6;
+      }
+    }
+
+    @media (max-width: 768px) {
+      padding: 1rem;
+      .d-flex.flex-column.flex-md-row {
+        flex-direction: column;
+        align-items: stretch !important;
+      }
+      .add-teacher-btn, .upload-input-group {
+        width: 100%;
+        margin-bottom: 1rem !important;
+      }
+      .upload-input-group > * {
+        width: 100%;
+      }
+    }
+  }
+`;
+
+const DataTableContainer = styled.div`
+  background: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+  overflow-x: auto; // Ensure table is scrollable horizontally on smaller screens
+  padding: 1.5rem;
+
+  .teachers-table {
+    margin-bottom: 0; // Remove default table margin
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+
+    thead {
+      background-color: #343a40;
+      color: #ffffff;
+      th {
+        padding: 1rem 1.25rem;
+        border-bottom: 2px solid #495057;
+        font-weight: 600;
+        font-size: 1rem;
+        position: sticky; // Make header sticky
+        top: 0;
+        background-color: #343a40; // Ensure background for sticky header
+        z-index: 10; // Ensure header is above scrolling content
+      }
+      tr:first-child th:first-child {
+        border-top-left-radius: 12px;
+      }
+      tr:first-child th:last-child {
+        border-top-right-radius: 12px;
+      }
+    }
+
+    tbody {
+      tr {
+        transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+        &:hover {
+          background-color: #f8f9fa;
+          transform: scale(1.005);
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+      }
+      td {
+        padding: 1rem 1.25rem;
+        vertical-align: middle;
+        border-top: 1px solid #dee2e6;
+        color: #34495e;
+
+        .teacher-name-display {
+          font-weight: 500;
+          color: #2c3e50;
+        }
+
+        .edit-input {
+          border-radius: 8px;
+          border-color: #b0c4de;
+          &:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+          }
+        }
+      }
+    }
+
+    .actions-column {
+      width: 180px; // Fixed width for actions column
+      white-space: nowrap; // Prevent actions from wrapping
+    }
+
+    .save-btn, .cancel-btn {
+      border-radius: 8px;
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: all 0.2s ease;
+    }
+
+    .save-btn {
+      background-color: #28a745;
+      border-color: #28a745;
+      &:hover {
+        background-color: #218838;
+        border-color: #1e7e34;
+      }
+    }
+
+    .cancel-btn {
+      background-color: #6c757d;
+      border-color: #6c757d;
+      &:hover {
+        background-color: #5a6268;
+        border-color: #545b62;
+      }
+    }
+
+    .action-dropdown .dropdown-toggle {
+      background-color: #17a2b8;
+      border-color: #17a2b8;
+      border-radius: 8px;
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background-color: #138496;
+        border-color: #117a8b;
+      }
+    }
+    .action-dropdown .dropdown-menu {
+      border-radius: 8px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      background-color: #343a40; // Dark background for dropdown menu
+      .dropdown-item {
+        color: #ffffff;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1rem;
+        &:hover {
+          background-color: #007bff; // Highlight on hover
+          color: #ffffff;
+        }
+      }
+    }
+  }
+`;
+
+const MobileCardsContainer = styled.div`
+  .teacher-card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+    background: #ffffff;
+    padding: 1.25rem 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .teacher-card-title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #2c3e50;
+      margin-bottom: 0.75rem;
+    }
+
+    .teacher-info {
+      font-size: 0.95rem;
+      color: #555;
+      margin-bottom: 0.5rem;
+      .info-label {
+        font-weight: 600;
+        color: #34495e;
+      }
+      .edit-input {
+        border-radius: 8px;
+        border-color: #b0c4de;
+        font-size: 0.9rem;
+        &:focus {
+          border-color: #007bff;
+          box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+      }
+    }
+
+    .button-group-mobile {
+      .save-btn, .cancel-btn {
+        border-radius: 8px;
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+      }
+    }
+
+    .action-dropdown .dropdown-toggle {
+      background-color: #17a2b8;
+      border-color: #17a2b8;
+      border-radius: 8px;
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+    }
+    .action-dropdown .dropdown-menu {
+      border-radius: 8px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      background-color: #343a40; // Dark background for dropdown menu
+      .dropdown-item {
+        color: #ffffff;
+        &:hover {
+          background-color: #007bff; // Highlight on hover
+        }
+      }
+    }
+  }
+`;
 
 const ManageTeachers = () => {
   const [teachers, setTeachers] = useState([]);
@@ -38,7 +385,14 @@ const ManageTeachers = () => {
   }, []);
 
   const fetchTeachers = () => {
-    API.get('/teacher').then(res => setTeachers(res.data)).catch(console.error);
+    API.get('/teacher').then(res => {
+      // Assuming teacher objects might not have fullName, create it
+      const teachersWithFullName = res.data.map(t => ({
+        ...t,
+        fullName: `${t.firstName || ''} ${t.lastName || ''}`.trim()
+      }));
+      setTeachers(teachersWithFullName);
+    }).catch(console.error);
   }
 
   useEffect(() => {
@@ -205,21 +559,21 @@ const ManageTeachers = () => {
   };
 
   return (
-    <Row className="g-0 admin-layout">
-      <AdminSidebar />
-      <Col md={10} className="main-content-area">
+    <DashboardWrapper>
+      <AdminSidebar className="admin-sidebar" />
+      <MainContentArea md={10}>
         <Container fluid className="p-4">
-          <h3 className="section-title mb-4">
-            <FaUsersCog className="me-2 icon-lg" />
+          <SectionTitle>
+            <FaUsersCog className="icon-lg" />
             Manage Teachers
-          </h3>
+          </SectionTitle>
 
-          <div className="action-panel mb-4">
+          <ActionPanel>
             <Card className="action-card">
               <Card.Body>
                 <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-3">
                   <Button variant="primary" onClick={() => setShowAddModal(true)} className="add-teacher-btn mb-2 mb-md-0">
-                    <FaUserPlus className="me-2" /> Add New Teacher
+                    <FaUserPlus /> Add New Teacher
                   </Button>
 
                   <InputGroup className="upload-input-group">
@@ -230,7 +584,7 @@ const ManageTeachers = () => {
                       accept=".csv, .xlsx, .xls"
                     />
                     <Button variant="secondary" onClick={uploadFile} className="upload-btn">
-                      <FaUpload className="me-2" /> Upload Teachers
+                      <FaUpload /> Upload Teachers
                     </Button>
                   </InputGroup>
                 </div>
@@ -239,11 +593,11 @@ const ManageTeachers = () => {
                 </small>
               </Card.Body>
             </Card>
-          </div>
+          </ActionPanel>
 
           {/* Desktop Table View */}
-          <div className="table-responsive d-none d-lg-block data-table-container">
-            <Table striped bordered hover responsive variant="dark" className="teachers-table">
+          <DataTableContainer className="d-none d-lg-block">
+            <Table striped bordered hover responsive className="teachers-table">
               <thead>
                 <tr>
                   <th>#</th>
@@ -346,10 +700,10 @@ const ManageTeachers = () => {
                 })}
               </tbody>
             </Table>
-          </div>
+          </DataTableContainer>
 
           {/* Mobile Card View */}
-          <div className="d-lg-none mobile-cards-container">
+          <MobileCardsContainer className="d-lg-none">
             {teachers.map((teacher, i) => {
               const isEditing = editRowId === teacher.id;
               return (
@@ -444,7 +798,7 @@ const ManageTeachers = () => {
                 </Card>
               );
             })}
-          </div>
+          </MobileCardsContainer>
 
           <AssignTeacherModal
             show={showAssignModal}
@@ -473,8 +827,8 @@ const ManageTeachers = () => {
             addTeacher={addTeacher}
           />
         </Container>
-      </Col>
-    </Row>
+      </MainContentArea>
+    </DashboardWrapper>
   );
 };
 
