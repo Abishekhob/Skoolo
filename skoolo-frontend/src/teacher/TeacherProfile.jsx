@@ -25,18 +25,28 @@ const TeacherProfile = () => {
         }
     };
 
-   const handleFileUpload = async () => {
-    if (!file) return null;
-    const formData = new FormData();
-    formData.append("file", file);
-    try {
-        const res = await API.post(`/teacher/profile/upload-profile-pic/${teacherId}`, formData);
-        return res.data; // returns image URL
-    } catch (error) {
-        console.error("Error uploading file:", error);
-        return null;
-    }
+ const handleFileUpload = async () => {
+  if (!file) return null;
+  const formData = new FormData();
+  formData.append("file", file);
+
+  try {
+    const res = await API.post(
+      `/teacher/profile/upload-profile-pic/${teacherId}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    return res.data; // should return image URL
+  } catch (error) {
+    console.error("Error uploading file:", error);
+    return null;
+  }
 };
+
 
     const handleUpdate = async () => {
         let profilePicUrl = profile.profilePicUrl;
