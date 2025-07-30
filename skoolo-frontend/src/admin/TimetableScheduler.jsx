@@ -86,7 +86,10 @@ const TimetableScheduler = () => {
 
   return (
     <div className="admin-layout-wrapper">
-      <AdminSidebar />
+     <div className="admin-sidebar">
+  <AdminSidebar />
+</div>
+
 
       <div className="main-content-area scrollable-content">
         <Container fluid className="p-4 timetable-scheduler-container">
