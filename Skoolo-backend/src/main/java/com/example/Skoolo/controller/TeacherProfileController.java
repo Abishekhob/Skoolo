@@ -9,15 +9,12 @@ import com.example.Skoolo.model.TeacherSubjectAssignment;
 import com.example.Skoolo.repo.SectionRepository;
 import com.example.Skoolo.repo.TeacherRepository;
 import com.example.Skoolo.repo.TeacherSubjectAssignmentRepository;
+import com.example.Skoolo.service.CloudinaryService;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +29,8 @@ public class TeacherProfileController {
     private final TeacherSubjectAssignmentRepository assignmentRepository;
     private final SectionRepository sectionRepository;
 
+    @Autowired
+    private CloudinaryService cloudinaryService;
 
     @GetMapping("/{teacherId}")
     public TeacherProfileResponse getProfile(@PathVariable Long teacherId) {
@@ -95,19 +94,8 @@ public class TeacherProfileController {
     @PostMapping("/upload-profile-pic")
     public ResponseEntity<String> uploadProfilePic(@RequestParam("file") MultipartFile file) {
         try {
-            String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
-            String uploadDir = "uploads/profile_pics/";
-
-            Path uploadPath = Paths.get(uploadDir);
-            if (!Files.exists(uploadPath)) {
-                Files.createDirectories(uploadPath);
-            }
-
-            Path filePath = uploadPath.resolve(fileName);
-            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-
-            String fileUrl = "/uploads/profile_pics/" + fileName; // update if served from different location
-            return ResponseEntity.ok(fileUrl);
+            String imageUrl = cloudinaryService.uploadImage(file);
+            return ResponseEntity.ok(imageUrl);
         } catch (IOException e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Upload failed");
