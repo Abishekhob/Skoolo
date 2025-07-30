@@ -91,10 +91,21 @@ public class TeacherProfileController {
         return ResponseEntity.ok("Profile updated");
     }
 
-    @PostMapping("/upload-profile-pic")
-    public ResponseEntity<String> uploadProfilePic(@RequestParam("file") MultipartFile file) {
+    @PostMapping("/upload-profile-pic/{teacherId}")
+    public ResponseEntity<String> uploadProfilePic(@PathVariable Long teacherId,
+                                                   @RequestParam("file") MultipartFile file) {
         try {
+            // Upload image to Cloudinary
             String imageUrl = cloudinaryService.uploadImage(file);
+
+            // Find the teacher in DB
+            Teacher teacher = teacherRepository.findById(teacherId)
+                    .orElseThrow(() -> new RuntimeException("Teacher not found with ID: " + teacherId));
+
+            // Save the image URL
+            teacher.setProfilePicUrl(imageUrl);
+            teacherRepository.save(teacher);
+
             return ResponseEntity.ok(imageUrl);
         } catch (IOException e) {
             e.printStackTrace();
