@@ -20,4 +20,9 @@ public class CloudinaryService {
                 ObjectUtils.asMap("folder", "profile_pics"));
         return uploadResult.get("secure_url").toString();
     }
+
+    public void deleteImage(String publicId) throws IOException {
+        cloudinary.uploader().destroy(publicId, ObjectUtils.emptyMap());
+    }
+
 }

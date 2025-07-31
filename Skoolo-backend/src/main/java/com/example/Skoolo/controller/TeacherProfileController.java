@@ -95,14 +95,21 @@ public class TeacherProfileController {
     public ResponseEntity<String> uploadProfilePic(@PathVariable Long teacherId,
                                                    @RequestParam("file") MultipartFile file) {
         try {
-            // Upload image to Cloudinary
-            String imageUrl = cloudinaryService.uploadImage(file);
-
             // Find the teacher in DB
             Teacher teacher = teacherRepository.findById(teacherId)
                     .orElseThrow(() -> new RuntimeException("Teacher not found with ID: " + teacherId));
 
-            // Save the image URL
+            // If old image exists, delete it from Cloudinary
+            String oldImageUrl = teacher.getProfilePicUrl();
+            if (oldImageUrl != null && oldImageUrl.contains("cloudinary.com")) {
+                String publicId = extractPublicIdFromUrl(oldImageUrl);
+                cloudinaryService.deleteImage(publicId);
+            }
+
+            // Upload new image to Cloudinary
+            String imageUrl = cloudinaryService.uploadImage(file);
+
+            // Save the new image URL
             teacher.setProfilePicUrl(imageUrl);
             teacherRepository.save(teacher);
 
@@ -112,6 +119,20 @@ public class TeacherProfileController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Upload failed");
         }
     }
+
+    private String extractPublicIdFromUrl(String imageUrl) {
+        // Example: https://res.cloudinary.com/demo/image/upload/v1234567890/profile_pics/abc123.jpg
+        // You want: profile_pics/abc123 (excluding extension and domain)
+
+        int lastSlash = imageUrl.lastIndexOf('/');
+        int dot = imageUrl.lastIndexOf('.');
+        if (lastSlash != -1 && dot != -1 && dot > lastSlash) {
+            return imageUrl.substring(imageUrl.indexOf("upload/") + 7, dot);
+        }
+        return null;
+    }
+
+
 
     @GetMapping("/teacherId-by-userId/{userId}")
     public ResponseEntity<Long> getTeacherIdByUserId(@PathVariable Long userId) {
