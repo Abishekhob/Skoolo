@@ -91,7 +91,7 @@ const TeacherProfile = () => {
                     <div className={styles.profilePicSection}>
                         {/* Use file for immediate preview if selected, otherwise use existing profilePicUrl */}
                         <img
-                            src={file ? URL.createObjectURL(file) : `https://skoolo-production.up.railway.app${profile.profilePicUrl}`}
+                            src={file ? URL.createObjectURL(file) : profile.profilePicUrl}
                             alt="Profile"
                             className={styles.profilePic}
                         />
