@@ -291,7 +291,7 @@ public class ConversationService {
     private String getProfilePicUrlForUser(User user) {
         Teacher teacher = teacherRepository.findByUserId(user.getId());
         if (teacher != null && teacher.getProfilePicUrl() != null) {
-            return "http://localhost:8081" + teacher.getProfilePicUrl();
+            return teacher.getProfilePicUrl();
         }
         return null;
     }
