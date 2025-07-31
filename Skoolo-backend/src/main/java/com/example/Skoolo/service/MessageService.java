@@ -7,17 +7,12 @@ import com.example.Skoolo.repo.ConversationRepository;
 import com.example.Skoolo.repo.MessageRepository;
 import com.example.Skoolo.repo.UserRepository;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @Service
 public class MessageService {
@@ -30,6 +25,9 @@ public class MessageService {
 
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
+
+    @Autowired
+    private CloudinaryService cloudinaryService;
 
 
     @Autowired
@@ -44,7 +42,7 @@ public class MessageService {
     }
 
     // ✅ Send message method with full logic
-    public Message sendMessage(Long conversationId, Long senderId, Long receiverId, String content, String type, MultipartFile file) {
+    public Message sendMessage(Long conversationId, Long senderId, Long receiverId, String content, String type, MultipartFile file) throws IOException {
         Conversation conversation = conversationRepository.findById(conversationId)
                 .orElseThrow(() -> new RuntimeException("Conversation not found"));
 
@@ -54,17 +52,10 @@ public class MessageService {
         User receiver = userRepository.findById(receiverId)
                 .orElseThrow(() -> new RuntimeException("Receiver not found"));
 
-        System.out.println("conversationId: " + conversationId);
-        System.out.println("senderId: " + senderId);
-        System.out.println("receiverId: " + receiverId);
-        System.out.println("conversation.user1: " + conversation.getUser1().getId());
-        System.out.println("conversation.user2: " + conversation.getUser2().getId());
-
         if (!(
                 (conversation.getUser1().getId().equals(senderId) && conversation.getUser2().getId().equals(receiverId)) ||
                         (conversation.getUser1().getId().equals(receiverId) && conversation.getUser2().getId().equals(senderId))
         )) {
-            System.out.println("❌ Users not part of this conversation");
             throw new RuntimeException("Users not part of this conversation");
         }
 
@@ -72,37 +63,16 @@ public class MessageService {
         message.setConversation(conversation);
         message.setSender(sender);
         message.setReceiver(receiver);
-        message.setContent(content);
-        message.setType(type);
         message.setTimestamp(LocalDateTime.now());
 
         if (file != null && !file.isEmpty()) {
-            try {
-                String uploadsDir = "uploads/";
-                Path uploadsPath = Paths.get(uploadsDir);
-
-                if (!Files.exists(uploadsPath)) {
-                    Files.createDirectories(uploadsPath);
-                }
-
-                String originalName = file.getOriginalFilename().replaceAll("\\s+", "_").replaceAll("[^a-zA-Z0-9._-]", "");
-                String filename = System.currentTimeMillis() + "_" + originalName;
-
-                Path filePath = uploadsPath.resolve(filename);
-                Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-
-                // ✅ Set full URL instead of just filename
-                String fileUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
-                        .path("/uploads/")
-                        .path(filename)
-                        .toUriString();
-                message.setAttachment(fileUrl);
-
-            } catch (IOException e) {
-                throw new RuntimeException("Failed to save file", e);
-            }
+            String cloudinaryUrl = cloudinaryService.uploadImage(file, "chat_files");
+            message.setContent(cloudinaryUrl); // Cloudinary URL
+            message.setType("FILE");
+        } else {
+            message.setContent(content); // Plain text
+            message.setType(type);
         }
-
 
         return messageRepository.save(message);
     }

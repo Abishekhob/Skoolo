@@ -4,7 +4,6 @@ import com.example.Skoolo.model.Message;
 import com.example.Skoolo.model.User;
 import com.example.Skoolo.service.CloudinaryService;
 import com.example.Skoolo.service.MessageService;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +28,6 @@ public class MessageController {
     private CloudinaryService cloudinaryService;
 
 
-
     // Get messages by conversation ID
     @GetMapping("/conversation/{conversationId}")
     public ResponseEntity<List<Message>> getMessages(@PathVariable Long conversationId) {
@@ -47,49 +45,37 @@ public class MessageController {
             @RequestParam String type,
             @RequestPart(required = false) MultipartFile file
     ) {
-        String fileUrl = null;
-
         try {
-            if (file != null && !file.isEmpty()) {
-                // Upload file to Cloudinary under "chat_files" folder
-                fileUrl = cloudinaryService.uploadImage(file, "chat_files");
-            }
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("File upload failed");
+            Message savedMessage = messageService.sendMessage(conversationId, senderId, receiverId, content, type, file);
+
+            User sender = savedMessage.getSender();
+            User receiver = savedMessage.getReceiver();
+
+            Map<String, Object> payload = new HashMap<>();
+            payload.put("id", savedMessage.getId());
+            payload.put("conversation", Map.of("id", conversationId));
+            payload.put("content", savedMessage.getContent());
+            payload.put("type", savedMessage.getType());
+            payload.put("timestamp", savedMessage.getTimestamp());
+            payload.put("sender", Map.of(
+                    "id", sender.getId(),
+                    "firstName", sender.getFirstName(),
+                    "lastName", sender.getLastName()
+            ));
+            payload.put("receiver", Map.of(
+                    "id", receiver.getId(),
+                    "firstName", receiver.getFirstName(),
+                    "lastName", receiver.getLastName()
+            ));
+
+            messagingTemplate.convertAndSend("/topic/messages/" + conversationId, payload);
+            return ResponseEntity.ok(payload);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Something went wrong: " + e.getMessage());
         }
-
-        // Store either file URL or original content
-        String finalContent = (fileUrl != null) ? fileUrl : content;
-
-        Message savedMessage = messageService.sendMessage(conversationId, senderId, receiverId, finalContent, type, file);
-
-
-        User sender = savedMessage.getSender();
-        User receiver = savedMessage.getReceiver();
-
-        Map<String, Object> payload = new HashMap<>();
-        payload.put("id", savedMessage.getId());
-        payload.put("conversation", Map.of("id", conversationId));
-        payload.put("content", savedMessage.getContent());
-        payload.put("type", savedMessage.getType());
-        payload.put("timestamp", savedMessage.getTimestamp());
-        payload.put("sender", Map.of(
-                "id", sender.getId(),
-                "firstName", sender.getFirstName(),
-                "lastName", sender.getLastName()
-        ));
-        payload.put("receiver", Map.of(
-                "id", receiver.getId(),
-                "firstName", receiver.getFirstName(),
-                "lastName", receiver.getLastName()
-        ));
-
-        // Broadcast enriched message to WebSocket
-        messagingTemplate.convertAndSend("/topic/messages/" + conversationId, payload);
-
-        // Return enriched DTO in response
-        return ResponseEntity.ok(payload);
     }
+
 
 
 }
