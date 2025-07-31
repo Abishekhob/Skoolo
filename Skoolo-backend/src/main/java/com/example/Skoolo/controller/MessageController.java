@@ -2,11 +2,14 @@ package com.example.Skoolo.controller;
 
 import com.example.Skoolo.model.Message;
 import com.example.Skoolo.model.User;
+import com.example.Skoolo.service.CloudinaryService;
 import com.example.Skoolo.service.MessageService;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +24,10 @@ public class MessageController {
 
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
+
+    @Autowired
+    private CloudinaryService cloudinaryService;
+
 
 
     // Get messages by conversation ID
@@ -40,7 +47,22 @@ public class MessageController {
             @RequestParam String type,
             @RequestPart(required = false) MultipartFile file
     ) {
-        Message savedMessage = messageService.sendMessage(conversationId, senderId, receiverId, content, type, file);
+        String fileUrl = null;
+
+        try {
+            if (file != null && !file.isEmpty()) {
+                // Upload file to Cloudinary under "chat_files" folder
+                fileUrl = cloudinaryService.uploadImage(file, "chat_files");
+            }
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("File upload failed");
+        }
+
+        // Store either file URL or original content
+        String finalContent = (fileUrl != null) ? fileUrl : content;
+
+        Message savedMessage = messageService.sendMessage(conversationId, senderId, receiverId, finalContent, type, file);
+
 
         User sender = savedMessage.getSender();
         User receiver = savedMessage.getReceiver();

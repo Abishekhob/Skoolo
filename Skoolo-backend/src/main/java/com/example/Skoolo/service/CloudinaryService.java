@@ -15,9 +15,9 @@ public class CloudinaryService {
     @Autowired
     private Cloudinary cloudinary;
 
-    public String uploadImage(MultipartFile file) throws IOException {
+    public String uploadImage(MultipartFile file, String folderName) throws IOException {
         Map uploadResult = cloudinary.uploader().upload(file.getBytes(),
-                ObjectUtils.asMap("folder", "profile_pics"));
+                ObjectUtils.asMap("folder", folderName));
         return uploadResult.get("secure_url").toString();
     }
 

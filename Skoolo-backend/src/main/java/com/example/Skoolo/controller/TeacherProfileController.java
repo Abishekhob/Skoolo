@@ -106,8 +106,11 @@ public class TeacherProfileController {
                 cloudinaryService.deleteImage(publicId);
             }
 
-            // Upload new image to Cloudinary
-            String imageUrl = cloudinaryService.uploadImage(file);
+            // Use a folder like "teachers/{teacherId}" for organization
+            String folderName = "teachers/" + teacherId;
+
+            // Upload new image to Cloudinary with dynamic folder
+            String imageUrl = cloudinaryService.uploadImage(file, folderName);
 
             // Save the new image URL
             teacher.setProfilePicUrl(imageUrl);

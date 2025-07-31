@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @Service
 public class MessageService {
@@ -88,14 +89,20 @@ public class MessageService {
                 String filename = System.currentTimeMillis() + "_" + originalName;
 
                 Path filePath = uploadsPath.resolve(filename);
-
                 Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-                message.setAttachment(filename);
+                // ✅ Set full URL instead of just filename
+                String fileUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
+                        .path("/uploads/")
+                        .path(filename)
+                        .toUriString();
+                message.setAttachment(fileUrl);
+
             } catch (IOException e) {
                 throw new RuntimeException("Failed to save file", e);
             }
         }
+
 
         return messageRepository.save(message);
     }
