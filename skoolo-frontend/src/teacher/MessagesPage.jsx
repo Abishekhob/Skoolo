@@ -396,7 +396,7 @@ const MessagesPage = () => {
             <>
               {profileUser.profilePicUrl && (
                 <img
-                  src={`https://skoolo-production.up.railway.app${profileUser.profilePicUrl}`}
+                  src={profileUser.profilePicUrl}
                   alt="Profile"
                   className="profile-image"
                 />
