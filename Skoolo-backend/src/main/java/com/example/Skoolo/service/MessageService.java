@@ -42,7 +42,7 @@ public class MessageService {
     }
 
     // ✅ Send message method with full logic
-    public Message sendMessage(Long conversationId, Long senderId, Long receiverId, String content, String type, MultipartFile file) {
+    public Message sendMessage(Long conversationId, Long senderId, Long receiverId, String content, String type, MultipartFile file) throws IOException {
         Conversation conversation = conversationRepository.findById(conversationId)
                 .orElseThrow(() -> new RuntimeException("Conversation not found"));
 
@@ -52,13 +52,11 @@ public class MessageService {
         User receiver = userRepository.findById(receiverId)
                 .orElseThrow(() -> new RuntimeException("Receiver not found"));
 
-        // Ensure both users are part of the conversation
-        boolean isValidConversation =
+        if (!(
                 (conversation.getUser1().getId().equals(senderId) && conversation.getUser2().getId().equals(receiverId)) ||
-                        (conversation.getUser1().getId().equals(receiverId) && conversation.getUser2().getId().equals(senderId));
-
-        if (!isValidConversation) {
-            throw new RuntimeException("Users are not part of this conversation");
+                        (conversation.getUser1().getId().equals(receiverId) && conversation.getUser2().getId().equals(senderId))
+        )) {
+            throw new RuntimeException("Users not part of this conversation");
         }
 
         Message message = new Message();
@@ -67,21 +65,20 @@ public class MessageService {
         message.setReceiver(receiver);
         message.setTimestamp(LocalDateTime.now());
 
-        try {
-            if (file != null && !file.isEmpty()) {
-                String cloudinaryUrl = cloudinaryService.uploadImage(file, "chat_files");
-                message.setContent(cloudinaryUrl);
-                message.setType("FILE");
-            } else {
-                message.setContent(content);
-                message.setType(type != null ? type : "TEXT");
-            }
-        } catch (IOException e) {
-            throw new RuntimeException("File upload failed", e);
+        if (file != null && !file.isEmpty()) {
+            String cloudinaryUrl = cloudinaryService.uploadImage(file, "chat_files");
+            message.setAttachment(cloudinaryUrl); // store in attachment
+            message.setType("FILE");
+            message.setContent(null); // clear content
+        } else {
+            message.setContent(content); // plain text
+            message.setType(type);
+            message.setAttachment(null); // clear attachment
         }
 
         return messageRepository.save(message);
     }
+
 
 
 
