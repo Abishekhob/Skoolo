@@ -35,8 +35,9 @@ const SyllabusPage = () => {
   };
 
   const fetchSections = async (classId) => {
-    const res = await API.get(`/sections?classId=${classId}`);
-    setSections(res.data);
+    const res = await API.get(`/classes/${classId}/sections`);
+   setSections(res.data.sections || []);
+
   };
 
   const fetchSubjects = async () => {
@@ -106,9 +107,10 @@ const SyllabusPage = () => {
               <Col>
                 <Form.Select name="sectionId" value={formData.sectionId} onChange={handleChange} required>
                   <option value="">Select Section</option>
-                  {sections.map(sec => (
-                    <option key={sec.id} value={sec.id}>{sec.sectionName}</option>
-                  ))}
+                 {sections.map(sec => (
+  <option key={sec.id} value={sec.id}>{sec.name}</option>
+))}
+
                 </Form.Select>
               </Col>
               <Col>
