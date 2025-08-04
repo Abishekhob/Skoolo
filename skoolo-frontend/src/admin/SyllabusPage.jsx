@@ -85,7 +85,13 @@ useEffect(() => {
     uploadData.append("subjectId", formData.subjectId);
     uploadData.append("file", formData.file);
 
-    await API.post("/syllabus/upload", uploadData);
+    await API.post("/syllabus/upload", uploadData,{
+         headers:
+     {     
+              "Content-Type": "multipart/form-data",
+     }
+    }
+  );
     alert("Syllabus uploaded");
     setFormData({ classId: "", sectionId: "", subjectId: "", file: null });
     fetchAllSyllabus();
