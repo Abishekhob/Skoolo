@@ -12,7 +12,6 @@ import TimetableScheduler from './admin/TimetableScheduler'; // adjust path if n
 import ManageParents from './admin/ManageParents';
 import SubjectsPage from './admin/SubjectsPage';
 import ManageFeesPage from './admin/ManageFeesPage';
-import TeacherDashboard from './teacher/TeacherDashboard';
 import TeacherTimetable from './teacher/TeacherTimetable';
 import TeacherStudents from './teacher/TeacherStudents';
 import TeacherAttendance from './teacher/TeacherAttendance';
@@ -21,6 +20,7 @@ import MessagesPage from './teacher/MessagesPage';
 import TeacherProfile from './teacher/TeacherProfile';
 import ChildrenProfile from './parent/ChildrenProfile';
 import StudentPromotionPage from './admin/StudentPromotionPage';
+import SyllabusPage from './admin/SyllabusPage';
 
 
 // In src/index.js or src/App.js
@@ -54,6 +54,7 @@ const App = () => {
         <Route path="/admin/subjects" element={<SubjectsPage />} />
         <Route path="/admin/fees" element={<ManageFeesPage />} />
         <Route path="/admin/promotions" element={<StudentPromotionPage />} />
+        <Route path="/admin/syllabus" element={<SyllabusPage />} />
 
 
         {/* Teacher routes */}

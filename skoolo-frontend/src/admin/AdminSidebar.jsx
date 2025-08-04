@@ -39,6 +39,7 @@ const AdminSidebar = () => {
     else if (location.pathname.startsWith("/admin/parents")) setActiveKey("3");
     else if (location.pathname.startsWith("/admin/fees")) setActiveKey("4");
     else if (location.pathname.startsWith("/admin/promotions")) setActiveKey("5");
+    else if (location.pathname.startsWith("/admin/syllabus")) setActiveKey("6");
     else setActiveKey(""); // No active accordion if path doesn't match
   }, [location.pathname]);
 
@@ -92,6 +93,15 @@ const AdminSidebar = () => {
       ],
       eventKey: "5",
     },
+    {
+  title: "Syllabus",
+  icon: <FaBook />,
+  links: [
+    { name: "Manage Syllabus", path: "/admin/syllabus" },
+  ],
+  eventKey: "6",
+}
+
   ];
 
   return (
