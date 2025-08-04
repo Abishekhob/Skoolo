@@ -40,10 +40,26 @@ const SyllabusPage = () => {
 
   };
 
-  const fetchSubjects = async () => {
-    const res = await API.get("/subjects");
+  const fetchSubjects = async (classId, sectionId) => {
+  if (!classId || !sectionId) return;
+
+  try {
+    const res = await API.get(`/timetable/subjects`, {
+      params: { classId, sectionId }
+    });
     setSubjects(res.data);
-  };
+  } catch (err) {
+    setSubjects([]);
+    alert("Timetable not assigned for this class and section.");
+  }
+};
+
+useEffect(() => {
+  if (formData.classId && formData.sectionId) {
+    fetchSubjects(formData.classId, formData.sectionId);
+  }
+}, [formData.classId, formData.sectionId]);
+
 
   const fetchAllSyllabus = async () => {
     const res = await API.get("/syllabus/all");
