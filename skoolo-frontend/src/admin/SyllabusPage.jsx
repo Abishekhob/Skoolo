@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+
 import { Container, Form, Button, Table, Row, Col } from "react-bootstrap";
 import AdminSidebar from "./AdminSidebar"; // Adjust path if needed
-
+import API from "../services/api";
 
 const SyllabusPage = () => {
   const [classes, setClasses] = useState([]);
@@ -30,22 +30,22 @@ const SyllabusPage = () => {
   }, [formData.classId]);
 
   const fetchClasses = async () => {
-    const res = await axios.get("/api/classes");
+    const res = await API.get("/classes");
     setClasses(res.data);
   };
 
   const fetchSections = async (classId) => {
-    const res = await axios.get(`/api/sections?classId=${classId}`);
+    const res = await API.get(`/sections?classId=${classId}`);
     setSections(res.data);
   };
 
   const fetchSubjects = async () => {
-    const res = await axios.get("/api/subjects");
+    const res = await API.get("/subjects");
     setSubjects(res.data);
   };
 
   const fetchAllSyllabus = async () => {
-    const res = await axios.get("/api/syllabus/all");
+    const res = await API.get("/syllabus/all");
     setSyllabusList(res.data);
   };
 
@@ -68,7 +68,7 @@ const SyllabusPage = () => {
     uploadData.append("subjectId", formData.subjectId);
     uploadData.append("file", formData.file);
 
-    await axios.post("/api/syllabus/upload", uploadData);
+    await API.post("/syllabus/upload", uploadData);
     alert("Syllabus uploaded");
     setFormData({ classId: "", sectionId: "", subjectId: "", file: null });
     fetchAllSyllabus();
@@ -77,7 +77,7 @@ const SyllabusPage = () => {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this syllabus?")) return;
     try {
-      await axios.delete(`/api/syllabus/${id}`);
+      await API.delete(`/syllabus/${id}`);
       alert("Deleted successfully");
       fetchAllSyllabus();
     } catch (err) {
