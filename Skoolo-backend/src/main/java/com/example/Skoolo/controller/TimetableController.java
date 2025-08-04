@@ -2,14 +2,18 @@ package com.example.Skoolo.controller;
 
 import com.example.Skoolo.dto.AssignTeacherSubjectRequest;
 import com.example.Skoolo.dto.TimetableEntryDto;
+import com.example.Skoolo.model.Subject;
+import com.example.Skoolo.repo.TimetableRepository;
 import com.example.Skoolo.service.TimetableService;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
 @RestController
@@ -18,7 +22,8 @@ public class TimetableController {
 
     @Autowired
     private TimetableService timetableService;
-
+    @Autowired
+    private TimetableRepository timetableRepository;
 
     @PutMapping("/update")
     public ResponseEntity<?> updateTimetable(@RequestBody List<TimetableEntryDto> entries) {
@@ -44,7 +49,27 @@ public class TimetableController {
         }
     }
 
+    @GetMapping("/subjects")
+    public ResponseEntity<?> getSubjectsByClassAndSection(
+            @RequestParam Long classId,
+            @RequestParam Long sectionId) {
 
+        List<Subject> subjects = timetableRepository.findSubjectsByClassAndSection(classId, sectionId);
+
+        if (subjects.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Timetable not assigned for this class and section.");
+        }
+
+        List<Map<String, Object>> response = subjects.stream().map(subject -> {
+            Map<String, Object> subMap = new HashMap<>();
+            subMap.put("id", subject.getId());
+            subMap.put("subjectName", subject.getSubjectName());
+            return subMap;
+        }).collect(Collectors.toList());
+
+        return ResponseEntity.ok(response);
+    }
 
 }
 
