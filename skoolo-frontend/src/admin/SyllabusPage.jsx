@@ -17,6 +17,22 @@ const SyllabusPage = () => {
     file: null,
   });
 
+  // Add a new state to hold filters separately (optional)
+const [filters, setFilters] = useState({
+  classId: "",
+  sectionId: "",
+  subjectId: "",
+});
+
+// Add this function inside your component:
+const resetFilters = () => {
+  setFilters({ classId: "", sectionId: "", subjectId: "" });
+  setSections([]);
+  setSubjects([]);
+  fetchAllSyllabus();
+};
+
+
   useEffect(() => {
     fetchClasses();
     fetchSubjects();
@@ -108,6 +124,24 @@ useEffect(() => {
     }
   };
 
+  const handleFilterChange = (e) => {
+  const { name, value } = e.target;
+  setFilters(prev => ({
+    ...prev,
+    [name]: value,
+  }));
+
+  // If you want immediate filter on change, call fetch here:
+  if(name === "classId") {
+    fetchSections(value);  // update sections on class change
+    setFilters(prev => ({ ...prev, sectionId: "", subjectId: "" }));
+  }
+  if(name === "sectionId") {
+    setFilters(prev => ({ ...prev, subjectId: "" }));
+  }
+};
+
+
   return (
     <Row className="m-0">
       <Col md={3} className="p-0">
@@ -153,6 +187,40 @@ useEffect(() => {
 
           <hr className="my-4" />
           <h4>Existing Syllabus</h4>
+
+       <Form.Select name="classId" value={filters.classId} onChange={handleFilterChange}>
+        <option value="">All Classes</option>
+        {classes.map(cls => (
+          <option key={cls.id} value={cls.id}>{cls.className}</option>
+        ))}
+      </Form.Select>
+
+      <Form.Select name="sectionId" value={filters.sectionId} onChange={handleFilterChange} disabled={!filters.classId}>
+        <option value="">All Sections</option>
+        {sections.map(sec => (
+          <option key={sec.id} value={sec.id}>{sec.name}</option>
+        ))}
+      </Form.Select>
+
+      <Form.Select name="subjectId" value={filters.subjectId} onChange={handleFilterChange} disabled={!filters.classId || !filters.sectionId}>
+        <option value="">All Subjects</option>
+        {subjects.map(sub => (
+          <option key={sub.id} value={sub.id}>{sub.subjectName}</option>
+        ))}
+      </Form.Select>
+
+      {/* Reset Filter Button */}
+     <Button
+        variant="secondary"
+        className="mt-2 mb-4"
+        onClick={resetFilters}
+        disabled={!filters.classId && !filters.sectionId && !filters.subjectId}
+      >
+        Reset Filters
+      </Button>
+
+
+
           <Table bordered hover responsive>
            <thead>
   <tr>
