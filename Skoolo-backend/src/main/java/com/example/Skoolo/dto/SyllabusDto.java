@@ -9,9 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SyllabusDto {
     private Long id;
+    private String className;      // added
+    private String sectionName;    // added
     private String subjectName;
     private String fileName;
     private String fileUrl;
     private String uploadedAt;
 }
-

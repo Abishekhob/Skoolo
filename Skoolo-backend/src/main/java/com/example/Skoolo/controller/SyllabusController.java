@@ -67,6 +67,8 @@ public class SyllabusController {
         List<SyllabusDto> result = syllabi.stream()
                 .map(s -> new SyllabusDto(
                         s.getId(),
+                        s.getClassEntity().getClassName(),    // Added class name
+                        s.getSection().getSectionName(),              // Added section name
                         s.getSubject().getSubjectName(),
                         s.getFileName(),
                         s.getFileUrl(),
@@ -75,6 +77,7 @@ public class SyllabusController {
 
         return ResponseEntity.ok(result);
     }
+
 
     @GetMapping("/all")
     public ResponseEntity<List<SyllabusDto>> getAllSyllabus(
@@ -97,6 +100,8 @@ public class SyllabusController {
         List<SyllabusDto> result = syllabi.stream()
                 .map(s -> new SyllabusDto(
                         s.getId(),
+                        s.getClassEntity().getClassName(),    // added
+                        s.getSection().getSectionName(),              // added
                         s.getSubject().getSubjectName(),
                         s.getFileName(),
                         s.getFileUrl(),
@@ -105,6 +110,7 @@ public class SyllabusController {
 
         return ResponseEntity.ok(result);
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteSyllabus(@PathVariable Long id) {
