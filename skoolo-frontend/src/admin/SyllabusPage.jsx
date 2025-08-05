@@ -76,26 +76,26 @@ useEffect(() => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!formData.file) return alert("Please select a file");
+  e.preventDefault();
+  if (!formData.file) return alert("Please select a file");
 
-    const uploadData = new FormData();
-    uploadData.append("classId", formData.classId);
-    uploadData.append("sectionId", formData.sectionId);
-    uploadData.append("subjectId", formData.subjectId);
-    uploadData.append("file", formData.file);
+  const uploadData = new FormData();
+  uploadData.append("classId", formData.classId);
+  uploadData.append("sectionId", formData.sectionId);
+  uploadData.append("subjectId", formData.subjectId);
+  uploadData.append("file", formData.file);
 
-    await API.post("/syllabus/upload", uploadData,{
-         headers:
-     {     
-              "Content-Type": "multipart/form-data",
-     }
-    }
-  );
+  try {
+    await API.post("/syllabus/upload", uploadData); // <-- No headers here
     alert("Syllabus uploaded");
     setFormData({ classId: "", sectionId: "", subjectId: "", file: null });
     fetchAllSyllabus();
-  };
+  } catch (error) {
+    alert("Upload failed");
+    console.error(error);
+  }
+};
+
 
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this syllabus?")) return;
