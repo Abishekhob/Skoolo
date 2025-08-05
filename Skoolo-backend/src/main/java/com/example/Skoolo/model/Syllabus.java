@@ -34,4 +34,6 @@ public class Syllabus {
     private String fileUrl;      // where it's hosted
 
     private LocalDate uploadedAt;
+
+
 }
