@@ -154,36 +154,41 @@ useEffect(() => {
           <hr className="my-4" />
           <h4>Existing Syllabus</h4>
           <Table bordered hover responsive>
-            <thead>
-              <tr>
-                <th>Subject</th>
-                <th>File</th>
-                <th>Download</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {syllabusList.map((item, idx) => (
-                <tr key={idx}>
-                  <td>{item.subject}</td>
-                  <td>
-                    <a href={item.fileUrl} target="_blank" rel="noreferrer">
-                      {item.fileName}
-                    </a>
-                  </td>
-                  <td>
-                    <a href={item.fileUrl} download>
-                      Download
-                    </a>
-                  </td>
-                  <td>
-                    <Button variant="danger" size="sm" onClick={() => handleDelete(item.id)}>
-                      Delete
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
+           <thead>
+  <tr>
+    <th>Class</th>
+    <th>Section</th>
+    <th>Subject</th>
+    <th>File</th>
+    <th>Download</th>
+    <th>Action</th>
+  </tr>
+</thead>
+<tbody>
+  {syllabusList.map((item, idx) => (
+    <tr key={idx}>
+      <td>{item.className}</td>
+      <td>{item.sectionName}</td>
+      <td>{item.subjectName}</td>
+      <td>
+        <a href={item.fileUrl} target="_blank" rel="noreferrer">
+          {item.fileName}
+        </a>
+      </td>
+      <td>
+        <a href={item.fileUrl} download>
+          Download
+        </a>
+      </td>
+      <td>
+        <Button variant="danger" size="sm" onClick={() => handleDelete(item.id)}>
+          Delete
+        </Button>
+      </td>
+    </tr>
+  ))}
+</tbody>
+
           </Table>
         </Container>
       </Col>
