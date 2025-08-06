@@ -12,6 +12,7 @@ import com.example.Skoolo.repo.TeacherSubjectAssignmentRepository;
 import com.example.Skoolo.service.CloudinaryService;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -110,7 +111,9 @@ public class TeacherProfileController {
             String folderName = "teachers/" + teacherId;
 
             // Upload new image to Cloudinary with dynamic folder
-            String imageUrl = cloudinaryService.uploadImage(file, folderName);
+            Map<String, String> result = cloudinaryService.uploadFileWithPublicId(file, folderName);
+            String imageUrl = result.get("url");
+
 
             // Save the new image URL
             teacher.setProfilePicUrl(imageUrl);

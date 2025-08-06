@@ -9,6 +9,7 @@ import com.example.Skoolo.repo.UserRepository;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
@@ -66,7 +67,9 @@ public class MessageService {
         message.setTimestamp(LocalDateTime.now());
 
         if (file != null && !file.isEmpty()) {
-            String cloudinaryUrl = cloudinaryService.uploadImage(file, "chat_files");
+            Map<String, String> result = cloudinaryService.uploadFileWithPublicId(file, "chat_files");
+            String cloudinaryUrl = result.get("url");
+
             message.setAttachment(cloudinaryUrl); // store in attachment
             message.setType("FILE");
             message.setContent(null); // clear content
