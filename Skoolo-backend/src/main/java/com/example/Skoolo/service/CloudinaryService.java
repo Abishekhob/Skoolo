@@ -17,12 +17,24 @@ public class CloudinaryService {
 
     public String uploadImage(MultipartFile file, String folderName) throws IOException {
         Map uploadResult = cloudinary.uploader().upload(file.getBytes(),
-                ObjectUtils.asMap("folder", folderName));
+                ObjectUtils.asMap(
+                        "folder", folderName,
+                        "resource_type", "raw",   // Required for PDFs and other non-images
+                        "type", "upload",         // Ensures it's a public file, not authenticated
+                        "use_filename", true
+                )
+        );
+
         return uploadResult.get("secure_url").toString();
     }
 
     public void deleteImage(String publicId) throws IOException {
-        cloudinary.uploader().destroy(publicId, ObjectUtils.emptyMap());
+        cloudinary.uploader().destroy(publicId,
+                ObjectUtils.asMap(
+                        "resource_type", "raw"
+                )
+        );
+
     }
 
 }
