@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Form, Button, Row, Col } from "react-bootstrap";
 import AdminSidebar from "./AdminSidebar";
 import API from "../services/api";
@@ -22,7 +22,6 @@ const SyllabusPage = () => {
     subjectId: "",
   });
 
-  // --- Data Fetching ---
   useEffect(() => {
     fetchClasses();
     fetchAllSyllabus();
@@ -41,22 +40,13 @@ const SyllabusPage = () => {
   }, [formData.classId, formData.sectionId]);
 
   const fetchClasses = async () => {
-    try {
-      const res = await API.get("/classes");
-      setClasses(res.data);
-    } catch (err) {
-      console.error("Failed to fetch classes", err);
-    }
+    const res = await API.get("/classes");
+    setClasses(res.data);
   };
 
   const fetchSections = async (classId) => {
-    try {
-      const res = await API.get(`/classes/${classId}/sections`);
-      setSections(res.data.sections || []);
-    } catch (err) {
-      console.error("Failed to fetch sections", err);
-      setSections([]);
-    }
+    const res = await API.get(`/classes/${classId}/sections`);
+    setSections(res.data.sections || []);
   };
 
   const fetchSubjects = async (classId, sectionId) => {
@@ -68,41 +58,21 @@ const SyllabusPage = () => {
       setSubjects(res.data);
     } catch (err) {
       setSubjects([]);
-      console.warn("Timetable not assigned for this class and section.");
+      console.error("Timetable not assigned for this class and section.");
     }
   };
 
   const fetchAllSyllabus = async () => {
-    try {
-      const res = await API.get("/syllabus/all");
-      setSyllabusList(res.data);
-    } catch (err) {
-      console.error("Failed to fetch syllabus list", err);
-    }
+    const res = await API.get("/syllabus/all");
+    setSyllabusList(res.data);
   };
 
-  // --- Event Handlers ---
-  const handleFormChange = (e) => {
+  const handleChange = (e) => {
     const { name, value, files } = e.target;
-    setFormData({
-      ...formData,
-      [name]: files ? files[0] : value,
-    });
-  };
-
-  const handleFilterChange = (e) => {
-    const { name, value } = e.target;
-    setFilters((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-    if (name === "classId") {
-      fetchSections(value);
-      setFilters((prev) => ({ ...prev, sectionId: "", subjectId: "" }));
-    }
-    if (name === "sectionId") {
-      fetchSubjects(filters.classId, value);
-      setFilters((prev) => ({ ...prev, subjectId: "" }));
+    if (name === "file") {
+      setFormData({ ...formData, file: files[0] });
+    } else {
+      setFormData({ ...formData, [name]: value });
     }
   };
 
@@ -118,62 +88,66 @@ const SyllabusPage = () => {
 
     try {
       await API.post("/syllabus/upload", uploadData);
-      alert("Syllabus uploaded successfully!");
+      alert("Syllabus uploaded");
       setFormData({ classId: "", sectionId: "", subjectId: "", file: null });
       fetchAllSyllabus();
     } catch (error) {
-      alert("Upload failed. Please check the form data.");
+      alert("Upload failed");
       console.error(error);
     }
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this syllabus?")) return;
+    if (!window.confirm("Are you sure you want to delete this syllabus?"))
+      return;
     try {
       await API.delete(`/syllabus/${id}`);
-      alert("Syllabus deleted successfully!");
+      alert("Deleted successfully");
       fetchAllSyllabus();
     } catch (err) {
-      alert("Delete failed.");
-      console.error(err);
+      alert("Delete failed");
+    }
+  };
+
+  const handleFilterChange = (e) => {
+    const { name, value } = e.target;
+    setFilters((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    if (name === "classId") {
+      fetchSections(value);
+      setFilters((prev) => ({ ...prev, sectionId: "", subjectId: "" }));
+    }
+    if (name === "sectionId") {
+      setFilters((prev) => ({ ...prev, subjectId: "" }));
     }
   };
 
   const resetFilters = () => {
     setFilters({ classId: "", sectionId: "", subjectId: "" });
+    setSections([]);
+    setSubjects([]);
     fetchAllSyllabus();
   };
 
-  // --- Filtered List Memoization ---
-  const filteredSyllabusList = useMemo(() => {
-    return syllabusList.filter((item) => {
-      const classMatch = filters.classId
-        ? item.classId.toString() === filters.classId
-        : true;
-      const sectionMatch = filters.sectionId
-        ? item.sectionId.toString() === filters.sectionId
-        : true;
-      const subjectMatch = filters.subjectId
-        ? item.subjectId.toString() === filters.subjectId
-        : true;
-      return classMatch && sectionMatch && subjectMatch;
-    });
-  }, [syllabusList, filters]);
-
   return (
-    <div className="syllabus-page-wrapper">
-      <AdminSidebar />
-      <div className="content-area">
-        <Container fluid>
-          <div className="section-card upload-card mb-5">
-            <h3 className="section-title">Upload Syllabus</h3>
-            <Form onSubmit={handleSubmit} className="upload-form">
-              <Row className="g-3">
+    <Row className="m-0 syllabus-page-wrapper">
+      <Col md={3} className="p-0">
+        <AdminSidebar />
+      </Col>
+      <Col md={9} className="p-4 content-area">
+        <Container>
+          <div className="upload-section-card">
+            <h3 className="mb-4 section-title">Upload Syllabus</h3>
+            <Form onSubmit={handleSubmit}>
+              <Row className="mb-3 g-3">
                 <Col md={4}>
                   <Form.Select
                     name="classId"
                     value={formData.classId}
-                    onChange={handleFormChange}
+                    onChange={handleChange}
                     required
                   >
                     <option value="">Select Class</option>
@@ -188,9 +162,8 @@ const SyllabusPage = () => {
                   <Form.Select
                     name="sectionId"
                     value={formData.sectionId}
-                    onChange={handleFormChange}
+                    onChange={handleChange}
                     required
-                    disabled={!formData.classId}
                   >
                     <option value="">Select Section</option>
                     {sections.map((sec) => (
@@ -204,9 +177,8 @@ const SyllabusPage = () => {
                   <Form.Select
                     name="subjectId"
                     value={formData.subjectId}
-                    onChange={handleFormChange}
+                    onChange={handleChange}
                     required
-                    disabled={!formData.sectionId}
                   >
                     <option value="">Select Subject</option>
                     {subjects.map((sub) => (
@@ -216,148 +188,130 @@ const SyllabusPage = () => {
                     ))}
                   </Form.Select>
                 </Col>
-                <Col xs={12}>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Syllabus File (PDF)</Form.Label>
-                    <Form.Control
-                      type="file"
-                      name="file"
-                      onChange={handleFormChange}
-                      accept="application/pdf"
-                      required
-                    />
-                  </Form.Group>
-                </Col>
-                <Col xs={12} className="text-end">
-                  <Button type="submit" className="upload-btn">
-                    <FaUpload className="me-2" /> Upload
-                  </Button>
-                </Col>
               </Row>
+              <Form.Group className="mb-4">
+                <Form.Label>Upload PDF</Form.Label>
+                <Form.Control
+                  type="file"
+                  name="file"
+                  onChange={handleChange}
+                  accept="application/pdf"
+                  required
+                />
+              </Form.Group>
+              <Button type="submit" className="upload-button-styled">
+                <FaUpload className="me-2" /> Upload Syllabus
+              </Button>
             </Form>
           </div>
 
-          <div className="section-card syllabus-list-card">
-            <h3 className="section-title">Existing Syllabus</h3>
-            <div className="filters-container mb-4">
-              <Row className="g-3 align-items-center">
-                <Col md={3}>
-                  <Form.Select
-                    name="classId"
-                    value={filters.classId}
-                    onChange={handleFilterChange}
-                  >
-                    <option value="">All Classes</option>
-                    {classes.map((cls) => (
-                      <option key={cls.id} value={cls.id}>
-                        {cls.className}
-                      </option>
-                    ))}
-                  </Form.Select>
-                </Col>
-                <Col md={3}>
-                  <Form.Select
-                    name="sectionId"
-                    value={filters.sectionId}
-                    onChange={handleFilterChange}
-                    disabled={!filters.classId}
-                  >
-                    <option value="">All Sections</option>
-                    {sections.map((sec) => (
-                      <option key={sec.id} value={sec.id}>
-                        {sec.name}
-                      </option>
-                    ))}
-                  </Form.Select>
-                </Col>
-                <Col md={3}>
-                  <Form.Select
-                    name="subjectId"
-                    value={filters.subjectId}
-                    onChange={handleFilterChange}
-                    disabled={!filters.classId || !filters.sectionId}
-                  >
-                    <option value="">All Subjects</option>
-                    {subjects.map((sub) => (
-                      <option key={sub.id} value={sub.id}>
-                        {sub.subjectName}
-                      </option>
-                    ))}
-                  </Form.Select>
-                </Col>
-                <Col md={3}>
-                  <Button
-                    variant="secondary"
-                    onClick={resetFilters}
-                    disabled={
-                      !filters.classId && !filters.sectionId && !filters.subjectId
-                    }
-                    className="w-100"
-                  >
-                    Reset Filters
-                  </Button>
-                </Col>
-              </Row>
-            </div>
-            <Row xs={1} md={2} lg={3} className="g-4">
-              {filteredSyllabusList.length > 0 ? (
-                filteredSyllabusList.map((item) => (
-                  <Col key={item.id}>
-                    <div className="syllabus-card">
-                      <div className="card-header">
-                        <FaFilePdf size={24} className="pdf-icon" />
-                        <h5 className="card-title">{item.subjectName}</h5>
-                      </div>
-                      <div className="card-body">
-                        <p className="card-text">
-                          <strong>Class:</strong> {item.className}
-                        </p>
-                        <p className="card-text">
-                          <strong>Section:</strong> {item.sectionName}
-                        </p>
-                        <p className="card-text file-name">
-                          <strong>File:</strong> {item.fileName}
-                        </p>
-                      </div>
-                      <div className="card-actions">
-                        <a
-                          href={item.fileUrl}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="btn-action download-btn"
-                        >
-                          <FaDownload />
-                        </a>
-                        <a
-                          href={item.fileUrl}
-                          download
-                          className="btn-action view-btn"
-                        >
-                          View
-                        </a>
-                        <Button
-                          variant="danger"
-                          className="btn-action delete-btn"
-                          onClick={() => handleDelete(item.id)}
-                        >
-                          <FaTrash />
-                        </Button>
-                      </div>
-                    </div>
-                  </Col>
-                ))
-              ) : (
-                <Col xs={12}>
-                  <div className="text-center text-muted py-5">
-                    No syllabus documents found.
-                  </div>
-                </Col>
-              )}
+          <hr className="my-5 divider" />
+          <div className="existing-syllabus-section">
+            <h4 className="mb-4 section-title">Existing Syllabus</h4>
+            <Row className="mb-4 g-3 align-items-center">
+              <Col md={3}>
+                <Form.Select
+                  name="classId"
+                  value={filters.classId}
+                  onChange={handleFilterChange}
+                >
+                  <option value="">All Classes</option>
+                  {classes.map((cls) => (
+                    <option key={cls.id} value={cls.id}>
+                      {cls.className}
+                    </option>
+                  ))}
+                </Form.Select>
+              </Col>
+              <Col md={3}>
+                <Form.Select
+                  name="sectionId"
+                  value={filters.sectionId}
+                  onChange={handleFilterChange}
+                  disabled={!filters.classId}
+                >
+                  <option value="">All Sections</option>
+                  {sections.map((sec) => (
+                    <option key={sec.id} value={sec.id}>
+                      {sec.name}
+                    </option>
+                  ))}
+                </Form.Select>
+              </Col>
+              <Col md={3}>
+                <Form.Select
+                  name="subjectId"
+                  value={filters.subjectId}
+                  onChange={handleFilterChange}
+                  disabled={!filters.classId || !filters.sectionId}
+                >
+                  <option value="">All Subjects</option>
+                  {subjects.map((sub) => (
+                    <option key={sub.id} value={sub.id}>
+                      {sub.subjectName}
+                    </option>
+                  ))}
+                </Form.Select>
+              </Col>
+              <Col md={3}>
+                <Button
+                  variant="secondary"
+                  className="w-100 reset-filter-button"
+                  onClick={resetFilters}
+                  disabled={
+                    !filters.classId && !filters.sectionId && !filters.subjectId
+                  }
+                >
+                  Reset Filters
+                </Button>
+              </Col>
             </Row>
+
+            <Table bordered hover responsive className="styled-table">
+              <thead>
+                <tr>
+                  <th>Class</th>
+                  <th>Section</th>
+                  <th>Subject</th>
+                  <th>File</th>
+                  <th>Download</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {syllabusList.map((item, idx) => (
+                  <tr key={idx}>
+                    <td>{item.className}</td>
+                    <td>{item.sectionName}</td>
+                    <td>{item.subjectName}</td>
+                    <td>
+                      <a href={item.fileUrl} target="_blank" rel="noreferrer">
+                        {item.fileName}
+                      </a>
+                    </td>
+                    <td>
+                      <a href={item.fileUrl} download className="download-link">
+                        <FaDownload />
+                      </a>
+                    </td>
+                    <td>
+                      <Button
+                        variant="danger"
+                        size="sm"
+                        onClick={() => handleDelete(item.id)}
+                        className="delete-button-styled"
+                      >
+                        <FaTrash />
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
           </div>
         </Container>
-      </div>
-    </div>
+      </Col>
+    </Row>
   );
 };
 
