@@ -15,6 +15,7 @@ const ParentSidebar = () => {
     { name: 'Marks', path: '/parent/marks', icon: <MdGrade /> },
     { name: 'Timetable', path: '/parent/timetable', icon: <MdAccessTime /> },
     { name: 'Assignments', path: '/parent/assignments', icon: <MdAssignment /> },
+    { name: 'Syllabus', path: '/parent/syllabus', icon: <MdAssignment /> },
     { name: 'Attendance', path: '/parent/attendance', icon: <MdCheckCircle /> },
     { name: 'Messages', path: '/parent/messages', icon: <MdMessage /> },
     { name: 'Fees', path: '/parent/fees', icon: <MdAttachMoney /> },
