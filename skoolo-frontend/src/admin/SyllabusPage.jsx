@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, Form, Button, Row, Col } from "react-bootstrap";
+import { Container, Form, Button, Table, Row, Col } from "react-bootstrap";
 import AdminSidebar from "./AdminSidebar";
 import API from "../services/api";
 import "./style/SyllabusPage.css"; // Import the custom stylesheet
