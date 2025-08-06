@@ -6,6 +6,7 @@ import com.example.Skoolo.repo.*;
 import com.example.Skoolo.service.CloudinaryService;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -37,7 +38,11 @@ public class SyllabusController {
             Section section = sectionRepository.findById(sectionId).orElseThrow();
             Subject subject = subjectRepository.findById(subjectId).orElseThrow();
 
-            String fileUrl = cloudinaryService.uploadImage(file, "syllabus");
+            Map<String, String> uploadResult = cloudinaryService.uploadFileWithPublicId(file, "syllabus");
+
+            String fileUrl = uploadResult.get("url");
+            String publicId = uploadResult.get("publicId");
+
 
             Syllabus syllabus = new Syllabus();
             syllabus.setClassEntity(classEntity);
@@ -45,6 +50,7 @@ public class SyllabusController {
             syllabus.setSubject(subject);
             syllabus.setFileName(file.getOriginalFilename());
             syllabus.setFileUrl(fileUrl);
+            syllabus.setPublicId(publicId);
             syllabus.setUploadedAt(LocalDate.now());
 
             syllabusRepository.save(syllabus);
@@ -118,12 +124,7 @@ public class SyllabusController {
             Syllabus syllabus = syllabusRepository.findById(id)
                     .orElseThrow(() -> new RuntimeException("Syllabus not found"));
 
-            // Extract publicId from the URL
-            String fileUrl = syllabus.getFileUrl();
-            String publicId = fileUrl.substring(fileUrl.lastIndexOf("/") + 1, fileUrl.lastIndexOf("."));
-            publicId = "syllabus/" + publicId;
-
-            cloudinaryService.deleteImage(publicId);
+            cloudinaryService.deleteImage(syllabus.getPublicId());
             syllabusRepository.deleteById(id);
 
             return ResponseEntity.ok("Syllabus deleted successfully.");

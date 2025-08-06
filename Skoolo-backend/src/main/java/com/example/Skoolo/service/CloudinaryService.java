@@ -15,18 +15,22 @@ public class CloudinaryService {
     @Autowired
     private Cloudinary cloudinary;
 
-    public String uploadImage(MultipartFile file, String folderName) throws IOException {
+    public Map<String, String> uploadFileWithPublicId(MultipartFile file, String folderName) throws IOException {
         Map uploadResult = cloudinary.uploader().upload(file.getBytes(),
                 ObjectUtils.asMap(
                         "folder", folderName,
-                        "resource_type", "raw",   // Required for PDFs and other non-images
-                        "type", "upload",         // Ensures it's a public file, not authenticated
+                        "resource_type", "raw",
+                        "type", "upload",
                         "use_filename", true
                 )
         );
 
-        return uploadResult.get("secure_url").toString();
+        return Map.of(
+                "url", uploadResult.get("secure_url").toString(),
+                "publicId", uploadResult.get("public_id").toString()
+        );
     }
+
 
     public void deleteImage(String publicId) throws IOException {
         cloudinary.uploader().destroy(publicId,

@@ -35,5 +35,8 @@ public class Syllabus {
 
     private LocalDate uploadedAt;
 
+    @Column(name = "public_id")
+    private String publicId;
+
 
 }
