@@ -94,7 +94,7 @@ const ParentSyllabus = () => {
                 {syllabus.showPreview && (
                   <div className="mt-3">
                     <iframe
-                      src={syllabus.syllabusUrl}
+                      src={syllabus.fileUrl}
                       width="100%"
                       height="400px"
                       title={`Syllabus for ${syllabus.subjectName}`}
@@ -106,14 +106,14 @@ const ParentSyllabus = () => {
                 {/* Download + Open in New Tab */}
                 <div className="mt-2">
                   <a
-                    href={syllabus.syllabusUrl}
+                    href={syllabus.fileUrl}
                     download
                     className="btn btn-sm btn-success me-2"
                   >
                     Download PDF
                   </a>
                   <a
-                    href={syllabus.syllabusUrl}
+                    href={syllabus.fileUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn btn-sm btn-primary"
