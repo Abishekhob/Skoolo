@@ -124,24 +124,17 @@ const getPreviewUrl = (url) =>
                 </div>
               )}
 
-              {/* Download + Open in New Tab */}
-              <div className="mt-2">
-                <a
-                  href={syllabus.fileUrl}
-                  download
-                  className="btn btn-sm btn-success me-2"
-                >
-                  Download PDF
-                </a>
-                <a
-                  href={getPreviewUrl(syllabus.fileUrl)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn btn-sm btn-primary"
-                >
-                  Open in New Tab
-                </a>
-              </div>
+           {/* Download PDF Only */}
+<div className="mt-2">
+  <a
+    href={syllabus.fileUrl}
+    download
+    className="btn btn-sm btn-success"
+  >
+    Download PDF
+  </a>
+</div>
+
 
                   </li>
                 ))}
