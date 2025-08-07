@@ -72,10 +72,9 @@ const ParentSyllabus = () => {
   if (loading) return <p className="p-4">Loading syllabus...</p>;
 
   // Helper function to convert raw URL to previewable PDF URL
-const getPreviewUrl = (url) => {
-  if (!url.includes('/raw/')) return url;
-  return url.replace('/raw/', '/media/') + '.pdf';
-};
+const getPreviewUrl = (url) =>
+  `https://docs.google.com/gview?embedded=true&url=${encodeURIComponent(url)}`;
+
 
 
   return (
@@ -112,37 +111,38 @@ const getPreviewUrl = (url) => {
                       </button>
                     </div>
 
-                  {/* Conditional PDF Preview */}
-                  {syllabus.showPreview && (
-                    <div className="mt-3">
-                      <iframe
-                        src={getPreviewUrl(syllabus.fileUrl)}
-                        width="100%"
-                        height="400px"
-                        title={`Syllabus for ${syllabus.subjectName}`}
-                        style={{ border: '1px solid #ccc', borderRadius: '5px' }}
-                      ></iframe>
-                    </div>
-                  )}
+               {/* Conditional PDF Preview */}
+              {syllabus.showPreview && (
+                <div className="mt-3">
+                  <iframe
+                    src={getPreviewUrl(syllabus.fileUrl)}
+                    width="100%"
+                    height="500px"
+                    title={`Syllabus for ${syllabus.subjectName}`}
+                    style={{ border: '1px solid #ccc', borderRadius: '5px' }}
+                  ></iframe>
+                </div>
+              )}
 
-                  {/* Download + Open in New Tab */}
-                  <div className="mt-2">
-                    <a
-                      href={syllabus.fileUrl}
-                      download
-                      className="btn btn-sm btn-success me-2"
-                    >
-                      Download PDF
-                    </a>
-                    <a
-                      href={getPreviewUrl(syllabus.fileUrl)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="btn btn-sm btn-primary"
-                    >
-                      Open in New Tab
-                    </a>
-                  </div>
+              {/* Download + Open in New Tab */}
+              <div className="mt-2">
+                <a
+                  href={syllabus.fileUrl}
+                  download
+                  className="btn btn-sm btn-success me-2"
+                >
+                  Download PDF
+                </a>
+                <a
+                  href={getPreviewUrl(syllabus.fileUrl)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-sm btn-primary"
+                >
+                  Open in New Tab
+                </a>
+              </div>
+
                   </li>
                 ))}
               </ul>
