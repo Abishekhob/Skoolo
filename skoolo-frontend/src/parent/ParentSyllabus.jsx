@@ -4,7 +4,7 @@ import API from '../services/api';
 const ParentSyllabus = () => {
   const [syllabusList, setSyllabusList] = useState([]);
   const [loading, setLoading] = useState(true);
-  const parentId = localStorage.getItem('userId'); // Parent ID stored in localStorage
+  const parentId = localStorage.getItem('parentId'); // Parent ID stored in localStorage
 
   useEffect(() => {
     const fetchSyllabus = async () => {
