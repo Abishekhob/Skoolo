@@ -19,7 +19,13 @@ const ParentSyllabus = () => {
         for (const child of children) {
           try {
             const syllabusRes = await API.get(`/syllabus/student/${child.id}`);
-            allSyllabi.push(...syllabusRes.data.map(s => ({ ...s, studentName: child.name })));
+            allSyllabi.push(
+              ...syllabusRes.data.map(s => ({
+                ...s,
+                studentName: child.name,
+                showPreview: false // 👈 Initialize preview state for each
+              }))
+            );
           } catch (err) {
             console.error(`403 error for student ${child.id} (${child.name})`);
           }
@@ -41,6 +47,14 @@ const ParentSyllabus = () => {
       setLoading(false);
     }
   }, [parentId]);
+
+  const togglePreview = index => {
+    setSyllabusList(prev =>
+      prev.map((item, i) =>
+        i === index ? { ...item, showPreview: !item.showPreview } : item
+      )
+    );
+  };
 
   if (loading) return <p className="p-4">Loading syllabus...</p>;
 
@@ -65,14 +79,46 @@ const ParentSyllabus = () => {
                   <br />
                   <small>Child: {syllabus.studentName}</small>
                 </div>
+
+                {/* Toggle Button */}
                 <div className="mt-2">
+                  <button
+                    className="btn btn-sm btn-outline-secondary"
+                    onClick={() => togglePreview(index)}
+                  >
+                    {syllabus.showPreview ? 'Hide Preview' : 'Show Preview'}
+                  </button>
+                </div>
+
+                {/* Conditional PDF Preview */}
+                {syllabus.showPreview && (
+                  <div className="mt-3">
+                    <iframe
+                      src={syllabus.syllabusUrl}
+                      width="100%"
+                      height="400px"
+                      title={`Syllabus for ${syllabus.subjectName}`}
+                      style={{ border: '1px solid #ccc', borderRadius: '5px' }}
+                    ></iframe>
+                  </div>
+                )}
+
+                {/* Download + Open in New Tab */}
+                <div className="mt-2">
+                  <a
+                    href={syllabus.syllabusUrl}
+                    download
+                    className="btn btn-sm btn-success me-2"
+                  >
+                    Download PDF
+                  </a>
                   <a
                     href={syllabus.syllabusUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn btn-sm btn-primary"
                   >
-                    View / Download
+                    Open in New Tab
                   </a>
                 </div>
               </li>
