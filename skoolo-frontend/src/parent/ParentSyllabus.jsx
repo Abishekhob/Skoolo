@@ -24,7 +24,8 @@ const ParentSyllabus = () => {
           allSyllabi.push(
             ...syllabusRes.data.map(s => ({
               ...s,
-              studentName: child.name || "Unknown Student",
+             studentName: child.fullName || "Unknown Student",
+
               showPreview: false // Initialize preview state
             }))
           );
