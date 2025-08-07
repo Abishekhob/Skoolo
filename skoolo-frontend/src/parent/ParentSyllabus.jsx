@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import API from '../services/api';
-import ParentSidebar from './ParentSidebar'; // ✅ Import sidebar
-import { Row, Col } from 'react-bootstrap';  // ✅ For layout
+import ParentSidebar from './ParentSidebar';
+import { Row, Col } from 'react-bootstrap';
 
 const ParentSyllabus = () => {
   const [syllabusList, setSyllabusList] = useState([]);
   const [loading, setLoading] = useState(true);
-  const parentId = localStorage.getItem('parentId'); // Make sure this matches login storage
+  const parentId = localStorage.getItem('parentId');
 
   useEffect(() => {
     const fetchSyllabus = async () => {
@@ -17,13 +17,18 @@ const ParentSyllabus = () => {
         let allSyllabi = [];
 
         for (const child of children) {
-          const syllabusRes = await API.get(`/syllabus/student/${child.id}`);
-          allSyllabi.push(...syllabusRes.data.map(s => ({ ...s, studentName: child.name })));
+          try {
+            const syllabusRes = await API.get(`/syllabus/student/${child.id}`);
+            allSyllabi.push(...syllabusRes.data.map(s => ({ ...s, studentName: child.name })));
+          } catch (err) {
+            console.error(`403 error for student ${child.id} (${child.name})`);
+          }
         }
 
         setSyllabusList(allSyllabi);
       } catch (error) {
         console.error("Error fetching syllabus:", error);
+        alert("Unable to fetch syllabus. Please try again or contact support.");
       } finally {
         setLoading(false);
       }
@@ -32,18 +37,21 @@ const ParentSyllabus = () => {
     if (parentId) {
       fetchSyllabus();
     } else {
+      console.warn("No parent ID found in localStorage");
       setLoading(false);
     }
   }, [parentId]);
 
-  if (loading) return <p>Loading syllabus...</p>;
+  if (loading) return <p className="p-4">Loading syllabus...</p>;
 
   return (
     <Row className="m-0">
-      {/* Sidebar (left) */}
-      <ParentSidebar />
+      {/* Sidebar */}
+      <Col md={3} className="p-0">
+        <ParentSidebar />
+      </Col>
 
-      {/* Main content (right) */}
+      {/* Main content */}
       <Col md={9} className="p-4">
         <h3>Children's Syllabus</h3>
         {syllabusList.length === 0 ? (
