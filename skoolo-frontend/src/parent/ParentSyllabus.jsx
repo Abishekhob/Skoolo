@@ -8,45 +8,48 @@ const ParentSyllabus = () => {
   const [loading, setLoading] = useState(true);
   const parentId = localStorage.getItem('parentId');
 
-  useEffect(() => {
-    const fetchSyllabus = async () => {
-      try {
-        const childrenRes = await API.get(`/parents/${parentId}/children`);
-        const children = childrenRes.data;
+ useEffect(() => {
+  const fetchSyllabus = async () => {
+    try {
+      const childrenRes = await API.get(`/parents/${parentId}/children`);
+      const children = childrenRes.data;
 
-        let allSyllabi = [];
+      console.log("Children response:", children);  // <-- Log children here
 
-        for (const child of children) {
-          try {
-            const syllabusRes = await API.get(`/syllabus/student/${child.id}`);
-            allSyllabi.push(
-              ...syllabusRes.data.map(s => ({
-                ...s,
-                studentName: child.name,
-                showPreview: false // Initialize preview state
-              }))
-            );
-          } catch (err) {
-            console.error(`403 error for student ${child.id} (${child.name})`);
-          }
+      let allSyllabi = [];
+
+      for (const child of children) {
+        try {
+          const syllabusRes = await API.get(`/syllabus/student/${child.id}`);
+          allSyllabi.push(
+            ...syllabusRes.data.map(s => ({
+              ...s,
+              studentName: child.name || "Unknown Student",
+              showPreview: false // Initialize preview state
+            }))
+          );
+        } catch (err) {
+          console.error(`403 error for student ${child.id} (${child.name})`);
         }
-
-        setSyllabusList(allSyllabi);
-      } catch (error) {
-        console.error("Error fetching syllabus:", error);
-        alert("Unable to fetch syllabus. Please try again or contact support.");
-      } finally {
-        setLoading(false);
       }
-    };
 
-    if (parentId) {
-      fetchSyllabus();
-    } else {
-      console.warn("No parent ID found in localStorage");
+      setSyllabusList(allSyllabi);
+    } catch (error) {
+      console.error("Error fetching syllabus:", error);
+      alert("Unable to fetch syllabus. Please try again or contact support.");
+    } finally {
       setLoading(false);
     }
-  }, [parentId]);
+  };
+
+  if (parentId) {
+    fetchSyllabus();
+  } else {
+    console.warn("No parent ID found in localStorage");
+    setLoading(false);
+  }
+}, [parentId]);
+
 
   // Toggle preview state for the clicked syllabus by its index
   const togglePreview = index => {
