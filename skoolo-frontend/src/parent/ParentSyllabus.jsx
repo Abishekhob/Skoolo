@@ -14,7 +14,7 @@ const ParentSyllabus = () => {
       const childrenRes = await API.get(`/parents/${parentId}/children`);
       const children = childrenRes.data;
 
-      console.log("Children response:", children);  // <-- Log children here
+      
 
       let allSyllabi = [];
 
@@ -71,6 +71,13 @@ const ParentSyllabus = () => {
 
   if (loading) return <p className="p-4">Loading syllabus...</p>;
 
+  // Helper function to convert raw URL to previewable PDF URL
+const getPreviewUrl = (url) => {
+  if (!url.includes('/raw/')) return url;
+  return url.replace('/raw/', '/media/') + '.pdf';
+};
+
+
   return (
     <Row className="m-0">
       {/* Sidebar */}
@@ -105,37 +112,37 @@ const ParentSyllabus = () => {
                       </button>
                     </div>
 
-                    {/* Conditional PDF Preview */}
-                    {syllabus.showPreview && (
-                      <div className="mt-3">
-                        <iframe
-                          src={syllabus.fileUrl}
-                          width="100%"
-                          height="400px"
-                          title={`Syllabus for ${syllabus.subjectName}`}
-                          style={{ border: '1px solid #ccc', borderRadius: '5px' }}
-                        ></iframe>
-                      </div>
-                    )}
-
-                    {/* Download + Open in New Tab */}
-                    <div className="mt-2">
-                      <a
-                        href={syllabus.fileUrl}
-                        download
-                        className="btn btn-sm btn-success me-2"
-                      >
-                        Download PDF
-                      </a>
-                      <a
-                        href={syllabus.fileUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn btn-sm btn-primary"
-                      >
-                        Open in New Tab
-                      </a>
+                  {/* Conditional PDF Preview */}
+                  {syllabus.showPreview && (
+                    <div className="mt-3">
+                      <iframe
+                        src={getPreviewUrl(syllabus.fileUrl)}
+                        width="100%"
+                        height="400px"
+                        title={`Syllabus for ${syllabus.subjectName}`}
+                        style={{ border: '1px solid #ccc', borderRadius: '5px' }}
+                      ></iframe>
                     </div>
+                  )}
+
+                  {/* Download + Open in New Tab */}
+                  <div className="mt-2">
+                    <a
+                      href={syllabus.fileUrl}
+                      download
+                      className="btn btn-sm btn-success me-2"
+                    >
+                      Download PDF
+                    </a>
+                    <a
+                      href={getPreviewUrl(syllabus.fileUrl)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn btn-sm btn-primary"
+                    >
+                      Open in New Tab
+                    </a>
+                  </div>
                   </li>
                 ))}
               </ul>
