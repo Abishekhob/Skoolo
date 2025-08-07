@@ -32,6 +32,7 @@ import AssignmentsPage from './parent/AssignmentsPage';
 import AttendancePage from './parent/AttendancePage';
 import ParentMessagesPage from './parent/ParentMessagesPage';
 import FeesPage from './parent/FeesPage';
+import ParentSyllabus from './parent/ParentSyllabus';
 
 const App = () => {
   const location = useLocation();
@@ -73,6 +74,7 @@ const App = () => {
        <Route path="/parent/marks" element={<MarksPage />} />
        <Route path="/parent/timetable" element={<TimetablePage />} />
        <Route path="/parent/assignments" element={<AssignmentsPage />} />
+       <Route path="/parent/syllabus" element={<ParentSyllabus />} />
        <Route path="/parent/attendance" element={<AttendancePage />} />
        <Route path="/parent/messages" element={<ParentMessagesPage/>} />
        <Route path="/parent/fees" element={<FeesPage />} />
