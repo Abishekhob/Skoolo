@@ -23,7 +23,7 @@ const ParentSyllabus = () => {
               ...syllabusRes.data.map(s => ({
                 ...s,
                 studentName: child.name,
-                showPreview: false // 👈 Initialize preview state for each
+                showPreview: false // Initialize preview state
               }))
             );
           } catch (err) {
@@ -48,6 +48,7 @@ const ParentSyllabus = () => {
     }
   }, [parentId]);
 
+  // Toggle preview state for the clicked syllabus by its index
   const togglePreview = index => {
     setSyllabusList(prev =>
       prev.map((item, i) =>
@@ -55,6 +56,14 @@ const ParentSyllabus = () => {
       )
     );
   };
+
+  // Group syllabus by studentName
+  const groupedByStudent = syllabusList.reduce((acc, syllabus, idx) => {
+    if (!acc[syllabus.studentName]) acc[syllabus.studentName] = [];
+    // Also keep track of original index to handle preview toggle properly
+    acc[syllabus.studentName].push({ ...syllabus, originalIndex: idx });
+    return acc;
+  }, {});
 
   if (loading) return <p className="p-4">Loading syllabus...</p>;
 
@@ -68,62 +77,66 @@ const ParentSyllabus = () => {
       {/* Main content */}
       <Col md={9} className="p-4">
         <h3>Children's Syllabus</h3>
+
         {syllabusList.length === 0 ? (
           <p>No syllabus found.</p>
         ) : (
-          <ul className="list-group">
-            {syllabusList.map((syllabus, index) => (
-              <li key={index} className="list-group-item">
-                <div>
-                  <strong>{syllabus.subjectName}</strong> - {syllabus.className} / {syllabus.sectionName}
-                  <br />
-                  <small>Child: {syllabus.studentName}</small>
-                </div>
+          Object.entries(groupedByStudent).map(([studentName, syllabi]) => (
+            <div key={studentName} className="mb-4">
+              <h4>{studentName}'s Syllabus</h4>
+              <ul className="list-group">
+                {syllabi.map(({ originalIndex, ...syllabus }, i) => (
+                  <li key={originalIndex} className="list-group-item">
+                    <div>
+                      <strong>{syllabus.subjectName}</strong> - {syllabus.className} / {syllabus.sectionName}
+                    </div>
 
-                {/* Toggle Button */}
-                <div className="mt-2">
-                  <button
-                    className="btn btn-sm btn-outline-secondary"
-                    onClick={() => togglePreview(index)}
-                  >
-                    {syllabus.showPreview ? 'Hide Preview' : 'Show Preview'}
-                  </button>
-                </div>
+                    {/* Toggle Button */}
+                    <div className="mt-2">
+                      <button
+                        className="btn btn-sm btn-outline-secondary"
+                        onClick={() => togglePreview(originalIndex)}
+                      >
+                        {syllabus.showPreview ? 'Hide Preview' : 'Show Preview'}
+                      </button>
+                    </div>
 
-                {/* Conditional PDF Preview */}
-                {syllabus.showPreview && (
-                  <div className="mt-3">
-                    <iframe
-                      src={syllabus.fileUrl}
-                      width="100%"
-                      height="400px"
-                      title={`Syllabus for ${syllabus.subjectName}`}
-                      style={{ border: '1px solid #ccc', borderRadius: '5px' }}
-                    ></iframe>
-                  </div>
-                )}
+                    {/* Conditional PDF Preview */}
+                    {syllabus.showPreview && (
+                      <div className="mt-3">
+                        <iframe
+                          src={syllabus.fileUrl}
+                          width="100%"
+                          height="400px"
+                          title={`Syllabus for ${syllabus.subjectName}`}
+                          style={{ border: '1px solid #ccc', borderRadius: '5px' }}
+                        ></iframe>
+                      </div>
+                    )}
 
-                {/* Download + Open in New Tab */}
-                <div className="mt-2">
-                  <a
-                    href={syllabus.fileUrl}
-                    download
-                    className="btn btn-sm btn-success me-2"
-                  >
-                    Download PDF
-                  </a>
-                  <a
-                    href={syllabus.fileUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn btn-sm btn-primary"
-                  >
-                    Open in New Tab
-                  </a>
-                </div>
-              </li>
-            ))}
-          </ul>
+                    {/* Download + Open in New Tab */}
+                    <div className="mt-2">
+                      <a
+                        href={syllabus.fileUrl}
+                        download
+                        className="btn btn-sm btn-success me-2"
+                      >
+                        Download PDF
+                      </a>
+                      <a
+                        href={syllabus.fileUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn btn-sm btn-primary"
+                      >
+                        Open in New Tab
+                      </a>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
         )}
       </Col>
     </Row>
