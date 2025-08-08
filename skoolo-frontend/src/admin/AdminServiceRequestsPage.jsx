@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Table, Button, Spinner } from "react-bootstrap";
+import { Table, Button, Spinner, Modal, Form } from "react-bootstrap";
 import API from "../services/api";
 
 const AdminServiceRequestsPage = () => {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const [modalShow, setModalShow] = useState(false);
+  const [selectedRequest, setSelectedRequest] = useState(null);
+  const [selectedStatus, setSelectedStatus] = useState("APPROVED");
+  const [adminRemarks, setAdminRemarks] = useState("");
 
   useEffect(() => {
     fetchRequests();
@@ -13,7 +18,6 @@ const AdminServiceRequestsPage = () => {
   const fetchRequests = async () => {
     try {
       const res = await API.get("/service-requests");
-      console.log("Service Requests API response:", res.data);
       setRequests(res.data);
     } catch (err) {
       console.error("Error fetching service requests:", err);
@@ -22,15 +26,27 @@ const AdminServiceRequestsPage = () => {
     }
   };
 
-  const updateStatus = async (id, status) => {
+  const openModal = (request, status) => {
+    setSelectedRequest(request);
+    setSelectedStatus(status);
+    setAdminRemarks("");
+    setModalShow(true);
+  };
+
+  const updateStatus = async (id, status, remarks) => {
     try {
       await API.put(`/service-requests/${id}/status`, null, {
-        params: { status },
+        params: { status, adminRemarks: remarks },
       });
-      fetchRequests(); // refresh after update
+      fetchRequests();
     } catch (err) {
       console.error("Error updating status:", err);
     }
+  };
+
+  const handleModalSave = () => {
+    updateStatus(selectedRequest.id, selectedStatus, adminRemarks);
+    setModalShow(false);
   };
 
   if (loading) {
@@ -68,10 +84,7 @@ const AdminServiceRequestsPage = () => {
                 <td>
                   {req.parent?.children && req.parent.children.length > 0
                     ? req.parent.children
-                        .map(
-                          (child) =>
-                            `${child.firstName} ${child.lastName}`
-                        )
+                        .map((child) => `${child.firstName} ${child.lastName}`)
                         .join(", ")
                     : "-"}
                 </td>
@@ -85,7 +98,7 @@ const AdminServiceRequestsPage = () => {
                       size="sm"
                       variant="success"
                       className="me-2"
-                      onClick={() => updateStatus(req.id, "APPROVED")}
+                      onClick={() => openModal(req, "APPROVED")}
                     >
                       Approve
                     </Button>
@@ -94,7 +107,7 @@ const AdminServiceRequestsPage = () => {
                     <Button
                       size="sm"
                       variant="danger"
-                      onClick={() => updateStatus(req.id, "REJECTED")}
+                      onClick={() => openModal(req, "REJECTED")}
                     >
                       Reject
                     </Button>
@@ -105,6 +118,35 @@ const AdminServiceRequestsPage = () => {
           )}
         </tbody>
       </Table>
+
+      {/* Modal for remarks */}
+      <Modal show={modalShow} onHide={() => setModalShow(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>
+            {selectedStatus === "APPROVED" ? "Approve Request" : "Reject Request"}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form.Group>
+            <Form.Label>Admin Remarks (optional)</Form.Label>
+            <Form.Control
+              as="textarea"
+              rows={3}
+              value={adminRemarks}
+              onChange={(e) => setAdminRemarks(e.target.value)}
+              placeholder="Add remarks for this action"
+            />
+          </Form.Group>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setModalShow(false)}>
+            Cancel
+          </Button>
+          <Button variant="primary" onClick={handleModalSave}>
+            {selectedStatus === "APPROVED" ? "Approve" : "Reject"}
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
