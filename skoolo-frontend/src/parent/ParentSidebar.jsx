@@ -1,7 +1,11 @@
 import React, { useState } from 'react'; // useEffect and location hook are not used here as no state depends on window.innerWidth
 import { Col, Offcanvas, Nav, Button } from 'react-bootstrap';
 import { Link, useLocation } from 'react-router-dom';
-import { MdMenu, MdAccountCircle, MdGrade, MdAccessTime, MdAssignment, MdCheckCircle, MdMessage, MdAttachMoney } from 'react-icons/md';
+import { 
+  MdMenu, MdAccountCircle, MdGrade, MdAccessTime, MdAssignment, 
+  MdCheckCircle, MdMessage, MdAttachMoney, MdSupportAgent 
+} from 'react-icons/md';
+
 import './style/ParentSidebar.css'; // Import the CSS file
 
 const ParentSidebar = () => {
