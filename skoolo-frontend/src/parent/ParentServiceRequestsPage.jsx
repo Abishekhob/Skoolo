@@ -1,86 +1,114 @@
-import React, { useState, useEffect } from 'react';
-import API from '../services/api';
+import React, { useState, useEffect } from "react";
+import API from "../services/api";
 
 const ParentServiceRequestsPage = () => {
-  const [requestType, setRequestType] = useState('FEE_RECEIPT');
-  const [customRequest, setCustomRequest] = useState('');
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+  // Instead of pre-selecting "FEE_RECEIPT", use an empty string
+const [requestType, setRequestType] = useState("");
+
+  const [customRequest, setCustomRequest] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [requests, setRequests] = useState([]);
   const [parentId, setParentId] = useState(null);
 
   const requestTypes = [
-    'FEE_RECEIPT',
-    'TRANSFER_CERTIFICATE',
-    'ID_CARD_REPLACEMENT',
-    'BUS_ROUTE_CHANGE',
-    'BONAFIDE_CERTIFICATE',
-    'OTHER'
+    "FEE_RECEIPT",
+    "TRANSFER_CERTIFICATE",
+    "ID_CARD_REPLACEMENT",
+    "BUS_ROUTE_CHANGE",
+    "BONAFIDE_CERTIFICATE",
+    "OTHER",
   ];
 
   useEffect(() => {
-    // Read parentId from localStorage when component mounts
-    const storedParentId = localStorage.getItem('parentId');
+    const storedParentId = localStorage.getItem("parentId");
     if (storedParentId) {
       setParentId(storedParentId);
     } else {
-      // handle missing parentId, e.g. redirect to login or show error
-      console.error('Parent ID not found in localStorage');
+      console.error("Parent ID not found in localStorage");
     }
   }, []);
 
   useEffect(() => {
     if (parentId) {
-      API.get(`/service-requests/parent/${parentId}`)
-        .then(res => setRequests(res.data))
-        .catch(err => console.error(err));
+      fetchRequests();
     }
   }, [parentId]);
+
+  const fetchRequests = () => {
+    API.get(`/service-requests/parent/${parentId}`)
+      .then((res) => setRequests(res.data))
+      .catch((err) => console.error(err));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!parentId) {
-      alert('Parent ID not found. Cannot submit request.');
+      alert("Parent ID not found. Cannot submit request.");
       return;
     }
     const payload = {
-      parent: { id: Number(parentId) },  // make sure it's a number
+      parent: { id: Number(parentId) },
       requestType,
-      customRequest: requestType === 'OTHER' ? customRequest : null,
+      customRequest: requestType === "OTHER" ? customRequest : null,
       title,
-      description
+      description,
     };
-    API.post('/service-requests', payload)
+    API.post("/service-requests", payload)
       .then(() => {
-        alert('Request submitted');
-        setTitle('');
-        setDescription('');
-        setCustomRequest('');
-        setRequestType('FEE_RECEIPT');
-        return API.get(`/service-requests/parent/${parentId}`);
+        alert("Request submitted");
+        setTitle("");
+        setDescription("");
+        setCustomRequest("");
+        setRequestType("FEE_RECEIPT");
+        fetchRequests();
       })
-      .then(res => setRequests(res.data))
-      .catch(err => console.error(err));
+      .catch((err) => console.error(err));
+  };
+
+  const handleViewDocument = async (req) => {
+    if (!req.documentUrl) return;
+
+    // Mark as viewed in backend
+    try {
+      await API.put(`/service-requests/${req.id}/mark-viewed`);
+    } catch (err) {
+      console.error("Error marking document as viewed:", err);
+    }
+
+    // Open document in new tab
+    window.open(
+      `https://docs.google.com/gview?url=${encodeURIComponent(
+        req.documentUrl
+      )}&embedded=true`,
+      "_blank"
+    );
   };
 
   return (
     <div className="container mt-4">
       <h2>Service Requests</h2>
+      {/* Request Form */}
       <form onSubmit={handleSubmit} className="mb-4">
         <div className="mb-3">
           <label>Request Type</label>
           <select
-            className="form-control"
-            value={requestType}
-            onChange={(e) => setRequestType(e.target.value)}
-          >
-            {requestTypes.map(type => (
-              <option key={type} value={type}>{type.replace(/_/g, ' ')}</option>
-            ))}
-          </select>
+  className="form-control"
+  value={requestType}
+  onChange={(e) => setRequestType(e.target.value)}
+  required
+>
+  <option value="">-- Select Request Type --</option>
+  {requestTypes.map((type) => (
+    <option key={type} value={type}>
+      {type.replace(/_/g, " ")}
+    </option>
+  ))}
+</select>
+
         </div>
 
-        {requestType === 'OTHER' && (
+        {requestType === "OTHER" && (
           <div className="mb-3">
             <label>Custom Request</label>
             <input
@@ -115,9 +143,12 @@ const ParentServiceRequestsPage = () => {
           ></textarea>
         </div>
 
-        <button type="submit" className="btn btn-primary">Submit Request</button>
+        <button type="submit" className="btn btn-primary">
+          Submit Request
+        </button>
       </form>
 
+      {/* Requests Table */}
       <h4>My Requests</h4>
       <table className="table table-bordered">
         <thead>
@@ -126,15 +157,29 @@ const ParentServiceRequestsPage = () => {
             <th>Type</th>
             <th>Status</th>
             <th>Remarks</th>
+            <th>Document</th>
           </tr>
         </thead>
         <tbody>
-          {requests.map(req => (
+          {requests.map((req) => (
             <tr key={req.id}>
               <td>{req.title}</td>
-              <td>{req.requestType.replace(/_/g, ' ')}</td>
+              <td>{req.requestType.replace(/_/g, " ")}</td>
               <td>{req.status}</td>
-              <td>{req.adminRemarks || '-'}</td>
+              <td>{req.adminRemarks || "-"}</td>
+             <td>
+  {(req.status === "APPROVED" || req.status === "REJECTED") && req.documentUrl ? (
+    <button
+      className="btn btn-link p-0"
+      onClick={() => handleViewDocument(req)}
+    >
+      View PDF
+    </button>
+  ) : (
+    "-"
+  )}
+</td>
+
             </tr>
           ))}
         </tbody>
