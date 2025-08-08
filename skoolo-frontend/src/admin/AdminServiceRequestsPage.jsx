@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Table, Button, Spinner, Modal, Form } from "react-bootstrap";
 import API from "../services/api";
+import AdminSidebar from "./AdminSidebar"; // <-- Import the sidebar
+import "./style/AdminLayout.css"; // <-- New CSS for layout
 
 const AdminServiceRequestsPage = () => {
   const [requests, setRequests] = useState([]);
@@ -63,148 +65,160 @@ const AdminServiceRequestsPage = () => {
   }
 
   return (
-    <div className="p-3">
-      <h3>Service Requests</h3>
-      <Table striped bordered hover responsive>
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Parent</th>
-      <th>Children</th>
-      <th>Request Type</th>
-      <th>Description</th>
-      <th>Status</th>
-      <th>Submitted On</th>
-      <th>Document</th> {/* New */}
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    {requests.length === 0 ? (
-      <tr>
-        <td colSpan="9" className="text-center">
-          No service requests
-        </td>
-      </tr>
-    ) : (
-      requests.map((req) => (
-        <tr key={req.id}>
-          <td>{req.id}</td>
-          <td>{req.parent?.fullName || "-"}</td>
-          <td>
-            {req.parent?.children && req.parent.children.length > 0
-              ? req.parent.children
-                  .map((child) => `${child.firstName} ${child.lastName}`)
-                  .join(", ")
-              : "-"}
-          </td>
-          <td>{req.requestType.replace(/_/g, " ")}</td>
-          <td>{req.description}</td>
-          <td>{req.status}</td>
-          <td>{new Date(req.createdAt).toLocaleDateString()}</td>
-      <td>
-        {req.documentUrl ? (
-          <a
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              window.open(
-                `https://docs.google.com/gview?url=${encodeURIComponent(req.documentUrl)}&embedded=true`,
-                "_blank"
-              );
-            }}
-            rel="noopener noreferrer"
-          >
-            View File
-          </a>
-        ) : (
-          "-"
-        )}
-      </td>
+    <div className="admin-layout">
+      {/* Sidebar */}
+      <AdminSidebar />
 
-          <td>
-            {req.status === "APPROVED" && (
-              <Button
-                size="sm"
-                variant="danger"
-                onClick={() => openModal(req, "REJECTED")}
-              >
-                Reject
-              </Button>
+      {/* Page content */}
+      <div className="admin-content p-3">
+        <h3>Service Requests</h3>
+        <Table striped bordered hover responsive>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Parent</th>
+              <th>Children</th>
+              <th>Request Type</th>
+              <th>Description</th>
+              <th>Status</th>
+              <th>Submitted On</th>
+              <th>Document</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {requests.length === 0 ? (
+              <tr>
+                <td colSpan="9" className="text-center">
+                  No service requests
+                </td>
+              </tr>
+            ) : (
+              requests.map((req) => (
+                <tr key={req.id}>
+                  <td>{req.id}</td>
+                  <td>{req.parent?.fullName || "-"}</td>
+                  <td>
+                    {req.parent?.children && req.parent.children.length > 0
+                      ? req.parent.children
+                          .map(
+                            (child) => `${child.firstName} ${child.lastName}`
+                          )
+                          .join(", ")
+                      : "-"}
+                  </td>
+                  <td>{req.requestType.replace(/_/g, " ")}</td>
+                  <td>{req.description}</td>
+                  <td>{req.status}</td>
+                  <td>{new Date(req.createdAt).toLocaleDateString()}</td>
+                  <td>
+                    {req.documentUrl ? (
+                      <a
+                        href="#"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          window.open(
+                            `https://docs.google.com/gview?url=${encodeURIComponent(
+                              req.documentUrl
+                            )}&embedded=true`,
+                            "_blank"
+                          );
+                        }}
+                        rel="noopener noreferrer"
+                      >
+                        View File
+                      </a>
+                    ) : (
+                      "-"
+                    )}
+                  </td>
+                  <td>
+                    {req.status === "APPROVED" && (
+                      <Button
+                        size="sm"
+                        variant="danger"
+                        onClick={() => openModal(req, "REJECTED")}
+                      >
+                        Reject
+                      </Button>
+                    )}
+                    {req.status === "REJECTED" && (
+                      <Button
+                        size="sm"
+                        variant="success"
+                        className="me-2"
+                        onClick={() => openModal(req, "APPROVED")}
+                      >
+                        Approve
+                      </Button>
+                    )}
+                    {["PENDING", "IN_PROGRESS", "COMPLETED"].includes(
+                      req.status
+                    ) && (
+                      <>
+                        <Button
+                          size="sm"
+                          variant="success"
+                          className="me-2"
+                          onClick={() => openModal(req, "APPROVED")}
+                        >
+                          Approve
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="danger"
+                          onClick={() => openModal(req, "REJECTED")}
+                        >
+                          Reject
+                        </Button>
+                      </>
+                    )}
+                  </td>
+                </tr>
+              ))
             )}
-            {req.status === "REJECTED" && (
-              <Button
-                size="sm"
-                variant="success"
-                className="me-2"
-                onClick={() => openModal(req, "APPROVED")}
-              >
-                Approve
-              </Button>
-            )}
-            {["PENDING", "IN_PROGRESS", "COMPLETED"].includes(req.status) && (
-              <>
-                <Button
-                  size="sm"
-                  variant="success"
-                  className="me-2"
-                  onClick={() => openModal(req, "APPROVED")}
-                >
-                  Approve
-                </Button>
-                <Button
-                  size="sm"
-                  variant="danger"
-                  onClick={() => openModal(req, "REJECTED")}
-                >
-                  Reject
-                </Button>
-              </>
-            )}
-          </td>
-        </tr>
-      ))
-    )}
-  </tbody>
-</Table>
+          </tbody>
+        </Table>
 
-
-      {/* Modal for remarks + file upload */}
-      <Modal show={modalShow} onHide={() => setModalShow(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>
-            {selectedStatus === "APPROVED" ? "Approve Request" : "Reject Request"}
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form.Group className="mb-3">
-            <Form.Label>Admin Remarks (optional)</Form.Label>
-            <Form.Control
-              as="textarea"
-              rows={3}
-              value={adminRemarks}
-              onChange={(e) => setAdminRemarks(e.target.value)}
-              placeholder="Add remarks for this action"
-            />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>Upload Document (optional, max 10MB)</Form.Label>
-            <Form.Control
-              type="file"
-              accept=".pdf,.doc,.docx,.txt"
-              onChange={(e) => setFile(e.target.files[0])}
-            />
-          </Form.Group>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setModalShow(false)}>
-            Cancel
-          </Button>
-          <Button variant="primary" onClick={handleModalSave}>
-            {selectedStatus === "APPROVED" ? "Approve" : "Reject"}
-          </Button>
-        </Modal.Footer>
-      </Modal>
+        {/* Modal */}
+        <Modal show={modalShow} onHide={() => setModalShow(false)}>
+          <Modal.Header closeButton>
+            <Modal.Title>
+              {selectedStatus === "APPROVED"
+                ? "Approve Request"
+                : "Reject Request"}
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form.Group className="mb-3">
+              <Form.Label>Admin Remarks (optional)</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                value={adminRemarks}
+                onChange={(e) => setAdminRemarks(e.target.value)}
+                placeholder="Add remarks for this action"
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Upload Document (optional, max 10MB)</Form.Label>
+              <Form.Control
+                type="file"
+                accept=".pdf,.doc,.docx,.txt"
+                onChange={(e) => setFile(e.target.files[0])}
+              />
+            </Form.Group>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={() => setModalShow(false)}>
+              Cancel
+            </Button>
+            <Button variant="primary" onClick={handleModalSave}>
+              {selectedStatus === "APPROVED" ? "Approve" : "Reject"}
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
     </div>
   );
 };
