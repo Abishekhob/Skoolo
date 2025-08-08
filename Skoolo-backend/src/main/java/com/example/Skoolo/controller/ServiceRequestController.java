@@ -36,11 +36,18 @@ public class ServiceRequestController {
         return requestService.getAllRequests();
     }
 
-    // ✅ Admin updates status
     @PutMapping("/{requestId}/status")
     public ServiceRequest updateStatus(@PathVariable Long requestId,
-                                       @RequestParam RequestStatus status,
+                                       @RequestParam String status,
                                        @RequestParam(required = false) String adminRemarks) {
-        return requestService.updateStatus(requestId, status, adminRemarks);
+        RequestStatus requestStatus;
+        try {
+            requestStatus = RequestStatus.valueOf(status.toUpperCase()); // safe conversion
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Invalid status value: " + status);
+        }
+
+        return requestService.updateStatus(requestId, requestStatus, adminRemarks);
     }
+
 }
