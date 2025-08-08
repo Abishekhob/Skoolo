@@ -7,8 +7,7 @@ const ParentServiceRequestsPage = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [requests, setRequests] = useState([]);
-
-  const parentId = 1; // TODO: Replace with logged-in parent ID from auth
+  const [parentId, setParentId] = useState(null);
 
   const requestTypes = [
     'FEE_RECEIPT',
@@ -20,15 +19,32 @@ const ParentServiceRequestsPage = () => {
   ];
 
   useEffect(() => {
-    API.get(`/service-requests/parent/${parentId}`)
-      .then(res => setRequests(res.data))
-      .catch(err => console.error(err));
+    // Read parentId from localStorage when component mounts
+    const storedParentId = localStorage.getItem('parentId');
+    if (storedParentId) {
+      setParentId(storedParentId);
+    } else {
+      // handle missing parentId, e.g. redirect to login or show error
+      console.error('Parent ID not found in localStorage');
+    }
+  }, []);
+
+  useEffect(() => {
+    if (parentId) {
+      API.get(`/service-requests/parent/${parentId}`)
+        .then(res => setRequests(res.data))
+        .catch(err => console.error(err));
+    }
   }, [parentId]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!parentId) {
+      alert('Parent ID not found. Cannot submit request.');
+      return;
+    }
     const payload = {
-      parent: { id: parentId },
+      parent: { id: Number(parentId) },  // make sure it's a number
       requestType,
       customRequest: requestType === 'OTHER' ? customRequest : null,
       title,
@@ -116,7 +132,7 @@ const ParentServiceRequestsPage = () => {
           {requests.map(req => (
             <tr key={req.id}>
               <td>{req.title}</td>
-              <td>{req.requestType}</td>
+              <td>{req.requestType.replace(/_/g, ' ')}</td>
               <td>{req.status}</td>
               <td>{req.adminRemarks || '-'}</td>
             </tr>
