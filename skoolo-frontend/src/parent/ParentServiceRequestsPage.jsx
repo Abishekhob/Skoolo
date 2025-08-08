@@ -91,105 +91,113 @@ const ParentServiceRequestsPage = () => {
       </Col>
 
       {/* Main Content Column */}
-      <Col md={9} className="p-4" style={{ background: "#f9f9f9", minHeight: "100vh" }}>
-        <h2>Service Requests</h2>
+     <Col
+  md={9}
+  className="p-4 text-light"
+  style={{
+    background: "#1e1e2f", // dark background
+    minHeight: "100vh",
+  }}
+>
+  <h2 className="text-light">Service Requests</h2>
 
-        {/* Request Form */}
-        <form onSubmit={handleSubmit} className="mb-4">
-          <div className="mb-3">
-            <label>Request Type</label>
-            <select
-              className="form-control"
-              value={requestType}
-              onChange={(e) => setRequestType(e.target.value)}
-              required
-            >
-              <option value="">-- Select Request Type --</option>
-              {requestTypes.map((type) => (
-                <option key={type} value={type}>
-                  {type.replace(/_/g, " ")}
-                </option>
-              ))}
-            </select>
-          </div>
+  {/* Request Form */}
+  <form onSubmit={handleSubmit} className="mb-4">
+    <div className="mb-3">
+      <label className="text-light">Request Type</label>
+      <select
+        className="form-control bg-dark text-light border-secondary"
+        value={requestType}
+        onChange={(e) => setRequestType(e.target.value)}
+        required
+      >
+        <option value="">-- Select Request Type --</option>
+        {requestTypes.map((type) => (
+          <option key={type} value={type}>
+            {type.replace(/_/g, " ")}
+          </option>
+        ))}
+      </select>
+    </div>
 
-          {requestType === "OTHER" && (
-            <div className="mb-3">
-              <label>Custom Request</label>
-              <input
-                type="text"
-                className="form-control"
-                value={customRequest}
-                onChange={(e) => setCustomRequest(e.target.value)}
-                required
-              />
-            </div>
-          )}
+    {requestType === "OTHER" && (
+      <div className="mb-3">
+        <label className="text-light">Custom Request</label>
+        <input
+          type="text"
+          className="form-control bg-dark text-light border-secondary"
+          value={customRequest}
+          onChange={(e) => setCustomRequest(e.target.value)}
+          required
+        />
+      </div>
+    )}
 
-          <div className="mb-3">
-            <label>Title</label>
-            <input
-              type="text"
-              className="form-control"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              required
-            />
-          </div>
+    <div className="mb-3">
+      <label className="text-light">Title</label>
+      <input
+        type="text"
+        className="form-control bg-dark text-light border-secondary"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        required
+      />
+    </div>
 
-          <div className="mb-3">
-            <label>Description</label>
-            <textarea
-              className="form-control"
-              rows="3"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              required
-            ></textarea>
-          </div>
+    <div className="mb-3">
+      <label className="text-light">Description</label>
+      <textarea
+        className="form-control bg-dark text-light border-secondary"
+        rows="3"
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        required
+      ></textarea>
+    </div>
 
-          <button type="submit" className="btn btn-primary">
-            Submit Request
-          </button>
-        </form>
+    <button type="submit" className="btn btn-primary">
+      Submit Request
+    </button>
+  </form>
 
-        {/* Requests Table */}
-        <h4>My Requests</h4>
-        <table className="table table-bordered">
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Type</th>
-              <th>Status</th>
-              <th>Remarks</th>
-              <th>Document</th>
-            </tr>
-          </thead>
-          <tbody>
-            {requests.map((req) => (
-              <tr key={req.id}>
-                <td>{req.title}</td>
-                <td>{req.requestType.replace(/_/g, " ")}</td>
-                <td>{req.status}</td>
-                <td>{req.adminRemarks || "-"}</td>
-                <td>
-                  {(req.status === "APPROVED" || req.status === "REJECTED") &&
-                  req.documentUrl ? (
-                    <button
-                      className="btn btn-link p-0"
-                      onClick={() => handleViewDocument(req)}
-                    >
-                      View PDF
-                    </button>
-                  ) : (
-                    "-"
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </Col>
+  {/* Requests Table */}
+  <h4 className="text-light">My Requests</h4>
+  <table className="table table-dark table-bordered border-secondary">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Type</th>
+        <th>Status</th>
+        <th>Remarks</th>
+        <th>Document</th>
+      </tr>
+    </thead>
+    <tbody>
+      {requests.map((req) => (
+        <tr key={req.id}>
+          <td>{req.title}</td>
+          <td>{req.requestType.replace(/_/g, " ")}</td>
+          <td>{req.status}</td>
+          <td>{req.adminRemarks || "-"}</td>
+          <td>
+            {(req.status === "APPROVED" || req.status === "REJECTED") &&
+            req.documentUrl ? (
+              <button
+                className="btn btn-link p-0 text-info"
+                onClick={() => handleViewDocument(req)}
+              >
+                View PDF
+              </button>
+            ) : (
+              "-"
+            )}
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</Col>
+
     </Row>
   );
 };
