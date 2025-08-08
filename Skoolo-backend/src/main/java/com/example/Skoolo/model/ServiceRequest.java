@@ -44,6 +44,17 @@ public class ServiceRequest {
 
     private String adminRemarks;
 
+    @Column(length = 1000)
+    private String documentUrl;
+
+    @Column(length = 500)
+    private String documentPublicId;
+
+
+    private LocalDateTime documentUploadedAt;
+
+    private LocalDateTime documentViewedAt;
+
     private LocalDateTime createdAt = LocalDateTime.now();
     private LocalDateTime updatedAt = LocalDateTime.now();
 
