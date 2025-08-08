@@ -10,16 +10,18 @@ const AdminServiceRequestsPage = () => {
     fetchRequests();
   }, []);
 
-  const fetchRequests = async () => {
-    try {
-      const res = await API.get("/service-requests");
-      setRequests(res.data);
-    } catch (err) {
-      console.error("Error fetching service requests:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
+const fetchRequests = async () => {
+  try {
+    const res = await API.get("/service-requests");
+    console.log("Service Requests API response:", res.data);  // <-- Log here
+    setRequests(res.data);
+  } catch (err) {
+    console.error("Error fetching service requests:", err);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   const updateStatus = async (id, status) => {
     try {
