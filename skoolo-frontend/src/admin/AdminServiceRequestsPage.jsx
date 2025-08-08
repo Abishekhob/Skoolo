@@ -104,12 +104,17 @@ const AdminServiceRequestsPage = () => {
           <td>{new Date(req.createdAt).toLocaleDateString()}</td>
           <td>
             {req.documentUrl ? (
-              <a href={req.documentUrl} target="_blank" rel="noopener noreferrer">
-                View File
-              </a>
-            ) : (
-              "-"
-            )}
+  <a
+    href={`${req.documentUrl}${req.documentExtension ? '.' + req.documentExtension : '.pdf'}`}
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    View File
+  </a>
+) : (
+  "-"
+)}
+
           </td>
           <td>
             {req.status === "APPROVED" && (
