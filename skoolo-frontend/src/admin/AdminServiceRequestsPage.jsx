@@ -102,20 +102,26 @@ const AdminServiceRequestsPage = () => {
           <td>{req.description}</td>
           <td>{req.status}</td>
           <td>{new Date(req.createdAt).toLocaleDateString()}</td>
-          <td>
-            {req.documentUrl ? (
-  <a
-    href={`${req.documentUrl}${req.documentExtension ? '.' + req.documentExtension : '.pdf'}`}
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    View File
-  </a>
-) : (
-  "-"
-)}
+      <td>
+        {req.documentUrl ? (
+          <a
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              window.open(
+                `https://docs.google.com/gview?url=${encodeURIComponent(req.documentUrl)}&embedded=true`,
+                "_blank"
+              );
+            }}
+            rel="noopener noreferrer"
+          >
+            View File
+          </a>
+        ) : (
+          "-"
+        )}
+      </td>
 
-          </td>
           <td>
             {req.status === "APPROVED" && (
               <Button
