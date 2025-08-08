@@ -69,6 +69,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/marks/**").hasAnyRole("TEACHER", "ADMIN")
                         .requestMatchers("/api/conversations/**").hasAnyRole("TEACHER", "PARENT")
                         .requestMatchers("/api/messages/**").hasAnyRole("TEACHER", "PARENT")
+                        .requestMatchers("/api/service-requests").hasAnyRole("ADMIN", "PARENT")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
