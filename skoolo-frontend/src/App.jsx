@@ -33,6 +33,8 @@ import AttendancePage from './parent/AttendancePage';
 import ParentMessagesPage from './parent/ParentMessagesPage';
 import FeesPage from './parent/FeesPage';
 import ParentSyllabus from './parent/ParentSyllabus';
+import ParentServiceRequestsPage from './parent/ParentServiceRequestsPage';
+import AdminServiceRequestsPage from './admin/AdminServiceRequestsPage';
 
 const App = () => {
   const location = useLocation();
@@ -56,6 +58,7 @@ const App = () => {
         <Route path="/admin/fees" element={<ManageFeesPage />} />
         <Route path="/admin/promotions" element={<StudentPromotionPage />} />
         <Route path="/admin/syllabus" element={<SyllabusPage />} />
+        <Route path="/admin/service-requests" element={<AdminServiceRequestsPage/>}/>
 
 
         {/* Teacher routes */}
@@ -78,6 +81,7 @@ const App = () => {
        <Route path="/parent/attendance" element={<AttendancePage />} />
        <Route path="/parent/messages" element={<ParentMessagesPage/>} />
        <Route path="/parent/fees" element={<FeesPage />} />
+       <Route path="/parent/service-requests" element={<ParentServiceRequestsPage />} />
 
       {/* Redirect /parent to /parent/profile if you want */}
       <Route path="/parent" element={<Navigate to="/parent/profile" replace />} />

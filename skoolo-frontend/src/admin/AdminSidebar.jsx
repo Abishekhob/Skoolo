@@ -100,7 +100,16 @@ const AdminSidebar = () => {
     { name: "Manage Syllabus", path: "/admin/syllabus" },
   ],
   eventKey: "6",
+},
+{
+  title: "Service Requests",
+  icon: <FaBook />, // You can change icon
+  links: [
+    { name: "Manage Service Requests", path: "/admin/service-requests" },
+  ],
+  eventKey: "7", // Make sure it's unique
 }
+
 
   ];
 

@@ -19,6 +19,7 @@ const ParentSidebar = () => {
     { name: 'Attendance', path: '/parent/attendance', icon: <MdCheckCircle /> },
     { name: 'Messages', path: '/parent/messages', icon: <MdMessage /> },
     { name: 'Fees', path: '/parent/fees', icon: <MdAttachMoney /> },
+     { name: 'Service Requests', path: '/parent/service-requests', icon: <MdSupportAgent /> }
   ];
 
   return (
