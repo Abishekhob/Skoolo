@@ -10,6 +10,7 @@ const AdminServiceRequestsPage = () => {
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState("APPROVED");
   const [adminRemarks, setAdminRemarks] = useState("");
+  const [file, setFile] = useState(null);
 
   useEffect(() => {
     fetchRequests();
@@ -30,13 +31,21 @@ const AdminServiceRequestsPage = () => {
     setSelectedRequest(request);
     setSelectedStatus(status);
     setAdminRemarks("");
+    setFile(null);
     setModalShow(true);
   };
 
-  const updateStatus = async (id, status, remarks) => {
+  const updateStatus = async (id, status, remarks, document) => {
     try {
-      await API.put(`/service-requests/${id}/status`, null, {
-        params: { status, adminRemarks: remarks },
+      const formData = new FormData();
+      formData.append("status", status);
+      formData.append("adminRemarks", remarks || "");
+      if (document) {
+        formData.append("document", document);
+      }
+
+      await API.put(`/service-requests/${id}/status`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
       });
       fetchRequests();
     } catch (err) {
@@ -45,7 +54,7 @@ const AdminServiceRequestsPage = () => {
   };
 
   const handleModalSave = () => {
-    updateStatus(selectedRequest.id, selectedStatus, adminRemarks);
+    updateStatus(selectedRequest.id, selectedStatus, adminRemarks, file);
     setModalShow(false);
   };
 
@@ -119,7 +128,7 @@ const AdminServiceRequestsPage = () => {
         </tbody>
       </Table>
 
-      {/* Modal for remarks */}
+      {/* Modal for remarks + file upload */}
       <Modal show={modalShow} onHide={() => setModalShow(false)}>
         <Modal.Header closeButton>
           <Modal.Title>
@@ -127,7 +136,7 @@ const AdminServiceRequestsPage = () => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form.Group>
+          <Form.Group className="mb-3">
             <Form.Label>Admin Remarks (optional)</Form.Label>
             <Form.Control
               as="textarea"
@@ -135,6 +144,14 @@ const AdminServiceRequestsPage = () => {
               value={adminRemarks}
               onChange={(e) => setAdminRemarks(e.target.value)}
               placeholder="Add remarks for this action"
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Upload Document (optional, max 10MB)</Form.Label>
+            <Form.Control
+              type="file"
+              accept=".pdf,.doc,.docx,.txt"
+              onChange={(e) => setFile(e.target.files[0])}
             />
           </Form.Group>
         </Modal.Body>
