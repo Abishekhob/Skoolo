@@ -66,67 +66,97 @@ const AdminServiceRequestsPage = () => {
     <div className="p-3">
       <h3>Service Requests</h3>
       <Table striped bordered hover responsive>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Parent</th>
-            <th>Children</th>
-            <th>Request Type</th>
-            <th>Description</th>
-            <th>Status</th>
-            <th>Submitted On</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {requests.length === 0 ? (
-            <tr>
-              <td colSpan="8" className="text-center">
-                No service requests
-              </td>
-            </tr>
-          ) : (
-            requests.map((req) => (
-              <tr key={req.id}>
-                <td>{req.id}</td>
-                <td>{req.parent?.fullName || "-"}</td>
-                <td>
-                  {req.parent?.children && req.parent.children.length > 0
-                    ? req.parent.children
-                        .map((child) => `${child.firstName} ${child.lastName}`)
-                        .join(", ")
-                    : "-"}
-                </td>
-                <td>{req.requestType.replace(/_/g, " ")}</td>
-                <td>{req.description}</td>
-                <td>{req.status}</td>
-                <td>{new Date(req.createdAt).toLocaleDateString()}</td>
-                <td>
-                  {req.status !== "APPROVED" && (
-                    <Button
-                      size="sm"
-                      variant="success"
-                      className="me-2"
-                      onClick={() => openModal(req, "APPROVED")}
-                    >
-                      Approve
-                    </Button>
-                  )}
-                  {req.status !== "REJECTED" && (
-                    <Button
-                      size="sm"
-                      variant="danger"
-                      onClick={() => openModal(req, "REJECTED")}
-                    >
-                      Reject
-                    </Button>
-                  )}
-                </td>
-              </tr>
-            ))
-          )}
-        </tbody>
-      </Table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Parent</th>
+      <th>Children</th>
+      <th>Request Type</th>
+      <th>Description</th>
+      <th>Status</th>
+      <th>Submitted On</th>
+      <th>Document</th> {/* New */}
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {requests.length === 0 ? (
+      <tr>
+        <td colSpan="9" className="text-center">
+          No service requests
+        </td>
+      </tr>
+    ) : (
+      requests.map((req) => (
+        <tr key={req.id}>
+          <td>{req.id}</td>
+          <td>{req.parent?.fullName || "-"}</td>
+          <td>
+            {req.parent?.children && req.parent.children.length > 0
+              ? req.parent.children
+                  .map((child) => `${child.firstName} ${child.lastName}`)
+                  .join(", ")
+              : "-"}
+          </td>
+          <td>{req.requestType.replace(/_/g, " ")}</td>
+          <td>{req.description}</td>
+          <td>{req.status}</td>
+          <td>{new Date(req.createdAt).toLocaleDateString()}</td>
+          <td>
+            {req.documentUrl ? (
+              <a href={req.documentUrl} target="_blank" rel="noopener noreferrer">
+                View File
+              </a>
+            ) : (
+              "-"
+            )}
+          </td>
+          <td>
+            {req.status === "APPROVED" && (
+              <Button
+                size="sm"
+                variant="danger"
+                onClick={() => openModal(req, "REJECTED")}
+              >
+                Reject
+              </Button>
+            )}
+            {req.status === "REJECTED" && (
+              <Button
+                size="sm"
+                variant="success"
+                className="me-2"
+                onClick={() => openModal(req, "APPROVED")}
+              >
+                Approve
+              </Button>
+            )}
+            {["PENDING", "IN_PROGRESS", "COMPLETED"].includes(req.status) && (
+              <>
+                <Button
+                  size="sm"
+                  variant="success"
+                  className="me-2"
+                  onClick={() => openModal(req, "APPROVED")}
+                >
+                  Approve
+                </Button>
+                <Button
+                  size="sm"
+                  variant="danger"
+                  onClick={() => openModal(req, "REJECTED")}
+                >
+                  Reject
+                </Button>
+              </>
+            )}
+          </td>
+        </tr>
+      ))
+    )}
+  </tbody>
+</Table>
+
 
       {/* Modal for remarks + file upload */}
       <Modal show={modalShow} onHide={() => setModalShow(false)}>
