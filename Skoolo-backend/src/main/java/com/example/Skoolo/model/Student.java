@@ -51,6 +51,10 @@ public class Student {
 
     private LocalDate enrollmentDate;
 
+    @Column(name = "photo_url")
+    private String photoUrl; // Path or URL to the current ID card picture
+
+
     // ✅ Add this method to get full name
     public String getFullName() {
         return (firstName != null ? firstName : "") +

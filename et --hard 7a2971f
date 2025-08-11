@@ -1,0 +1,106 @@
+[33maae19f8[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m added class subject for syllabus
+[33m772351c[m added syllabus page 4
+[33m52f9099[m added syllabus page
+[33m3ee901c[m added syllabus page
+[33m5dbba01[m added syllabus list page
+[33m96b4c0f[m added syllabus page
+[33m8443fbd[m added syllabus
+[33m7a2971f[m added chat file upload feature 3
+[33m82c49ed[m added chat file upload feature 2
+[33m993d815[m added chat file upload feature
+[33m5aa394a[m edited chat window
+[33m14a8ade[m added chat file upload feature
+[33me4ca48c[m added old profile pic delete feature
+[33m18d1bdf[m edited conversation service
+[33m4a1b625[m edited profile pic showing logic 2
+[33mc110b93[m edited profile pic showing logic
+[33mcaca9bc[m edited profile pic upload logic frontend 2
+[33mffae7e4[m edited profile pic upload logic frontend
+[33m80dfc42[m edited profile pic upload logic
+[33m3586f8b[m added cloudinary setup to store images
+[33m8087631[m timetable scheduler fix 5
+[33m89fea6d[m timetable scheduler fix 4
+[33mdf3ab87[m timetable scheduler fix 3
+[33me352543[m timetable scheduler fix 2
+[33ma197d9d[m timetable scheduler fix
+[33ma8dd57e[m Fix: Teacher scheduler 8
+[33m95adc2e[m Fix: Teacher scheduler 7
+[33m2e29ad1[m Fix: Teacher scheduler 7
+[33m98d6762[m Fix: Teacher scheduler 6
+[33mab16d45[m Fix: Teacher scheduler 6
+[33m2017acd[m Fix: Teacher scheduler 5
+[33m649364e[m Fix: Teacher scheduler 4
+[33me673125[m Fix: Teacher scheduler 3
+[33m06269dd[m Fix: Teacher scheduler 2
+[33m6ee2922[m Fix: Teacher scheduler
+[33m5ddedc3[m Fix: Manage Teacher 8
+[33mbde4e70[m Fix: Manage Teacher 5
+[33mba85370[m Fix: Manage Teacher 2
+[33m53bb181[m Fix: Manage Teacher 4
+[33m5a7a380[m Fix: Manage Teacher 3
+[33m96fe55c[m Fix: Manage Teacher 2
+[33m3cb0ea1[m Fix: Manage Teacher
+[33mc2ffa9b[m edited manage teacher page 6
+[33mb29273d[m edited manage teacher page 4
+[33mffe15b9[m edited manage teacher page 4
+[33m5eb1f19[m edited manage teacher page 3
+[33m6a841cc[m edited manage teacher page 2
+[33m3343857[m edited manage teacher page 3
+[33m30540ca[m edited manage teacher page 2
+[33me548d10[m edited manage teacher page
+[33mc79ee65[m scrolling issue
+[33mc4d1c47[m edited welcome page 3
+[33mc5ecbf9[m edited welcome page 2
+[33m65bddf0[m edited welcome page
+[33m8b6fcf2[m Fixed scrolling issue 2
+[33mf248fe2[m Fixed scrolling issue
+[33maba14c4[m fixed scrolling issue in scheduler
+[33mb290bf2[m fixed vite config js
+[33m0bb65e9[m fixed vercel.json for page not found error
+[33m268d68c[m fixed vercel.json for page not found error
+[33mba7f405[m fixed vercel.json for page not found error
+[33me521cf5[m fixed teacher app.jsx routes
+[33m584d79a[m Timetable scheduler style fix
+[33m8065e4a[m fixed styling in admin page
+[33md70ec1c[m fixed styling in admin page
+[33md669505[m admin page fix
+[33me78a5b0[m fixed styling in admin page
+[33m0de03a8[m fixed subjects page
+[33ma6c90bc[m Timetable scheduler style fix
+[33m2744372[m regisering teacher fix
+[33me62b725[m fixed manage teacher
+[33m3446b95[m fixed timetable
+[33mc5415dc[m Timetable fix
+[33m8ec510d[m added admin registartion max one time
+[33m70eec84[m added admin registration
+[33ma95c45d[m added cors config 2
+[33m777032e[m added cors config
+[33mf2ca122[m Fix swiper css issue and build success
+[33m561dc0c[m Fix: Added swiper package to fix Vercel build
+[33m835e2d5[m edited vite config js 4
+[33m1e0260d[m edited vite config js 3
+[33m6623e44[m edited welcpme page
+[33ma92cfba[m edited vite config js 3
+[33me4ce157[m edited vite config js 2
+[33m1286edb[m edited vite config js
+[33m4d2f701[m edited vite config js
+[33mf053254[m edited welcome page
+[33m9037fe7[m added cors config
+[33mf77396a[m Add .npmrc to ignore peer deps on Vercel
+[33m58140b9[m hosting frontend
+[33me8174b2[m trying to connect postgres by editing app properties 2
+[33mfed6e35[m trying to connect postgres by editing app properties
+[33m7fa8581[m trying to connect postgres by editing app properties
+[33m3a18d97[m Use System.getenv for JWT_SECRET instead of Dotenv
+[33m2da52fc[m updated utils to get env from system
+[33m3c3fb77[m packaged my app
+[33me4a164b[m updated dockerfile
+[33mdfe3658[m added dockerfile
+[33m926abc7[m added promotion of students frontend
+[33m05e8dcb[m added promotion of students backend
+[33mea8f3e1[m finished till parent message page frontend
+[33m57e16fa[m finished till parent message page
+[33mb8a549b[m added all things necessary for admin and teacher
+[33m52294bb[m added all things necessary for admin and teacher
+[33m8099e3a[m Add backend folder as normal directory
+[33md9426a7[m Initial commit: Combined backend and frontend

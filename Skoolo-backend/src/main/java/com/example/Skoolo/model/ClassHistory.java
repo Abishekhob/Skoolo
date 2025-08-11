@@ -32,4 +32,8 @@ public class ClassHistory {
     @JoinColumn(name = "section_id")
     private Section section;
 
+    @Column(name = "photo_url")
+    private String photoUrl; // Snapshot of student's ID card picture for this year
+
+
 }
