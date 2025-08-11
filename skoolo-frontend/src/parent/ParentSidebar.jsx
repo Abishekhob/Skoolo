@@ -1,18 +1,28 @@
-import React, { useState } from 'react'; // useEffect and location hook are not used here as no state depends on window.innerWidth
-import { Col, Offcanvas, Nav, Button } from 'react-bootstrap';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Col, Offcanvas } from 'react-bootstrap';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
   MdMenu, MdAccountCircle, MdGrade, MdAccessTime, MdAssignment, 
-  MdCheckCircle, MdMessage, MdAttachMoney, MdSupportAgent 
+  MdCheckCircle, MdMessage, MdAttachMoney, MdSupportAgent, MdLogout
 } from 'react-icons/md';
 
-import './style/ParentSidebar.css'; // Import the CSS file
+import './style/ParentSidebar.css';
 
 const ParentSidebar = () => {
-  const [showSidebar, setShowSidebar] = useState(false); // Mobile sidebar is hidden by default
+  const [showSidebar, setShowSidebar] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const toggleSidebar = () => setShowSidebar(!showSidebar);
+
+  const handleLogout = () => {
+    // Clear authentication data
+    localStorage.removeItem('token');
+    sessionStorage.clear();
+    
+    // Redirect to login page
+    navigate('/login');
+  };
 
   const menuItems = [
     { name: 'Children Profile', path: '/parent/profile', icon: <MdAccountCircle /> },
@@ -23,25 +33,25 @@ const ParentSidebar = () => {
     { name: 'Attendance', path: '/parent/attendance', icon: <MdCheckCircle /> },
     { name: 'Messages', path: '/parent/messages', icon: <MdMessage /> },
     { name: 'Fees', path: '/parent/fees', icon: <MdAttachMoney /> },
-     { name: 'Service Requests', path: '/parent/service-requests', icon: <MdSupportAgent /> }
+    { name: 'Service Requests', path: '/parent/service-requests', icon: <MdSupportAgent /> }
   ];
 
   return (
     <>
-      {/* Mobile toggle button - Only visible on small screens (d-md-none) */}
+      {/* Mobile toggle button */}
       <button 
-        className="menu-toggle-button" // Apply custom style
+        className="menu-toggle-button"
         onClick={toggleSidebar}
       >
         <MdMenu /> Menu
       </button>
 
-      {/* Offcanvas for mobile sidebar - Only visible on small screens (d-md-none) */}
+      {/* Mobile Sidebar */}
       <Offcanvas 
         show={showSidebar} 
         onHide={toggleSidebar} 
         placement="start" 
-        className="styled-offcanvas" // Apply custom style
+        className="styled-offcanvas"
       >
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>Parent Dashboard</Offcanvas.Title>
@@ -52,32 +62,40 @@ const ParentSidebar = () => {
               <Link 
                 key={item.path} 
                 to={item.path} 
-                className={`nav-item ${location.pathname === item.path ? 'active' : ''}`} // Apply custom style and active state
-                onClick={toggleSidebar} // Close sidebar on link click
+                className={`nav-item ${location.pathname === item.path ? 'active' : ''}`}
+                onClick={toggleSidebar}
               >
                 {item.icon} {item.name}
               </Link>
             ))}
+            {/* Logout for Mobile */}
+            <button className="nav-item logout-btn" onClick={handleLogout}>
+              <MdLogout /> Logout
+            </button>
           </nav>
         </Offcanvas.Body>
       </Offcanvas>
 
-      {/* Desktop sidebar - Hidden on small screens (d-none) and visible on medium/large (d-md-block) */}
+      {/* Desktop Sidebar */}
       <Col
-        md={3} // Increased width slightly for better spacing
-        className="desktop-sidebar-container d-none d-md-block" // Apply custom style
+        md={3}
+        className="desktop-sidebar-container d-none d-md-block"
       >
-        <h4 className="sidebar-header">Parent Dashboard</h4> {/* Apply custom style */}
-        <nav className="nav-list"> {/* Apply custom style */}
+        <h4 className="sidebar-header">Parent Dashboard</h4>
+        <nav className="nav-list">
           {menuItems.map((item) => (
             <Link
               key={item.path}
               to={item.path}
-              className={`nav-item ${location.pathname === item.path ? 'active' : ''}`} // Apply custom style and active state
+              className={`nav-item ${location.pathname === item.path ? 'active' : ''}`}
             >
               {item.icon} {item.name}
             </Link>
           ))}
+          {/* Logout for Desktop */}
+          <button className="nav-item logout-btn" onClick={handleLogout}>
+            <MdLogout /> Logout
+          </button>
         </nav>
       </Col>
     </>
