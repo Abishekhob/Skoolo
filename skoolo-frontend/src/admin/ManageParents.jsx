@@ -16,17 +16,39 @@ const ManageParents = () => {
   const [filterClass, setFilterClass] = useState('');
   const [filterSection, setFilterSection] = useState('');
 
+  const [availableClasses, setAvailableClasses] = useState([]);
+  const [availableSections, setAvailableSections] = useState([]);
+
   useEffect(() => {
     fetchParents();
   }, []);
 
   const fetchParents = () => {
     API.get('/parents')
-      .then(res => setParents(res.data))
+      .then(res => {
+        setParents(res.data);
+        extractClassesAndSections(res.data);
+      })
       .catch(err => {
         console.error('Failed to fetch parents', err);
         setParents([]);
       });
+  };
+
+  // Extract unique classes and sections from children
+  const extractClassesAndSections = (parentsData) => {
+    const classesSet = new Set();
+    const sectionsSet = new Set();
+
+    parentsData.forEach(p => {
+      p.children?.forEach(c => {
+        if (c.class) classesSet.add(c.class);
+        if (c.section) sectionsSet.add(c.section);
+      });
+    });
+
+    setAvailableClasses(Array.from(classesSet).sort());
+    setAvailableSections(Array.from(sectionsSet).sort());
   };
 
   const handleChange = (e) => {
@@ -64,7 +86,7 @@ const ManageParents = () => {
       .catch(() => setMessage('Failed to upload file.'));
   };
 
-  // Filtered parents based on search & filters
+  // Filter parents based on search & filters
   const filteredParents = parents.filter(p => {
     const fullName = `${p.firstName} ${p.lastName}`.toLowerCase();
     const matchesName = fullName.includes(searchName.toLowerCase());
@@ -97,10 +119,9 @@ const ManageParents = () => {
             style={{ maxWidth: '150px' }}
           >
             <option value="">All Classes</option>
-            <option value="1">Class 1</option>
-            <option value="2">Class 2</option>
-            <option value="3">Class 3</option>
-            {/* Add more classes dynamically if needed */}
+            {availableClasses.map(cls => (
+              <option key={cls} value={cls}>{cls}</option>
+            ))}
           </Form.Control>
           <Form.Control
             as="select"
@@ -109,10 +130,9 @@ const ManageParents = () => {
             style={{ maxWidth: '150px' }}
           >
             <option value="">All Sections</option>
-            <option value="A">A</option>
-            <option value="B">B</option>
-            <option value="C">C</option>
-            {/* Add more sections dynamically if needed */}
+            {availableSections.map(sec => (
+              <option key={sec} value={sec}>{sec}</option>
+            ))}
           </Form.Control>
         </div>
 
