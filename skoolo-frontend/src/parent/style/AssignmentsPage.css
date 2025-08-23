@@ -19,9 +19,13 @@ body {
   overflow-x: hidden;
 }
 
+/*
+  The most crucial change: using CSS Grid for the layout.
+  This creates two columns: one for the sidebar and one for the content.
+*/
 .dashboard-grid-container {
   display: grid;
-  grid-template-columns: 260px 1fr; /* Sidebar width and content take the rest */
+  grid-template-columns: 260px 1fr;
   min-height: 100vh;
 }
 
@@ -37,19 +41,8 @@ body {
     grid-template-columns: 1fr; /* Collapse to a single column */
   }
 
-  /*
-  You'll need to create a mobile-specific class for the ParentSidebar.
-  A component's styling is usually handled within its own CSS file.
-  Make sure your ParentSidebar component has a CSS file that includes this:
-  .parent-sidebar {
-    // ... default styles
-  }
-  @media (max-width: 768px) {
-    .parent-sidebar {
-      display: none; // Hide the sidebar on small screens
-    }
-  }
-  */
+  /* Note: The ParentSidebar component needs its own media query
+  to handle its visibility on smaller screens, e.g., display: none */
 }
 
 /* --- Heading & Container --- */
