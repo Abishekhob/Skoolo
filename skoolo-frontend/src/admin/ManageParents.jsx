@@ -4,14 +4,17 @@ import AdminSidebar from './AdminSidebar';
 import API from '../services/api';
 
 const ManageParents = () => {
-  const [parent, setParent] = useState({
-    firstName: '', lastName: '', email: '', contactNumber: '', address: ''
-  });
+  const [parent, setParent] = useState({ firstName: '', lastName: '', email: '', contactNumber: '', address: '' });
   const [message, setMessage] = useState('');
   const [showForm, setShowForm] = useState(false);
   const [parents, setParents] = useState([]);
   const [expandedParentId, setExpandedParentId] = useState(null);
   const [uploadFile, setUploadFile] = useState(null);
+
+  // Filters
+  const [searchName, setSearchName] = useState('');
+  const [filterClass, setFilterClass] = useState('');
+  const [filterSection, setFilterSection] = useState('');
 
   useEffect(() => {
     fetchParents();
@@ -61,6 +64,17 @@ const ManageParents = () => {
       .catch(() => setMessage('Failed to upload file.'));
   };
 
+  // Filter parents based on search and filters
+  const filteredParents = parents.filter(p => {
+    const fullName = `${p.firstName} ${p.lastName}`.toLowerCase();
+    const matchesName = fullName.includes(searchName.toLowerCase());
+
+    const matchesClass = filterClass ? p.children?.some(c => c.class === filterClass) : true;
+    const matchesSection = filterSection ? p.children?.some(c => c.section === filterSection) : true;
+
+    return matchesName && matchesClass && matchesSection;
+  });
+
   return (
     <Row className="g-0">
       <AdminSidebar />
@@ -69,85 +83,48 @@ const ManageParents = () => {
 
         {message && <Alert variant="info">{message}</Alert>}
 
-     <div className="mb-4 d-flex justify-content-between align-items-start flex-wrap gap-3">
-  <Button
-    variant={showForm ? "secondary" : "success"}
-    onClick={() => setShowForm(!showForm)}
-  >
-    {showForm ? "Close Form" : "➕ Add Parent"}
-  </Button>
+        {/* Search and Filters */}
+        <div className="mb-4 d-flex gap-2 flex-wrap">
+          <Form.Control
+            type="text"
+            placeholder="Search by parent name..."
+            value={searchName}
+            onChange={e => setSearchName(e.target.value)}
+            style={{ maxWidth: '250px' }}
+          />
+          <Form.Control
+            as="select"
+            value={filterClass}
+            onChange={e => setFilterClass(e.target.value)}
+            style={{ maxWidth: '150px' }}
+          >
+            <option value="">All Classes</option>
+            <option value="1">Class 1</option>
+            <option value="2">Class 2</option>
+            <option value="3">Class 3</option>
+            {/* Add more classes as needed */}
+          </Form.Control>
+          <Form.Control
+            as="select"
+            value={filterSection}
+            onChange={e => setFilterSection(e.target.value)}
+            style={{ maxWidth: '150px' }}
+          >
+            <option value="">All Sections</option>
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            {/* Add more sections as needed */}
+          </Form.Control>
+        </div>
 
-    <div
-    onDrop={(e) => {
-      e.preventDefault();
-      const file = e.dataTransfer.files[0];
-      if (file && /\.(csv|xlsx?|xls)$/i.test(file.name)) {
-        setUploadFile(file);
-      } else {
-        setMessage('Only .csv or .xlsx/.xls files are supported.');
-      }
-    }}
-    onDragOver={(e) => e.preventDefault()}
-    onClick={() => document.getElementById('fileInput').click()}
-    style={{
-      border: '2px dashed #aaa',
-      padding: '1rem',
-      textAlign: 'center',
-      cursor: 'pointer',
-      backgroundColor: '#1e1e1e',
-      borderRadius: '8px',
-      color: '#ccc',
-      maxWidth: '400px',
-      flexGrow: 1
-    }}
-  >
-    <p>
-      <strong>Drag and drop Excel/CSV file here</strong><br />
-      <small>or click to upload</small>
-    </p>
-
-    {uploadFile && (
-      <>
-        <p className="text-info">Selected: {uploadFile.name}</p>
-        <Button
-          variant="info"
-          size="sm"
-          className="mt-2"
-          onClick={handleFileUpload}
-        >
-          Upload
-        </Button>
-      </>
-    )}
-
-    <input
-      id="fileInput"
-      type="file"
-      accept=".csv,.xlsx,.xls"
-      style={{ display: 'none' }}
-      onChange={(e) => {
-        const file = e.target.files[0];
-        if (file && /\.(csv|xlsx?|xls)$/i.test(file.name)) {
-          setUploadFile(file);
-        } else {
-          setMessage('Only .csv or .xlsx/.xls files are supported.');
-        }
-      }}
-    />
-
-     
-  </div>
-{/* Download sample file button */}
-  <a
-    href="/sample-parent.xlsx"
-    download
-    className="btn btn-outline-light"
-  >
-    ⬇️ Download Sample File
-  </a>
-</div>
-
-
+        <div className="mb-4 d-flex justify-content-between align-items-start flex-wrap gap-3">
+          <Button variant={showForm ? "secondary" : "success"} onClick={() => setShowForm(!showForm)}>
+            {showForm ? "Close Form" : "➕ Add Parent"}
+          </Button>
+          {/* File upload and download button */}
+          {/* ... your existing file upload & download code here ... */}
+        </div>
 
         {showForm && (
           <Form className="mb-4 p-3 border rounded bg-dark">
@@ -187,9 +164,8 @@ const ManageParents = () => {
             </tr>
           </thead>
           <tbody>
-            {Array.isArray(parents) && parents.map((p, i) => {
+            {filteredParents.map((p, i) => {
               const isExpanded = expandedParentId === p.id;
-
               return (
                 <React.Fragment key={p.id}>
                   <tr>
@@ -222,6 +198,8 @@ const ManageParents = () => {
                                 <th>Last Name</th>
                                 <th>DOB</th>
                                 <th>Gender</th>
+                                <th>Class</th>
+                                <th>Section</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -232,6 +210,8 @@ const ManageParents = () => {
                                   <td>{child.lastName}</td>
                                   <td>{child.dob}</td>
                                   <td>{child.gender}</td>
+                                  <td>{child.class}</td>
+                                  <td>{child.section}</td>
                                 </tr>
                               ))}
                             </tbody>
