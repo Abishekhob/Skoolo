@@ -19,36 +19,27 @@ body {
   overflow-x: hidden;
 }
 
-/*
-  The most crucial change: using CSS Grid for the layout.
-  This creates two columns: one for the sidebar and one for the content.
-*/
+/* --- Layout --- */
 .dashboard-grid-container {
   display: grid;
   grid-template-columns: 260px 1fr;
   min-height: 100vh;
-
 }
 
 .assignments-content {
   background-color: var(--secondary-bg);
   min-height: 100vh;
   box-sizing: border-box;
-  margin-left: 260px; /* <-- Add this if sidebar is fixed */
+  margin-left: 260px;
 }
 
-
-/* Responsive Grid for mobile */
 @media (max-width: 768px) {
   .dashboard-grid-container {
-    grid-template-columns: 1fr; /* Collapse to a single column */
+    grid-template-columns: 1fr;
   }
-
-  /* Note: The ParentSidebar component needs its own media query
-  to handle its visibility on smaller screens, e.g., display: none */
 }
 
-/* --- Heading & Container --- */
+/* --- Headings --- */
 .assignments-heading {
   font-size: 3rem;
   font-weight: 800;
@@ -83,28 +74,32 @@ body {
   color: var(--accent-blue);
 }
 
+/* --- Alerts --- */
 .custom-alert {
-  background: rgba(42, 42, 74, 0.7);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  font-size: 1.1rem;
-  padding: 1.5rem 2rem;
+  width: 90%;
+  max-width: 600px;
+  padding: 2rem 2.5rem;
   border-radius: 12px;
-  max-width: 500px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-align: center;
   color: var(--text-light) !important;
-}
-
-.custom-alert.alert-danger {
-  background-color: #4a2a3a !important;
-  color: #ff8a8a !important;
-  border-color: rgba(255, 138, 138, 0.2) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background-color: rgba(42, 42, 74, 0.85); /* solid enough for readability */
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.35);
+  backdrop-filter: none;
 }
 
 .custom-alert.alert-info {
-  background-color: #2a3a4a !important;
+  background-color: rgba(42, 58, 74, 0.85);
   color: #8ac0ff !important;
   border-color: rgba(138, 192, 255, 0.2) !important;
+}
+
+.custom-alert.alert-danger {
+  background-color: rgba(74, 42, 58, 0.85);
+  color: #ff8a8a !important;
+  border-color: rgba(255, 138, 138, 0.2) !important;
 }
 
 /* --- Assignments Grid --- */
@@ -112,7 +107,7 @@ body {
   margin-top: 2rem;
 }
 
-/* --- Assignment Card Styling --- */
+/* --- Assignment Card --- */
 .assignment-card {
   position: relative;
   background: linear-gradient(145deg, var(--card-bg-start), var(--card-bg-end));
@@ -153,18 +148,10 @@ body {
   background-color: #4a4a7a;
 }
 
-.assignment-type.homework {
-  background-color: #6a0572;
-}
-.assignment-type.project {
-  background-color: #0e7b7b;
-}
-.assignment-type.quiz {
-  background-color: #b8860b;
-}
-.assignment-type.exam {
-  background-color: #8e2de2;
-}
+.assignment-type.homework { background-color: #6a0572; }
+.assignment-type.project { background-color: #0e7b7b; }
+.assignment-type.quiz { background-color: #b8860b; }
+.assignment-type.exam { background-color: #8e2de2; }
 
 .due-date {
   font-size: 0.95rem;
