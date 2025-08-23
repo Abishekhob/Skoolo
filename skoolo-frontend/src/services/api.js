@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'https://skoolo-production.up.railway.app/api', // adjust to your backend port
+  baseURL: 'https://skoolo.onrender.com/api', // adjust to your backend port
 });
 
 API.interceptors.request.use((config) => {
