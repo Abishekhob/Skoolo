@@ -86,14 +86,22 @@ const extractClassesAndSections = (parentsData) => {
       .catch(() => setMessage('Failed to upload file.'));
   };
 
-  // Filter parents based on search & filters
-  const filteredParents = parents.filter(p => {
-    const fullName = `${p.firstName} ${p.lastName}`.toLowerCase();
-    const matchesName = fullName.includes(searchName.toLowerCase());
-    const matchesClass = filterClass ? p.children?.some(c => c.className === filterClass) : true;
-    const matchesSection = filterSection ? p.children?.some(c => c.sectionName === filterSection) : true;
-    return matchesName && matchesClass && matchesSection;
-  });
+// Filter parents based on search & filters
+const filteredParents = parents.filter(p => {
+  const fullName = `${p.firstName} ${p.lastName}`.toLowerCase();
+  const matchesName = fullName.includes(searchName.toLowerCase());
+
+  const matchesClass = filterClass
+    ? p.children?.some(c => c.currentClass?.className === filterClass)
+    : true;
+
+  const matchesSection = filterSection
+    ? p.children?.some(c => c.currentSection?.sectionName === filterSection)
+    : true;
+
+  return matchesName && matchesClass && matchesSection;
+});
+
 
   return (
     <Row className="g-0">
