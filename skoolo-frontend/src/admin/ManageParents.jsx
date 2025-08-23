@@ -36,20 +36,20 @@ const ManageParents = () => {
   };
 
   // Extract unique classes and sections from children
-  const extractClassesAndSections = (parentsData) => {
-    const classesSet = new Set();
-    const sectionsSet = new Set();
+const extractClassesAndSections = (parentsData) => {
+  const classesSet = new Set();
+  const sectionsSet = new Set();
 
-    parentsData.forEach(p => {
-      p.children?.forEach(c => {
-        if (c.class) classesSet.add(c.class);
-        if (c.section) sectionsSet.add(c.section);
-      });
+  parentsData.forEach(p => {
+    p.children?.forEach(c => {
+      if (c.currentClass?.className) classesSet.add(c.currentClass.className);
+      if (c.currentSection?.sectionName) sectionsSet.add(c.currentSection.sectionName);
     });
+  });
 
-    setAvailableClasses(Array.from(classesSet).sort());
-    setAvailableSections(Array.from(sectionsSet).sort());
-  };
+  setAvailableClasses(Array.from(classesSet).sort());
+  setAvailableSections(Array.from(sectionsSet).sort());
+};
 
   const handleChange = (e) => {
     setParent({ ...parent, [e.target.name]: e.target.value });
@@ -278,8 +278,8 @@ const ManageParents = () => {
                                   <td>{child.lastName}</td>
                                   <td>{child.dob}</td>
                                   <td>{child.gender}</td>
-                                  <td>{child.className}</td>
-                                  <td>{child.sectionName}</td>
+                                  <td>{child.currentClass?.className || '-'}</td>
+<td>{child.currentSection?.sectionName || '-'}</td>
                                 </tr>
                               ))}
                             </tbody>
