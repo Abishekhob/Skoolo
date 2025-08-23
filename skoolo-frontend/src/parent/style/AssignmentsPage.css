@@ -19,7 +19,7 @@ body {
   overflow-x: hidden;
 }
 
-.dashboard-grid {
+.dashboard-grid-container {
   display: grid;
   grid-template-columns: 260px 1fr; /* Sidebar width and content take the rest */
   min-height: 100vh;
@@ -33,12 +33,23 @@ body {
 
 /* Responsive Grid for mobile */
 @media (max-width: 768px) {
-  .dashboard-grid {
+  .dashboard-grid-container {
     grid-template-columns: 1fr; /* Collapse to a single column */
   }
+
+  /*
+  You'll need to create a mobile-specific class for the ParentSidebar.
+  A component's styling is usually handled within its own CSS file.
+  Make sure your ParentSidebar component has a CSS file that includes this:
   .parent-sidebar {
-    display: none; /* Hide the sidebar on small screens */
+    // ... default styles
   }
+  @media (max-width: 768px) {
+    .parent-sidebar {
+      display: none; // Hide the sidebar on small screens
+    }
+  }
+  */
 }
 
 /* --- Heading & Container --- */
@@ -65,7 +76,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: calc(100vh - 150px); /* Fill remaining viewport space */
+  height: calc(100vh - 150px);
   text-align: center;
   gap: 1.5rem;
 }
@@ -77,8 +88,8 @@ body {
 }
 
 .custom-alert {
-  background: rgba(42, 42, 74, 0.7); /* Semi-transparent glassmorphism background */
-  backdrop-filter: blur(10px); /* Blur behind the alert */
+  background: rgba(42, 42, 74, 0.7);
+  backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   font-size: 1.1rem;
@@ -86,6 +97,18 @@ body {
   border-radius: 12px;
   max-width: 500px;
   color: var(--text-light) !important;
+}
+
+.custom-alert.alert-danger {
+  background-color: #4a2a3a !important;
+  color: #ff8a8a !important;
+  border-color: rgba(255, 138, 138, 0.2) !important;
+}
+
+.custom-alert.alert-info {
+  background-color: #2a3a4a !important;
+  color: #8ac0ff !important;
+  border-color: rgba(138, 192, 255, 0.2) !important;
 }
 
 /* --- Assignments Grid --- */
@@ -103,7 +126,7 @@ body {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 0 0 1px var(--card-border);
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
   cursor: pointer;
-  z-index: 1; /* Ensure cards are above background effects */
+  z-index: 1;
 }
 
 .assignment-card:hover {

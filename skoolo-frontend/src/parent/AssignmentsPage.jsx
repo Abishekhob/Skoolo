@@ -32,7 +32,7 @@ const AssignmentsPage = () => {
   }, []);
 
   return (
-    <div className="dashboard-grid">
+    <div className="dashboard-grid-container">
       <ParentSidebar />
       <div className="assignments-content">
         <Container fluid className="px-5 py-4">
