@@ -27,13 +27,16 @@ body {
   display: grid;
   grid-template-columns: 260px 1fr;
   min-height: 100vh;
+
 }
 
 .assignments-content {
   background-color: var(--secondary-bg);
   min-height: 100vh;
   box-sizing: border-box;
+  margin-left: 260px; /* <-- Add this if sidebar is fixed */
 }
+
 
 /* Responsive Grid for mobile */
 @media (max-width: 768px) {
