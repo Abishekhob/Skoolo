@@ -11,7 +11,7 @@ const ManageParents = () => {
   const [expandedParentId, setExpandedParentId] = useState(null);
   const [uploadFile, setUploadFile] = useState(null);
 
-  // Filters
+  // Search & filter states
   const [searchName, setSearchName] = useState('');
   const [filterClass, setFilterClass] = useState('');
   const [filterSection, setFilterSection] = useState('');
@@ -64,14 +64,12 @@ const ManageParents = () => {
       .catch(() => setMessage('Failed to upload file.'));
   };
 
-  // Filter parents based on search and filters
+  // Filtered parents based on search & filters
   const filteredParents = parents.filter(p => {
     const fullName = `${p.firstName} ${p.lastName}`.toLowerCase();
     const matchesName = fullName.includes(searchName.toLowerCase());
-
     const matchesClass = filterClass ? p.children?.some(c => c.class === filterClass) : true;
     const matchesSection = filterSection ? p.children?.some(c => c.section === filterSection) : true;
-
     return matchesName && matchesClass && matchesSection;
   });
 
@@ -83,49 +81,103 @@ const ManageParents = () => {
 
         {message && <Alert variant="info">{message}</Alert>}
 
-        {/* Search and Filters */}
-        <div className="mb-4 d-flex gap-2 flex-wrap">
+        {/* Search & Filter */}
+        <div className="mb-3 d-flex flex-wrap gap-2">
           <Form.Control
             type="text"
             placeholder="Search by parent name..."
             value={searchName}
-            onChange={e => setSearchName(e.target.value)}
+            onChange={(e) => setSearchName(e.target.value)}
             style={{ maxWidth: '250px' }}
           />
           <Form.Control
             as="select"
             value={filterClass}
-            onChange={e => setFilterClass(e.target.value)}
+            onChange={(e) => setFilterClass(e.target.value)}
             style={{ maxWidth: '150px' }}
           >
             <option value="">All Classes</option>
             <option value="1">Class 1</option>
             <option value="2">Class 2</option>
             <option value="3">Class 3</option>
-            {/* Add more classes as needed */}
+            {/* Add more classes dynamically if needed */}
           </Form.Control>
           <Form.Control
             as="select"
             value={filterSection}
-            onChange={e => setFilterSection(e.target.value)}
+            onChange={(e) => setFilterSection(e.target.value)}
             style={{ maxWidth: '150px' }}
           >
             <option value="">All Sections</option>
             <option value="A">A</option>
             <option value="B">B</option>
             <option value="C">C</option>
-            {/* Add more sections as needed */}
+            {/* Add more sections dynamically if needed */}
           </Form.Control>
         </div>
 
+        {/* Existing Add Parent / File Upload / Download Section */}
         <div className="mb-4 d-flex justify-content-between align-items-start flex-wrap gap-3">
           <Button variant={showForm ? "secondary" : "success"} onClick={() => setShowForm(!showForm)}>
             {showForm ? "Close Form" : "➕ Add Parent"}
           </Button>
-          {/* File upload and download button */}
-          {/* ... your existing file upload & download code here ... */}
+
+          <div
+            onDrop={(e) => {
+              e.preventDefault();
+              const file = e.dataTransfer.files[0];
+              if (file && /\.(csv|xlsx?|xls)$/i.test(file.name)) {
+                setUploadFile(file);
+              } else {
+                setMessage('Only .csv or .xlsx/.xls files are supported.');
+              }
+            }}
+            onDragOver={(e) => e.preventDefault()}
+            onClick={() => document.getElementById('fileInput').click()}
+            style={{
+              border: '2px dashed #aaa',
+              padding: '1rem',
+              textAlign: 'center',
+              cursor: 'pointer',
+              backgroundColor: '#1e1e1e',
+              borderRadius: '8px',
+              color: '#ccc',
+              maxWidth: '400px',
+              flexGrow: 1
+            }}
+          >
+            <p>
+              <strong>Drag and drop Excel/CSV file here</strong><br />
+              <small>or click to upload</small>
+            </p>
+
+            {uploadFile && (
+              <>
+                <p className="text-info">Selected: {uploadFile.name}</p>
+                <Button variant="info" size="sm" className="mt-2" onClick={handleFileUpload}>Upload</Button>
+              </>
+            )}
+
+            <input
+              id="fileInput"
+              type="file"
+              accept=".csv,.xlsx,.xls"
+              style={{ display: 'none' }}
+              onChange={(e) => {
+                const file = e.target.files[0];
+                if (file && /\.(csv|xlsx?|xls)$/i.test(file.name)) {
+                  setUploadFile(file);
+                } else {
+                  setMessage('Only .csv or .xlsx/.xls files are supported.');
+                }
+              }}
+            />
+          </div>
+
+          <a href="/sample-parent.xlsx" download className="btn btn-outline-light">⬇️ Download Sample File</a>
         </div>
 
+        {/* Add Parent Form */}
         {showForm && (
           <Form className="mb-4 p-3 border rounded bg-dark">
             <Form.Group className="mb-2">
@@ -152,6 +204,7 @@ const ManageParents = () => {
           </Form>
         )}
 
+        {/* Parents Table */}
         <h5 className="text-light">All Parents</h5>
         <Table striped bordered hover variant="dark">
           <thead>
@@ -164,7 +217,7 @@ const ManageParents = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredParents.map((p, i) => {
+            {Array.isArray(filteredParents) && filteredParents.map((p, i) => {
               const isExpanded = expandedParentId === p.id;
               return (
                 <React.Fragment key={p.id}>
@@ -175,12 +228,7 @@ const ManageParents = () => {
                     <td>{p.contactNumber}</td>
                     <td>
                       {p.address}
-                      <Button
-                        size="sm"
-                        className="ms-3"
-                        variant={isExpanded ? "warning" : "info"}
-                        onClick={() => setExpandedParentId(isExpanded ? null : p.id)}
-                      >
+                      <Button size="sm" className="ms-3" variant={isExpanded ? "warning" : "info"} onClick={() => setExpandedParentId(isExpanded ? null : p.id)}>
                         {isExpanded ? "Hide Children" : "View Children"}
                       </Button>
                     </td>
