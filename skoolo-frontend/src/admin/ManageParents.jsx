@@ -90,8 +90,8 @@ const ManageParents = () => {
   const filteredParents = parents.filter(p => {
     const fullName = `${p.firstName} ${p.lastName}`.toLowerCase();
     const matchesName = fullName.includes(searchName.toLowerCase());
-    const matchesClass = filterClass ? p.children?.some(c => c.class === filterClass) : true;
-    const matchesSection = filterSection ? p.children?.some(c => c.section === filterSection) : true;
+    const matchesClass = filterClass ? p.children?.some(c => c.className === filterClass) : true;
+    const matchesSection = filterSection ? p.children?.some(c => c.sectionName === filterSection) : true;
     return matchesName && matchesClass && matchesSection;
   });
 
@@ -278,8 +278,8 @@ const ManageParents = () => {
                                   <td>{child.lastName}</td>
                                   <td>{child.dob}</td>
                                   <td>{child.gender}</td>
-                                  <td>{child.class}</td>
-                                  <td>{child.section}</td>
+                                  <td>{child.className}</td>
+                                  <td>{child.sectionName}</td>
                                 </tr>
                               ))}
                             </tbody>
