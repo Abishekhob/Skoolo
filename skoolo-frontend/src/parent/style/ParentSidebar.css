@@ -13,7 +13,6 @@
 
 /* Desktop Sidebar Container */
 .desktop-sidebar-container {
-  /* Using Bootstrap's d-none d-md-block to control visibility */
   width: var(--sidebar-width);
   height: 100vh;
   background-color: var(--bg-color);
@@ -22,10 +21,13 @@
   top: 0;
   left: 0;
   box-shadow: 5px 0 15px var(--shadow-color);
-  display: flex; /* Overrides default block from d-md-block to enable flex layout */
+  display: flex;
   flex-direction: column;
   z-index: 1000;
   transition: transform 0.3s ease-in-out;
+
+  overflow-y: auto;   /* 👈 enables scrolling */
+  overflow-x: hidden; /* 👈 prevent horizontal scroll bar */
 }
 
 /* Sidebar Header */
@@ -160,4 +162,25 @@
 .styled-offcanvas .offcanvas-body .nav-link {
   padding: 0; /* Reset default padding to let .nav-item handle it */
   color: inherit; /* Inherit color from .nav-item */
+}
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.8rem 1rem;
+  border-radius: 0.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  color: var(--text-color);   /* 👈 always visible */
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: left;
+}
+
+.logout-btn:hover {
+  background-color: var(--hover-color);
+  color: #f56565; /* 👈 red on hover (or choose another accent) */
 }
