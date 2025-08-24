@@ -206,13 +206,11 @@
 /* --- Problem/Solution Section --- */
 .problemCard, .solutionCard {
   animation: fadeInUp 0.8s ease-out forwards; /* Fade in */
-}
-
-.problemCard, .solutionCard {
   background-color: rgba(31, 41, 55, 0.7) !important; /* Semi-transparent dark card */
   backdrop-filter: blur(5px); /* Glass effect */
   border-color: #4a5568 !important; /* Slightly lighter border */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  color: white !important; /* This is the key change */
 }
 
 .problemCard {
@@ -230,7 +228,6 @@
 .problemTitle, .solutionTitle {
   color: white !important; /* Ensure titles are white */
 }
-
 /* --- Features Section --- */
 .sectionTitle {
   animation: fadeInUp 0.8s ease-out forwards;
