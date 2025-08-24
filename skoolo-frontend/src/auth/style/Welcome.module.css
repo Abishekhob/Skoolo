@@ -1,456 +1,443 @@
 /* General Layout & Colors */
 .appContainer {
-    background-color: #1a202c !important; /* Deeper dark background */
-    min-height: 100vh;
-    overflow-x: hidden; /* Prevent horizontal scroll */
-    font-family: 'Inter', sans-serif; /* Modern font, ensure it's imported in your project or via CDN */
+  background-color: #1a202c !important; /* Deeper dark background */
+  min-height: 100vh;
+  overflow-x: hidden; /* Prevent horizontal scroll */
+  font-family: 'Inter', sans-serif; /* Modern font, ensure it's imported in your project or via CDN */
 }
 
 /* Custom Primary Color (Matching previous primary) */
 :root {
-    --bs-primary: #4f46e5; /* A vibrant blue/purple */
-    --bs-primary-rgb: 79, 70, 229;
-    --bs-secondary: #6b7280; /* A subtle grey */
-    --bs-secondary-rgb: 107, 114, 128;
-    --bs-dark: #1f2937; /* Very dark for background */
-    --bs-dark-rgb: 31, 41, 55;
+  --bs-primary: #4f46e5; /* A vibrant blue/purple */
+  --bs-primary-rgb: 79, 70, 229;
+  --bs-secondary: #6b7280; /* A subtle grey */
+  --bs-secondary-rgb: 107, 114, 128;
+  --bs-dark: #1f2937; /* Very dark for background */
+  --bs-dark-rgb: 31, 41, 55;
 }
 
 /* Override Bootstrap button styles for primary/secondary */
 .btn-primary {
-    background-color: var(--bs-primary) !important;
-    border-color: var(--bs-primary) !important;
-    transition: all 0.3s ease;
+  background-color: var(--bs-primary) !important;
+  border-color: var(--bs-primary) !important;
+  transition: all 0.3s ease;
 }
 
 .btn-primary:hover {
-    background-color: #6d5ce7 !important; /* Slightly lighter primary on hover */
-    border-color: #6d5ce7 !important;
-    transform: translateY(-2px); /* Subtle lift */
-    box-shadow: 0 8px 15px rgba(var(--bs-primary-rgb), 0.3) !important;
+  background-color: #6d5ce7 !important; /* Slightly lighter primary on hover */
+  border-color: #6d5ce7 !important;
+  transform: translateY(-2px); /* Subtle lift */
+  box-shadow: 0 8px 15px rgba(var(--bs-primary-rgb), 0.3) !important;
 }
 
 .btn-outline-primary {
-    color: var(--bs-primary) !important;
-    border-color: var(--bs-primary) !important;
-    transition: all 0.3s ease;
+  color: var(--bs-primary) !important;
+  border-color: var(--bs-primary) !important;
+  transition: all 0.3s ease;
 }
 
 .btn-outline-primary:hover {
-    background-color: var(--bs-primary) !important;
-    color: white !important;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 15px rgba(var(--bs-primary-rgb), 0.3) !important;
+  background-color: var(--bs-primary) !important;
+  color: white !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px rgba(var(--bs-primary-rgb), 0.3) !important;
 }
 
 .btn-secondary {
-    background-color: #3b445a !important; /* Darker secondary for some buttons */
-    border-color: #3b445a !important;
-    color: white !important;
-    transition: all 0.3s ease;
+  background-color: #3b445a !important; /* Darker secondary for some buttons */
+  border-color: #3b445a !important;
+  color: white !important;
+  transition: all 0.3s ease;
 }
 
 .btn-secondary:hover {
-    background-color: #4c5770 !important;
-    border-color: #4c5770 !important;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 15px rgba(0,0,0,0.3) !important;
+  background-color: #4c5770 !important;
+  border-color: #4c5770 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px rgba(0,0,0,0.3) !important;
 }
 
 
 /* --- Navbar --- */
 .navbar {
-    background-color: rgba(26, 32, 44, 0.95) !important; /* Slightly transparent dark */
-    backdrop-filter: blur(8px); /* Glassmorphism effect */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  background-color: rgba(26, 32, 44, 0.95) !important; /* Slightly transparent dark */
+  backdrop-filter: blur(8px); /* Glassmorphism effect */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .logoIcon {
-    font-size: 2.2rem;
+  font-size: 2.2rem;
 }
 
 .appName {
-    font-size: 2rem;
-    font-weight: 800;
+  font-size: 2rem;
+  font-weight: 800;
 }
 
 @media (min-width: 768px) {
-    .logoIcon {
-        font-size: 2.5rem;
-    }
-    .appName {
-        font-size: 2.5rem;
-    }
+  .logoIcon {
+    font-size: 2.5rem;
+  }
+  .appName {
+    font-size: 2.5rem;
+  }
 }
 
 .navButtonPrimary, .navButtonOutline {
-    font-size: 0.9rem;
-    padding: 0.6rem 1.2rem;
+  font-size: 0.9rem;
+  padding: 0.6rem 1.2rem;
 }
 
 @media (min-width: 768px) {
-    .navButtonPrimary, .navButtonOutline {
-        font-size: 1rem;
-        padding: 0.75rem 1.5rem;
-    }
+  .navButtonPrimary, .navButtonOutline {
+    font-size: 1rem;
+    padding: 0.75rem 1.5rem;
+  }
 }
 
 
 /* --- Hero Section --- */
 .heroSection {
-    min-height: 100vh;
-    position: relative;
-    padding-top: 6rem; /* Space for fixed navbar */
-    background: linear-gradient(135deg, #1a202c 0%, #0d1017 100%); /* Subtle dark gradient */
-    overflow: hidden;
+  min-height: 100vh;
+  position: relative;
+  padding-top: 6rem; /* Space for fixed navbar */
+  background: linear-gradient(135deg, #1a202c 0%, #0d1017 100%); /* Subtle dark gradient */
+  overflow: hidden;
 }
 
 .heroBackgroundAnimation {
-    position: absolute;
-    inset: 0;
-    opacity: 0.3; /* Subtle background */
-    z-index: 0;
+  position: absolute;
+  inset: 0;
+  opacity: 0.3; /* Subtle background */
+  z-index: 0;
 }
 
 .heroBackgroundAnimation .spherePrimary,
 .heroBackgroundAnimation .sphereAccent {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(80px); /* Heavy blur for soft glow */
-    opacity: 0.5;
-    animation: pulse 6s infinite alternate; /* Simple pulsating animation */
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px); /* Heavy blur for soft glow */
+  opacity: 0.5;
+  animation: pulse 6s infinite alternate; /* Simple pulsating animation */
 }
 
 .heroBackgroundAnimation .spherePrimary {
-    width: 250px;
-    height: 250px;
-    background-color: var(--bs-primary);
-    top: 20%;
-    left: 20%;
+  width: 250px;
+  height: 250px;
+  background-color: var(--bs-primary);
+  top: 20%;
+  left: 20%;
 }
 
 .heroBackgroundAnimation .sphereAccent {
-    width: 300px;
-    height: 300px;
-    background-color: #8b5cf6; /* A complementary purple */
-    bottom: 25%;
-    right: 25%;
-    animation-delay: 2s; /* Stagger animation */
+  width: 300px;
+  height: 300px;
+  background-color: #8b5cf6; /* A complementary purple */
+  bottom: 25%;
+  right: 25%;
+  animation-delay: 2s; /* Stagger animation */
 }
 
 @keyframes pulse {
-    0% { transform: scale(1); opacity: 0.5; }
-    100% { transform: scale(1.1); opacity: 0.7; }
+  0% { transform: scale(1); opacity: 0.5; }
+  100% { transform: scale(1.1); opacity: 0.7; }
 }
 
 .heroContent {
-    animation: fadeInUp 0.8s ease-out forwards; /* Fade in animation */
+  animation: fadeInUp 0.8s ease-out forwards; /* Fade in animation */
 }
 
 .heroTitle {
-    font-size: 3.5rem; /* Responsive sizing handled by Bootstrap display-3, but fine-tune here */
-    animation: slideInLeft 0.8s ease-out forwards;
-    animation-delay: 0.2s;
+  font-size: 3.5rem; /* Responsive sizing handled by Bootstrap display-3, but fine-tune here */
+  animation: slideInLeft 0.8s ease-out forwards;
+  animation-delay: 0.2s;
 }
 
 .heroSubtitle {
-    font-size: 1.5rem;
-    animation: fadeInUp 0.8s ease-out forwards;
-    animation-delay: 0.4s;
+  font-size: 1.5rem;
+  animation: fadeInUp 0.8s ease-out forwards;
+  animation-delay: 0.4s;
 }
 
 .ctaButton {
-    transition: all 0.3s ease;
-    animation: fadeInUp 0.8s ease-out forwards;
-    animation-delay: 0.6s;
+  transition: all 0.3s ease;
+  animation: fadeInUp 0.8s ease-out forwards;
+  animation-delay: 0.6s;
 }
 
 .ctaButtonSecondary {
-    transition: all 0.3s ease;
-    animation: fadeInUp 0.8s ease-out forwards;
-    animation-delay: 0.8s;
+  transition: all 0.3s ease;
+  animation: fadeInUp 0.8s ease-out forwards;
+  animation-delay: 0.8s;
 }
 
 /* Keyframe animations */
 @keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes slideInLeft {
-    from {
-        opacity: 0;
-        transform: translateX(-50px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 /* --- Section Dividers --- */
 .sectionDivider {
-    border-color: #3b445a !important; /* Darker border for visual separation */
-    opacity: 0.5;
-    max-width: 900px;
-    margin-left: auto;
-    margin-right: auto;
+  border-color: #3b445a !important; /* Darker border for visual separation */
+  opacity: 0.5;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* --- Problem/Solution Section --- */
 .problemCard, .solutionCard {
-    animation: fadeInUp 0.8s ease-out forwards; /* Fade in */
+  animation: fadeInUp 0.8s ease-out forwards; /* Fade in */
 }
 
-.problemCardInner, .solutionCardInner {
-    background-color: rgba(31, 41, 55, 0.7) !important; /* Semi-transparent dark card */
-    backdrop-filter: blur(5px); /* Glass effect */
-    border-color: #4a5568 !important; /* Slightly lighter border */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+.problemCard, .solutionCard {
+  background-color: rgba(31, 41, 55, 0.7) !important; /* Semi-transparent dark card */
+  backdrop-filter: blur(5px); /* Glass effect */
+  border-color: #4a5568 !important; /* Slightly lighter border */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.problemCardInner {
-    border-color: #dc3545 !important; /* Red for problem */
-    background-color: rgba(220, 53, 69, 0.1) !important; /* Lighter red tint */
+.problemCard {
+  border-color: #dc3545 !important; /* Red for problem */
 }
-.solutionCardInner {
-    border-color: #28a745 !important; /* Green for solution */
-    background-color: rgba(40, 167, 69, 0.1) !important; /* Lighter green tint */
+.solutionCard {
+  border-color: #28a745 !important; /* Green for solution */
 }
 
-.problemCardInner:hover, .solutionCardInner:hover {
-    transform: translateY(-5px); /* Lift effect on hover */
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4) !important;
+.problemCard:hover, .solutionCard:hover {
+  transform: translateY(-5px); /* Lift effect on hover */
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4) !important;
 }
 
 .problemTitle, .solutionTitle {
-    color: white !important; /* Ensure titles are white */
+  color: white !important; /* Ensure titles are white */
 }
 
 /* --- Features Section --- */
 .sectionTitle {
-    animation: fadeInUp 0.8s ease-out forwards;
+  animation: fadeInUp 0.8s ease-out forwards;
 }
 
 .featureCard {
-    background-color: rgba(31, 41, 55, 0.7) !important;
-    backdrop-filter: blur(5px);
-    border-color: #4a5568 !important;
-    transition: all 0.3s ease;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  background-color: rgba(31, 41, 55, 0.7) !important;
+  backdrop-filter: blur(5px);
+  border-color: #4a5568 !important;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 .featureCard:hover {
-    transform: translateY(-5px);
-    border-color: var(--bs-primary) !important;
-    box-shadow: 0 10px 20px rgba(var(--bs-primary-rgb), 0.3) !important;
+  transform: translateY(-5px);
+  border-color: var(--bs-primary) !important;
+  box-shadow: 0 10px 20px rgba(var(--bs-primary-rgb), 0.3) !important;
 }
 
 .featureIcon {
-    font-size: 3.5rem;
-    color: var(--bs-primary);
-    transition: transform 0.3s ease;
+  font-size: 3.5rem;
+  color: var(--bs-primary);
+  transition: transform 0.3s ease;
 }
 
 .featureCard:hover .featureIcon {
-    transform: scale(1.1);
+  transform: scale(1.1);
 }
 
 /* --- Carousel Section --- */
 .carouselContainer {
-    background-color: rgba(31, 41, 55, 0.7) !important;
-    backdrop-filter: blur(5px);
-    border: 1px solid #4a5568;
+  background-color: rgba(31, 41, 55, 0.7) !important;
+  backdrop-filter: blur(5px);
+  border: 1px solid #4a5568;
 }
 
 .mySwiper {
-    width: 100%;
-    height: 500px; /* Adjust as needed */
-    padding-bottom: 50px; /* Space for pagination dots */
+  width: 100%;
+  max-width: 900px; /* Constrain the carousel width for better aesthetics */
+  height: auto;
+  min-height: 500px; /* Ensure a minimum height on mobile */
+  padding-bottom: 50px;
 }
-
-@media (min-width: 768px) {
-    .mySwiper {
-        height: 600px;
-    }
-}
-@media (min-width: 992px) {
-    .mySwiper {
-        height: 700px;
-    }
-}
-
 
 .swiper-slide {
-    background-color: transparent !important; /* Ensure slides don't have default background */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
+  background-color: transparent !important;
+  padding: 10px;
+}
+
+.carouselSlideCard {
+  background-color: rgba(26, 32, 44, 0.95) !important;
+  border: 1px solid #4a5568;
+  border-radius: 12px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cardContent {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .screenshotImage {
-    max-height: 85%; /* Ensure image fits within slide */
-    width: auto; /* Maintain aspect ratio */
-    object-fit: contain;
-    transition: transform 0.3s ease;
+  width: 100%;
+  max-height: 500px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+  margin-bottom: 2rem;
+  border: 1px solid #4a5568 !important;
 }
 
-.screenshotImage:hover {
-    transform: scale(1.01); /* Slight zoom on hover */
+.screenshotCaption {
+  font-weight: 500;
+  color: #d1d5db;
+  margin-bottom: 0;
+  text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+  font-size: 1.25rem;
 }
-
-
-/* Swiper navigation and pagination colors are set inline for easy override */
 
 /* --- Tech Stack Section --- */
 .techIcon {
-    font-size: 4rem;
-    color: var(--bs-primary);
-    transition: transform 0.3s ease;
+  font-size: 4rem;
+  color: var(--bs-primary);
+  transition: transform 0.3s ease;
 }
 
 .techIcon:hover {
-    transform: translateY(-5px) scale(1.1);
+  transform: translateY(-5px) scale(1.1);
 }
 
 /* --- Demo Credentials Section --- */
 .demoCredentialsContainer {
-    background-color: rgba(31, 41, 55, 0.7) !important;
-    backdrop-filter: blur(5px);
-    border: 1px solid #4a5568;
+  background-color: rgba(31, 41, 55, 0.7) !important;
+  backdrop-filter: blur(5px);
+  border: 1px solid #4a5568;
 }
 
 .demoCard {
-    background-color: rgba(31, 41, 55, 0.9) !important; /* Slightly darker */
-    border-color: #4a5568 !important;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: rgba(31, 41, 55, 0.9) !important; /* Slightly darker */
+  border-color: #4a5568 !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .demoCard:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3) !important;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3) !important;
 }
 
 /* --- Footer --- */
 .footer {
-    background-color: #111827 !important; /* Even darker for footer */
-    border-color: #3b445a !important;
+  background-color: #111827 !important; /* Even darker for footer */
+  border-color: #3b445a !important;
 }
 
 .footerLink {
-    transition: color 0.3s ease, transform 0.3s ease;
+  transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .footerLink:hover {
-    color: white !important;
-    transform: translateY(-2px);
+  color: white !important;
+  transform: translateY(-2px);
 }
-
 
 /* --- Auth Modal (Moved from Welcome.jsx into its own component) --- */
 .authModalDialog .modal-content {
-    background-color: #1f2937 !important; /* Dark background */
-    color: #f3f4f6 !important; /* Light text */
-    border: 1px solid #3b445a !important;
-    border-radius: 0.75rem !important; /* Rounded corners */
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5) !important; /* Stronger shadow */
-    backdrop-filter: blur(10px); /* Glass effect */
+  background-color: #1f2937 !important; /* Dark background */
+  color: #f3f4f6 !important; /* Light text */
+  border: 1px solid #3b445a !important;
+  border-radius: 0.75rem !important; /* Rounded corners */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5) !important; /* Stronger shadow */
+  backdrop-filter: blur(10px); /* Glass effect */
 }
 
 .authModalHeader {
-    border-bottom: none !important; /* No default border */
+  border-bottom: none !important; /* No default border */
 }
 
 .authModalBody {
-    padding: 2.5rem !important;
+  padding: 2.5rem !important;
 }
 
 .modalCloseButton {
-    color: #9ca3af !important; /* Light grey close icon */
-    background: none !important;
-    border: none !important;
-    opacity: 1 !important;
-    transition: color 0.2s ease;
+  color: #9ca3af !important; /* Light grey close icon */
+  background: none !important;
+  border: none !important;
+  opacity: 1 !important;
+  transition: color 0.2s ease;
 }
 
 .modalCloseButton:hover {
-    color: white !important;
-    background: none !important;
+  color: white !important;
+  background: none !important;
 }
 
 .authToggleButton {
-    border-radius: 9999px !important; /* Pill shape */
-    padding: 0.6rem 1.5rem !important;
-    font-weight: 600 !important;
-    transition: all 0.3s ease;
+  border-radius: 9999px !important; /* Pill shape */
+  padding: 0.6rem 1.5rem !important;
+  font-weight: 600 !important;
+  transition: all 0.3s ease;
 }
 
 .authToggleButton.btn-primary {
-    background-color: var(--bs-primary) !important;
-    border-color: var(--bs-primary) !important;
-    color: white !important;
-    box-shadow: 0 5px 15px rgba(var(--bs-primary-rgb), 0.2);
+  background-color: var(--bs-primary) !important;
+  border-color: var(--bs-primary) !important;
+  color: white !important;
+  box-shadow: 0 5px 15px rgba(var(--bs-primary-rgb), 0.2);
 }
 
 .authToggleButton.btn-outline-secondary {
-    background-color: #3b445a !important; /* Darker grey when not selected */
-    border-color: #3b445a !important;
-    color: #d1d5db !important;
+  background-color: #3b445a !important; /* Darker grey when not selected */
+  border-color: #3b445a !important;
+  color: #d1d5db !important;
 }
 
 .authToggleButton.btn-outline-secondary:hover {
-    background-color: #4c5770 !important;
-    border-color: #4c5770 !important;
+  background-color: #4c5770 !important;
+  border-color: #4c5770 !important;
 }
 
 .authTitle {
-    font-size: 2.25rem; /* Large title for impact */
-    font-weight: 700;
+  font-size: 2.25rem; /* Large title for impact */
+  font-weight: 700;
 }
 
 .formLabel {
-    font-size: 0.9rem;
-    font-weight: 500;
-    margin-bottom: 0.25rem;
-    display: block; /* Ensure it takes full width */
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  display: block; /* Ensure it takes full width */
 }
 
 .formControlDark {
-    background-color: #374151 !important; /* Dark input background */
-    border: 1px solid #4b5563 !important; /* Subtle border */
-    color: white !important;
-    padding: 0.75rem 1rem !important;
-    border-radius: 0.5rem !important;
-    transition: all 0.2s ease;
+  background-color: #374151 !important; /* Dark input background */
+  border: 1px solid #4b5563 !important; /* Subtle border */
+  color: white !important;
+  padding: 0.75rem 1rem !important;
+  border-radius: 0.5rem !important;
+  transition: all 0.2s ease;
 }
 
 .formControlDark:focus {
-    background-color: #374151 !important;
-    border-color: var(--bs-primary) !important;
-    box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25) !important; /* Primary glow on focus */
-    color: white !important;
-}
-
-.submitButton {
-    background-color: var(--bs-primary) !important;
-    border-color: var(--bs-primary) !important;
-    color: white !important;
-    font-weight: 700 !important;
-    padding: 0.75rem 1rem !important;
-    border-radius: 0.5rem !important;
-    transition: all 0.3s ease;
-}
-
-.submitButton:hover {
-    background-color: #6d5ce7 !important; /* Lighter primary on hover */
-    border-color: #6d5ce7 !important;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 15px rgba(var(--bs-primary-rgb), 0.3) !important;
+  background-color: #374151 !important;
+  border-color: var(--bs-primary) !important;
+  box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25) !important;
 }
