@@ -10,8 +10,10 @@
 }
 
 /* Sidebar Styling */
+/* Sidebar Styling */
 .main-sidebar {
-    flex-shrink: 0;
+    grid-column: 1; /* Force sidebar into first grid column */
+    width: 250px;   /* Match grid-template-columns */
     background-color: #0f0f1d; /* Slightly darker than main content */
     border-right: 1px solid rgba(255, 255, 255, 0.08); /* Subtle separator */
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);

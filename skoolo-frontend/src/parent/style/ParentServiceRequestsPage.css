@@ -31,6 +31,7 @@ body {
   flex-grow: 1;
   padding: 2rem;
   overflow-y: auto;
+  margin-left: 250px; /* 👈 push content right of sidebar */
 }
 
 /* Headings & Text */
@@ -245,7 +246,8 @@ body {
   .app-container {
     flex-direction: column;
   }
-  .content-container {
+   .content-container {
+    margin-left: 0; /* sidebar probably collapses in mobile */
     padding: 1rem;
   }
   .main-heading {

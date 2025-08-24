@@ -1,23 +1,24 @@
 /* ChatWindow.css - Refined Dark UI with Layout Fixes */
 
 .chat-window-card {
+  background-color: #12142b;
+  border: none;
   display: flex;
   flex-direction: column;
-  height: 100vh; /* full height */
+  height: calc(100vh - 60px); /* Account for chat header */
+  border-radius: 0;
+  box-shadow: none;
 }
+
 .messages-container-body {
-  flex: 1;
-  overflow-y: auto;  /* ✅ scrollable messages */
-}
-
-.chat-header {
-  height: 60px;
-  flex-shrink: 0;
-}
-
-.chat-input-bar {
-  height: 60px;
-  flex-shrink: 0;
+  flex: 1 1 auto;
+  padding: 1rem;
+  overflow-y: auto;
+  background-color: #0e1020;
+  border-bottom: 1px solid #2c2f4a;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 160px); /* Account for header and input area */
 }
 
 /* This prevents bottom whitespace from messagesEndRef */

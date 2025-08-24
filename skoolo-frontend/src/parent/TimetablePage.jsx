@@ -1,23 +1,9 @@
 // TimetablePage.jsx
 import React, { useEffect, useState } from "react";
-import API from "../services/api"; // Ensure this path is correct
-import ParentSidebar from "./ParentSidebar"; // Ensure this path is correct
-import { Spinner } from "react-bootstrap"; // Using Spinner, but replacing Table with custom CSS for better dark mode control
-import "./style/TimetablePage.css"; // Import the new CSS file for styling
-
-const days = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"];
-const periods = ["1", "2", "3", "4", "5", "6", "7", "8"];
-
-const periodTimes = {
-  "1": "09:00 - 09:45",
-  "2": "09:45 - 10:30",
-  "3": "10:45 - 11:30",
-  "4": "11:30 - 12:15",
-  "5": "01:00 - 01:45",
-  "6": "01:45 - 02:30",
-  "7": "02:30 - 03:15",
-  "8": "03:15 - 04:00",
-};
+import API from "../services/api"; 
+import ParentSidebar from "./ParentSidebar"; 
+import { Spinner } from "react-bootstrap";
+import "./style/TimetablePage.css"; 
 
 const TimetablePage = () => {
   const parentId = localStorage.getItem("parentId");
@@ -27,57 +13,80 @@ const TimetablePage = () => {
   const [studentName, setStudentName] = useState("");
   const [className, setClassName] = useState("");
   const [sectionName, setSectionName] = useState("");
+  const [days, setDays] = useState([]);
+  const [periods, setPeriods] = useState([]);
+  const [periodTimes, setPeriodTimes] = useState({});
 
+  useEffect(() => {
+    if (!parentId) {
+      setError("Parent ID not found.");
+      setLoading(false);
+      return;
+    }
 
- useEffect(() => {
-  if (!parentId) {
-    setError("Parent ID not found.");
-    setLoading(false);
-    return;
-  }
+    API.get(`/parents/${parentId}/timetable`)
+      .then((res) => {
+        const data = res.data || {};
+        const entries = data.timetable || [];
 
-  API.get(`/parents/${parentId}/timetable`)
-    .then((res) => {
-      const data = res.data || {};
-      const entries = data.timetable || [];
-
-      // Organize timetable into a nested structure
-      const organized = {};
-      days.forEach((day) => {
-        organized[day] = {};
-        periods.forEach((period) => {
-          organized[day][period] = null;
-        });
-      });
-
-      entries.forEach((entry) => {
-        if (organized[entry.dayOfWeek] && entry.period) {
-          organized[entry.dayOfWeek][entry.period] = entry;
+        if (!entries.length) {
+          setError("No timetable available.");
+          setLoading(false);
+          return;
         }
+
+        // Dynamically extract unique days & periods from API
+        const uniqueDays = [...new Set(entries.map((e) => e.dayOfWeek))];
+        const uniquePeriods = [...new Set(entries.map((e) => e.period))].sort(
+          (a, b) => parseInt(a) - parseInt(b)
+        );
+
+        // Build period time mapping dynamically
+        const periodMapping = {};
+        entries.forEach((e) => {
+          if (e.period && e.startTime && e.endTime) {
+            periodMapping[e.period] = `${e.startTime} - ${e.endTime}`;
+          }
+        });
+
+        // Organize timetable structure
+        const organized = {};
+        uniqueDays.forEach((day) => {
+          organized[day] = {};
+          uniquePeriods.forEach((period) => {
+            organized[day][period] = null;
+          });
+        });
+
+        entries.forEach((entry) => {
+          if (organized[entry.dayOfWeek] && entry.period) {
+            organized[entry.dayOfWeek][entry.period] = entry;
+          }
+        });
+
+        // Set state
+        setTimetable(organized);
+        setDays(uniqueDays);
+        setPeriods(uniquePeriods);
+        setPeriodTimes(periodMapping);
+        setStudentName(data.studentName || "N/A");
+        setClassName(entries[0]?.className || "N/A");
+        setSectionName(entries[0]?.sectionName || "N/A");
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error fetching timetable:", err);
+        setError("Failed to load timetable.");
+        setLoading(false);
       });
-
-      // Set values
-      setTimetable(organized);
-      setStudentName(data.studentName || "N/A");
-      setClassName(entries[0]?.className || "N/A");   // Extract from first entry
-      setSectionName(entries[0]?.sectionName || "N/A");
-      setLoading(false);
-    })
-    .catch((err) => {
-      console.error("Error fetching timetable:", err);
-      setError("Failed to load timetable.");
-      setLoading(false);
-    });
-}, [parentId]);
-
-
+  }, [parentId]);
 
   if (loading) {
     return (
       <div className="timetable-wrapper">
         <ParentSidebar />
         <div className="main-content loading-state">
-          <Spinner animation="border" variant="light" /> {/* Spinner for dark background */}
+          <Spinner animation="border" variant="light" />
           <p className="loading-text">Loading timetable...</p>
         </div>
       </div>
@@ -103,20 +112,19 @@ const TimetablePage = () => {
           <span role="img" aria-label="books">📚</span> Timetable
         </h2>
 
-        {/* Student Information Card */}
+        {/* Student Info */}
         <div className="student-info-card">
           <div className="info-item">
             <span className="info-label">Student:</span>
             <span className="info-value">{studentName}</span>
           </div>
-         <div className="info-item">
-  <span className="info-label">Class:</span>
-  <span className="info-value">{`${className}-${sectionName}`}</span>
-</div>
-
+          <div className="info-item">
+            <span className="info-label">Class:</span>
+            <span className="info-value">{`${className}-${sectionName}`}</span>
+          </div>
         </div>
 
-
+        {/* Timetable */}
         <div className="timetable-responsive-container">
           <table className="timetable-table">
             <thead>
@@ -124,7 +132,8 @@ const TimetablePage = () => {
                 <th className="day-period-header">Day / Period</th>
                 {periods.map((period) => (
                   <th key={period}>
-                    {period} <br /> <small className="period-time">{periodTimes[period]}</small>
+                    {period} <br />
+                    <small className="period-time">{periodTimes[period]}</small>
                   </th>
                 ))}
               </tr>
@@ -132,7 +141,7 @@ const TimetablePage = () => {
             <tbody>
               {days.map((day) => (
                 <tr key={day}>
-                  <td className="day-name">{day.charAt(0) + day.slice(1).toLowerCase()}</td>
+                  <td className="day-name">{day}</td>
                   {periods.map((period) => {
                     const entry = timetable[day][period];
                     return (

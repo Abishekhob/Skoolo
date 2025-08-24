@@ -9,6 +9,9 @@
     overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
+.main-sidebar {
+  grid-column: 1;  /* Sidebar stays in first column */
+}
 /* Sidebar Styling */
 .main-sidebar {
     flex-shrink: 0; /* Keep it from shrinking */
