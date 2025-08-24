@@ -1,7 +1,23 @@
 import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import {
+  MdOutlineAccessTime,
+  MdOutlineCheckCircleOutline,
+  MdOutlineCancel,
+  MdOutlineFilePresent,
+} from "react-icons/md";
 import API from "../services/api";
-import ParentSidebar from "./ParentSidebar"; // Import the sidebar
-import { Row, Col } from "react-bootstrap";
+import ParentSidebar from "./ParentSidebar";
+import "./style/ParentServiceRequestsPage.css";
+
+const requestTypes = [
+  "FEE_RECEIPT",
+  "TRANSFER_CERTIFICATE",
+  "ID_CARD_REPLACEMENT",
+  "BUS_ROUTE_CHANGE",
+  "BONAFIDE_CERTIFICATE",
+  "OTHER",
+];
 
 const ParentServiceRequestsPage = () => {
   const [requestType, setRequestType] = useState("");
@@ -10,15 +26,7 @@ const ParentServiceRequestsPage = () => {
   const [description, setDescription] = useState("");
   const [requests, setRequests] = useState([]);
   const [parentId, setParentId] = useState(null);
-
-  const requestTypes = [
-    "FEE_RECEIPT",
-    "TRANSFER_CERTIFICATE",
-    "ID_CARD_REPLACEMENT",
-    "BUS_ROUTE_CHANGE",
-    "BONAFIDE_CERTIFICATE",
-    "OTHER",
-  ];
+  const [activeRequest, setActiveRequest] = useState(null);
 
   useEffect(() => {
     const storedParentId = localStorage.getItem("parentId");
@@ -83,122 +91,160 @@ const ParentServiceRequestsPage = () => {
     );
   };
 
+  const getStatusIcon = (status) => {
+    switch (status) {
+      case "PENDING":
+        return <MdOutlineAccessTime size={20} />;
+      case "APPROVED":
+        return <MdOutlineCheckCircleOutline size={20} />;
+      case "REJECTED":
+        return <MdOutlineCancel size={20} />;
+      default:
+        return null;
+    }
+  };
+
   return (
-    <Row className="m-0">
-      {/* Sidebar Column */}
-      <Col md={3} className="p-0">
-        <ParentSidebar />
-      </Col>
-
-      {/* Main Content Column */}
-     <Col
-  md={9}
-  className="p-4 text-light"
-  style={{
-    background: "#1e1e2f", // dark background
-    minHeight: "100vh",
-  }}
->
-  <h2 className="text-light">Service Requests</h2>
-
-  {/* Request Form */}
-  <form onSubmit={handleSubmit} className="mb-4">
-    <div className="mb-3">
-      <label className="text-light">Request Type</label>
-      <select
-        className="form-control bg-dark text-light border-secondary"
-        value={requestType}
-        onChange={(e) => setRequestType(e.target.value)}
-        required
-      >
-        <option value="">-- Select Request Type --</option>
-        {requestTypes.map((type) => (
-          <option key={type} value={type}>
-            {type.replace(/_/g, " ")}
-          </option>
-        ))}
-      </select>
-    </div>
-
-    {requestType === "OTHER" && (
-      <div className="mb-3">
-        <label className="text-light">Custom Request</label>
-        <input
-          type="text"
-          className="form-control bg-dark text-light border-secondary"
-          value={customRequest}
-          onChange={(e) => setCustomRequest(e.target.value)}
-          required
-        />
-      </div>
-    )}
-
-    <div className="mb-3">
-      <label className="text-light">Title</label>
-      <input
-        type="text"
-        className="form-control bg-dark text-light border-secondary"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        required
-      />
-    </div>
-
-    <div className="mb-3">
-      <label className="text-light">Description</label>
-      <textarea
-        className="form-control bg-dark text-light border-secondary"
-        rows="3"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        required
-      ></textarea>
-    </div>
-
-    <button type="submit" className="btn btn-primary">
-      Submit Request
-    </button>
-  </form>
-
-  {/* Requests Table */}
-  <h4 className="text-light">My Requests</h4>
-  <table className="table table-dark table-bordered border-secondary">
-    <thead>
-      <tr>
-        <th>Title</th>
-        <th>Type</th>
-        <th>Status</th>
-        <th>Remarks</th>
-        <th>Document</th>
-      </tr>
-    </thead>
-    <tbody>
-      {requests.map((req) => (
-        <tr key={req.id}>
-          <td>{req.title}</td>
-          <td>{req.requestType.replace(/_/g, " ")}</td>
-          <td>{req.status}</td>
-          <td>{req.adminRemarks || "-"}</td>
-          <td>
-            {(req.status === "APPROVED" || req.status === "REJECTED") &&
-            req.documentUrl ? (
-              <button
-                className="btn btn-link p-0 text-info"
-                onClick={() => handleViewDocument(req)}
+    <div className="app-container">
+      <ParentSidebar />
+      <main className="content-container">
+        <h1 className="main-heading">Service Requests</h1>
+        <section className="form-section">
+          <motion.form
+            onSubmit={handleSubmit}
+            className="request-form"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <h2 className="section-heading">Submit New Request</h2>
+            <div className="form-group">
+              <label>Request Type</label>
+              <select
+                className="input-field"
+                value={requestType}
+                onChange={(e) => setRequestType(e.target.value)}
+                required
               >
-                View PDF
-              </button>
-            ) : (
-              "-"
+                <option value="">-- Select Request Type --</option>
+                {requestTypes.map((type) => (
+                  <option key={type} value={type}>
+                    {type.replace(/_/g, " ")}
+                  </option>
+                ))}
+              </select>
+            </div>
+            {requestType === "OTHER" && (
+              <div className="form-group">
+                <label>Custom Request</label>
+                <input
+                  type="text"
+                  className="input-field"
+                  value={customRequest}
+                  onChange={(e) => setCustomRequest(e.target.value)}
+                  required
+                />
+              </div>
             )}
-          </td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-</Col>
+            <div className="form-group">
+              <label>Title</label>
+              <input
+                type="text"
+                className="input-field"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>Description</label>
+              <textarea
+                className="input-field"
+                rows="3"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                required
+              ></textarea>
+            </div>
+            <motion.button
+              type="submit"
+              className="submit-btn"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              Submit Request
+            </motion.button>
+          </motion.form>
+        </section>
 
-    </Row>
+        <section className="requests-section">
+          <h2 className="section-heading">My Recent Requests</h2>
+          <div className="requests-grid">
+            {requests.length === 0 ? (
+              <p className="no-requests-message">You have no requests yet.</p>
+            ) : (
+              requests.map((req) => (
+                <motion.div
+                  key={req.id}
+                  className="request-card"
+                  onClick={() =>
+                    setActiveRequest(activeRequest === req.id ? null : req.id)
+                  }
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.3 }}
+                  whileHover={{ y: -5, boxShadow: "0 8px 30px rgba(0,0,0,0.1)" }}
+                >
+                  <div className="card-header">
+                    <span className={`status-pill ${req.status.toLowerCase()}`}>
+                      {getStatusIcon(req.status)} {req.status}
+                    </span>
+                    <h3 className="card-title">{req.title}</h3>
+                  </div>
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{
+                      height: activeRequest === req.id ? "auto" : 0,
+                      opacity: activeRequest === req.id ? 1 : 0,
+                    }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                    className="card-details"
+                  >
+                    <p className="card-text">{req.description}</p>
+                    <div className="card-meta">
+                      <p>
+                        <strong>Type:</strong>{" "}
+                        {req.requestType.replace(/_/g, " ")}
+                      </p>
+                      {req.adminRemarks && (
+                        <p>
+                          <strong>Remarks:</strong> {req.adminRemarks}
+                        </p>
+                      )}
+                      {(req.status === "APPROVED" ||
+                        req.status === "REJECTED") &&
+                        req.documentUrl && (
+                          <motion.button
+                            className="document-btn"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleViewDocument(req);
+                            }}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                          >
+                            <MdOutlineFilePresent size={18} /> View Document
+                          </motion.button>
+                        )}
+                    </div>
+                  </motion.div>
+                </motion.div>
+              ))
+            )}
+          </div>
+        </section>
+      </main>
+    </div>
   );
 };
 

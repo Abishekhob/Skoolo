@@ -24,13 +24,14 @@ import styles from './style/Welcome.module.css';
 // These are public placeholder image URLs to make your build succeed.
 // You MUST replace these with your actual hosted screenshot URLs later.
 const PLACEHOLDER_SCREENSHOTS = {
-    login: 'https://via.placeholder.com/600x400/1E293B/E2E8F0?text=Login+Screen',
-    teacher: 'https://via.placeholder.com/600x400/2D3748/F7FAFC?text=Teacher+Dashboard',
-    parent: 'https://via.placeholder.com/600x400/3A475C/CBD5E0?text=Parent+Dashboard',
-    chat: 'https://via.placeholder.com/600x400/4B5A6D/EDF2F7?text=Chat+Interface',
-    timetable: 'https://via.placeholder.com/600x400/5C6B7D/F0F4F8?text=Timetable+View',
-    marks: 'https://via.placeholder.com/600x400/6D7E8F/DAE1E7?text=Marks+Update',
+  login: '/screenshots/login.png',
+  teacher: '/screenshots/teacher-dashboard.png',
+  parent: '/screenshots/parent-dashboard.png',
+  chat: '/screenshots/chat-interface.png',
+  timetable: '/screenshots/timetable-view.png',
+  marks: '/screenshots/marks-update.png',
 };
+
 
 // Import AuthModal component (assuming it exists)
 import AuthModal from './AuthModal';
